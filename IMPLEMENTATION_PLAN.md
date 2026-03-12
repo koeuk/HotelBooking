@@ -246,16 +246,16 @@ $table->timestamps();
 2.  **Dashboard**: Implement `DashboardController` with stats using shadcn `<Card>`. (DONE)
 3.  **CRUD Implementation**: Hotels, Room Types, Rooms, Bookings, Payments, and Users management pages using shadcn `<Table>`. (DONE)
 
-### Phase 5: Booking Logic & Notifications 🏗️ IN PROGRESS
+### Phase 5: Booking Logic & Notifications ✅ DONE
 
 1.  **Notification System**:
-    - Create `BookingNotification` class.
-    - Set up Mail, Database, and Telegram channels. (IN PROGRESS)
+    - Create `BookingNotification` class. (DONE)
+    - Set up Mail, Database, and Telegram channels. (DONE)
 2.  **Triggers**:
-    - Trigger notifications on booking creation, status update (admin), and successful payment.
+    - Trigger notifications on booking creation, status update (admin), and successful payment. (DONE)
 3.  **Telegram Bot**:
-    - Verify Telegram webhook and admin chat ID configuration.
-      UI\*\*: Implement the `NotificationBell.jsx` component.
+    - Verify Telegram webhook and admin chat ID configuration. (DONE)
+    - **UI**: Integrated `NotificationBell.jsx` into Layouts. (DONE)
 
 ### Phase 6: REST API (Mobile/Public)
 

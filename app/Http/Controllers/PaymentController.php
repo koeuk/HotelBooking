@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Notifications\BookingNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,6 +23,10 @@ class PaymentController extends Controller
         ]);
 
         $payment->update($validated);
+
+        if ($validated['status'] === 'paid') {
+            $payment->booking->user->notify(new BookingNotification($payment->booking, 'payment'));
+        }
 
         return redirect()->back()->with('success', 'Payment status updated successfully.');
     }

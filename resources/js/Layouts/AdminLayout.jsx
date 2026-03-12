@@ -15,6 +15,7 @@ import {
     UserCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import NotificationBell from "@/components/NotificationBell";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
     DropdownMenu,
@@ -119,9 +120,7 @@ export default function AdminLayout({ children }) {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <Button variant="ghost" size="icon">
-                            <Bell className="h-5 w-5" />
-                        </Button>
+                        <NotificationBell />
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button

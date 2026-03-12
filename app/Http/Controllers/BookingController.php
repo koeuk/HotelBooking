@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\User;
 use App\Models\Room;
+use App\Notifications\BookingNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -34,6 +35,9 @@ class BookingController extends Controller
         ]);
 
         $booking->update($validated);
+
+        // Notify User
+        $booking->user->notify(new BookingNotification($booking, 'updated'));
 
         return redirect()->back()->with('success', 'Booking status updated successfully.');
     }
