@@ -10,7 +10,7 @@ import { Chrome, Facebook } from "lucide-react";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
+        login: "",
         password: "",
         remember: false,
     });
@@ -48,19 +48,19 @@ export default function Login({ status, canResetPassword }) {
 
                 <form onSubmit={submit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="login">Email or Username</Label>
                         <Input
-                            id="email"
-                            type="email"
-                            value={data.email}
-                            onChange={(e) => setData("email", e.target.value)}
-                            placeholder="name@example.com"
+                            id="login"
+                            type="text"
+                            value={data.login}
+                            onChange={(e) => setData("login", e.target.value)}
+                            placeholder="Email or username"
                             required
                             autoComplete="username"
                         />
-                        {errors.email && (
+                        {errors.login && (
                             <p className="text-sm text-destructive">
-                                {errors.email}
+                                {errors.login}
                             </p>
                         )}
                     </div>
@@ -110,7 +110,11 @@ export default function Login({ status, canResetPassword }) {
                         </Label>
                     </div>
 
-                    <Button className="w-full" disabled={processing}>
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={processing}
+                    >
                         {processing ? "Logging in..." : "Log in"}
                     </Button>
                 </form>
