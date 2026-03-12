@@ -230,7 +230,7 @@ $table->timestamps();
 2.  **Models & Relationships**:
     - Implement Eloquent models with fillable properties and relationships. (DONE)
     - Add the `Notifiable` trait to the `User` model. (DONE)
-3.  **Database Seeding**: Create seeders for initial hotel and room data for development. (IN PROGRESS)
+3.  **Database Seeding**: Create seeders for initial hotel and room data for development. (DONE)
 
 ### Phase 3: Authentication & Authorization ✅ DONE
 
@@ -240,17 +240,22 @@ $table->timestamps();
 3.  **Admin Protection**:
     - Create `AdminMiddleware` and register it in `bootstrap/app.php`. (DONE)
 
-### Phase 4: Admin Dashboard & Core CRUD (Web) 🏗️ IN PROGRESS
+### Phase 4: Admin Dashboard & Core CRUD (Web) ✅ DONE
 
 1.  **Layout**: Build `AdminLayout.jsx` with a responsive sidebar using shadcn's `<Sheet>`. (DONE)
 2.  **Dashboard**: Implement `DashboardController` with stats using shadcn `<Card>`. (DONE)
-3.  **CRUD Implementation**: Hotels, Room Types, and Rooms management pages using shadcn `<Table>`. (Hotels Index DONE, others IN PROGRESS)
+3.  **CRUD Implementation**: Hotels, Room Types, Rooms, Bookings, Payments, and Users management pages using shadcn `<Table>`. (DONE)
 
-### Phase 5: Booking Logic & Notifications
+### Phase 5: Booking Logic & Notifications 🏗️ IN PROGRESS
 
-1.  **Booking Management**: Admin interface to review, confirm, or cancel bookings.
-2.  **Admin Notifications**: Create `BookingCreatedAdminNotification` (Mail, Database, Telegram).
-3.  **Notification UI**: Implement the `NotificationBell.jsx` component.
+1.  **Notification System**:
+    - Create `BookingNotification` class.
+    - Set up Mail, Database, and Telegram channels. (IN PROGRESS)
+2.  **Triggers**:
+    - Trigger notifications on booking creation, status update (admin), and successful payment.
+3.  **Telegram Bot**:
+    - Verify Telegram webhook and admin chat ID configuration.
+      UI\*\*: Implement the `NotificationBell.jsx` component.
 
 ### Phase 6: REST API (Mobile/Public)
 

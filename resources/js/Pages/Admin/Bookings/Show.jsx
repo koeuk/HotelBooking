@@ -1,0 +1,314 @@
+import AdminLayout from "@/Layouts/AdminLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import {
+    ChevronLeft,
+    Mail,
+    Phone,
+    Calendar,
+    Hotel,
+    Bed,
+    DollarSign,
+    CreditCard,
+} from "lucide-react";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
+
+export default function Show({ booking }) {
+    const { patch, processing } = useForm();
+
+    const updateStatus = (status) => {
+        patch(route("admin.bookings.update", booking.id), {
+            data: { status },
+            onSuccess: () => toast.success("Status updated"),
+        });
+    };
+
+    return (
+        <AdminLayout>
+            <Head title={`Booking Details - #${booking.id}`} />
+
+            <div className="max-w-5xl mx-auto space-y-6">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Button variant="outline" size="icon" asChild>
+                            <Link href={route("admin.bookings.index")}>
+                                <ChevronLeft className="h-4 w-4" />
+                            </Link>
+                        </Button>
+                        <h2 className="text-3xl font-bold tracking-tight">
+                            Booking Details
+                        </h2>
+                        <Badge variant="outline" className="text-lg">
+                            #{booking.id}
+                        </Badge>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-muted-foreground mr-2">
+                            Update Status:
+                        </span>
+                        <Select
+                            defaultValue={booking.status}
+                            onValueChange={updateStatus}
+                            disabled={processing}
+                        >
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="pending">Pending</SelectItem>
+                                <SelectItem value="confirmed">
+                                    Confirmed
+                                </SelectItem>
+                                <SelectItem value="cancelled">
+                                    Cancelled
+                                </SelectItem>
+                                <SelectItem value="completed">
+                                    Completed
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Guest & Stay Details */}
+                    <div className="md:col-span-2 space-y-6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Hotel className="h-5 w-5" /> Stay
+                                    Information
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <Label className="text-muted-foreground">
+                                            Hotel
+                                        </Label>
+                                        <p className="font-semibold text-lg">
+                                            {booking.room.hotel.name}
+                                        </p>
+                                        <p className="text-sm text-muted-foreground">
+                                            {booking.room.hotel.city},{" "}
+                                            {booking.room.hotel.country}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <Label className="text-muted-foreground">
+                                            Room Type
+                                        </Label>
+                                        <p className="font-semibold text-lg">
+                                            {booking.room.room_type.name}
+                                        </p>
+                                        <p className="text-sm text-muted-foreground">
+                                            Room #: {booking.room.room_number}
+                                        </p>
+                                    </div>
+                                </div>
+                                <Separator />
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-primary/10 p-2 rounded-md">
+                                            <Calendar className="h-5 w-5 text-primary" />
+                                        </div>
+                                        <div>
+                                            <Label className="text-muted-foreground text-xs uppercase tracking-wider">
+                                                Check In
+                                            </Label>
+                                            <p className="font-medium">
+                                                {new Date(
+                                                    booking.check_in_date,
+                                                ).toLocaleDateString(
+                                                    undefined,
+                                                    { dateStyle: "long" },
+                                                )}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-primary/10 p-2 rounded-md">
+                                            <Calendar className="h-5 w-5 text-primary" />
+                                        </div>
+                                        <div>
+                                            <Label className="text-muted-foreground text-xs uppercase tracking-wider">
+                                                Check Out
+                                            </Label>
+                                            <p className="font-medium">
+                                                {new Date(
+                                                    booking.check_out_date,
+                                                ).toLocaleDateString(
+                                                    undefined,
+                                                    { dateStyle: "long" },
+                                                )}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <DollarSign className="h-5 w-5" /> Payment
+                                    Summary
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex justify-between items-center bg-muted p-4 rounded-lg">
+                                    <span className="text-lg font-medium">
+                                        Total Amount
+                                    </span>
+                                    <span className="text-2xl font-bold text-primary">
+                                        ${booking.total_price}
+                                    </span>
+                                </div>
+
+                                {booking.payment ? (
+                                    <div className="space-y-3 pt-2">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-muted-foreground italic">
+                                                Transaction ID:
+                                            </span>
+                                            <span className="font-mono">
+                                                {booking.payment
+                                                    .transaction_id || "N/A"}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-muted-foreground italic">
+                                                Method:
+                                            </span>
+                                            <span className="uppercase">
+                                                {booking.payment.method}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-muted-foreground italic">
+                                                Payment Status:
+                                            </span>
+                                            <Badge
+                                                className={
+                                                    booking.payment.status ===
+                                                    "paid"
+                                                        ? "bg-green-100 text-green-800"
+                                                        : "bg-red-100 text-red-800"
+                                                }
+                                            >
+                                                {booking.payment.status.toUpperCase()}
+                                            </Badge>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-4 text-muted-foreground">
+                                        No payment record associated with this
+                                        booking.
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
+
+                    {/* Guest Info */}
+                    <div>
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Guest Information</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex flex-col items-center gap-2 mb-4">
+                                    <Avatar className="h-20 w-20">
+                                        <AvatarImage
+                                            src={booking.user.avatar}
+                                        />
+                                        <AvatarFallback className="text-2xl">
+                                            {booking.user.name.charAt(0)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <h3 className="text-xl font-bold">
+                                        {booking.user.name}
+                                    </h3>
+                                    <Badge variant="secondary">
+                                        {booking.user.role}
+                                    </Badge>
+                                </div>
+                                <Separator />
+                                <div className="space-y-3">
+                                    <div className="flex items-center gap-3 text-sm">
+                                        <Mail className="h-4 w-4 text-muted-foreground" />
+                                        <span>{booking.user.email}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-sm">
+                                        <Phone className="h-4 w-4 text-muted-foreground" />
+                                        <span>
+                                            {booking.user.phone ||
+                                                "No phone provided"}
+                                        </span>
+                                    </div>
+                                </div>
+                            </CardContent>
+                            <CardFooter>
+                                <Button
+                                    variant="outline"
+                                    className="w-full"
+                                    asChild
+                                >
+                                    <Link
+                                        href={route(
+                                            "admin.users.edit",
+                                            booking.user.id,
+                                        )}
+                                    >
+                                        Edit User Profile
+                                    </Link>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    </div>
+                </div>
+            </div>
+        </AdminLayout>
+    );
+}
+
+// Helper components that should have been imported from shadcn but I'll use simple tags for now
+const Label = ({ children, className }) => (
+    <span className={`text-sm font-medium leading-none ${className}`}>
+        {children}
+    </span>
+);
+const Avatar = ({ children, className }) => (
+    <div
+        className={`relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full ${className}`}
+    >
+        {children}
+    </div>
+);
+const AvatarImage = ({ src, className }) => (
+    <img className={`aspect-square h-full w-full ${className}`} src={src} />
+);
+const AvatarFallback = ({ children, className }) => (
+    <div
+        className={`flex h-full w-full items-center justify-center rounded-full bg-muted ${className}`}
+    >
+        {children}
+    </div>
+);
