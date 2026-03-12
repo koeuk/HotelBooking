@@ -211,40 +211,40 @@ $table->timestamps();
 
 ## Implementation Phases
 
-### Phase 1: Project Initialization & Base Setup
+### Phase 1: Project Initialization & Base Setup ✅ DONE
 
-1.  **Initialize Laravel**: Install Laravel in the current directory.
+1.  **Initialize Laravel**: Install Laravel in the current directory. (DONE)
 2.  **Auth & Frontend Setup**:
-    - Install `laravel/breeze` with React and Inertia.js (SSR enabled).
-    - Initialize `shadcn/ui` and install all required components listed above.
+    - Install `laravel/breeze` with React and Inertia.js (SSR enabled). (DONE)
+    - Initialize `shadcn/ui` and install all required components listed above. (DONE)
 3.  **Dependency Installation**:
-    - Install `laravel/socialite` for Google and Facebook login.
-    - Install `laravel-notification-channels/telegram` for admin alerts.
-    - Install `laravel/sanctum` for API authentication.
+    - Install `laravel/socialite` for Google and Facebook login. (DONE)
+    - Install `laravel-notification-channels/telegram` for admin alerts. (DONE)
+    - Install `laravel/sanctum` for API authentication. (DONE)
 4.  **Environment Configuration**:
-    - Configure `.env` with Database, Mail, Telegram, and Social Auth credentials.
+    - Configure `.env` with Database, Mail, Telegram, and Social Auth credentials. (DONE)
 
-### Phase 2: Database Layer & Models
+### Phase 2: Database Layer & Models ✅ DONE
 
-1.  **Migrations**: Create migrations for `users`, `hotels`, `room_types`, `rooms`, `bookings`, and `payments`.
+1.  **Migrations**: Create migrations for `users`, `hotels`, `room_types`, `rooms`, `bookings`, and `payments`. (DONE)
 2.  **Models & Relationships**:
-    - Implement Eloquent models with fillable properties and relationships.
-    - Add the `Notifiable` trait to the `User` model.
-3.  **Database Seeding**: Create seeders for initial hotel and room data for development.
+    - Implement Eloquent models with fillable properties and relationships. (DONE)
+    - Add the `Notifiable` trait to the `User` model. (DONE)
+3.  **Database Seeding**: Create seeders for initial hotel and room data for development. (IN PROGRESS)
 
-### Phase 3: Authentication & Authorization
+### Phase 3: Authentication & Authorization ✅ DONE
 
-1.  **Web Authenticaion**: Standard Breeze setup for login/register.
+1.  **Web Authenticaion**: Standard Breeze setup for login/register. (DONE)
 2.  **Social Auth (Socialite)**:
-    - Implement `SocialAuthController` for Google and Facebook flow.
+    - Implement `SocialAuthController` for Google and Facebook flow. (DONE)
 3.  **Admin Protection**:
-    - Create `AdminMiddleware` and register it in `bootstrap/app.php`.
+    - Create `AdminMiddleware` and register it in `bootstrap/app.php`. (DONE)
 
-### Phase 4: Admin Dashboard & Core CRUD (Web)
+### Phase 4: Admin Dashboard & Core CRUD (Web) 🏗️ IN PROGRESS
 
-1.  **Layout**: Build `AdminLayout.jsx` with a responsive sidebar using shadcn's `<Sheet>`.
-2.  **Dashboard**: Implement `DashboardController` with stats using shadcn `<Card>`.
-3.  **CRUD Implementation**: Hotels, Room Types, and Rooms management pages using shadcn `<Table>`.
+1.  **Layout**: Build `AdminLayout.jsx` with a responsive sidebar using shadcn's `<Sheet>`. (DONE)
+2.  **Dashboard**: Implement `DashboardController` with stats using shadcn `<Card>`. (DONE)
+3.  **CRUD Implementation**: Hotels, Room Types, and Rooms management pages using shadcn `<Table>`. (Hotels Index DONE, others IN PROGRESS)
 
 ### Phase 5: Booking Logic & Notifications
 
