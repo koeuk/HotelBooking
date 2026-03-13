@@ -18,8 +18,24 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Wifi, Waves, Dumbbell, Sparkles, Utensils, Car, Snowflake, Wine, HelpCircle } from "lucide-react";
 import { useState } from "react";
+
+const iconMap = {
+    wifi: Wifi,
+    waves: Waves,
+    dumbbell: Dumbbell,
+    sparkles: Sparkles,
+    utensils: Utensils,
+    car: Car,
+    snowflake: Snowflake,
+    wine: Wine,
+};
+
+const AmenityIcon = ({ name, className = "h-5 w-5" }) => {
+    const Icon = iconMap[name] || HelpCircle;
+    return <Icon className={className} />;
+};
 import { toast } from "sonner";
 
 export default function Index({ amenities }) {
@@ -73,9 +89,14 @@ export default function Index({ amenities }) {
                             {amenities.data.map((amenity) => (
                                 <TableRow key={amenity.id}>
                                     <TableCell className="font-medium">
-                                        {amenity.name}
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                                                <AmenityIcon name={amenity.icon} className="h-5 w-5 text-primary" />
+                                            </div>
+                                            {amenity.name}
+                                        </div>
                                     </TableCell>
-                                    <TableCell>{amenity.icon}</TableCell>
+                                    <TableCell className="text-muted-foreground">{amenity.icon}</TableCell>
                                     <TableCell>
                                         {amenity.hotels_count}
                                     </TableCell>

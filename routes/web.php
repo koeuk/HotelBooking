@@ -37,6 +37,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('amenities', \App\Http\Controllers\AmenityController::class);
     Route::resource('reviews', \App\Http\Controllers\ReviewController::class);
     Route::resource('coupons', \App\Http\Controllers\CouponController::class);
+    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
+});
+
+// Notification API (web session auth)
+Route::middleware('auth')->prefix('api/v1')->group(function () {
+    Route::get('/notifications', [\App\Http\Controllers\Api\NotificationController::class, 'index']);
+    Route::patch('/notifications/{id}/read', [\App\Http\Controllers\Api\NotificationController::class, 'markAsRead']);
+    Route::patch('/notifications/read-all', [\App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead']);
 });
 
 require __DIR__.'/auth.php';

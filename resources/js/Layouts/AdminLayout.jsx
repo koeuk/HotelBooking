@@ -171,10 +171,16 @@ export default function AdminLayout({ children }) {
                             Support
                         </p>
                     )}
-                    <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group">
-                        <Settings className="h-5 w-5 text-zinc-500 group-hover:text-white" />
+                    <Link
+                        href={route("admin.settings.index")}
+                        className={cn(
+                            "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group",
+                            url.startsWith("/admin/settings") ? "bg-primary/10 text-primary" : "",
+                        )}
+                    >
+                        <Settings className={cn("h-5 w-5 group-hover:text-white", url.startsWith("/admin/settings") ? "text-primary" : "text-zinc-500")} />
                         {!isCollapsed && <span>Settings</span>}
-                    </button>
+                    </Link>
                     <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group">
                         <HelpCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
                         {!isCollapsed && <span>Internal Help</span>}

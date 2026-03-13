@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Booking;
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -24,7 +25,8 @@ class BookingCreatedAdminNotification extends Notification implements ShouldQueu
     {
         $channels = ['mail', 'database'];
 
-        if (config('services.telegram-bot-api.token') && env('TELEGRAM_ADMIN_CHAT_ID')) {
+        $chatId = Setting::get('telegram_chat_id') ?: env('TELEGRAM_ADMIN_CHAT_ID');
+        if (config('services.telegram-bot-api.token') && $chatId) {
             $channels[] = 'telegram';
         }
 
@@ -63,8 +65,10 @@ class BookingCreatedAdminNotification extends Notification implements ShouldQueu
     {
         $url = url('/admin/bookings/' . $this->booking->id);
 
-        return TelegramMessage::create()
-            ->to(env('TELEGRAM_ADMIN_CHAT_ID'))
+        $chatId = Setting::get('telegram_chat_id') ?: env('TELEGRAM_ADMIN_CHAT_ID');
+
+        $message = TelegramMessage::create()
+            ->to($chatId)
             ->content(
                 "🏨 *New Booking Reservation #" . $this->booking->id . "*\n\n" .
                 "👤 Guest: {$this->booking->user->name}\n" .
@@ -74,7 +78,12 @@ class BookingCreatedAdminNotification extends Notification implements ShouldQueu
                 "📅 Dates: {$this->booking->check_in_date->format('M d, Y')} - {$this->booking->check_out_date->format('M d, Y')}\n" .
                 "💰 Total: \${$this->booking->total_price}\n\n" .
                 "Status: *Pending*"
-            )
-            ->button('View Booking', $url);
+            );
+
+        if (!str_contains($url, 'localhost')) {
+            $message->button('View Booking', $url);
+        }
+
+        return $message;
     }
 }
