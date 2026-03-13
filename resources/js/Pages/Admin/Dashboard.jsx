@@ -143,8 +143,8 @@ export default function Dashboard({ stats, recent_bookings }) {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h2 className="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent italic">
-                            {greeting}, {auth.user.name}
+                        <h2 className="text-4xl font-extrabold tracking-tight text-foreground">
+                            {greeting}, <span className="text-primary">{auth.user.name}</span>
                         </h2>
                         <p className="text-muted-foreground mt-1 text-lg">
                             Here's what's happening with your properties today.
@@ -326,7 +326,7 @@ export default function Dashboard({ stats, recent_bookings }) {
                                                     <Link
                                                         href={route(
                                                             "admin.bookings.show",
-                                                            booking.id,
+                                                            booking.uuid,
                                                         )}
                                                     >
                                                         <Button

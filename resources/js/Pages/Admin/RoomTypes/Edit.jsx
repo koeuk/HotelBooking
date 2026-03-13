@@ -34,7 +34,7 @@ export default function Edit({ roomType, hotels }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.room-types.update", roomType.id), {
+        patch(route("admin.room-types.update", roomType.uuid), {
             onSuccess: () => toast.success("Room type updated successfully"),
             onError: () => toast.error("Failed to update room type"),
         });

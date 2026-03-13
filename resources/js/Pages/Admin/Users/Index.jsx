@@ -35,7 +35,7 @@ export default function Index({ users, auth }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.users.destroy", userToDelete.id), {
+        destroy(route("admin.users.destroy", userToDelete.uuid), {
             onSuccess: () => {
                 setUserToDelete(null);
                 toast.success("User deleted successfully");
@@ -121,7 +121,7 @@ export default function Index({ users, auth }) {
                                             <Link
                                                 href={route(
                                                     "admin.users.edit",
-                                                    user.id,
+                                                    user.uuid,
                                                 )}
                                             >
                                                 <Edit className="h-4 w-4" />

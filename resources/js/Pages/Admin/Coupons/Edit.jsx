@@ -17,15 +17,15 @@ import { toast } from "sonner";
 export default function Edit({ coupon }) {
     const { data, setData, put, processing, errors } = useForm({
         code: coupon.code || "",
-        discount_percent: coupon.discount_percent || "",
-        valid_from: coupon.valid_from || "",
-        valid_until: coupon.valid_until || "",
-        max_uses: coupon.max_uses || "",
+        discount_percent: coupon.discount_percent ?? "",
+        valid_from: coupon.valid_from ? coupon.valid_from.slice(0, 10) : "",
+        valid_until: coupon.valid_until ? coupon.valid_until.slice(0, 10) : "",
+        max_uses: coupon.max_uses ?? "",
     });
 
     const submit = (e) => {
         e.preventDefault();
-        put(route("admin.coupons.update", coupon.id), {
+        put(route("admin.coupons.update", coupon.uuid), {
             onSuccess: () => toast.success("Coupon updated successfully"),
             onError: () => toast.error("Failed to update coupon"),
         });

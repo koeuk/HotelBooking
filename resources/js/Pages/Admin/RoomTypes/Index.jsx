@@ -28,7 +28,7 @@ export default function Index({ roomTypes }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.room-types.destroy", roomTypeToDelete.id), {
+        destroy(route("admin.room-types.destroy", roomTypeToDelete.uuid), {
             onSuccess: () => {
                 setRoomTypeToDelete(null);
                 toast.success("Room type deleted successfully");
@@ -91,7 +91,7 @@ export default function Index({ roomTypes }) {
                                             <Link
                                                 href={route(
                                                     "admin.room-types.edit",
-                                                    type.id,
+                                                    type.uuid,
                                                 )}
                                             >
                                                 <Edit className="h-4 w-4" />

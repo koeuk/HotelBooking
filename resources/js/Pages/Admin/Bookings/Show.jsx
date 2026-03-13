@@ -42,15 +42,16 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 export default function Show({ booking }) {
-    const { patch, processing } = useForm();
+    const [processing, setProcessing] = useState(false);
     const [paymentOpen, setPaymentOpen] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState("card");
     const [paymentProcessing, setPaymentProcessing] = useState(false);
 
     const updateStatus = (status) => {
-        patch(route("admin.bookings.update", booking.id), {
-            data: { status },
+        setProcessing(true);
+        router.patch(route("admin.bookings.update", booking.uuid), { status }, {
             onSuccess: () => toast.success("Status updated"),
+            onFinish: () => setProcessing(false),
         });
     };
 
@@ -410,7 +411,7 @@ export default function Show({ booking }) {
                                     <Link
                                         href={route(
                                             "admin.users.edit",
-                                            booking.user.id,
+                                            booking.user.uuid,
                                         )}
                                     >
                                         Edit User Profile

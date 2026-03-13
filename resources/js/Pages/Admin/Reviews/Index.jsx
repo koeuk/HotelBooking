@@ -44,7 +44,7 @@ export default function Index({ reviews }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.reviews.destroy", reviewToDelete.id), {
+        destroy(route("admin.reviews.destroy", reviewToDelete.uuid), {
             onSuccess: () => {
                 setReviewToDelete(null);
                 toast.success("Review deleted successfully");
@@ -120,7 +120,7 @@ export default function Index({ reviews }) {
                                             <Link
                                                 href={route(
                                                     "admin.reviews.edit",
-                                                    review.id,
+                                                    review.uuid,
                                                 )}
                                             >
                                                 <Pencil className="h-4 w-4" />

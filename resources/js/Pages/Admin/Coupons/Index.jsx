@@ -28,7 +28,7 @@ export default function Index({ coupons }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.coupons.destroy", couponToDelete.id), {
+        destroy(route("admin.coupons.destroy", couponToDelete.uuid), {
             onSuccess: () => {
                 setCouponToDelete(null);
                 toast.success("Coupon deleted successfully");
@@ -112,7 +112,7 @@ export default function Index({ coupons }) {
                                             <Link
                                                 href={route(
                                                     "admin.coupons.edit",
-                                                    coupon.id,
+                                                    coupon.uuid,
                                                 )}
                                             >
                                                 <Pencil className="h-4 w-4" />

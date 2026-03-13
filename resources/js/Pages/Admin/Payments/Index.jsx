@@ -1,5 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -54,11 +54,8 @@ const getStatusBadge = (status) => {
 };
 
 export default function Index({ payments }) {
-    const { patch, processing } = useForm();
-
     const updateStatus = (id, status) => {
-        patch(route("admin.payments.update", id), {
-            data: { status },
+        router.patch(route("admin.payments.update", id), { status }, {
             onSuccess: () => toast.success("Payment status updated"),
         });
     };
@@ -105,7 +102,7 @@ export default function Index({ payments }) {
                                         <Link
                                             href={route(
                                                 "admin.bookings.show",
-                                                payment.booking_id,
+                                                payment.booking.uuid,
                                             )}
                                             className="text-primary hover:underline"
                                         >
@@ -130,9 +127,9 @@ export default function Index({ payments }) {
                                         <Select
                                             defaultValue={payment.status}
                                             onValueChange={(v) =>
-                                                updateStatus(payment.id, v)
+                                                updateStatus(payment.uuid, v)
                                             }
-                                            disabled={processing}
+                                            disabled={false}
                                         >
                                             <SelectTrigger className="w-[120px] h-8 text-xs">
                                                 <SelectValue />
@@ -162,7 +159,7 @@ export default function Index({ payments }) {
                                             <Link
                                                 href={route(
                                                     "admin.bookings.show",
-                                                    payment.booking_id,
+                                                    payment.booking.uuid,
                                                 )}
                                             >
                                                 <Eye className="h-4 w-4" />

@@ -1,5 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm, router } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -51,11 +51,10 @@ const getStatusBadge = (status) => {
 };
 
 export default function Index({ bookings }) {
-    const { patch, delete: destroy, processing } = useForm();
+    const { delete: destroy, processing } = useForm();
 
     const updateStatus = (id, status) => {
-        patch(route("admin.bookings.update", id), {
-            data: { status },
+        router.patch(route("admin.bookings.update", id), { status }, {
             onSuccess: () => toast.success("Status updated"),
             onError: () => toast.error("Update failed"),
         });
@@ -140,7 +139,7 @@ export default function Index({ bookings }) {
                                         <Select
                                             defaultValue={booking.status}
                                             onValueChange={(v) =>
-                                                updateStatus(booking.id, v)
+                                                updateStatus(booking.uuid, v)
                                             }
                                             disabled={processing}
                                         >
@@ -173,7 +172,7 @@ export default function Index({ bookings }) {
                                             <Link
                                                 href={route(
                                                     "admin.bookings.show",
-                                                    booking.id,
+                                                    booking.uuid,
                                                 )}
                                             >
                                                 <Eye className="h-4 w-4" />
@@ -183,7 +182,7 @@ export default function Index({ bookings }) {
                                             variant="destructive"
                                             size="icon"
                                             onClick={() =>
-                                                handleDelete(booking.id)
+                                                handleDelete(booking.uuid)
                                             }
                                             disabled={processing}
                                             title="Delete"

@@ -27,7 +27,7 @@ export default function Index({ amenities }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.amenities.destroy", amenityToDelete.id), {
+        destroy(route("admin.amenities.destroy", amenityToDelete.uuid), {
             onSuccess: () => {
                 setAmenityToDelete(null);
                 toast.success("Amenity deleted successfully");
@@ -88,7 +88,7 @@ export default function Index({ amenities }) {
                                             <Link
                                                 href={route(
                                                     "admin.amenities.edit",
-                                                    amenity.id,
+                                                    amenity.uuid,
                                                 )}
                                             >
                                                 <Pencil className="h-4 w-4" />

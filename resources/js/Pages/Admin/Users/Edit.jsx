@@ -33,7 +33,7 @@ export default function Edit({ user }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.users.update", user.id), {
+        patch(route("admin.users.update", user.uuid), {
             onSuccess: () => toast.success("User updated successfully"),
             onError: () => toast.error("Failed to update user"),
         });
