@@ -58,7 +58,7 @@ export default function Create({ hotels }) {
         <AdminLayout>
             <Head title="Add Room Type" />
 
-            <div className="max-w-4xl mx-auto space-y-6">
+            <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
                         <Link href={route("admin.room-types.index")}>

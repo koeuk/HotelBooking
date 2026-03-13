@@ -358,12 +358,12 @@ export default function Dashboard({ stats, recent_bookings }) {
 
                     {/* Quick Actions / Additional Info */}
                     <div className="md:col-span-2 space-y-6">
-                        <Card className="border-none shadow-lg bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
+                        <Card className="border-none shadow-lg bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white">
                             <CardHeader>
                                 <CardTitle className="text-lg">
                                     Need help?
                                 </CardTitle>
-                                <CardDescription className="text-primary-foreground/80">
+                                <CardDescription className="text-white/80">
                                     Check documentation or contact support.
                                 </CardDescription>
                             </CardHeader>

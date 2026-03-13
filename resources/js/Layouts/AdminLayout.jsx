@@ -17,6 +17,9 @@ import {
     ChevronLeft,
     Settings,
     HelpCircle,
+    Sparkles,
+    Star,
+    Tag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NotificationBell from "@/components/NotificationBell";
@@ -78,6 +81,24 @@ const navItems = [
         href: route("admin.users.index"),
         icon: Users,
         color: "text-cyan-500",
+    },
+    {
+        name: "Amenities",
+        href: route("admin.amenities.index"),
+        icon: Sparkles,
+        color: "text-teal-500",
+    },
+    {
+        name: "Reviews",
+        href: route("admin.reviews.index"),
+        icon: Star,
+        color: "text-yellow-500",
+    },
+    {
+        name: "Coupons",
+        href: route("admin.coupons.index"),
+        icon: Tag,
+        color: "text-pink-500",
     },
 ];
 
@@ -326,7 +347,7 @@ export default function AdminLayout({ children }) {
 
                 {/* Main Page View */}
                 <main className="flex-1 overflow-y-auto overflow-x-hidden">
-                    <div className="p-6 md:p-10 max-w-[1600px] mx-auto min-h-full">
+                    <div className="p-6 md:p-10 min-h-full">
                         {children}
                     </div>
 

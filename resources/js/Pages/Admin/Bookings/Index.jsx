@@ -17,7 +17,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Eye, Trash2 } from "lucide-react";
+import { Eye, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 const getStatusBadge = (status) => {
@@ -74,13 +74,20 @@ export default function Index({ bookings }) {
             <Head title="Bookings Management" />
 
             <div className="space-y-6">
-                <div>
-                    <h2 className="text-3xl font-bold tracking-tight">
-                        Bookings
-                    </h2>
-                    <p className="text-muted-foreground">
-                        Monitor and manage all hotel stay reservations.
-                    </p>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h2 className="text-3xl font-bold tracking-tight">
+                            Bookings
+                        </h2>
+                        <p className="text-muted-foreground">
+                            Monitor and manage all hotel stay reservations.
+                        </p>
+                    </div>
+                    <Button asChild>
+                        <Link href={route("admin.bookings.create")}>
+                            <Plus className="mr-2 h-4 w-4" /> New Booking
+                        </Link>
+                    </Button>
                 </div>
 
                 <div className="bg-card rounded-md border">

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
     protected $fillable = ['user_id', 'room_id', 'check_in_date', 'check_out_date', 'total_price', 'status'];
 
     protected $casts = [
@@ -29,5 +30,10 @@ class Booking extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function review()
+    {
+        return $this->hasOne(Review::class);
     }
 }

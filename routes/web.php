@@ -34,6 +34,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('bookings', \App\Http\Controllers\BookingController::class);
     Route::resource('payments', \App\Http\Controllers\PaymentController::class);
     Route::resource('users', \App\Http\Controllers\UserController::class);
+    Route::resource('amenities', \App\Http\Controllers\AmenityController::class);
+    Route::resource('reviews', \App\Http\Controllers\ReviewController::class);
+    Route::resource('coupons', \App\Http\Controllers\CouponController::class);
 });
 
 require __DIR__.'/auth.php';

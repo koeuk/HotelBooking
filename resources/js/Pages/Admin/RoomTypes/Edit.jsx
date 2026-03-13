@@ -58,7 +58,7 @@ export default function Edit({ roomType, hotels }) {
         <AdminLayout>
             <Head title={`Edit Room Type - ${roomType.name}`} />
 
-            <div className="max-w-4xl mx-auto space-y-6">
+            <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
                         <Link href={route("admin.room-types.index")}>

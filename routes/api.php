@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\Api\AmenityApiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingApiController;
+use App\Http\Controllers\Api\CouponApiController;
 use App\Http\Controllers\Api\HotelApiController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PaymentApiController;
 use App\Http\Controllers\Api\ProfileApiController;
+use App\Http\Controllers\Api\ReviewApiController;
 use App\Http\Controllers\Api\RoomApiController;
 use App\Http\Controllers\Api\RoomTypeApiController;
 use App\Http\Controllers\Api\SocialAuthApiController;
@@ -27,6 +30,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/hotels/{id}/rooms', [RoomApiController::class, 'index']);
     Route::get('/rooms/{id}', [RoomApiController::class, 'show']);
 
+    // Public Amenities
+    Route::get('/amenities', [AmenityApiController::class, 'index']);
+    Route::get('/amenities/{id}', [AmenityApiController::class, 'show']);
+
     // Protected
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/auth/logout', [AuthController::class, 'logout']);
@@ -42,6 +49,16 @@ Route::prefix('v1')->group(function () {
         Route::get('/profile', [ProfileApiController::class, 'show']);
         Route::patch('/profile', [ProfileApiController::class, 'update']);
         Route::patch('/profile/set-password', [ProfileApiController::class, 'setPassword']);
+
+        // Reviews
+        Route::get('/reviews', [ReviewApiController::class, 'index']);
+        Route::get('/reviews/{id}', [ReviewApiController::class, 'show']);
+        Route::post('/reviews', [ReviewApiController::class, 'store']);
+        Route::patch('/reviews/{id}', [ReviewApiController::class, 'update']);
+        Route::delete('/reviews/{id}', [ReviewApiController::class, 'destroy']);
+
+        // Coupon validation
+        Route::post('/coupons/validate', [CouponApiController::class, 'validate']);
 
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);

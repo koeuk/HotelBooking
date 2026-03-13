@@ -6,23 +6,28 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RoomType extends Model
+class Review extends Model
 {
     use HasFactory, HasUuid;
-    protected $fillable = ['hotel_id', 'name', 'description', 'max_guests', 'price_per_night', 'images'];
+
+    protected $fillable = ['user_id', 'hotel_id', 'booking_id', 'rating', 'comment'];
 
     protected $casts = [
-        'images' => 'array',
-        'price_per_night' => 'decimal:2',
+        'rating' => 'integer',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function hotel()
     {
         return $this->belongsTo(Hotel::class);
     }
 
-    public function rooms()
+    public function booking()
     {
-        return $this->hasMany(Room::class);
+        return $this->belongsTo(Booking::class);
     }
 }

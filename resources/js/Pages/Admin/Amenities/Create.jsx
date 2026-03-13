@@ -1,0 +1,105 @@
+import AdminLayout from "@/Layouts/AdminLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ChevronLeft } from "lucide-react";
+import { toast } from "sonner";
+
+export default function Create() {
+    const { data, setData, post, processing, errors } = useForm({
+        name: "",
+        icon: "",
+    });
+
+    const submit = (e) => {
+        e.preventDefault();
+        post(route("admin.amenities.store"), {
+            onSuccess: () => toast.success("Amenity created successfully"),
+            onError: () => toast.error("Failed to create amenity"),
+        });
+    };
+
+    return (
+        <AdminLayout>
+            <Head title="Add Amenity" />
+
+            <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href={route("admin.amenities.index")}>
+                            <ChevronLeft className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <h2 className="text-3xl font-bold tracking-tight">
+                        Add Amenity
+                    </h2>
+                </div>
+
+                <form onSubmit={submit}>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Amenity Details</CardTitle>
+                            <CardDescription>
+                                Enter the information for the new amenity.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="name">Name</Label>
+                                <Input
+                                    id="name"
+                                    value={data.name}
+                                    onChange={(e) =>
+                                        setData("name", e.target.value)
+                                    }
+                                    placeholder="e.g. Swimming Pool"
+                                />
+                                {errors.name && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.name}
+                                    </p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="icon">Icon</Label>
+                                <Input
+                                    id="icon"
+                                    value={data.icon}
+                                    onChange={(e) =>
+                                        setData("icon", e.target.value)
+                                    }
+                                    placeholder="wifi, pool, etc."
+                                />
+                                {errors.icon && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.icon}
+                                    </p>
+                                )}
+                            </div>
+                        </CardContent>
+                        <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
+                            <Button variant="outline" asChild>
+                                <Link href={route("admin.amenities.index")}>
+                                    Cancel
+                                </Link>
+                            </Button>
+                            <Button type="submit" disabled={processing}>
+                                {processing ? "Saving..." : "Create Amenity"}
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </form>
+            </div>
+        </AdminLayout>
+    );
+}

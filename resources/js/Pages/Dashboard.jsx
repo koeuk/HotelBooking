@@ -69,9 +69,12 @@ export default function Dashboard({ stats, upcomingBookings, recentBookings, fea
 
             <div className="space-y-8">
                     {/* Welcome Section */}
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/90 via-primary to-primary/80 p-8 text-white shadow-lg">
-                        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
-                        <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-white/5 blur-xl" />
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 p-8 text-white shadow-lg">
+                        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-2xl" />
+                        <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-white/10 blur-xl" />
+                        <div className="absolute right-8 bottom-4 opacity-10">
+                            <Hotel className="h-32 w-32" />
+                        </div>
                         <div className="relative">
                             <h1 className="text-3xl font-bold tracking-tight">
                                 {greeting()}, {user.name}!
