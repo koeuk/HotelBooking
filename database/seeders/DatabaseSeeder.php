@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         // 1. Create Admin User
         User::factory()->create([
             'name' => 'koeuk',
-            'email' => 'admin@yourhotel.com',
+            'email' => 'admin@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
         ]);
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         // 2. Create Regular Test User
         User::factory()->create([
             'name' => 'Demo Guest',
-            'email' => 'guest@example.com',
+            'email' => 'koeuk@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'guest',
         ]);

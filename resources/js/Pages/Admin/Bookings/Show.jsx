@@ -1,12 +1,13 @@
+import { useState } from "react";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
+    CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -16,9 +17,9 @@ import {
     Phone,
     Calendar,
     Hotel,
-    Bed,
     DollarSign,
     CreditCard,
+    Loader2,
 } from "lucide-react";
 import {
     Select,
@@ -27,10 +28,24 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 export default function Show({ booking }) {
     const { patch, processing } = useForm();
+    const [paymentOpen, setPaymentOpen] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState("card");
+    const [paymentProcessing, setPaymentProcessing] = useState(false);
 
     const updateStatus = (status) => {
         patch(route("admin.bookings.update", booking.id), {
@@ -39,12 +54,33 @@ export default function Show({ booking }) {
         });
     };
 
+    const handleRecordPayment = () => {
+        setPaymentProcessing(true);
+        router.post(
+            route("admin.payments.store"),
+            {
+                booking_id: booking.id,
+                amount: booking.total_price,
+                method: paymentMethod,
+                status: "paid",
+            },
+            {
+                onSuccess: () => {
+                    toast.success("Payment recorded successfully");
+                    setPaymentOpen(false);
+                },
+                onError: () => toast.error("Failed to record payment"),
+                onFinish: () => setPaymentProcessing(false),
+            },
+        );
+    };
+
     return (
         <AdminLayout>
             <Head title={`Booking Details - #${booking.id}`} />
 
             <div className="max-w-5xl mx-auto space-y-6">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
                             <Link href={route("admin.bookings.index")}>
@@ -218,9 +254,109 @@ export default function Show({ booking }) {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="text-center py-4 text-muted-foreground">
-                                        No payment record associated with this
-                                        booking.
+                                    <div className="space-y-4">
+                                        <div className="text-center py-4 text-muted-foreground">
+                                            No payment record associated with
+                                            this booking.
+                                        </div>
+                                        {booking.status !== "cancelled" && (
+                                            <Dialog
+                                                open={paymentOpen}
+                                                onOpenChange={setPaymentOpen}
+                                            >
+                                                <DialogTrigger asChild>
+                                                    <Button className="w-full">
+                                                        <CreditCard className="mr-2 h-4 w-4" />
+                                                        Proceed to Payment
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>
+                                                            Record Payment
+                                                        </DialogTitle>
+                                                        <DialogDescription>
+                                                            Record a payment of{" "}
+                                                            <strong>
+                                                                $
+                                                                {
+                                                                    booking.total_price
+                                                                }
+                                                            </strong>{" "}
+                                                            for booking #
+                                                            {booking.id}.
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <div className="space-y-4 py-4">
+                                                        <div className="space-y-2">
+                                                            <Label>
+                                                                Payment Method
+                                                            </Label>
+                                                            <Select
+                                                                value={
+                                                                    paymentMethod
+                                                                }
+                                                                onValueChange={
+                                                                    setPaymentMethod
+                                                                }
+                                                            >
+                                                                <SelectTrigger>
+                                                                    <SelectValue />
+                                                                </SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="card">
+                                                                        Credit
+                                                                        Card
+                                                                    </SelectItem>
+                                                                    <SelectItem value="cash">
+                                                                        Cash
+                                                                    </SelectItem>
+                                                                    <SelectItem value="paypal">
+                                                                        PayPal
+                                                                    </SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        <div className="flex justify-between items-center bg-muted p-3 rounded-lg">
+                                                            <span className="font-medium">
+                                                                Amount
+                                                            </span>
+                                                            <span className="text-lg font-bold text-primary">
+                                                                $
+                                                                {
+                                                                    booking.total_price
+                                                                }
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        <Button
+                                                            variant="outline"
+                                                            onClick={() =>
+                                                                setPaymentOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                        <Button
+                                                            onClick={
+                                                                handleRecordPayment
+                                                            }
+                                                            disabled={
+                                                                paymentProcessing
+                                                            }
+                                                        >
+                                                            {paymentProcessing && (
+                                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                            )}
+                                                            Confirm Payment
+                                                        </Button>
+                                                    </DialogFooter>
+                                                </DialogContent>
+                                            </Dialog>
+                                        )}
                                     </div>
                                 )}
                             </CardContent>
@@ -288,27 +424,3 @@ export default function Show({ booking }) {
         </AdminLayout>
     );
 }
-
-// Helper components that should have been imported from shadcn but I'll use simple tags for now
-const Label = ({ children, className }) => (
-    <span className={`text-sm font-medium leading-none ${className}`}>
-        {children}
-    </span>
-);
-const Avatar = ({ children, className }) => (
-    <div
-        className={`relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full ${className}`}
-    >
-        {children}
-    </div>
-);
-const AvatarImage = ({ src, className }) => (
-    <img className={`aspect-square h-full w-full ${className}`} src={src} />
-);
-const AvatarFallback = ({ children, className }) => (
-    <div
-        className={`flex h-full w-full items-center justify-center rounded-full bg-muted ${className}`}
-    >
-        {children}
-    </div>
-);

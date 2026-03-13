@@ -1,178 +1,325 @@
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import Dropdown from "@/Components/Dropdown";
-import NavLink from "@/Components/NavLink";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import NotificationBell from "@/components/NotificationBell";
-import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
+import { Link, usePage } from "@inertiajs/react";
+import {
+    LayoutDashboard,
+    CalendarCheck,
+    Hotel,
+    UserCircle,
+    LogOut,
+    Menu,
+    Search,
+    HelpCircle,
+    Heart,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import NotificationBell from "@/components/NotificationBell";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/sonner";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
-export default function AuthenticatedLayout({ header, children }) {
-    const user = usePage().props.auth.user;
+const navItems = [
+    {
+        name: "Dashboard",
+        href: "/dashboard",
+        routeName: "dashboard",
+        icon: LayoutDashboard,
+        color: "text-blue-500",
+    },
+    {
+        name: "My Bookings",
+        href: "/dashboard",
+        routeName: "dashboard",
+        icon: CalendarCheck,
+        color: "text-amber-500",
+    },
+    {
+        name: "Hotels",
+        href: "/dashboard",
+        routeName: "dashboard",
+        icon: Hotel,
+        color: "text-emerald-500",
+    },
+    {
+        name: "Favorites",
+        href: "/dashboard",
+        routeName: "dashboard",
+        icon: Heart,
+        color: "text-rose-500",
+    },
+];
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+export default function AuthenticatedLayout({ children }) {
+    const { auth } = usePage().props;
+    const { url } = usePage();
+    const user = auth.user;
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
+    const NavContent = () => (
+        <div className="flex flex-col h-full bg-zinc-950 text-zinc-400">
+            <div className="p-6 flex items-center justify-between">
+                <Link
+                    href={route("dashboard")}
+                    className="flex items-center gap-2 group"
+                >
+                    <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl group-hover:scale-110 transition-transform">
+                        H
+                    </div>
+                    {!isCollapsed && (
+                        <span className="text-xl font-bold tracking-tight text-white animate-in fade-in slide-in-from-left-2 duration-300">
+                            Hotel<span className="text-primary">Book</span>
+                        </span>
+                    )}
+                </Link>
+            </div>
+
+            <ScrollArea className="flex-1 px-4">
+                <div className="space-y-1 py-4">
+                    {!isCollapsed && (
+                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                            Navigation
+                        </p>
+                    )}
+                    {navItems.map((item, index) => {
+                        const isActive = index === 0 && url === "/dashboard";
+                        return (
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                className={cn(
+                                    "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
+                                    isActive
+                                        ? "bg-primary/10 text-primary"
+                                        : "hover:bg-zinc-900 hover:text-white",
+                                )}
+                            >
+                                <item.icon
+                                    className={cn(
+                                        "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
+                                        isActive ? "text-primary" : item.color,
+                                    )}
+                                />
+                                {!isCollapsed && (
+                                    <span className="animate-in fade-in slide-in-from-left-2 duration-300">
+                                        {item.name}
+                                    </span>
+                                )}
+                                {isActive && !isCollapsed && (
+                                    <div className="absolute right-2 h-1.5 w-1.5 rounded-full bg-primary" />
+                                )}
+                            </Link>
+                        );
+                    })}
+                </div>
+
+                <div className="mt-8 space-y-1 py-4 border-t border-zinc-900">
+                    {!isCollapsed && (
+                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                            Account
+                        </p>
+                    )}
+                    <Link
+                        href={route("profile.edit")}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group"
+                    >
+                        <UserCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
+                        {!isCollapsed && <span>Profile</span>}
+                    </Link>
+                    <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group">
+                        <HelpCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
+                        {!isCollapsed && <span>Help & Support</span>}
+                    </button>
+                </div>
+            </ScrollArea>
+
+            <div className="p-4 border-t border-zinc-900">
+                <div
+                    className={cn(
+                        "bg-zinc-900/50 rounded-2xl p-3 flex items-center gap-3 transition-all",
+                        isCollapsed ? "justify-center px-2" : "",
+                    )}
+                >
+                    <Avatar className="h-8 w-8 border border-zinc-800">
+                        <AvatarImage src={user.avatar} />
+                        <AvatarFallback>
+                            {user.name.charAt(0)}
+                        </AvatarFallback>
+                    </Avatar>
+                    {!isCollapsed && (
+                        <div className="flex-1 overflow-hidden">
+                            <p className="text-xs font-bold text-white truncate">
+                                {user.name}
+                            </p>
+                            <p className="text-[10px] text-zinc-500 truncate">
+                                {user.email}
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 justify-between">
-                        <div className="flex">
-                            <div className="flex shrink-0 items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
+        <div className="flex h-screen bg-[#F8F9FC] dark:bg-zinc-950 font-sans">
+            {/* Desktop Sidebar */}
+            <aside
+                className={cn(
+                    "hidden md:flex flex-col transition-all duration-300 border-r border-zinc-200 dark:border-zinc-800 overflow-hidden",
+                    isCollapsed ? "w-20" : "w-72",
+                )}
+            >
+                <NavContent />
+            </aside>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div className="hidden sm:ms-6 sm:flex sm:items-center gap-2">
-                            <NotificationBell />
-                            <div className="relative ms-3">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="-me-0.5 ms-2 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route("profile.edit")}
-                                        >
-                                            Profile
-                                        </Dropdown.Link>
-                                        <Dropdown.Link
-                                            href={route("logout")}
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
-                                }
-                                className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
-                            >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? "inline-flex"
-                                                : "hidden"
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? "inline-flex"
-                                                : "hidden"
-                                        }
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    className={
-                        (showingNavigationDropdown ? "block" : "hidden") +
-                        " sm:hidden"
-                    }
-                >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col overflow-hidden relative">
+                {/* Navbar */}
+                <header className="h-16 flex items-center justify-between px-6 sticky top-0 z-30 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800">
+                    <div className="flex items-center gap-4">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setIsCollapsed(!isCollapsed)}
+                            className="hidden md:flex text-zinc-500"
                         >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
+                            <Menu className="h-5 w-5" />
+                        </Button>
 
-                    <div className="border-t border-gray-200 pb-1 pt-4">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route("profile.edit")}>
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route("logout")}
-                                as="button"
+                        <Sheet
+                            open={isMobileOpen}
+                            onOpenChange={setIsMobileOpen}
+                        >
+                            <SheetTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="md:hidden"
+                                >
+                                    <Menu className="h-5 w-5" />
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent
+                                side="left"
+                                className="w-72 p-0 bg-zinc-950"
                             >
-                                Log Out
-                            </ResponsiveNavLink>
+                                <NavContent />
+                            </SheetContent>
+                        </Sheet>
+
+                        <div className="hidden sm:flex items-center relative group">
+                            <Search className="absolute left-3 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                            <Input
+                                placeholder="Search hotels, bookings..."
+                                className="pl-10 w-64 bg-zinc-100 dark:bg-zinc-900 border-none rounded-full focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
+                            />
                         </div>
                     </div>
-                </div>
-            </nav>
 
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {header}
+                    <div className="flex items-center gap-3">
+                        <div className="hidden lg:flex flex-col text-right mr-2">
+                            <span className="text-xs font-bold text-zinc-900 dark:text-white">
+                                Welcome back
+                            </span>
+                            <span className="text-[10px] text-zinc-500">
+                                {new Date().toLocaleDateString("en-US", {
+                                    weekday: "long",
+                                    month: "short",
+                                    day: "numeric",
+                                })}
+                            </span>
+                        </div>
+
+                        <Separator
+                            orientation="vertical"
+                            className="h-6 mx-2 hidden sm:block"
+                        />
+
+                        <NotificationBell />
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    className="relative h-10 w-10 rounded-full p-0 overflow-hidden border-2 border-transparent hover:border-primary/20 transition-all"
+                                >
+                                    <Avatar className="h-full w-full">
+                                        <AvatarImage src={user.avatar} />
+                                        <AvatarFallback className="bg-primary/10 text-primary font-bold">
+                                            {user.name.charAt(0)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                className="w-56 mt-2"
+                                align="end"
+                                forceMount
+                            >
+                                <DropdownMenuLabel className="font-normal">
+                                    <div className="flex flex-col space-y-1">
+                                        <p className="text-sm font-bold leading-none">
+                                            {user.name}
+                                        </p>
+                                        <p className="text-xs leading-none text-zinc-500">
+                                            {user.email}
+                                        </p>
+                                    </div>
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                    asChild
+                                    className="cursor-pointer"
+                                >
+                                    <Link href={route("profile.edit")}>
+                                        <UserCircle className="mr-2 h-4 w-4" />
+                                        <span>Profile Settings</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                    className="text-rose-500 focus:text-rose-500 cursor-pointer"
+                                    asChild
+                                >
+                                    <Link
+                                        href={route("logout")}
+                                        method="post"
+                                        as="button"
+                                        className="w-full text-left"
+                                    >
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        <span>Sign Out</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </header>
-            )}
 
-            <main>{children}</main>
+                {/* Main Page View */}
+                <main className="flex-1 overflow-y-auto overflow-x-hidden">
+                    <div className="p-6 md:p-10 min-h-full">
+                        {children}
+                    </div>
+
+                    <footer className="p-6 text-center text-[10px] text-zinc-400 border-t border-zinc-200 dark:border-zinc-800">
+                        &copy; 2026 Hotel Booking Pro. Managed by{" "}
+                        <span className="text-primary font-bold">koeuk</span>
+                    </footer>
+                </main>
+            </div>
+            <Toaster position="top-right" closeButton richColors />
         </div>
     );
 }

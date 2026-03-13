@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\User;
 use App\Models\Room;
-use App\Notifications\BookingNotification;
+use App\Notifications\BookingStatusUpdatedUserNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -36,8 +36,14 @@ class BookingController extends Controller
 
         $booking->update($validated);
 
-        // Notify User
-        $booking->user->notify(new BookingNotification($booking, 'updated'));
+        // Notify user on status change
+        if (in_array($validated['status'], ['confirmed', 'cancelled', 'completed'])) {
+            try {
+                $booking->user->notify(new BookingStatusUpdatedUserNotification($booking, $validated['status']));
+            } catch (\Exception $e) {
+                // Don't break flow on notification failure
+            }
+        }
 
         return redirect()->back()->with('success', 'Booking status updated successfully.');
     }
