@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, usePage, router } from "@inertiajs/react";
 import {
     LayoutDashboard,
     CalendarCheck,
@@ -290,17 +290,10 @@ export default function AuthenticatedLayout({ children }) {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     className="text-rose-500 focus:text-rose-500 cursor-pointer"
-                                    asChild
+                                    onClick={() => router.post(route("logout"))}
                                 >
-                                    <Link
-                                        href={route("logout")}
-                                        method="post"
-                                        as="button"
-                                        className="w-full text-left"
-                                    >
-                                        <LogOut className="mr-2 h-4 w-4" />
-                                        <span>Sign Out</span>
-                                    </Link>
+                                    <LogOut className="mr-2 h-4 w-4" />
+                                    <span>Sign Out</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
