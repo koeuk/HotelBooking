@@ -32,6 +32,14 @@ class AmenityController extends Controller
         return redirect()->route('admin.amenities.index')->with('success', 'Amenity created successfully.');
     }
 
+    public function show(Amenity $amenity)
+    {
+        $amenity->load('hotels');
+        return Inertia::render('Admin/Amenities/Show', [
+            'amenity' => $amenity
+        ]);
+    }
+
     public function edit(Amenity $amenity)
     {
         return Inertia::render('Admin/Amenities/Edit', [

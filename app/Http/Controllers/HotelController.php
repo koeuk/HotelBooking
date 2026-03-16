@@ -39,6 +39,14 @@ class HotelController extends Controller
         return redirect()->route('admin.hotels.index')->with('success', 'Hotel created successfully.');
     }
 
+    public function show(Hotel $hotel)
+    {
+        $hotel->load(['roomTypes', 'rooms', 'amenities', 'reviews.user']);
+        return Inertia::render('Admin/Hotels/Show', [
+            'hotel' => $hotel
+        ]);
+    }
+
     public function edit(Hotel $hotel)
     {
         return Inertia::render('Admin/Hotels/Edit', [

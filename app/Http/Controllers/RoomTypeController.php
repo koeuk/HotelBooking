@@ -40,6 +40,14 @@ class RoomTypeController extends Controller
         return redirect()->route('admin.room-types.index')->with('success', 'Room type created successfully.');
     }
 
+    public function show(RoomType $roomType)
+    {
+        $roomType->load(['hotel', 'rooms']);
+        return Inertia::render('Admin/RoomTypes/Show', [
+            'roomType' => $roomType
+        ]);
+    }
+
     public function edit(RoomType $roomType)
     {
         return Inertia::render('Admin/RoomTypes/Edit', [

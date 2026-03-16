@@ -17,7 +17,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Eye, Trash2, Plus } from "lucide-react";
+import { Eye, Edit, Trash2, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 const getStatusBadge = (status) => {
@@ -164,7 +164,7 @@ export default function Index({ bookings }) {
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
                                         <Button
-                                            variant="outline"
+                                            variant="ghost"
                                             size="icon"
                                             asChild
                                             title="View Details"
@@ -176,6 +176,21 @@ export default function Index({ bookings }) {
                                                 )}
                                             >
                                                 <Eye className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            asChild
+                                            title="Edit"
+                                        >
+                                            <Link
+                                                href={route(
+                                                    "admin.bookings.edit",
+                                                    booking.uuid,
+                                                )}
+                                            >
+                                                <Edit className="h-4 w-4" />
                                             </Link>
                                         </Button>
                                         <Button

@@ -42,61 +42,61 @@ import { cn } from "@/lib/utils";
 const navItems = [
     {
         name: "Dashboard",
-        href: route("admin.dashboard"),
+        routeName: "admin.dashboard",
         icon: LayoutDashboard,
         color: "text-blue-500",
     },
     {
         name: "Hotels",
-        href: route("admin.hotels.index"),
+        routeName: "admin.hotels.index",
         icon: Hotel,
         color: "text-emerald-500",
     },
     {
         name: "Room Types",
-        href: route("admin.room-types.index"),
+        routeName: "admin.room-types.index",
         icon: BedDouble,
         color: "text-indigo-500",
     },
     {
         name: "Rooms",
-        href: route("admin.rooms.index"),
+        routeName: "admin.rooms.index",
         icon: Bed,
         color: "text-violet-500",
     },
     {
         name: "Bookings",
-        href: route("admin.bookings.index"),
+        routeName: "admin.bookings.index",
         icon: CalendarCheck,
         color: "text-amber-500",
     },
     {
         name: "Payments",
-        href: route("admin.payments.index"),
+        routeName: "admin.payments.index",
         icon: CreditCard,
         color: "text-rose-500",
     },
     {
         name: "Users",
-        href: route("admin.users.index"),
+        routeName: "admin.users.index",
         icon: Users,
         color: "text-cyan-500",
     },
     {
         name: "Amenities",
-        href: route("admin.amenities.index"),
+        routeName: "admin.amenities.index",
         icon: Sparkles,
         color: "text-teal-500",
     },
     {
         name: "Reviews",
-        href: route("admin.reviews.index"),
+        routeName: "admin.reviews.index",
         icon: Star,
         color: "text-yellow-500",
     },
     {
         name: "Coupons",
-        href: route("admin.coupons.index"),
+        routeName: "admin.coupons.index",
         icon: Tag,
         color: "text-pink-500",
     },
@@ -134,11 +134,13 @@ export default function AdminLayout({ children }) {
                         </p>
                     )}
                     {navItems.map((item) => {
-                        const isActive = url.startsWith(item.href);
+                        const itemUrl = route(item.routeName);
+                        const itemPath = new URL(itemUrl).pathname;
+                        const isActive = url === itemPath || (itemPath !== '/admin/dashboard' && url.startsWith(itemPath));
                         return (
                             <Link
                                 key={item.name}
-                                href={item.href}
+                                href={itemUrl}
                                 className={cn(
                                     "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
                                     isActive
@@ -171,20 +173,28 @@ export default function AdminLayout({ children }) {
                             Support
                         </p>
                     )}
-                    <Link
-                        href={route("admin.settings.index")}
-                        className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group",
-                            url.startsWith("/admin/settings") ? "bg-primary/10 text-primary" : "",
-                        )}
-                    >
-                        <Settings className={cn("h-5 w-5 group-hover:text-white", url.startsWith("/admin/settings") ? "text-primary" : "text-zinc-500")} />
-                        {!isCollapsed && <span>Settings</span>}
-                    </Link>
-                    <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group">
-                        <HelpCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
-                        {!isCollapsed && <span>Internal Help</span>}
-                    </button>
+                    {(() => {
+                        const settingsPath = new URL(route("admin.settings.index")).pathname;
+                        const isSettingsActive = url.startsWith(settingsPath);
+                        return (
+                            <>
+                                <Link
+                                    href={route("admin.settings.index")}
+                                    className={cn(
+                                        "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group",
+                                        isSettingsActive ? "bg-primary/10 text-primary" : "",
+                                    )}
+                                >
+                                    <Settings className={cn("h-5 w-5 group-hover:text-white", isSettingsActive ? "text-primary" : "text-zinc-500")} />
+                                    {!isCollapsed && <span>Settings</span>}
+                                </Link>
+                                <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group">
+                                    <HelpCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
+                                    {!isCollapsed && <span>Internal Help</span>}
+                                </button>
+                            </>
+                        );
+                    })()}
                 </div>
             </ScrollArea>
 

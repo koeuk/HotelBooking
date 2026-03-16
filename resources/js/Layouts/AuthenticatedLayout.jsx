@@ -32,29 +32,25 @@ import { cn } from "@/lib/utils";
 const navItems = [
     {
         name: "Dashboard",
-        href: "/dashboard",
         routeName: "dashboard",
         icon: LayoutDashboard,
         color: "text-blue-500",
     },
     {
         name: "My Bookings",
-        href: "/dashboard",
-        routeName: "dashboard",
+        routeName: "bookings.index",
         icon: CalendarCheck,
         color: "text-amber-500",
     },
     {
         name: "Hotels",
-        href: "/dashboard",
-        routeName: "dashboard",
+        routeName: "hotels.index",
         icon: Hotel,
         color: "text-emerald-500",
     },
     {
         name: "Favorites",
-        href: "/dashboard",
-        routeName: "dashboard",
+        routeName: "favorites.index",
         icon: Heart,
         color: "text-rose-500",
     },
@@ -93,11 +89,13 @@ export default function AuthenticatedLayout({ children }) {
                         </p>
                     )}
                     {navItems.map((item, index) => {
-                        const isActive = index === 0 && url === "/dashboard";
+                        const itemUrl = route(item.routeName);
+                        const itemPath = new URL(itemUrl).pathname;
+                        const isActive = url === itemPath || (itemPath !== '/dashboard' && url.startsWith(itemPath));
                         return (
                             <Link
                                 key={item.name}
-                                href={item.href}
+                                href={itemUrl}
                                 className={cn(
                                     "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
                                     isActive

@@ -18,6 +18,16 @@ class PaymentController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return Inertia::render('Admin/Payments/Create', [
+            'bookings' => Booking::with(['user', 'room.hotel'])
+                ->whereDoesntHave('payment')
+                ->where('status', '!=', 'cancelled')
+                ->get()
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -52,12 +62,30 @@ class PaymentController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Payment recorded successfully.');
+        return redirect()->route('admin.payments.index')->with('success', 'Payment recorded successfully.');
+    }
+
+    public function show(Payment $payment)
+    {
+        $payment->load(['booking.user', 'booking.room.hotel', 'booking.room.roomType']);
+        return Inertia::render('Admin/Payments/Show', [
+            'payment' => $payment
+        ]);
+    }
+
+    public function edit(Payment $payment)
+    {
+        $payment->load(['booking.user', 'booking.room.hotel']);
+        return Inertia::render('Admin/Payments/Edit', [
+            'payment' => $payment
+        ]);
     }
 
     public function update(Request $request, Payment $payment)
     {
         $validated = $request->validate([
+            'amount' => 'sometimes|numeric|min:0',
+            'method' => 'sometimes|in:card,cash,paypal',
             'status' => 'required|in:pending,paid,failed,refunded',
         ]);
 
@@ -74,5 +102,11 @@ class PaymentController extends Controller
         }
 
         return redirect()->back()->with('success', 'Payment status updated successfully.');
+    }
+
+    public function destroy(Payment $payment)
+    {
+        $payment->delete();
+        return redirect()->route('admin.payments.index')->with('success', 'Payment deleted successfully.');
     }
 }

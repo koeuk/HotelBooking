@@ -1,59 +1,215 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hotel Booking System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-featured Hotel Booking System with Admin Dashboard, REST API, multi-channel notifications, and social authentication built with Laravel, Inertia.js, React, and shadcn/ui.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend:** Laravel 12 (PHP 8.2+)
+- **Frontend:** React 18 + Inertia.js
+- **Styling:** Tailwind CSS + shadcn/ui (Radix UI primitives)
+- **Auth (Web):** Laravel Breeze (session-based)
+- **Auth (API):** Laravel Sanctum (token-based)
+- **Social Auth:** Laravel Socialite (Google, Facebook)
+- **Notifications:** Mail, Database, Telegram
+- **Icons:** Lucide React
+- **Build Tool:** Vite
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Authentication** — Email/password registration and login, Google & Facebook OAuth, role-based access (guest/admin)
+- **Hotel Management** — CRUD for hotels, room types, rooms, and amenities with image support
+- **Booking System** — Date-based reservations with availability checking, overlap detection, and automatic price calculation
+- **Payments** — Record payments (card, cash, PayPal) with transaction tracking; auto-confirms bookings on successful payment
+- **Reviews & Ratings** — 1–5 star ratings tied to completed bookings (one review per booking)
+- **Coupons** — Percentage-based discount codes with date ranges and usage limits
+- **Notifications** — Queue-based multi-channel notifications (email, in-app, Telegram) for booking events and payments
+- **Admin Dashboard** — Stats overview, recent bookings, system health metrics, and full CRUD for all resources
+- **User Dashboard** — Booking stats, upcoming stays, recent bookings, featured hotels
+- **REST API** — 23+ endpoints under `/api/v1/` with Sanctum auth for mobile/public clients
+- **UUID Routing** — All models use UUID for route binding
 
-## Learning Laravel
+## Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- PHP 8.2+
+- Composer
+- Node.js 18+ & npm
+- SQLite (default) or MySQL/PostgreSQL
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+```bash
+# Clone the repository
+git clone <repository-url>
+cd HotelBooking
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Install PHP dependencies
+composer install
 
-### Premium Partners
+# Install JavaScript dependencies
+npm install
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Copy environment file and generate app key
+cp .env.example .env
+php artisan key:generate
 
-## Contributing
+# Run database migrations and seed sample data
+php artisan migrate --seed
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Environment Configuration
 
-## Code of Conduct
+Add the following to your `.env` file:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```env
+# Admin
+ADMIN_EMAIL=admin@yourhotel.com
 
-## Security Vulnerabilities
+# Mail (for email notifications)
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your@email.com
+MAIL_PASSWORD=your_password
+MAIL_FROM_ADDRESS=noreply@yourhotel.com
+MAIL_FROM_NAME="Hotel Booking"
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Telegram Bot (for admin alerts)
+TELEGRAM_BOT_TOKEN=your_bot_token
+TELEGRAM_ADMIN_CHAT_ID=your_admin_chat_id
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_REDIRECT_URL=https://yourdomain.com/auth/google/callback
+
+# Facebook OAuth
+FACEBOOK_CLIENT_ID=your_facebook_app_id
+FACEBOOK_CLIENT_SECRET=your_facebook_app_secret
+FACEBOOK_REDIRECT_URL=https://yourdomain.com/auth/facebook/callback
+
+# Queue (required for notifications)
+QUEUE_CONNECTION=database
+```
+
+## Running the Application
+
+```bash
+# Development (runs Vite dev server + Laravel concurrently)
+composer run dev
+
+# Or run separately:
+php artisan serve        # Backend at http://localhost:8000
+npm run dev              # Vite dev server
+
+# Process queued notifications
+php artisan queue:work
+
+# Production build
+npm run build
+```
+
+## API Endpoints
+
+All API routes are prefixed with `/api/v1/`.
+
+### Public
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/register` | Register a new user |
+| POST | `/auth/login` | Login and get Sanctum token |
+| POST | `/auth/google` | Google OAuth token exchange |
+| POST | `/auth/facebook` | Facebook OAuth token exchange |
+| GET | `/hotels` | List hotels (filter by city, country, search) |
+| GET | `/hotels/{id}` | Hotel details with room types |
+| GET | `/hotels/{id}/room-types` | Room types for a hotel |
+| GET | `/hotels/{id}/rooms` | Rooms for a hotel |
+| GET | `/room-types/{id}` | Room type details |
+| GET | `/rooms/{id}` | Room details |
+| GET | `/amenities` | List amenities |
+
+### Authenticated (Bearer token required)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/logout` | Revoke token |
+| GET | `/bookings` | List user's bookings |
+| POST | `/bookings` | Create a booking |
+| GET | `/bookings/{id}` | Booking details |
+| PATCH | `/bookings/{id}/cancel` | Cancel a pending booking |
+| POST | `/payments` | Record a payment |
+| GET | `/payments/{id}` | Payment details |
+| GET | `/profile` | Get user profile |
+| PATCH | `/profile` | Update profile |
+| PATCH | `/profile/set-password` | Set/change password |
+| GET | `/reviews` | List user's reviews |
+| POST | `/reviews` | Create a review |
+| PATCH | `/reviews/{id}` | Update a review |
+| DELETE | `/reviews/{id}` | Delete a review |
+| POST | `/coupons/validate` | Validate a coupon code |
+| GET | `/notifications` | List notifications |
+| PATCH | `/notifications/{id}/read` | Mark notification as read |
+| PATCH | `/notifications/read-all` | Mark all as read |
+
+## Admin Panel
+
+Access the admin dashboard at `/admin/dashboard` (requires a user with `role = admin`).
+
+Admin features include full CRUD management for:
+
+- Hotels, Room Types, Rooms
+- Bookings (with status workflow: pending → confirmed → completed/cancelled)
+- Payments (record and update payment status)
+- Users
+- Amenities
+- Reviews
+- Coupons
+- Settings (Telegram bot configuration)
+
+## Database Schema
+
+| Table | Description |
+|-------|-------------|
+| `users` | User accounts with OAuth fields and role |
+| `hotels` | Hotel records with images (JSON) |
+| `room_types` | Room categories with pricing |
+| `rooms` | Individual rooms with status tracking |
+| `bookings` | Reservations with date ranges and pricing |
+| `payments` | Payment records with transaction IDs |
+| `reviews` | Guest ratings and comments |
+| `amenities` | Hotel amenities/features |
+| `hotel_amenities` | Hotel–amenity pivot table |
+| `coupons` | Discount codes with validity periods |
+| `settings` | Key-value app settings |
+| `notifications` | Laravel database notifications |
+| `personal_access_tokens` | Sanctum API tokens |
+
+## Project Structure
+
+```
+app/
+├── Http/
+│   ├── Controllers/         # Web controllers (admin CRUD, auth, dashboard)
+│   │   └── Api/             # API controllers (REST endpoints)
+│   └── Middleware/           # AdminMiddleware, HandleInertiaRequests
+├── Models/                  # Eloquent models with UUID trait
+├── Notifications/           # Multi-channel notification classes
+└── Traits/                  # HasUuid trait
+
+resources/js/
+├── Components/              # Reusable UI components (shadcn/ui)
+├── Layouts/                 # AdminLayout, AuthenticatedLayout, GuestLayout
+└── Pages/
+    ├── Admin/               # Admin CRUD pages (Hotels, Rooms, Bookings, etc.)
+    ├── Auth/                # Login, Register, Password Reset
+    ├── Profile/             # User profile management
+    └── Dashboard.jsx        # User dashboard
+
+routes/
+├── web.php                  # Web routes (admin, auth, dashboard)
+└── api.php                  # API v1 routes
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

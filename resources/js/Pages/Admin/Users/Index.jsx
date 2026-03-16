@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Plus,
+    Eye,
     Edit,
     Trash2,
     ShieldCheck,
@@ -113,6 +114,20 @@ export default function Index({ users, auth }) {
                                         )}
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={route(
+                                                    "admin.users.show",
+                                                    user.uuid,
+                                                )}
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
                                         <Button
                                             variant="outline"
                                             size="icon"

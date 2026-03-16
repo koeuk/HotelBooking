@@ -18,7 +18,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Pencil, Trash2, Star } from "lucide-react";
+import { Plus, Eye, Pencil, Trash2, Star } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -112,6 +112,20 @@ export default function Index({ reviews }) {
                                         {review.comment}
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={route(
+                                                    "admin.reviews.show",
+                                                    review.uuid,
+                                                )}
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
                                         <Button
                                             variant="outline"
                                             size="icon"

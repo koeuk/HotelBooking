@@ -19,7 +19,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Eye, Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -109,6 +109,20 @@ export default function Index({ rooms }) {
                                         {getStatusBadge(room.status)}
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={route(
+                                                    "admin.rooms.show",
+                                                    room.uuid,
+                                                )}
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
                                         <Button
                                             variant="outline"
                                             size="icon"

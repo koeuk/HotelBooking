@@ -42,6 +42,14 @@ class ReviewController extends Controller
         return redirect()->route('admin.reviews.index')->with('success', 'Review created successfully.');
     }
 
+    public function show(Review $review)
+    {
+        $review->load(['user', 'hotel', 'booking.room']);
+        return Inertia::render('Admin/Reviews/Show', [
+            'review' => $review
+        ]);
+    }
+
     public function edit(Review $review)
     {
         $review->load(['user', 'hotel', 'booking']);

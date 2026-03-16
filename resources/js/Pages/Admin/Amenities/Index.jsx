@@ -18,7 +18,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Pencil, Trash2, Wifi, Waves, Dumbbell, Sparkles, Utensils, Car, Snowflake, Wine, HelpCircle } from "lucide-react";
+import { Plus, Eye, Pencil, Trash2, Wifi, Waves, Dumbbell, Sparkles, Utensils, Car, Snowflake, Wine, HelpCircle } from "lucide-react";
 import { useState } from "react";
 
 const iconMap = {
@@ -101,6 +101,20 @@ export default function Index({ amenities }) {
                                         {amenity.hotels_count}
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={route(
+                                                    "admin.amenities.show",
+                                                    amenity.uuid,
+                                                )}
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
                                         <Button
                                             variant="outline"
                                             size="icon"

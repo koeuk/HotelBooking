@@ -17,6 +17,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/my-bookings', [\App\Http\Controllers\GuestBookingController::class, 'index'])->name('bookings.index');
+    Route::get('/my-bookings/{booking}', [\App\Http\Controllers\GuestBookingController::class, 'show'])->name('bookings.show');
+    Route::get('/hotels', [\App\Http\Controllers\GuestHotelController::class, 'index'])->name('hotels.index');
+    Route::get('/hotels/{hotel}', [\App\Http\Controllers\GuestHotelController::class, 'show'])->name('hotels.show');
+    Route::get('/favorites', function () { return \Inertia\Inertia::render('Favorites/Index'); })->name('favorites.index');
 });
 
 // Social Auth

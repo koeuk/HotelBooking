@@ -1,5 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -17,7 +17,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Eye, CreditCard, DollarSign } from "lucide-react";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Eye, CreditCard, DollarSign, Plus, Edit, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 const getStatusBadge = (status) => {
@@ -54,9 +64,22 @@ const getStatusBadge = (status) => {
 };
 
 export default function Index({ payments }) {
+    const [paymentToDelete, setPaymentToDelete] = useState(null);
+    const { delete: destroy, processing } = useForm();
+
     const updateStatus = (id, status) => {
         router.patch(route("admin.payments.update", id), { status }, {
             onSuccess: () => toast.success("Payment status updated"),
+        });
+    };
+
+    const handleDelete = () => {
+        destroy(route("admin.payments.destroy", paymentToDelete.uuid), {
+            onSuccess: () => {
+                setPaymentToDelete(null);
+                toast.success("Payment deleted successfully");
+            },
+            onError: () => toast.error("Failed to delete payment"),
         });
     };
 
@@ -74,6 +97,11 @@ export default function Index({ payments }) {
                             Monitor transaction history and payment statuses.
                         </p>
                     </div>
+                    <Button asChild>
+                        <Link href={route("admin.payments.create")}>
+                            <Plus className="mr-2 h-4 w-4" /> Add Payment
+                        </Link>
+                    </Button>
                 </div>
 
                 <div className="bg-card rounded-md border">
@@ -150,7 +178,7 @@ export default function Index({ payments }) {
                                             </SelectContent>
                                         </Select>
                                     </TableCell>
-                                    <TableCell className="text-right">
+                                    <TableCell className="text-right space-x-2">
                                         <Button
                                             variant="ghost"
                                             size="icon"
@@ -158,13 +186,84 @@ export default function Index({ payments }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.bookings.show",
-                                                    payment.booking.uuid,
+                                                    "admin.payments.show",
+                                                    payment.uuid,
                                                 )}
                                             >
                                                 <Eye className="h-4 w-4" />
                                             </Link>
                                         </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            asChild
+                                        >
+                                            <Link
+                                                href={route(
+                                                    "admin.payments.edit",
+                                                    payment.uuid,
+                                                )}
+                                            >
+                                                <Edit className="h-4 w-4" />
+                                            </Link>
+                                        </Button>
+
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button
+                                                    variant="destructive"
+                                                    size="icon"
+                                                    onClick={() =>
+                                                        setPaymentToDelete(
+                                                            payment,
+                                                        )
+                                                    }
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>
+                                                        Are you absolutely sure?
+                                                    </DialogTitle>
+                                                    <DialogDescription>
+                                                        This action cannot be
+                                                        undone. This will
+                                                        permanently delete the
+                                                        payment
+                                                        <strong>
+                                                            {" "}
+                                                            {payment.transaction_id ||
+                                                                `PAY-${payment.id}`}
+                                                        </strong>{" "}
+                                                        and remove the record
+                                                        from the system.
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <DialogFooter>
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() =>
+                                                            setPaymentToDelete(
+                                                                null,
+                                                            )
+                                                        }
+                                                    >
+                                                        Cancel
+                                                    </Button>
+                                                    <Button
+                                                        variant="destructive"
+                                                        onClick={handleDelete}
+                                                        disabled={processing}
+                                                    >
+                                                        {processing
+                                                            ? "Deleting..."
+                                                            : "Delete Payment"}
+                                                    </Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
                                     </TableCell>
                                 </TableRow>
                             ))}

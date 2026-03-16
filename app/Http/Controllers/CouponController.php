@@ -35,6 +35,13 @@ class CouponController extends Controller
         return redirect()->route('admin.coupons.index')->with('success', 'Coupon created successfully.');
     }
 
+    public function show(Coupon $coupon)
+    {
+        return Inertia::render('Admin/Coupons/Show', [
+            'coupon' => $coupon
+        ]);
+    }
+
     public function edit(Coupon $coupon)
     {
         return Inertia::render('Admin/Coupons/Edit', [

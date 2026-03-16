@@ -43,6 +43,14 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
+    public function show(User $user)
+    {
+        $user->load(['bookings.room.hotel', 'bookings.payment']);
+        return Inertia::render('Admin/Users/Show', [
+            'user' => $user
+        ]);
+    }
+
     public function edit(User $user)
     {
         return Inertia::render('Admin/Users/Edit', [
