@@ -50,6 +50,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('amenities', \App\Http\Controllers\AmenityController::class);
     Route::resource('reviews', \App\Http\Controllers\ReviewController::class);
     Route::resource('coupons', \App\Http\Controllers\CouponController::class);
+    Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
 });

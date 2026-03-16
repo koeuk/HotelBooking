@@ -20,6 +20,7 @@ import {
     Sparkles,
     Star,
     Tag,
+    BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NotificationBell from "@/components/NotificationBell";
@@ -102,6 +103,12 @@ const navItems = [
         routeName: "admin.coupons.index",
         icon: Tag,
         color: "text-pink-500",
+    },
+    {
+        name: "Reports",
+        routeName: "admin.reports.index",
+        icon: BarChart3,
+        color: "text-orange-500",
     },
 ];
 
