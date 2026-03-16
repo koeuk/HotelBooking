@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { Chrome, Facebook } from "lucide-react";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -43,6 +45,40 @@ export default function Login({ status, canResetPassword }) {
                         {status}
                     </div>
                 )}
+
+                <div className="grid grid-cols-2 gap-4">
+                    <Button
+                        variant="outline"
+                        asChild
+                        className="w-full rounded-full h-12 bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white"
+                    >
+                        <a href={route("auth.google")}>
+                            <Chrome className="mr-2 h-4 w-4" />
+                            Google
+                        </a>
+                    </Button>
+                    <Button
+                        variant="outline"
+                        asChild
+                        className="w-full rounded-full h-12 bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white"
+                    >
+                        <a href={route("auth.facebook")}>
+                            <Facebook className="mr-2 h-4 w-4" />
+                            Facebook
+                        </a>
+                    </Button>
+                </div>
+
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <Separator className="bg-white/20" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                        <span className="px-2 text-white/50 bg-white/10 backdrop-blur-sm rounded-full">
+                            Or continue with email
+                        </span>
+                    </div>
+                </div>
 
                 <form onSubmit={submit} className="space-y-4">
                     <div>
@@ -119,6 +155,15 @@ export default function Login({ status, canResetPassword }) {
                     </Button>
                 </form>
 
+                <p className="text-sm text-white/60">
+                    Don't have an account?{" "}
+                    <Link
+                        href={route("register")}
+                        className="font-semibold text-white hover:underline"
+                    >
+                        Sign up
+                    </Link>
+                </p>
             </div>
         </GuestLayout>
     );

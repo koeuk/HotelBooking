@@ -13,6 +13,10 @@ class UserDashboardController extends Controller
     {
         $user = $request->user();
 
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         $bookings = $user->bookings()
             ->with(['room.hotel', 'room.roomType', 'payment'])
             ->latest()

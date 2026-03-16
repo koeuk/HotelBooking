@@ -10,6 +10,12 @@ import {
     Search,
     HelpCircle,
     Heart,
+    Star,
+    Bell,
+    MapPin,
+    CreditCard,
+    Settings,
+    MessageSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NotificationBell from "@/components/NotificationBell";
@@ -30,30 +36,29 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-const navItems = [
+const navSections = [
     {
-        name: "Dashboard",
-        routeName: "dashboard",
-        icon: LayoutDashboard,
-        color: "text-blue-500",
+        label: "Navigation",
+        items: [
+            { name: "Dashboard", routeName: "dashboard", icon: LayoutDashboard, color: "text-blue-500" },
+            { name: "My Bookings", routeName: "bookings.index", icon: CalendarCheck, color: "text-amber-500" },
+            { name: "Hotels", routeName: "hotels.index", icon: Hotel, color: "text-emerald-500" },
+            { name: "Favorites", routeName: "favorites.index", icon: Heart, color: "text-rose-500" },
+        ],
     },
     {
-        name: "My Bookings",
-        routeName: "bookings.index",
-        icon: CalendarCheck,
-        color: "text-amber-500",
+        label: "Activity",
+        items: [
+            { name: "My Reviews", routeName: "reviews.index", icon: Star, color: "text-yellow-500" },
+            { name: "Notifications", routeName: "notifications.index", icon: Bell, color: "text-violet-500" },
+        ],
     },
     {
-        name: "Hotels",
-        routeName: "hotels.index",
-        icon: Hotel,
-        color: "text-emerald-500",
-    },
-    {
-        name: "Favorites",
-        routeName: "favorites.index",
-        icon: Heart,
-        color: "text-rose-500",
+        label: "Account",
+        items: [
+            { name: "Profile", routeName: "profile.edit", icon: UserCircle, color: "text-zinc-400" },
+            { name: "Help & Support", routeName: "dashboard", icon: HelpCircle, color: "text-zinc-400", isStatic: true },
+        ],
     },
 ];
 
@@ -88,64 +93,53 @@ export default function AuthenticatedLayout({ children }) {
             </div>
 
             <ScrollArea className="flex-1 px-4">
-                <div className="space-y-1 py-4">
-                    {!isCollapsed && (
-                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                            Navigation
-                        </p>
-                    )}
-                    {navItems.map((item, index) => {
-                        const itemUrl = route(item.routeName);
-                        const itemPath = new URL(itemUrl).pathname;
-                        const isActive = url === itemPath || (itemPath !== '/dashboard' && url.startsWith(itemPath));
-                        return (
-                            <Link
-                                key={item.name}
-                                href={itemUrl}
-                                className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
-                                    isActive
-                                        ? "bg-primary/10 text-primary"
-                                        : "hover:bg-zinc-900 hover:text-white",
-                                )}
-                            >
-                                <item.icon
-                                    className={cn(
-                                        "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
-                                        isActive ? "text-primary" : item.color,
-                                    )}
-                                />
-                                {!isCollapsed && (
-                                    <span className="animate-in fade-in slide-in-from-left-2 duration-300">
-                                        {item.name}
-                                    </span>
-                                )}
-                                {isActive && !isCollapsed && (
-                                    <div className="absolute right-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                                )}
-                            </Link>
-                        );
-                    })}
-                </div>
-
-                <div className="mt-8 space-y-1 py-4 border-t border-zinc-900">
-                    {!isCollapsed && (
-                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                            Account
-                        </p>
-                    )}
-                    <Link
-                        href={route("profile.edit")}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group"
+                {navSections.map((section, sIndex) => (
+                    <div
+                        key={section.label}
+                        className={cn(
+                            "space-y-1 py-4",
+                            sIndex > 0 && "border-t border-zinc-900 mt-2",
+                        )}
                     >
-                        <UserCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
-                        {!isCollapsed && <span>Profile</span>}
-                    </Link>
-                    <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group">
-                        <HelpCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
-                        {!isCollapsed && <span>Help & Support</span>}
-                    </button>
-                </div>
+                        {!isCollapsed && (
+                            <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                                {section.label}
+                            </p>
+                        )}
+                        {section.items.map((item) => {
+                            const itemUrl = route(item.routeName);
+                            const itemPath = new URL(itemUrl).pathname;
+                            const isActive = url === itemPath || (itemPath !== '/dashboard' && url.startsWith(itemPath));
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={itemUrl}
+                                    className={cn(
+                                        "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
+                                        isActive
+                                            ? "bg-primary/10 text-primary"
+                                            : "hover:bg-zinc-900 hover:text-white",
+                                    )}
+                                >
+                                    <item.icon
+                                        className={cn(
+                                            "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
+                                            isActive ? "text-primary" : item.color,
+                                        )}
+                                    />
+                                    {!isCollapsed && (
+                                        <span className="animate-in fade-in slide-in-from-left-2 duration-300">
+                                            {item.name}
+                                        </span>
+                                    )}
+                                    {isActive && !isCollapsed && (
+                                        <div className="absolute right-2 h-1.5 w-1.5 rounded-full bg-primary" />
+                                    )}
+                                </Link>
+                            );
+                        })}
+                    </div>
+                ))}
             </ScrollArea>
 
             <div className="p-4 border-t border-zinc-900">

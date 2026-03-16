@@ -25,10 +25,6 @@ export default function Create() {
         images: [],
     });
 
-    const [imageUrl, setImageUrl] = (window.useState || ((v) => [v, () => {}]))(
-        "",
-    ); // Fallback if state is needed, but using form data
-
     const submit = (e) => {
         e.preventDefault();
         post(route("admin.hotels.store"));
