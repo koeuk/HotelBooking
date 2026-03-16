@@ -189,12 +189,19 @@ export default function AdminLayout({ children }) {
                                 <Link
                                     href={route("admin.settings.index")}
                                     className={cn(
-                                        "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-slate-700/50 hover:text-white group",
-                                        isSettingsActive ? "bg-primary/10 text-primary" : "",
+                                        "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
+                                        isSettingsActive
+                                            ? "bg-primary/10 text-primary"
+                                            : "hover:bg-slate-700/50 hover:text-white",
                                     )}
                                 >
-                                    <Settings className={cn("h-5 w-5 group-hover:text-white", isSettingsActive ? "text-primary" : "text-zinc-300")} />
-                                    {!isCollapsed && <span>Settings</span>}
+                                    <Settings className={cn("h-5 w-5 transition-transform duration-200 group-hover:scale-110", isSettingsActive ? "text-primary" : "text-zinc-300")} />
+                                    {!isCollapsed && (
+                                        <span className="animate-in fade-in slide-in-from-left-2 duration-300">Settings</span>
+                                    )}
+                                    {isSettingsActive && !isCollapsed && (
+                                        <div className="absolute right-2 h-1.5 w-1.5 rounded-full bg-primary" />
+                                    )}
                                 </Link>
                                 <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-slate-700/50 hover:text-white group">
                                     <HelpCircle className="h-5 w-5 text-zinc-300 group-hover:text-white" />
@@ -254,19 +261,17 @@ export default function AdminLayout({ children }) {
                             </div>
                         </DropdownMenuLabel></DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild className="cursor-pointer">
-                            <Link href={route("admin.settings.index")}>
-                                <Settings className="mr-2 h-4 w-4" />
-                                <span>Settings</span>
-                            </Link>
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("admin.settings.index"))}>
+                            <Settings className="h-4 w-4" />
+                            Settings
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className="cursor-pointer text-rose-500 focus:text-rose-500"
                             onClick={() => router.post(route("logout"))}
                         >
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>Log out</span>
+                            <LogOut className="h-4 w-4" />
+                            Log out
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -383,21 +388,16 @@ export default function AdminLayout({ children }) {
                                     </div>
                                 </DropdownMenuLabel></DropdownMenuGroup>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem
-                                    asChild
-                                    className="cursor-pointer"
-                                >
-                                    <Link href={route("profile.edit")}>
-                                        <UserCircle className="mr-2 h-4 w-4" />
-                                        <span>Profile Settings</span>
-                                    </Link>
+                                <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("admin.settings.index"))}>
+                                    <UserCircle className="h-4 w-4" />
+                                    Profile Settings
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     className="text-rose-500 focus:text-rose-500 cursor-pointer"
                                     onClick={() => router.post(route("logout"))}
                                 >
-                                    <LogOut className="mr-2 h-4 w-4" />
-                                    <span>Sign Out</span>
+                                    <LogOut className="h-4 w-4" />
+                                    Sign Out
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>

@@ -193,19 +193,17 @@ export default function AuthenticatedLayout({ children }) {
                             </div>
                         </DropdownMenuLabel></DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild className="cursor-pointer">
-                            <Link href={route("profile.edit")}>
-                                <UserCircle className="mr-2 h-4 w-4" />
-                                <span>Profile Settings</span>
-                            </Link>
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("profile.edit"))}>
+                            <UserCircle className="h-4 w-4" />
+                            Profile Settings
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className="cursor-pointer text-rose-500 focus:text-rose-500"
                             onClick={() => router.post(route("logout"))}
                         >
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>Log out</span>
+                            <LogOut className="h-4 w-4" />
+                            Log out
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -322,21 +320,16 @@ export default function AuthenticatedLayout({ children }) {
                                     </div>
                                 </DropdownMenuLabel></DropdownMenuGroup>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem
-                                    asChild
-                                    className="cursor-pointer"
-                                >
-                                    <Link href={route("profile.edit")}>
-                                        <UserCircle className="mr-2 h-4 w-4" />
-                                        <span>Profile Settings</span>
-                                    </Link>
+                                <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("profile.edit"))}>
+                                    <UserCircle className="h-4 w-4" />
+                                    Profile Settings
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     className="text-rose-500 focus:text-rose-500 cursor-pointer"
                                     onClick={() => router.post(route("logout"))}
                                 >
-                                    <LogOut className="mr-2 h-4 w-4" />
-                                    <span>Sign Out</span>
+                                    <LogOut className="h-4 w-4" />
+                                    Sign Out
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
