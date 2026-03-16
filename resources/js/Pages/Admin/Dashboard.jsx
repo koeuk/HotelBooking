@@ -31,6 +31,20 @@ import {
     ArrowRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+    AreaChart,
+    Area,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    PieChart,
+    Pie,
+    Cell,
+} from "recharts";
 
 const StatCard = ({
     title,
@@ -125,7 +139,29 @@ const getStatusBadge = (status) => {
     }
 };
 
-export default function Dashboard({ stats, recent_bookings }) {
+const STATUS_COLORS = {
+    pending: "#f59e0b",
+    confirmed: "#10b981",
+    completed: "#3b82f6",
+    cancelled: "#ef4444",
+};
+
+const CustomTooltip = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null;
+    return (
+        <div className="bg-popover border rounded-lg shadow-lg p-3 text-sm">
+            <p className="font-bold mb-1">{label}</p>
+            {payload.map((entry, i) => (
+                <p key={i} style={{ color: entry.color }} className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                    {entry.name}: {entry.name === "Revenue" ? `$${entry.value}` : entry.value}
+                </p>
+            ))}
+        </div>
+    );
+};
+
+export default function Dashboard({ stats, recent_bookings, monthly_data = [], status_breakdown = {} }) {
     const { auth } = usePage().props;
     const time = new Date().getHours();
     const greeting =
@@ -206,6 +242,99 @@ export default function Dashboard({ stats, recent_bookings }) {
                         trendValue="Awaiting"
                         colorClass="bg-amber-500"
                     />
+                </div>
+
+                {/* Charts Section */}
+                <div className="grid gap-6 md:grid-cols-7">
+                    {/* Bookings & Revenue Chart */}
+                    <Card className="md:col-span-5 border-none shadow-lg">
+                        <CardHeader>
+                            <CardTitle className="text-xl">Booking & Revenue Overview</CardTitle>
+                            <CardDescription>Monthly bookings and revenue for the last 12 months.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[300px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={monthly_data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+                                        <defs>
+                                            <linearGradient id="colorBookings" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                                            </linearGradient>
+                                            <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                                        <XAxis dataKey="month" className="text-xs" tick={{ fontSize: 12 }} />
+                                        <YAxis yAxisId="left" className="text-xs" tick={{ fontSize: 12 }} />
+                                        <YAxis yAxisId="right" orientation="right" className="text-xs" tick={{ fontSize: 12 }} />
+                                        <Tooltip content={<CustomTooltip />} />
+                                        <Area
+                                            yAxisId="left"
+                                            type="monotone"
+                                            dataKey="bookings"
+                                            name="Bookings"
+                                            stroke="#6366f1"
+                                            strokeWidth={2}
+                                            fillOpacity={1}
+                                            fill="url(#colorBookings)"
+                                        />
+                                        <Area
+                                            yAxisId="right"
+                                            type="monotone"
+                                            dataKey="revenue"
+                                            name="Revenue"
+                                            stroke="#10b981"
+                                            strokeWidth={2}
+                                            fillOpacity={1}
+                                            fill="url(#colorRevenue)"
+                                        />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Status Breakdown */}
+                    <Card className="md:col-span-2 border-none shadow-lg">
+                        <CardHeader>
+                            <CardTitle className="text-xl">Booking Status</CardTitle>
+                            <CardDescription>Current breakdown by status.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[200px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie
+                                            data={Object.entries(status_breakdown).map(([name, value]) => ({ name, value }))}
+                                            cx="50%"
+                                            cy="50%"
+                                            innerRadius={50}
+                                            outerRadius={80}
+                                            paddingAngle={4}
+                                            dataKey="value"
+                                        >
+                                            {Object.keys(status_breakdown).map((key) => (
+                                                <Cell key={key} fill={STATUS_COLORS[key]} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 mt-4">
+                                {Object.entries(status_breakdown).map(([key, value]) => (
+                                    <div key={key} className="flex items-center gap-2">
+                                        <span className="h-3 w-3 rounded-full" style={{ backgroundColor: STATUS_COLORS[key] }} />
+                                        <span className="text-xs capitalize text-muted-foreground">{key}</span>
+                                        <span className="text-xs font-bold ml-auto">{value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 <div className="grid gap-6 md:grid-cols-7">
