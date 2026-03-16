@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
+import HotelMap from "@/components/HotelMap";
 import {
     Card,
     CardContent,
@@ -85,6 +86,26 @@ export default function HotelShow({ hotel }) {
                     <div className="h-64 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center">
                         <Hotel className="h-16 w-16 text-zinc-400" />
                     </div>
+                )}
+
+                {/* Map */}
+                {(hotel.latitude && hotel.longitude) && (
+                    <Card className="border-none shadow-sm overflow-hidden">
+                        <CardHeader className="pb-3">
+                            <CardTitle className="flex items-center gap-2 text-lg">
+                                <MapPin className="h-5 w-5 text-primary" />
+                                Location
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            <HotelMap
+                                latitude={hotel.latitude}
+                                longitude={hotel.longitude}
+                                name={hotel.name}
+                                className="h-[300px] w-full"
+                            />
+                        </CardContent>
+                    </Card>
                 )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

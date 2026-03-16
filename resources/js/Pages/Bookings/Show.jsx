@@ -19,7 +19,9 @@ import {
     BedDouble,
     DollarSign,
     MessageSquare,
+    MapPin,
 } from "lucide-react";
+import HotelMap from "@/components/HotelMap";
 
 const getStatusBadge = (status) => {
     const styles = {
@@ -102,6 +104,29 @@ export default function BookingShow({ booking }) {
                                 </div>
                             </CardContent>
                         </Card>
+
+                        {/* Hotel Location Map */}
+                        {hotel?.latitude && hotel?.longitude && (
+                            <Card className="border-none shadow-sm overflow-hidden">
+                                <CardHeader className="pb-3">
+                                    <CardTitle className="flex items-center gap-2 text-lg">
+                                        <MapPin className="h-5 w-5 text-primary" />
+                                        Hotel Location
+                                    </CardTitle>
+                                    <CardDescription>
+                                        {hotel.address && `${hotel.address}, `}{hotel.city}, {hotel.country}
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="p-0">
+                                    <HotelMap
+                                        latitude={hotel.latitude}
+                                        longitude={hotel.longitude}
+                                        name={hotel.name}
+                                        className="h-[250px] w-full"
+                                    />
+                                </CardContent>
+                            </Card>
+                        )}
 
                         {/* Dates & Price */}
                         <Card className="border-none shadow-sm">

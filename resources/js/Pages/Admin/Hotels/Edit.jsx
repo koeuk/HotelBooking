@@ -23,6 +23,8 @@ export default function Edit({ hotel }) {
         address: hotel.address || "",
         city: hotel.city || "",
         country: hotel.country || "",
+        latitude: hotel.latitude || "",
+        longitude: hotel.longitude || "",
         rating: hotel.rating || 0,
         existing_images: hotel.images || [],
         new_images: [],
@@ -125,6 +127,33 @@ export default function Edit({ hotel }) {
                                         placeholder="Country name"
                                     />
                                     {errors.country && <p className="text-sm text-destructive">{errors.country}</p>}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="latitude">Latitude</Label>
+                                    <Input
+                                        id="latitude"
+                                        type="number"
+                                        step="0.0000001"
+                                        value={data.latitude}
+                                        onChange={(e) => setData("latitude", e.target.value)}
+                                        placeholder="e.g. 13.3633"
+                                    />
+                                    {errors.latitude && <p className="text-sm text-destructive">{errors.latitude}</p>}
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="longitude">Longitude</Label>
+                                    <Input
+                                        id="longitude"
+                                        type="number"
+                                        step="0.0000001"
+                                        value={data.longitude}
+                                        onChange={(e) => setData("longitude", e.target.value)}
+                                        placeholder="e.g. 103.8563"
+                                    />
+                                    {errors.longitude && <p className="text-sm text-destructive">{errors.longitude}</p>}
                                 </div>
                             </div>
 

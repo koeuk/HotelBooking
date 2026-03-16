@@ -20,7 +20,9 @@ import {
     DollarSign,
     CreditCard,
     Loader2,
+    MapPin,
 } from "lucide-react";
+import HotelMap from "@/components/HotelMap";
 import {
     Select,
     SelectContent,
@@ -201,6 +203,24 @@ export default function Show({ booking }) {
                                 </div>
                             </CardContent>
                         </Card>
+
+                        {booking.room?.hotel?.latitude && booking.room?.hotel?.longitude && (
+                            <Card className="overflow-hidden">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <MapPin className="h-5 w-5" /> Hotel Location
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-0">
+                                    <HotelMap
+                                        latitude={booking.room.hotel.latitude}
+                                        longitude={booking.room.hotel.longitude}
+                                        name={booking.room.hotel.name}
+                                        className="h-[200px] w-full"
+                                    />
+                                </CardContent>
+                            </Card>
+                        )}
 
                         <Card>
                             <CardHeader>

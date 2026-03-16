@@ -1,5 +1,6 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, Link } from "@inertiajs/react";
+import HotelMap from "@/components/HotelMap";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -158,6 +159,25 @@ export default function Show({ hotel }) {
                                             />
                                         ))}
                                     </div>
+                                </CardContent>
+                            </Card>
+                        )}
+
+                        {/* Map */}
+                        {(hotel.latitude && hotel.longitude) && (
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <MapPin className="h-5 w-5" /> Location
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-0 pb-0">
+                                    <HotelMap
+                                        latitude={hotel.latitude}
+                                        longitude={hotel.longitude}
+                                        name={hotel.name}
+                                        className="h-[250px] w-full rounded-b-lg"
+                                    />
                                 </CardContent>
                             </Card>
                         )}
