@@ -1,5 +1,6 @@
+import { useState } from "react";
 import WebLayout from "@/Layouts/WebLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import {
     Card,
     CardContent,
@@ -10,16 +11,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
 import {
-    ArrowLeft,
-    Hotel,
-    CalendarDays,
-    CreditCard,
-    Star,
-    BedDouble,
-    DollarSign,
-    MessageSquare,
-    MapPin,
+    Dialog, DialogContent, DialogDescription, DialogFooter,
+    DialogHeader, DialogTitle, DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import {
+    ArrowLeft, Hotel, CalendarDays, CreditCard, Star, BedDouble,
+    DollarSign, MessageSquare, MapPin, XCircle, Loader2,
 } from "lucide-react";
 import HotelMap from "@/components/HotelMap";
 
@@ -38,6 +40,24 @@ const getStatusBadge = (status) => {
 };
 
 export default function BookingShow({ booking }) {
+    const [payOpen, setPayOpen] = useState(false);
+    const [payMethod, setPayMethod] = useState("card");
+    const [payProcessing, setPayProcessing] = useState(false);
+    const [cancelProcessing, setCancelProcessing] = useState(false);
+
+    const handlePay = () => {
+        setPayProcessing(true);
+        router.post(route("bookings.pay", booking.uuid), { method: payMethod }, {
+            onFinish: () => { setPayProcessing(false); setPayOpen(false); },
+        });
+    };
+
+    const handleCancel = () => {
+        setCancelProcessing(true);
+        router.post(route("bookings.cancel", booking.uuid), {}, {
+            onFinish: () => setCancelProcessing(false),
+        });
+    };
     const hotel = booking.room?.hotel;
     const roomType = booking.room?.room_type;
     const payment = booking.payment;
@@ -260,18 +280,79 @@ export default function BookingShow({ booking }) {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center py-8 text-center">
-                                        <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
-                                            <CreditCard className="h-6 w-6 text-muted-foreground" />
+                                    <div className="space-y-4">
+                                        <div className="flex flex-col items-center justify-center py-4 text-center">
+                                            <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
+                                                <CreditCard className="h-6 w-6 text-muted-foreground" />
+                                            </div>
+                                            <p className="text-muted-foreground font-medium">No payment yet</p>
                                         </div>
-                                        <p className="text-muted-foreground font-medium">No payment recorded</p>
-                                        <p className="text-sm text-muted-foreground mt-1">
-                                            Payment details will appear here once processed.
-                                        </p>
+                                        {booking.status !== "cancelled" && (
+                                            <Dialog open={payOpen} onOpenChange={setPayOpen}>
+                                                <DialogTrigger asChild>
+                                                    <Button className="w-full h-12 rounded-xl text-base">
+                                                        <CreditCard className="mr-2 h-4 w-4" /> Pay Now — ${booking.total_price}
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogHeader>
+                                                        <DialogTitle>Complete Payment</DialogTitle>
+                                                        <DialogDescription>
+                                                            Pay <strong>${booking.total_price}</strong> for your booking at {hotel?.name}.
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+                                                    <div className="space-y-4 py-4">
+                                                        <div className="space-y-2">
+                                                            <Label>Payment Method</Label>
+                                                            <Select value={payMethod} onValueChange={setPayMethod}>
+                                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="card">Credit Card</SelectItem>
+                                                                    <SelectItem value="cash">Cash</SelectItem>
+                                                                    <SelectItem value="paypal">PayPal</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        <div className="p-3 bg-muted rounded-lg flex justify-between items-center">
+                                                            <span className="font-medium">Total</span>
+                                                            <span className="text-lg font-bold text-primary">${booking.total_price}</span>
+                                                        </div>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        <Button variant="outline" onClick={() => setPayOpen(false)}>Cancel</Button>
+                                                        <Button onClick={handlePay} disabled={payProcessing}>
+                                                            {payProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                                            Confirm Payment
+                                                        </Button>
+                                                    </DialogFooter>
+                                                </DialogContent>
+                                            </Dialog>
+                                        )}
                                     </div>
                                 )}
                             </CardContent>
                         </Card>
+
+                        {/* Cancel Booking */}
+                        {booking.status === "pending" && (
+                            <Card className="border-none shadow-sm">
+                                <CardContent className="p-4">
+                                    <Button
+                                        variant="outline"
+                                        className="w-full text-destructive hover:text-destructive hover:bg-destructive/5"
+                                        onClick={handleCancel}
+                                        disabled={cancelProcessing}
+                                    >
+                                        {cancelProcessing ? (
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        ) : (
+                                            <XCircle className="mr-2 h-4 w-4" />
+                                        )}
+                                        Cancel Booking
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        )}
                     </div>
                 </div>
             </div>

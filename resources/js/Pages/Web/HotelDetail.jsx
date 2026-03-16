@@ -114,7 +114,7 @@ export default function HotelDetail({ hotel }) {
                                 <div className="mt-6 p-4 bg-primary/5 rounded-xl text-center">
                                     {auth?.user ? (
                                         <Button size="lg" className="rounded-xl" asChild>
-                                            <Link href={route("dashboard")}>Book Now</Link>
+                                            <Link href={route("bookings.create", hotel.uuid)}>Book Now</Link>
                                         </Button>
                                     ) : (
                                         <div>
