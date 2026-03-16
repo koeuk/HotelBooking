@@ -24,7 +24,7 @@ class BookingController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Bookings/Create', [
-            'users' => User::where('role', 'guest')->get(['id', 'name', 'email']),
+            'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
             'rooms' => Room::with(['hotel', 'roomType'])
                 ->where('status', 'available')
                 ->get(),
@@ -83,7 +83,7 @@ class BookingController extends Controller
         $booking->load(['user', 'room.hotel', 'room.roomType']);
         return Inertia::render('Admin/Bookings/Edit', [
             'booking' => $booking,
-            'users' => User::where('role', 'guest')->get(['id', 'name', 'email']),
+            'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
             'rooms' => Room::with(['hotel', 'roomType'])->get(),
         ]);
     }

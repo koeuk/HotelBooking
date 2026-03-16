@@ -35,7 +35,7 @@ class SocialAuthApiController extends Controller
                 'email' => $socialUser->getEmail(),
                 'google_id' => $socialUser->getId(),
                 'avatar' => $socialUser->getAvatar(),
-                'role' => 'guest',
+                'role' => 'user',
             ]);
         } elseif (!$user->google_id) {
             $user->update(['google_id' => $socialUser->getId()]);
@@ -85,7 +85,7 @@ class SocialAuthApiController extends Controller
                 'email' => $socialUser->getEmail(),
                 'facebook_id' => $socialUser->getId(),
                 'avatar' => $socialUser->getAvatar(),
-                'role' => 'guest',
+                'role' => 'user',
             ]);
         } elseif (!$user->facebook_id) {
             $user->update(['facebook_id' => $socialUser->getId()]);

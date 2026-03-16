@@ -21,7 +21,7 @@ class ReviewController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Reviews/Create', [
-            'users' => User::where('role', 'guest')->get(['id', 'name', 'email']),
+            'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
             'hotels' => Hotel::all(['id', 'name']),
             'bookings' => Booking::with('user')->whereDoesntHave('review')->get(['id', 'user_id', 'room_id']),
         ]);
@@ -55,7 +55,7 @@ class ReviewController extends Controller
         $review->load(['user', 'hotel', 'booking']);
         return Inertia::render('Admin/Reviews/Edit', [
             'review' => $review,
-            'users' => User::where('role', 'guest')->get(['id', 'name', 'email']),
+            'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
             'hotels' => Hotel::all(['id', 'name']),
         ]);
     }

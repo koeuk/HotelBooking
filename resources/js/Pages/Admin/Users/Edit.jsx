@@ -29,7 +29,7 @@ export default function Edit({ user }) {
         name: user.name || "",
         email: user.email || "",
         phone: user.phone || "",
-        role: user.role || "guest",
+        role: user.role || "user",
         password: "",
         password_confirmation: "",
         avatar: null,
@@ -139,7 +139,7 @@ export default function Edit({ user }) {
                                             <SelectValue placeholder="Select role" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="guest">Guest</SelectItem>
+                                            <SelectItem value="user">User</SelectItem>
                                             <SelectItem value="admin">Admin</SelectItem>
                                         </SelectContent>
                                     </Select>

@@ -28,7 +28,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'phone' => 'nullable|string|max:20',
-            'role' => 'required|in:guest,admin',
+            'role' => 'required|in:user,admin',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'avatar' => 'nullable|image|max:2048',
         ]);
@@ -71,7 +71,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class.',email,'.$user->id,
             'phone' => 'nullable|string|max:20',
-            'role' => 'required|in:guest,admin',
+            'role' => 'required|in:user,admin',
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'avatar' => 'nullable|image|max:2048',
         ]);

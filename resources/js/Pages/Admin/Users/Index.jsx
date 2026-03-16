@@ -1,5 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm, router } from "@inertiajs/react";
 import {
     Table,
     TableBody,
@@ -19,6 +19,13 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Plus,
@@ -101,17 +108,35 @@ export default function Index({ users, auth }) {
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.phone || "-"}</TableCell>
                                     <TableCell>
-                                        {user.role === "admin" ? (
-                                            <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20">
-                                                <ShieldCheck className="w-3 h-3 mr-1" />{" "}
-                                                Admin
-                                            </Badge>
-                                        ) : (
-                                            <Badge variant="secondary">
-                                                <UserIcon className="w-3 h-3 mr-1" />{" "}
-                                                Guest
-                                            </Badge>
-                                        )}
+                                        <Select
+                                            defaultValue={user.role}
+                                            onValueChange={(v) => {
+                                                router.patch(route("admin.users.update", user.uuid), {
+                                                    name: user.name,
+                                                    email: user.email,
+                                                    role: v,
+                                                }, {
+                                                    preserveScroll: true,
+                                                });
+                                            }}
+                                            disabled={user.id === auth.user.id}
+                                        >
+                                            <SelectTrigger className="w-[110px] h-8 text-xs">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="admin">
+                                                    <span className="flex items-center gap-1.5">
+                                                        <ShieldCheck className="w-3 h-3" /> Admin
+                                                    </span>
+                                                </SelectItem>
+                                                <SelectItem value="user">
+                                                    <span className="flex items-center gap-1.5">
+                                                        <UserIcon className="w-3 h-3" /> User
+                                                    </span>
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
                                         <Button

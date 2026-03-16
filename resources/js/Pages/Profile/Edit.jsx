@@ -41,7 +41,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                         {user.role === "admin" ? (
                                             <><Shield className="h-3 w-3 mr-1" /> Admin</>
                                         ) : (
-                                            <><User className="h-3 w-3 mr-1" /> Guest</>
+                                            <><User className="h-3 w-3 mr-1" /> User</>
                                         )}
                                     </Badge>
                                     {user.phone && (

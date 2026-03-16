@@ -28,7 +28,7 @@ export default function Create() {
         name: "",
         email: "",
         phone: "",
-        role: "guest",
+        role: "user",
         password: "",
         password_confirmation: "",
         avatar: null,
@@ -134,7 +134,7 @@ export default function Create() {
                                             <SelectValue placeholder="Select role" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="guest">Guest</SelectItem>
+                                            <SelectItem value="user">User</SelectItem>
                                             <SelectItem value="admin">Admin</SelectItem>
                                         </SelectContent>
                                     </Select>

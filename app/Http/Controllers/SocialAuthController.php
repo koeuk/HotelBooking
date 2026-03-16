@@ -61,7 +61,7 @@ class SocialAuthController extends Controller
                 'password' => null, // Social user might not have password
                 $provider . '_id' => $socialUser->getId(),
                 'avatar' => $socialUser->getAvatar(),
-                'role' => 'guest',
+                'role' => 'user',
             ]);
         }
 

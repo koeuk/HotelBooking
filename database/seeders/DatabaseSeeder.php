@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Demo Guest',
             'email' => 'koeuk@gmail.com',
             'password' => Hash::make('password'),
-            'role' => 'guest',
+            'role' => 'user',
         ]);
 
         // 3. Create Amenities
@@ -72,7 +72,7 @@ class DatabaseSeeder extends Seeder
 
         // 6. Create 10 Bookings with Users and Payments
         $rooms = Room::all();
-        $guests = User::factory(10)->create(['role' => 'guest']);
+        $guests = User::factory(10)->create(['role' => 'user']);
 
         foreach ($guests as $guest) {
             $room = $rooms->random();
