@@ -218,14 +218,23 @@ export default function AdminLayout({ children }) {
                         </AvatarFallback>
                     </Avatar>
                     {!isCollapsed && (
-                        <div className="flex-1 overflow-hidden">
-                            <p className="text-xs font-bold text-white truncate">
-                                {auth.user.name}
-                            </p>
-                            <p className="text-[10px] text-zinc-500 truncate">
-                                {auth.user.role}
-                            </p>
-                        </div>
+                        <>
+                            <div className="flex-1 overflow-hidden">
+                                <p className="text-xs font-bold text-white truncate">
+                                    {auth.user.name}
+                                </p>
+                                <p className="text-[10px] text-zinc-500 truncate">
+                                    {auth.user.role}
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => router.post(route("logout"))}
+                                className="p-1.5 rounded-lg hover:bg-zinc-800 text-zinc-500 hover:text-rose-400 transition-colors"
+                                title="Sign Out"
+                            >
+                                <LogOut className="h-4 w-4" />
+                            </button>
+                        </>
                     )}
                 </div>
             </div>
