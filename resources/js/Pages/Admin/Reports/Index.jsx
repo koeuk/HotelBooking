@@ -1,5 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,16 +9,22 @@ import {
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
+import {
+    DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     BarChart3, CalendarCheck, DollarSign, Users, Star, Hotel,
-    TrendingDown, Ban, Clock, Eye, CreditCard,
+    TrendingDown, Ban, CreditCard, Download, FileText, FileSpreadsheet,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { exportPDF, exportExcel } from "@/lib/exportUtils";
 import {
     AreaChart, Area, BarChart, Bar, LineChart, Line,
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
+
+const periodLabels = { weekly: "Weekly", monthly: "Monthly", yearly: "Yearly" };
 
 const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null;
@@ -63,12 +69,126 @@ const SummaryCard = ({ title, value, icon: Icon, color }) => (
     </Card>
 );
 
+const ExportButton = ({ onPDF, onExcel }) => (
+    <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-1" /> Export
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+            <DropdownMenuGroup>
+                <DropdownMenuItem className="cursor-pointer" onClick={onPDF}>
+                    <FileText className="h-4 w-4" /> PDF
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer" onClick={onExcel}>
+                    <FileSpreadsheet className="h-4 w-4" /> Excel
+                </DropdownMenuItem>
+            </DropdownMenuGroup>
+        </DropdownMenuContent>
+    </DropdownMenu>
+);
+
 export default function Index({
     reportData, period, year, availableYears, summary,
     top_hotels, recent_bookings, recent_users, recent_reviews, top_payments,
 }) {
     const changePeriod = (p) => router.get(route("admin.reports.index"), { period: p, year }, { preserveState: true });
     const changeYear = (y) => router.get(route("admin.reports.index"), { period, year: y }, { preserveState: true });
+    const sub = `${periodLabels[period]} Report${period !== "yearly" ? ` — ${year}` : ""}`;
+
+    // ── Export Handlers ──
+
+    const exportChartData = (format) => {
+        const cols = ["Period", "Bookings", "Revenue ($)", "Users", "Reviews", "Hotels", "Cancelled"];
+        const rows = reportData.map((d) => [d.label, d.bookings, d.revenue, d.users, d.reviews, d.hotels, d.cancelled]);
+        if (format === "pdf") exportPDF("Overview Report", cols, rows, `overview-report-${period}`, { subtitle: sub, landscape: true });
+        else exportExcel("Overview", cols, rows, `overview-report-${period}`);
+    };
+
+    const exportBookings = (format) => {
+        const cols = ["Guest", "Email", "Hotel", "Room", "Check In", "Check Out", "Total ($)", "Status"];
+        const rows = recent_bookings.map((b) => [
+            b.user?.name, b.user?.email, b.room?.hotel?.name,
+            b.room?.room_type?.name || b.room?.room_number,
+            b.check_in_date, b.check_out_date, b.total_price, b.status,
+        ]);
+        if (format === "pdf") exportPDF("Bookings Report", cols, rows, "bookings-report", { subtitle: sub, landscape: true });
+        else exportExcel("Bookings", cols, rows, "bookings-report");
+    };
+
+    const exportHotels = (format) => {
+        const cols = ["Hotel", "City", "Country", "Rooms", "Reviews", "Avg Rating"];
+        const rows = top_hotels.map((h) => [
+            h.name, h.city, h.country, h.rooms_count, h.reviews_count,
+            h.reviews_avg_rating ? Number(h.reviews_avg_rating).toFixed(1) : "—",
+        ]);
+        if (format === "pdf") exportPDF("Hotels Report", cols, rows, "hotels-report", { subtitle: sub });
+        else exportExcel("Hotels", cols, rows, "hotels-report");
+    };
+
+    const exportUsers = (format) => {
+        const cols = ["Name", "Email", "Role", "Bookings", "Joined"];
+        const rows = recent_users.map((u) => [
+            u.name, u.email, u.role, u.bookings_count,
+            new Date(u.created_at).toLocaleDateString(),
+        ]);
+        if (format === "pdf") exportPDF("Users Report", cols, rows, "users-report", { subtitle: sub });
+        else exportExcel("Users", cols, rows, "users-report");
+    };
+
+    const exportReviews = (format) => {
+        const cols = ["Hotel", "Guest", "Rating", "Comment", "Date"];
+        const rows = recent_reviews.map((r) => [
+            r.hotel?.name, r.user?.name, `${r.rating}/5`,
+            r.comment ? r.comment.substring(0, 80) : "—",
+            new Date(r.created_at).toLocaleDateString(),
+        ]);
+        if (format === "pdf") exportPDF("Reviews Report", cols, rows, "reviews-report", { subtitle: sub });
+        else exportExcel("Reviews", cols, rows, "reviews-report");
+    };
+
+    const exportPayments = (format) => {
+        const cols = ["Transaction ID", "Guest", "Hotel", "Amount ($)", "Method", "Status", "Paid At"];
+        const rows = top_payments.map((p) => [
+            p.transaction_id || "—", p.booking?.user?.name, p.booking?.room?.hotel?.name,
+            p.amount, p.method, p.status, p.paid_at || "—",
+        ]);
+        if (format === "pdf") exportPDF("Payments Report", cols, rows, "payments-report", { subtitle: sub, landscape: true });
+        else exportExcel("Payments", cols, rows, "payments-report");
+    };
+
+    const exportAll = (format) => {
+        if (format === "excel") {
+            // Multi-sheet Excel
+            const XLSX = require("xlsx");
+            const wb = XLSX.utils.book_new();
+
+            const addSheet = (name, cols, rows) => {
+                const ws = XLSX.utils.aoa_to_sheet([cols, ...rows]);
+                XLSX.utils.book_append_sheet(wb, ws, name.substring(0, 31));
+            };
+
+            addSheet("Overview", ["Period", "Bookings", "Revenue", "Users", "Reviews", "Hotels", "Cancelled"],
+                reportData.map((d) => [d.label, d.bookings, d.revenue, d.users, d.reviews, d.hotels, d.cancelled]));
+            addSheet("Bookings", ["Guest", "Email", "Hotel", "Total", "Status"],
+                recent_bookings.map((b) => [b.user?.name, b.user?.email, b.room?.hotel?.name, b.total_price, b.status]));
+            addSheet("Hotels", ["Hotel", "City", "Country", "Rooms", "Reviews", "Rating"],
+                top_hotels.map((h) => [h.name, h.city, h.country, h.rooms_count, h.reviews_count, h.reviews_avg_rating ? Number(h.reviews_avg_rating).toFixed(1) : "—"]));
+            addSheet("Users", ["Name", "Email", "Role", "Bookings"],
+                recent_users.map((u) => [u.name, u.email, u.role, u.bookings_count]));
+            addSheet("Reviews", ["Hotel", "Guest", "Rating", "Date"],
+                recent_reviews.map((r) => [r.hotel?.name, r.user?.name, r.rating, new Date(r.created_at).toLocaleDateString()]));
+            addSheet("Payments", ["Transaction", "Guest", "Hotel", "Amount", "Method", "Status"],
+                top_payments.map((p) => [p.transaction_id, p.booking?.user?.name, p.booking?.room?.hotel?.name, p.amount, p.method, p.status]));
+
+            const { saveAs } = require("file-saver");
+            const buf = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+            saveAs(new Blob([buf], { type: "application/octet-stream" }), `full-report-${period}-${year}.xlsx`);
+        } else {
+            exportChartData("pdf");
+        }
+    };
 
     return (
         <AdminLayout>
@@ -110,6 +230,11 @@ export default function Index({
                                 </SelectContent>
                             </Select>
                         )}
+                        {/* Export All */}
+                        <ExportButton
+                            onPDF={() => exportAll("pdf")}
+                            onExcel={() => exportAll("excel")}
+                        />
                     </div>
                 </div>
 
@@ -124,8 +249,12 @@ export default function Index({
                 {/* ── Bookings & Revenue ── */}
                 <div className="grid gap-6 md:grid-cols-7">
                     <Card className="md:col-span-4 border-none shadow-sm">
-                        <CardHeader>
+                        <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle>Bookings & Revenue</CardTitle>
+                            <ExportButton
+                                onPDF={() => exportChartData("pdf")}
+                                onExcel={() => exportChartData("excel")}
+                            />
                         </CardHeader>
                         <CardContent>
                             <div className="h-[300px]">
@@ -155,13 +284,13 @@ export default function Index({
                         </CardContent>
                     </Card>
 
-                    {/* Recent Bookings List */}
                     <Card className="md:col-span-3 border-none shadow-sm">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="text-lg">Recent Bookings</CardTitle>
-                            <Button variant="ghost" size="sm" onClick={() => router.get(route("admin.bookings.index"))}>
-                                View all
-                            </Button>
+                            <ExportButton
+                                onPDF={() => exportBookings("pdf")}
+                                onExcel={() => exportBookings("excel")}
+                            />
                         </CardHeader>
                         <CardContent className="p-0">
                             <Table>
@@ -194,7 +323,7 @@ export default function Index({
                 {/* ── Hotels ── */}
                 <div className="grid gap-6 md:grid-cols-7">
                     <Card className="md:col-span-4 border-none shadow-sm">
-                        <CardHeader>
+                        <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="flex items-center gap-2">
                                 <Hotel className="h-5 w-5 text-emerald-500" /> Hotels Growth
                             </CardTitle>
@@ -223,9 +352,10 @@ export default function Index({
                     <Card className="md:col-span-3 border-none shadow-sm">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="text-lg">Top Rated Hotels</CardTitle>
-                            <Button variant="ghost" size="sm" onClick={() => router.get(route("admin.hotels.index"))}>
-                                View all
-                            </Button>
+                            <ExportButton
+                                onPDF={() => exportHotels("pdf")}
+                                onExcel={() => exportHotels("excel")}
+                            />
                         </CardHeader>
                         <CardContent className="p-0">
                             <Table>
@@ -262,12 +392,15 @@ export default function Index({
 
                 {/* ── Users & Reviews ── */}
                 <div className="grid gap-6 md:grid-cols-2">
-                    {/* Users */}
                     <Card className="border-none shadow-sm">
-                        <CardHeader>
+                        <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="flex items-center gap-2">
                                 <Users className="h-5 w-5 text-blue-500" /> User Registrations
                             </CardTitle>
+                            <ExportButton
+                                onPDF={() => exportUsers("pdf")}
+                                onExcel={() => exportUsers("excel")}
+                            />
                         </CardHeader>
                         <CardContent>
                             <div className="h-[200px]">
@@ -281,7 +414,6 @@ export default function Index({
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
-                            {/* Recent Users List */}
                             <div className="mt-4 pt-4 border-t">
                                 <p className="text-sm font-semibold mb-3">Latest Users</p>
                                 <div className="space-y-3">
@@ -304,12 +436,15 @@ export default function Index({
                         </CardContent>
                     </Card>
 
-                    {/* Reviews */}
                     <Card className="border-none shadow-sm">
-                        <CardHeader>
+                        <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="flex items-center gap-2">
                                 <Star className="h-5 w-5 text-yellow-500" /> Reviews
                             </CardTitle>
+                            <ExportButton
+                                onPDF={() => exportReviews("pdf")}
+                                onExcel={() => exportReviews("excel")}
+                            />
                         </CardHeader>
                         <CardContent>
                             <div className="h-[200px]">
@@ -323,7 +458,6 @@ export default function Index({
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
-                            {/* Recent Reviews List */}
                             <div className="mt-4 pt-4 border-t">
                                 <p className="text-sm font-semibold mb-3">Latest Reviews</p>
                                 <div className="space-y-3">
@@ -351,7 +485,6 @@ export default function Index({
 
                 {/* ── Payments & Cancellations ── */}
                 <div className="grid gap-6 md:grid-cols-7">
-                    {/* Cancellations Chart */}
                     <Card className="md:col-span-4 border-none shadow-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
@@ -373,15 +506,15 @@ export default function Index({
                         </CardContent>
                     </Card>
 
-                    {/* Top Payments */}
                     <Card className="md:col-span-3 border-none shadow-sm">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="text-lg flex items-center gap-2">
                                 <CreditCard className="h-5 w-5 text-emerald-500" /> Top Payments
                             </CardTitle>
-                            <Button variant="ghost" size="sm" onClick={() => router.get(route("admin.payments.index"))}>
-                                View all
-                            </Button>
+                            <ExportButton
+                                onPDF={() => exportPayments("pdf")}
+                                onExcel={() => exportPayments("excel")}
+                            />
                         </CardHeader>
                         <CardContent className="p-0">
                             <Table>
