@@ -71,29 +71,28 @@ export default function Create({ hotels, roomTypes }) {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="hotel_id">Hotel</Label>
-                                    <Select
-                                        onValueChange={(v) => {
+                                    <select
+                                        id="hotel_id"
+                                        value={data.hotel_id}
+                                        onChange={(e) => {
                                             setData((d) => ({
                                                 ...d,
-                                                hotel_id: v,
+                                                hotel_id: e.target.value,
                                                 room_type_id: "",
                                             }));
                                         }}
+                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                     >
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select a hotel" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {hotels.map((hotel) => (
-                                                <SelectItem
-                                                    key={hotel.id}
-                                                    value={hotel.id.toString()}
-                                                >
-                                                    {hotel.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                        <option value="">Select a hotel</option>
+                                        {hotels.map((hotel) => (
+                                            <option
+                                                key={hotel.id}
+                                                value={hotel.id.toString()}
+                                            >
+                                                {hotel.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                     {errors.hotel_id && (
                                         <p className="text-sm text-destructive">
                                             {errors.hotel_id}
@@ -105,33 +104,29 @@ export default function Create({ hotels, roomTypes }) {
                                     <Label htmlFor="room_type_id">
                                         Room Type
                                     </Label>
-                                    <Select
+                                    <select
+                                        id="room_type_id"
                                         disabled={!data.hotel_id}
                                         value={data.room_type_id}
-                                        onValueChange={(v) =>
-                                            setData("room_type_id", v)
+                                        onChange={(e) =>
+                                            setData("room_type_id", e.target.value)
                                         }
+                                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50"
                                     >
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={
-                                                    data.hotel_id
-                                                        ? "Select a type"
-                                                        : "Select hotel first"
-                                                }
-                                            />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {filteredRoomTypes.map((type) => (
-                                                <SelectItem
-                                                    key={type.id}
-                                                    value={type.id.toString()}
-                                                >
-                                                    {type.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                        <option value="">
+                                            {data.hotel_id
+                                                ? "Select a type"
+                                                : "Select hotel first"}
+                                        </option>
+                                        {filteredRoomTypes.map((type) => (
+                                            <option
+                                                key={type.id}
+                                                value={type.id.toString()}
+                                            >
+                                                {type.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                     {errors.room_type_id && (
                                         <p className="text-sm text-destructive">
                                             {errors.room_type_id}

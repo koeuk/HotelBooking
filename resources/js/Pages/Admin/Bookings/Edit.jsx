@@ -76,26 +76,24 @@ export default function Edit({ booking, users, rooms }) {
                         <form onSubmit={submit} className="space-y-6">
                             <div className="space-y-2">
                                 <Label htmlFor="user_id">Guest</Label>
-                                <Select
+                                <select
+                                    id="user_id"
                                     value={data.user_id}
-                                    onValueChange={(v) =>
-                                        setData("user_id", v)
+                                    onChange={(e) =>
+                                        setData("user_id", e.target.value)
                                     }
+                                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                 >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a guest" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {users.map((user) => (
-                                            <SelectItem
-                                                key={user.id}
-                                                value={String(user.id)}
-                                            >
-                                                {user.name} ({user.email})
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                    <option value="">Select a guest</option>
+                                    {users.map((user) => (
+                                        <option
+                                            key={user.id}
+                                            value={String(user.id)}
+                                        >
+                                            {user.name} ({user.email})
+                                        </option>
+                                    ))}
+                                </select>
                                 {errors.user_id && (
                                     <p className="text-sm text-destructive">
                                         {errors.user_id}
@@ -105,29 +103,24 @@ export default function Edit({ booking, users, rooms }) {
 
                             <div className="space-y-2">
                                 <Label htmlFor="room_id">Room</Label>
-                                <Select
+                                <select
+                                    id="room_id"
                                     value={data.room_id}
-                                    onValueChange={(v) =>
-                                        setData("room_id", v)
+                                    onChange={(e) =>
+                                        setData("room_id", e.target.value)
                                     }
+                                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                 >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a room" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {rooms.map((room) => (
-                                            <SelectItem
-                                                key={room.id}
-                                                value={String(room.id)}
-                                            >
-                                                {room.hotel.name} -{" "}
-                                                {room.room_type.name} (#{room.room_number}) - $
-                                                {room.room_type.price_per_night}
-                                                /night
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                    <option value="">Select a room</option>
+                                    {rooms.map((room) => (
+                                        <option
+                                            key={room.id}
+                                            value={String(room.id)}
+                                        >
+                                            {room.hotel.name} - {room.room_type.name} (#{room.room_number}) - ${room.room_type.price_per_night}/night
+                                        </option>
+                                    ))}
+                                </select>
                                 {errors.room_id && (
                                     <p className="text-sm text-destructive">
                                         {errors.room_id}

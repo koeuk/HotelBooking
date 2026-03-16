@@ -75,27 +75,24 @@ export default function Create({ bookings }) {
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="booking_id">Booking</Label>
-                                <Select
+                                <select
+                                    id="booking_id"
                                     value={data.booking_id}
-                                    onValueChange={handleBookingChange}
+                                    onChange={(e) =>
+                                        handleBookingChange(e.target.value)
+                                    }
+                                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                 >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a booking" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {bookings.map((booking) => (
-                                            <SelectItem
-                                                key={booking.id}
-                                                value={String(booking.id)}
-                                            >
-                                                #{booking.id} -{" "}
-                                                {booking.user.name} -{" "}
-                                                {booking.room?.hotel?.name ||
-                                                    "N/A"}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                    <option value="">Select a booking</option>
+                                    {bookings.map((booking) => (
+                                        <option
+                                            key={booking.id}
+                                            value={String(booking.id)}
+                                        >
+                                            #{booking.id} - {booking.user.name} - {booking.room?.hotel?.name || "N/A"}
+                                        </option>
+                                    ))}
+                                </select>
                                 {errors.booking_id && (
                                     <p className="text-sm text-destructive">
                                         {errors.booking_id}

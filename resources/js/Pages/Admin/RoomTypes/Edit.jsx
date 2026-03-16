@@ -12,13 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
 import ImageUploader from "@/components/ImageUploader";
 
@@ -64,18 +57,19 @@ export default function Edit({ roomType, hotels }) {
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="hotel_id">Hotel</Label>
-                                <Select defaultValue={data.hotel_id} onValueChange={(v) => setData("hotel_id", v)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a hotel" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {hotels.map((hotel) => (
-                                            <SelectItem key={hotel.id} value={hotel.id.toString()}>
-                                                {hotel.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <select
+                                    id="hotel_id"
+                                    value={data.hotel_id}
+                                    onChange={(e) => setData("hotel_id", e.target.value)}
+                                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                                >
+                                    <option value="">Select a hotel</option>
+                                    {hotels.map((hotel) => (
+                                        <option key={hotel.id} value={hotel.id.toString()}>
+                                            {hotel.name}
+                                        </option>
+                                    ))}
+                                </select>
                                 {errors.hotel_id && <p className="text-sm text-destructive">{errors.hotel_id}</p>}
                             </div>
 
