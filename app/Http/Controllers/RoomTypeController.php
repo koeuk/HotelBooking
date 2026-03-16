@@ -31,9 +31,22 @@ class RoomTypeController extends Controller
             'description' => 'nullable|string',
             'max_guests' => 'required|integer|min:1',
             'price_per_night' => 'required|numeric|min:0',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|url',
+            'existing_images' => 'nullable|array',
+            'existing_images.*' => 'nullable|string',
+            'new_images' => 'nullable|array',
+            'new_images.*' => 'nullable|image|max:2048',
         ]);
+
+        $images = $validated['existing_images'] ?? [];
+
+        if ($request->hasFile('new_images')) {
+            foreach ($request->file('new_images') as $file) {
+                $images[] = '/storage/' . $file->store('room-types', 'public');
+            }
+        }
+
+        $validated['images'] = array_values(array_filter($images));
+        unset($validated['existing_images'], $validated['new_images']);
 
         RoomType::create($validated);
 
@@ -64,9 +77,22 @@ class RoomTypeController extends Controller
             'description' => 'nullable|string',
             'max_guests' => 'required|integer|min:1',
             'price_per_night' => 'required|numeric|min:0',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|url',
+            'existing_images' => 'nullable|array',
+            'existing_images.*' => 'nullable|string',
+            'new_images' => 'nullable|array',
+            'new_images.*' => 'nullable|image|max:2048',
         ]);
+
+        $images = $validated['existing_images'] ?? [];
+
+        if ($request->hasFile('new_images')) {
+            foreach ($request->file('new_images') as $file) {
+                $images[] = '/storage/' . $file->store('room-types', 'public');
+            }
+        }
+
+        $validated['images'] = array_values(array_filter($images));
+        unset($validated['existing_images'], $validated['new_images']);
 
         $roomType->update($validated);
 

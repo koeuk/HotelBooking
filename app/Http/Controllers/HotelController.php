@@ -30,9 +30,22 @@ class HotelController extends Controller
             'city' => 'required|string',
             'country' => 'required|string',
             'rating' => 'nullable|numeric|min:0|max:5',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|url',
+            'existing_images' => 'nullable|array',
+            'existing_images.*' => 'nullable|string',
+            'new_images' => 'nullable|array',
+            'new_images.*' => 'nullable|image|max:2048',
         ]);
+
+        $images = $validated['existing_images'] ?? [];
+
+        if ($request->hasFile('new_images')) {
+            foreach ($request->file('new_images') as $file) {
+                $images[] = '/storage/' . $file->store('hotels', 'public');
+            }
+        }
+
+        $validated['images'] = array_values(array_filter($images));
+        unset($validated['existing_images'], $validated['new_images']);
 
         Hotel::create($validated);
 
@@ -63,9 +76,22 @@ class HotelController extends Controller
             'city' => 'required|string',
             'country' => 'required|string',
             'rating' => 'nullable|numeric|min:0|max:5',
-            'images' => 'nullable|array',
-            'images.*' => 'nullable|url',
+            'existing_images' => 'nullable|array',
+            'existing_images.*' => 'nullable|string',
+            'new_images' => 'nullable|array',
+            'new_images.*' => 'nullable|image|max:2048',
         ]);
+
+        $images = $validated['existing_images'] ?? [];
+
+        if ($request->hasFile('new_images')) {
+            foreach ($request->file('new_images') as $file) {
+                $images[] = '/storage/' . $file->store('hotels', 'public');
+            }
+        }
+
+        $validated['images'] = array_values(array_filter($images));
+        unset($validated['existing_images'], $validated['new_images']);
 
         $hotel->update($validated);
 

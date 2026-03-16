@@ -19,7 +19,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { ChevronLeft, Plus, X } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
+import ImageUploader from "@/components/ImageUploader";
 
 export default function Create({ hotels }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -28,26 +29,13 @@ export default function Create({ hotels }) {
         description: "",
         max_guests: 1,
         price_per_night: 0,
-        images: [],
+        existing_images: [],
+        new_images: [],
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.room-types.store"));
-    };
-
-    const addImage = () => {
-        const url = prompt("Enter image URL");
-        if (url) {
-            setData("images", [...data.images, url]);
-        }
-    };
-
-    const removeImage = (index) => {
-        setData(
-            "images",
-            data.images.filter((_, i) => i !== index),
-        );
+        post(route("admin.room-types.store"), { forceFormData: true });
     };
 
     return (
@@ -61,46 +49,31 @@ export default function Create({ hotels }) {
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
-                    <h2 className="text-3xl font-bold tracking-tight">
-                        Add Room Type
-                    </h2>
+                    <h2 className="text-3xl font-bold tracking-tight">Add Room Type</h2>
                 </div>
 
                 <form onSubmit={submit}>
                     <Card>
                         <CardHeader>
                             <CardTitle>Room Type Details</CardTitle>
-                            <CardDescription>
-                                Set up a new category of room for booking.
-                            </CardDescription>
+                            <CardDescription>Set up a new category of room for booking.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="hotel_id">Hotel</Label>
-                                <Select
-                                    onValueChange={(v) =>
-                                        setData("hotel_id", v)
-                                    }
-                                >
+                                <Select onValueChange={(v) => setData("hotel_id", v)}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a hotel" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {hotels.map((hotel) => (
-                                            <SelectItem
-                                                key={hotel.id}
-                                                value={hotel.id.toString()}
-                                            >
+                                            <SelectItem key={hotel.id} value={hotel.id.toString()}>
                                                 {hotel.name}
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
                                 </Select>
-                                {errors.hotel_id && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.hotel_id}
-                                    </p>
-                                )}
+                                {errors.hotel_id && <p className="text-sm text-destructive">{errors.hotel_id}</p>}
                             </div>
 
                             <div className="space-y-2">
@@ -108,16 +81,10 @@ export default function Create({ hotels }) {
                                 <Input
                                     id="name"
                                     value={data.name}
-                                    onChange={(e) =>
-                                        setData("name", e.target.value)
-                                    }
+                                    onChange={(e) => setData("name", e.target.value)}
                                     placeholder="e.g. Deluxe Double Sea View"
                                 />
-                                {errors.name && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.name}
-                                    </p>
-                                )}
+                                {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
                             </div>
 
                             <div className="space-y-2">
@@ -125,115 +92,50 @@ export default function Create({ hotels }) {
                                 <Textarea
                                     id="description"
                                     value={data.description}
-                                    onChange={(e) =>
-                                        setData("description", e.target.value)
-                                    }
+                                    onChange={(e) => setData("description", e.target.value)}
                                     placeholder="Describe the room features, amenities, etc."
                                     rows={4}
                                 />
-                                {errors.description && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.description}
-                                    </p>
-                                )}
+                                {errors.description && <p className="text-sm text-destructive">{errors.description}</p>}
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="max_guests">
-                                        Max Guests
-                                    </Label>
+                                    <Label htmlFor="max_guests">Max Guests</Label>
                                     <Input
                                         id="max_guests"
                                         type="number"
                                         min="1"
                                         value={data.max_guests}
-                                        onChange={(e) =>
-                                            setData(
-                                                "max_guests",
-                                                e.target.value,
-                                            )
-                                        }
+                                        onChange={(e) => setData("max_guests", e.target.value)}
                                     />
-                                    {errors.max_guests && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.max_guests}
-                                        </p>
-                                    )}
+                                    {errors.max_guests && <p className="text-sm text-destructive">{errors.max_guests}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="price_per_night">
-                                        Price Per Night ($)
-                                    </Label>
+                                    <Label htmlFor="price_per_night">Price Per Night ($)</Label>
                                     <Input
                                         id="price_per_night"
                                         type="number"
                                         step="0.01"
                                         min="0"
                                         value={data.price_per_night}
-                                        onChange={(e) =>
-                                            setData(
-                                                "price_per_night",
-                                                e.target.value,
-                                            )
-                                        }
+                                        onChange={(e) => setData("price_per_night", e.target.value)}
                                     />
-                                    {errors.price_per_night && (
-                                        <p className="text-sm text-destructive">
-                                            {errors.price_per_night}
-                                        </p>
-                                    )}
+                                    {errors.price_per_night && <p className="text-sm text-destructive">{errors.price_per_night}</p>}
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <Label>Images</Label>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="sm"
-                                        onClick={addImage}
-                                    >
-                                        <Plus className="h-4 w-4 mr-2" /> Add
-                                        image URL
-                                    </Button>
-                                </div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {data.images.map((url, index) => (
-                                        <div
-                                            key={index}
-                                            className="relative group aspect-video"
-                                        >
-                                            <img
-                                                src={url}
-                                                alt={`Room ${index + 1}`}
-                                                className="w-full h-full object-cover rounded-md border"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    removeImage(index)
-                                                }
-                                                className="absolute top-1 right-1 bg-destructive text-destructive-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                                            >
-                                                <X className="h-3 w-3" />
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                                {errors.images && (
-                                    <p className="text-sm text-destructive">
-                                        {errors.images}
-                                    </p>
-                                )}
-                            </div>
+                            <ImageUploader
+                                existingImages={data.existing_images}
+                                onExistingChange={(imgs) => setData("existing_images", imgs)}
+                                newFiles={data.new_images}
+                                onFilesChange={(files) => setData("new_images", files)}
+                                errors={errors.images || errors.new_images}
+                            />
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.room-types.index")}>
-                                    Cancel
-                                </Link>
+                                <Link href={route("admin.room-types.index")}>Cancel</Link>
                             </Button>
                             <Button type="submit" disabled={processing}>
                                 {processing ? "Saving..." : "Create Room Type"}
