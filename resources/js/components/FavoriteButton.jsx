@@ -2,7 +2,7 @@ import { router, usePage } from "@inertiajs/react";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function FavoriteButton({ hotelId, className = "" }) {
+export default function FavoriteButton({ hotelId, hotelUuid, className = "" }) {
     const { auth } = usePage().props;
     const favoriteIds = auth?.favoriteIds || [];
     const isFavorited = favoriteIds.includes(hotelId);
@@ -14,7 +14,7 @@ export default function FavoriteButton({ hotelId, className = "" }) {
             window.location.href = route("login");
             return;
         }
-        router.post(route("favorites.toggle", hotelId), {}, { preserveScroll: true });
+        router.post(route("favorites.toggle", hotelUuid || hotelId), {}, { preserveScroll: true });
     };
 
     return (

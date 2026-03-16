@@ -83,7 +83,7 @@ export default function Hotels({ hotels, cities, filters }) {
                             <Link key={hotel.id} href={`/explore/${hotel.uuid}`}>
                                 <Card className="group overflow-hidden border-none shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer h-full">
                                     <div className="aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800 relative">
-                                        <FavoriteButton hotelId={hotel.id} className="absolute top-3 right-3 z-10" />
+                                        <FavoriteButton hotelId={hotel.id} hotelUuid={hotel.uuid} className="absolute top-3 right-3 z-10" />
                                         {hotel.images?.[0] ? (
                                             <img
                                                 src={hotel.images[0]}
