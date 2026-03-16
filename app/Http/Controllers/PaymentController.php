@@ -13,14 +13,14 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Payments/Index', [
+        return Inertia::render('Dashboard/Payments/Index', [
             'payments' => Payment::with(['booking.user'])->latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Payments/Create', [
+        return Inertia::render('Dashboard/Payments/Create', [
             'bookings' => Booking::with(['user', 'room.hotel'])
                 ->whereDoesntHave('payment')
                 ->where('status', '!=', 'cancelled')
@@ -68,7 +68,7 @@ class PaymentController extends Controller
     public function show(Payment $payment)
     {
         $payment->load(['booking.user', 'booking.room.hotel', 'booking.room.roomType']);
-        return Inertia::render('Admin/Payments/Show', [
+        return Inertia::render('Dashboard/Payments/Show', [
             'payment' => $payment
         ]);
     }
@@ -76,7 +76,7 @@ class PaymentController extends Controller
     public function edit(Payment $payment)
     {
         $payment->load(['booking.user', 'booking.room.hotel']);
-        return Inertia::render('Admin/Payments/Edit', [
+        return Inertia::render('Dashboard/Payments/Edit', [
             'payment' => $payment
         ]);
     }

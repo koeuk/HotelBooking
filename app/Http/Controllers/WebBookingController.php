@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class GuestBookingController extends Controller
+class WebBookingController extends Controller
 {
     public function index(Request $request)
     {

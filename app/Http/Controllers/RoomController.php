@@ -12,14 +12,14 @@ class RoomController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Rooms/Index', [
+        return Inertia::render('Dashboard/Rooms/Index', [
             'rooms' => Room::with(['hotel', 'roomType'])->latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Rooms/Create', [
+        return Inertia::render('Dashboard/Rooms/Create', [
             'hotels' => Hotel::all(['id', 'name']),
             'roomTypes' => RoomType::all(['id', 'name', 'hotel_id'])
         ]);
@@ -43,14 +43,14 @@ class RoomController extends Controller
     public function show(Room $room)
     {
         $room->load(['hotel', 'roomType', 'bookings.user']);
-        return Inertia::render('Admin/Rooms/Show', [
+        return Inertia::render('Dashboard/Rooms/Show', [
             'room' => $room
         ]);
     }
 
     public function edit(Room $room)
     {
-        return Inertia::render('Admin/Rooms/Edit', [
+        return Inertia::render('Dashboard/Rooms/Edit', [
             'room' => $room,
             'hotels' => Hotel::all(['id', 'name']),
             'roomTypes' => RoomType::all(['id', 'name', 'hotel_id'])

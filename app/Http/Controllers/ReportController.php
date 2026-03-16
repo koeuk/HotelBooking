@@ -27,7 +27,7 @@ class ReportController extends Controller
 
         $availableYears = range(now()->year, now()->year - 4);
 
-        return Inertia::render('Admin/Reports/Index', [
+        return Inertia::render('Dashboard/Reports/Index', [
             'reportData' => $data,
             'period' => $period,
             'year' => $year,

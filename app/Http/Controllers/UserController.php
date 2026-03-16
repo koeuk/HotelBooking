@@ -12,14 +12,14 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Users/Index', [
+        return Inertia::render('Dashboard/Users/Index', [
             'users' => User::latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Users/Create');
+        return Inertia::render('Dashboard/Users/Create');
     }
 
     public function store(Request $request)
@@ -53,14 +53,14 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user->load(['bookings.room.hotel', 'bookings.payment']);
-        return Inertia::render('Admin/Users/Show', [
+        return Inertia::render('Dashboard/Users/Show', [
             'user' => $user
         ]);
     }
 
     public function edit(User $user)
     {
-        return Inertia::render('Admin/Users/Edit', [
+        return Inertia::render('Dashboard/Users/Edit', [
             'user' => $user
         ]);
     }

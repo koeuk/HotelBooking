@@ -13,14 +13,14 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Reviews/Index', [
+        return Inertia::render('Dashboard/Reviews/Index', [
             'reviews' => Review::with(['user', 'hotel', 'booking'])->latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Reviews/Create', [
+        return Inertia::render('Dashboard/Reviews/Create', [
             'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
             'hotels' => Hotel::all(['id', 'name']),
             'bookings' => Booking::with('user')->whereDoesntHave('review')->get(['id', 'user_id', 'room_id']),
@@ -45,7 +45,7 @@ class ReviewController extends Controller
     public function show(Review $review)
     {
         $review->load(['user', 'hotel', 'booking.room']);
-        return Inertia::render('Admin/Reviews/Show', [
+        return Inertia::render('Dashboard/Reviews/Show', [
             'review' => $review
         ]);
     }
@@ -53,7 +53,7 @@ class ReviewController extends Controller
     public function edit(Review $review)
     {
         $review->load(['user', 'hotel', 'booking']);
-        return Inertia::render('Admin/Reviews/Edit', [
+        return Inertia::render('Dashboard/Reviews/Edit', [
             'review' => $review,
             'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
             'hotels' => Hotel::all(['id', 'name']),

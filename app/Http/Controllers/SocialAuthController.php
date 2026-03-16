@@ -20,7 +20,7 @@ class SocialAuthController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
             $this->_loginOrRegister($googleUser, 'google');
-            return redirect()->intended(Auth::user()->isAdmin() ? '/admin/dashboard' : '/dashboard');
+            return redirect()->intended(Auth::user()->isAdmin() ? '/admin/dashboard' : '/web');
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['msg' => 'Google authentication failed.']);
         }
@@ -36,7 +36,7 @@ class SocialAuthController extends Controller
         try {
             $facebookUser = Socialite::driver('facebook')->user();
             $this->_loginOrRegister($facebookUser, 'facebook');
-            return redirect()->intended(Auth::user()->isAdmin() ? '/admin/dashboard' : '/dashboard');
+            return redirect()->intended(Auth::user()->isAdmin() ? '/admin/dashboard' : '/web');
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['msg' => 'Facebook authentication failed.']);
         }

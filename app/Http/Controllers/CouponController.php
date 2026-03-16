@@ -10,14 +10,14 @@ class CouponController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Coupons/Index', [
+        return Inertia::render('Dashboard/Coupons/Index', [
             'coupons' => Coupon::latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Coupons/Create');
+        return Inertia::render('Dashboard/Coupons/Create');
     }
 
     public function store(Request $request)
@@ -37,14 +37,14 @@ class CouponController extends Controller
 
     public function show(Coupon $coupon)
     {
-        return Inertia::render('Admin/Coupons/Show', [
+        return Inertia::render('Dashboard/Coupons/Show', [
             'coupon' => $coupon
         ]);
     }
 
     public function edit(Coupon $coupon)
     {
-        return Inertia::render('Admin/Coupons/Edit', [
+        return Inertia::render('Dashboard/Coupons/Edit', [
             'coupon' => $coupon
         ]);
     }

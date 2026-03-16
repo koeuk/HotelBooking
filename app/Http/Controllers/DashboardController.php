@@ -58,7 +58,7 @@ class DashboardController extends Controller
             '1 Star' => Review::where('rating', 1)->count(),
         ];
 
-        return Inertia::render('Admin/Dashboard', [
+        return Inertia::render('Dashboard/Dashboard', [
             'stats' => [
                 'total_hotels'     => Hotel::count(),
                 'total_rooms'      => Room::count(),

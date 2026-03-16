@@ -11,14 +11,14 @@ class RoomTypeController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/RoomTypes/Index', [
+        return Inertia::render('Dashboard/RoomTypes/Index', [
             'roomTypes' => RoomType::with('hotel')->latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/RoomTypes/Create', [
+        return Inertia::render('Dashboard/RoomTypes/Create', [
             'hotels' => Hotel::all(['id', 'name'])
         ]);
     }
@@ -56,14 +56,14 @@ class RoomTypeController extends Controller
     public function show(RoomType $roomType)
     {
         $roomType->load(['hotel', 'rooms']);
-        return Inertia::render('Admin/RoomTypes/Show', [
+        return Inertia::render('Dashboard/RoomTypes/Show', [
             'roomType' => $roomType
         ]);
     }
 
     public function edit(RoomType $roomType)
     {
-        return Inertia::render('Admin/RoomTypes/Edit', [
+        return Inertia::render('Dashboard/RoomTypes/Edit', [
             'roomType' => $roomType,
             'hotels' => Hotel::all(['id', 'name'])
         ]);

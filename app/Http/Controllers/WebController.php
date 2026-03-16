@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Amenity;
+use App\Models\Hotel;
+use App\Models\Review;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class WebController extends Controller
+{
+    public function home()
+    {
+        return Inertia::render('Web/Home', [
+            'featuredHotels' => Hotel::withCount('rooms')
+                ->withCount('reviews')
+                ->withAvg('reviews', 'rating')
+                ->orderByDesc('rating')
+                ->take(6)
+                ->get(),
+            'totalHotels' => Hotel::count(),
+            'totalReviews' => Review::count(),
+            'amenities' => Amenity::withCount('hotels')->take(8)->get(),
+            'latestReviews' => Review::with(['user', 'hotel'])
+                ->latest()
+                ->take(4)
+                ->get(),
+        ]);
+    }
+
+    public function hotels(Request $request)
+    {
+        $query = Hotel::withCount('rooms')
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating');
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('city', 'like', "%{$search}%")
+                  ->orWhere('country', 'like', "%{$search}%");
+            });
+        }
+
+        if ($city = $request->input('city')) {
+            $query->where('city', $city);
+        }
+
+        $hotels = $query->orderByDesc('rating')->paginate(12);
+        $cities = Hotel::distinct()->pluck('city');
+
+        return Inertia::render('Web/Hotels', [
+            'hotels' => $hotels,
+            'cities' => $cities,
+            'filters' => $request->only(['search', 'city']),
+        ]);
+    }
+
+    public function hotelShow(Hotel $hotel)
+    {
+        $hotel->load(['roomTypes.rooms', 'amenities', 'reviews.user']);
+        return Inertia::render('Web/HotelDetail', [
+            'hotel' => $hotel,
+        ]);
+    }
+
+    public function about()
+    {
+        return Inertia::render('Web/About');
+    }
+
+    public function contact()
+    {
+        return Inertia::render('Web/Contact');
+    }
+}

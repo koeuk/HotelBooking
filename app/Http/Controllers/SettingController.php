@@ -10,7 +10,7 @@ class SettingController extends Controller
 {
     public function index(Request $request)
     {
-        return Inertia::render('Admin/Settings/Index', [
+        return Inertia::render('Dashboard/Settings/Index', [
             'settings' => [
                 'telegram_chat_id' => Setting::get('telegram_chat_id', ''),
                 'telegram_bot_token' => Setting::get('telegram_bot_token', ''),

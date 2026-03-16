@@ -7,7 +7,7 @@ use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class UserDashboardController extends Controller
+class WebDashboardController extends Controller
 {
     public function index(Request $request)
     {

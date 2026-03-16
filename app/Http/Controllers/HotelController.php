@@ -11,14 +11,14 @@ class HotelController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Hotels/Index', [
+        return Inertia::render('Dashboard/Hotels/Index', [
             'hotels' => Hotel::latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Hotels/Create');
+        return Inertia::render('Dashboard/Hotels/Create');
     }
 
     public function store(Request $request)
@@ -57,14 +57,14 @@ class HotelController extends Controller
     public function show(Hotel $hotel)
     {
         $hotel->load(['roomTypes', 'rooms', 'amenities', 'reviews.user']);
-        return Inertia::render('Admin/Hotels/Show', [
+        return Inertia::render('Dashboard/Hotels/Show', [
             'hotel' => $hotel
         ]);
     }
 
     public function edit(Hotel $hotel)
     {
-        return Inertia::render('Admin/Hotels/Edit', [
+        return Inertia::render('Dashboard/Hotels/Edit', [
             'hotel' => $hotel
         ]);
     }

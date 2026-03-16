@@ -6,7 +6,7 @@ use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class GuestHotelController extends Controller
+class WebHotelController extends Controller
 {
     public function index(Request $request)
     {
