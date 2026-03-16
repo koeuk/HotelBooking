@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import WebLayout from "@/Layouts/WebLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import {
     Card,
@@ -49,10 +49,10 @@ export default function HotelsIndex({ hotels, cities, filters }) {
     const hasFilters = filters?.search || filters?.city;
 
     return (
-        <AuthenticatedLayout>
+        <WebLayout>
             <Head title="Explore Hotels" />
 
-            <div className="space-y-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
                 {/* Header */}
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-600 p-8 text-white shadow-lg">
                     <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-2xl" />
@@ -196,6 +196,6 @@ export default function HotelsIndex({ hotels, cities, filters }) {
                     </div>
                 )}
             </div>
-        </AuthenticatedLayout>
+        </WebLayout>
     );
 }

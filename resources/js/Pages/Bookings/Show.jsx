@@ -1,4 +1,4 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import WebLayout from "@/Layouts/WebLayout";
 import { Head, Link } from "@inertiajs/react";
 import {
     Card,
@@ -44,10 +44,10 @@ export default function BookingShow({ booking }) {
     const review = booking.review;
 
     return (
-        <AuthenticatedLayout>
+        <WebLayout>
             <Head title={`Booking #${booking.id}`} />
 
-            <div className="space-y-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                 {/* Back Button */}
                 <Button variant="ghost" size="sm" asChild>
                     <Link href={route("bookings.index")}>
@@ -275,6 +275,6 @@ export default function BookingShow({ booking }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </WebLayout>
     );
 }

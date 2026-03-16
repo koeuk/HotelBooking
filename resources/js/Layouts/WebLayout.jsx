@@ -1,26 +1,46 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link, usePage, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import { Hotel, Menu, X, User, LogOut } from "lucide-react";
-import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+    DropdownMenu, DropdownMenuContent, DropdownMenuGroup,
+    DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Hotel, Menu, X, User, LogOut, Settings, CalendarCheck, Star, Bell, Heart } from "lucide-react";
+import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
+const publicLinks = [
     { name: "Home", href: "/" },
     { name: "Hotels", href: "/explore" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
 ];
 
+const userLinks = [
+    { name: "Home", href: "/" },
+    { name: "Hotels", href: "/explore" },
+    { name: "About", href: "/about" },
+    { name: "My Bookings", href: "/web/my-bookings" },
+    { name: "Contact", href: "/contact" },
+];
+
 export default function WebLayout({ children }) {
-    const { auth } = usePage().props;
+    const { auth, flash } = usePage().props;
     const { url } = usePage();
     const [mobileOpen, setMobileOpen] = useState(false);
     const user = auth?.user;
+    const navLinks = user ? userLinks : publicLinks;
+
+    useEffect(() => {
+        if (flash?.success) toast.success(flash.success);
+        if (flash?.error) toast.error(flash.error);
+    }, [flash]);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-zinc-950 font-sans">
+        <div className="min-h-screen flex flex-col bg-white dark:bg-zinc-950 font-sans">
             {/* Navbar */}
             <header className="sticky top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,12 +78,54 @@ export default function WebLayout({ children }) {
                             <ThemeToggle />
                             {user ? (
                                 <div className="hidden md:flex items-center gap-2">
-                                    <Button variant="ghost" size="sm" asChild>
-                                        <Link href={route("dashboard")}>
-                                            <User className="h-4 w-4 mr-1" />
-                                            {user.name}
-                                        </Link>
-                                    </Button>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0">
+                                                <Avatar className="h-9 w-9">
+                                                    <AvatarImage src={user.avatar} />
+                                                    <AvatarFallback className="bg-primary/10 text-primary font-bold text-sm">
+                                                        {user.name?.charAt(0)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end" className="w-56">
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuLabel className="font-normal">
+                                                    <div className="flex flex-col space-y-1">
+                                                        <p className="text-sm font-bold">{user.name}</p>
+                                                        <p className="text-xs text-muted-foreground">{user.email}</p>
+                                                    </div>
+                                                </DropdownMenuLabel>
+                                            </DropdownMenuGroup>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem className="cursor-pointer" onClick={() => router.get("/web")}>
+                                                <User className="h-4 w-4" /> Dashboard
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem className="cursor-pointer" onClick={() => router.get("/web/my-bookings")}>
+                                                <CalendarCheck className="h-4 w-4" /> My Bookings
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem className="cursor-pointer" onClick={() => router.get("/web/favorites")}>
+                                                <Heart className="h-4 w-4" /> Favorites
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem className="cursor-pointer" onClick={() => router.get("/web/my-reviews")}>
+                                                <Star className="h-4 w-4" /> My Reviews
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem className="cursor-pointer" onClick={() => router.get("/web/notifications")}>
+                                                <Bell className="h-4 w-4" /> Notifications
+                                            </DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("profile.edit"))}>
+                                                <Settings className="h-4 w-4" /> Profile Settings
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                className="cursor-pointer text-rose-500 focus:text-rose-500"
+                                                onClick={() => router.post(route("logout"))}
+                                            >
+                                                <LogOut className="h-4 w-4" /> Sign Out
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                             ) : (
                                 <div className="hidden md:flex items-center gap-2">
@@ -130,7 +192,7 @@ export default function WebLayout({ children }) {
             </header>
 
             {/* Main Content */}
-            <main>{children}</main>
+            <main className="flex-1">{children}</main>
 
             {/* Footer */}
             <footer className="bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800">

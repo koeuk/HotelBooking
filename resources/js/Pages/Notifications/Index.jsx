@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import WebLayout from "@/Layouts/WebLayout";
 import { Head } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -51,10 +51,10 @@ export default function Index() {
     const unreadCount = notifications.filter((n) => !n.read_at).length;
 
     return (
-        <AuthenticatedLayout>
+        <WebLayout>
             <Head title="Notifications" />
 
-            <div className="space-y-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                 <div className="flex items-center justify-between">
                     <div>
                         <h2 className="text-3xl font-bold tracking-tight">
@@ -163,6 +163,6 @@ export default function Index() {
                     </div>
                 )}
             </div>
-        </AuthenticatedLayout>
+        </WebLayout>
     );
 }

@@ -1,4 +1,4 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import WebLayout from "@/Layouts/WebLayout";
 import { Head, Link } from "@inertiajs/react";
 import HotelMap from "@/components/HotelMap";
 import {
@@ -30,10 +30,10 @@ export default function HotelShow({ hotel }) {
     const images = hotel.images || [];
 
     return (
-        <AuthenticatedLayout>
+        <WebLayout>
             <Head title={hotel.name} />
 
-            <div className="space-y-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                 {/* Back Button */}
                 <Button variant="ghost" size="sm" asChild>
                     <Link href={route("hotels.index")}>
@@ -294,6 +294,6 @@ export default function HotelShow({ hotel }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </WebLayout>
     );
 }

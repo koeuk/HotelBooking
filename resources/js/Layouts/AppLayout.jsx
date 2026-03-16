@@ -1,6 +1,6 @@
 import { usePage } from "@inertiajs/react";
 import AdminLayout from "@/Layouts/AdminLayout";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import WebLayout from "@/Layouts/WebLayout";
 
 export default function AppLayout({ children }) {
     const { auth } = usePage().props;
@@ -9,5 +9,5 @@ export default function AppLayout({ children }) {
         return <AdminLayout>{children}</AdminLayout>;
     }
 
-    return <AuthenticatedLayout>{children}</AuthenticatedLayout>;
+    return <WebLayout>{children}</WebLayout>;
 }
