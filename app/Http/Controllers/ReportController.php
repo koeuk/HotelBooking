@@ -59,6 +59,23 @@ class ReportController extends Controller
                 ->orderByDesc('amount')
                 ->take(10)
                 ->get(),
+            'booking_statuses' => [
+                ['name' => 'Pending', 'value' => Booking::where('status', 'pending')->count()],
+                ['name' => 'Confirmed', 'value' => Booking::where('status', 'confirmed')->count()],
+                ['name' => 'Completed', 'value' => Booking::where('status', 'completed')->count()],
+                ['name' => 'Cancelled', 'value' => Booking::where('status', 'cancelled')->count()],
+            ],
+            'payment_statuses' => [
+                ['name' => 'Pending', 'value' => Payment::where('status', 'pending')->count()],
+                ['name' => 'Paid', 'value' => Payment::where('status', 'paid')->count()],
+                ['name' => 'Failed', 'value' => Payment::where('status', 'failed')->count()],
+                ['name' => 'Refunded', 'value' => Payment::where('status', 'refunded')->count()],
+            ],
+            'payment_methods' => [
+                ['name' => 'Card', 'value' => Payment::where('method', 'card')->count()],
+                ['name' => 'Cash', 'value' => Payment::where('method', 'cash')->count()],
+                ['name' => 'PayPal', 'value' => Payment::where('method', 'paypal')->count()],
+            ],
         ]);
     }
 

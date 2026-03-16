@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { exportPDF, exportExcel } from "@/lib/exportUtils";
 import {
     AreaChart, Area, BarChart, Bar, LineChart, Line,
+    PieChart, Pie, Cell,
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 
@@ -89,9 +90,58 @@ const ExportButton = ({ onPDF, onExcel }) => (
     </DropdownMenu>
 );
 
+const BOOKING_STATUS_COLORS = ["#f59e0b", "#10b981", "#3b82f6", "#ef4444"];
+const PAYMENT_STATUS_COLORS = ["#f59e0b", "#10b981", "#ef4444", "#8b5cf6"];
+const PAYMENT_METHOD_COLORS = ["#6366f1", "#10b981", "#3b82f6"];
+
+const DonutChart = ({ data, colors, title }) => {
+    const total = data.reduce((s, d) => s + d.value, 0);
+    return (
+        <Card className="border-none shadow-sm">
+            <CardHeader>
+                <CardTitle className="text-lg">{title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div className="h-[200px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <Pie
+                                data={data.filter((d) => d.value > 0)}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={55}
+                                outerRadius={85}
+                                paddingAngle={3}
+                                dataKey="value"
+                            >
+                                {data.map((_, i) => (
+                                    <Cell key={i} fill={colors[i]} />
+                                ))}
+                            </Pie>
+                            <Tooltip
+                                formatter={(value, name) => [`${value} (${total > 0 ? ((value / total) * 100).toFixed(1) : 0}%)`, name]}
+                            />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-2">
+                    {data.map((item, i) => (
+                        <div key={item.name} className="flex items-center gap-2">
+                            <span className="h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: colors[i] }} />
+                            <span className="text-xs text-muted-foreground truncate">{item.name}</span>
+                            <span className="text-xs font-bold ml-auto">{item.value}</span>
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
 export default function Index({
     reportData, period, year, availableYears, summary,
     top_hotels, recent_bookings, recent_users, recent_reviews, top_payments,
+    booking_statuses = [], payment_statuses = [], payment_methods = [],
 }) {
     const changePeriod = (p) => router.get(route("admin.reports.index"), { period: p, year }, { preserveState: true });
     const changeYear = (y) => router.get(route("admin.reports.index"), { period, year: y }, { preserveState: true });
@@ -481,6 +531,13 @@ export default function Index({
                             </div>
                         </CardContent>
                     </Card>
+                </div>
+
+                {/* ── Status & Method Breakdown ── */}
+                <div className="grid gap-6 md:grid-cols-3">
+                    <DonutChart data={booking_statuses} colors={BOOKING_STATUS_COLORS} title="Booking Status" />
+                    <DonutChart data={payment_statuses} colors={PAYMENT_STATUS_COLORS} title="Payment Status" />
+                    <DonutChart data={payment_methods} colors={PAYMENT_METHOD_COLORS} title="Payment Methods" />
                 </div>
 
                 {/* ── Payments & Cancellations ── */}
