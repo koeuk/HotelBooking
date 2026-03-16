@@ -205,38 +205,75 @@ export default function AdminLayout({ children }) {
             </ScrollArea>
 
             <div className="p-4 border-t border-zinc-900">
-                <div
-                    className={cn(
-                        "bg-zinc-900/50 rounded-2xl p-3 flex items-center gap-3 transition-all",
-                        isCollapsed ? "justify-center px-2" : "",
-                    )}
-                >
-                    <Avatar className="h-8 w-8 border border-zinc-800">
-                        <AvatarImage src={auth.user.avatar} />
-                        <AvatarFallback>
-                            {auth.user.name.charAt(0)}
-                        </AvatarFallback>
-                    </Avatar>
-                    {!isCollapsed && (
-                        <>
-                            <div className="flex-1 overflow-hidden">
-                                <p className="text-xs font-bold text-white truncate">
-                                    {auth.user.name}
-                                </p>
-                                <p className="text-[10px] text-zinc-500 truncate">
-                                    {auth.user.role}
-                                </p>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <button
+                            className={cn(
+                                "w-full bg-zinc-900/50 rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-zinc-800/70 cursor-pointer",
+                                isCollapsed ? "justify-center px-2" : "",
+                            )}
+                        >
+                            <Avatar className="h-8 w-8 border border-zinc-800">
+                                <AvatarImage src={auth.user.avatar} />
+                                <AvatarFallback>
+                                    {auth.user.name.charAt(0)}
+                                </AvatarFallback>
+                            </Avatar>
+                            {!isCollapsed && (
+                                <>
+                                    <div className="flex-1 overflow-hidden text-left">
+                                        <p className="text-xs font-bold text-white truncate">
+                                            {auth.user.name}
+                                        </p>
+                                        <p className="text-[10px] text-zinc-500 truncate">
+                                            {auth.user.email}
+                                        </p>
+                                    </div>
+                                    <ChevronLeft className="h-4 w-4 text-zinc-500 rotate-90" />
+                                </>
+                            )}
+                        </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                        side="top"
+                        align="start"
+                        className="w-56 mb-2"
+                    >
+                        <DropdownMenuLabel className="font-normal">
+                            <div className="flex items-center gap-3">
+                                <Avatar className="h-9 w-9">
+                                    <AvatarImage src={auth.user.avatar} />
+                                    <AvatarFallback>{auth.user.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div className="flex-1 overflow-hidden">
+                                    <p className="text-sm font-bold truncate">{auth.user.name}</p>
+                                    <p className="text-xs text-muted-foreground truncate">{auth.user.email}</p>
+                                </div>
                             </div>
-                            <button
-                                onClick={() => router.post(route("logout"))}
-                                className="p-1.5 rounded-lg hover:bg-zinc-800 text-zinc-500 hover:text-rose-400 transition-colors"
-                                title="Sign Out"
-                            >
-                                <LogOut className="h-4 w-4" />
-                            </button>
-                        </>
-                    )}
-                </div>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild className="cursor-pointer">
+                            <Link href={route("admin.settings.index")}>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Settings</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="cursor-pointer">
+                            <Link href={route("profile.edit")}>
+                                <UserCircle className="mr-2 h-4 w-4" />
+                                <span>Profile</span>
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            className="cursor-pointer text-rose-500 focus:text-rose-500"
+                            onClick={() => router.post(route("logout"))}
+                        >
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span>Log out</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );
