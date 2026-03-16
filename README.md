@@ -8,6 +8,7 @@ A full-featured Hotel Booking System with Admin Dashboard, REST API, reports, da
 - **Frontend:** React 18 + Inertia.js
 - **Styling:** Tailwind CSS + shadcn/ui (Radix UI primitives)
 - **Charts:** Recharts
+- **Maps:** Leaflet + OpenStreetMap (free, no API key)
 - **Auth (Web):** Laravel Breeze (session-based)
 - **Auth (API):** Laravel Sanctum (token-based)
 - **Social Auth:** Laravel Socialite (Google, Facebook)
@@ -19,8 +20,8 @@ A full-featured Hotel Booking System with Admin Dashboard, REST API, reports, da
 ## Features
 
 - **Authentication** — Email/password login, Google & Facebook OAuth, role-based access (user/admin)
-- **Hotel Management** — CRUD for hotels, room types, rooms, and amenities with image upload + URL support
-- **Booking System** — Date-based reservations with availability checking, overlap detection, auto price calculation
+- **Hotel Management** — CRUD for hotels, room types, rooms, and amenities with image upload + URL support + map location (Leaflet)
+- **Booking System** — Date-based reservations with availability checking, overlap detection, auto price calculation, hotel location map
 - **Payments** — Record payments (card, cash, PayPal) with transaction tracking; auto-confirms bookings
 - **Reviews & Ratings** — 1–5 star ratings tied to completed bookings (one review per booking)
 - **Coupons** — Percentage-based discount codes with date ranges and usage limits
@@ -192,7 +193,7 @@ Access at `/admin/dashboard` (requires `role = admin`).
 | Table | Description |
 |-------|-------------|
 | `users` | Accounts with OAuth fields, role (user/admin), avatar |
-| `hotels` | Properties with images (JSON), rating |
+| `hotels` | Properties with images (JSON), rating, latitude/longitude |
 | `room_types` | Room categories with pricing and images |
 | `rooms` | Individual rooms with status tracking |
 | `bookings` | Reservations with dates, pricing, status workflow |
@@ -220,7 +221,7 @@ app/
 └── Traits/                    # HasUuid trait
 
 resources/js/
-├── components/                # Reusable: ImageUploader, FilterTabs, ThemeToggle, ThemeProvider, NotificationBell
+├── components/                # Reusable: ImageUploader, FilterTabs, ThemeToggle, ThemeProvider, NotificationBell, HotelMap
 ├── components/ui/             # shadcn/ui components
 ├── lib/                       # Utilities: utils.js, exportUtils.js (PDF/Excel)
 ├── Layouts/                   # AdminLayout, AuthenticatedLayout, AppLayout, GuestLayout

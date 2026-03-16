@@ -171,6 +171,8 @@ GET /hotels
       "address": "123 Main St",
       "city": "New York",
       "country": "USA",
+      "latitude": 13.3633,
+      "longitude": 103.8560,
       "rating": 4.5,
       "images": ["https://..."]
     }
@@ -203,6 +205,8 @@ GET /hotels/{id}
     "address": "123 Main St",
     "city": "New York",
     "country": "USA",
+    "latitude": 40.7128,
+    "longitude": -74.0060,
     "rating": 4.5,
     "images": ["https://..."],
     "room_types": [

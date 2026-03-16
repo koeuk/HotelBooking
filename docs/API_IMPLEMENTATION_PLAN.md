@@ -127,7 +127,7 @@ Route::prefix('v1')->group(function () {
 
 ### 2.4 API Resources
 
-- [ ] **Create `HotelResource`** — Returns: `id`, `name`, `description`, `address`, `city`, `country`, `rating`, `images`
+- [ ] **Create `HotelResource`** — Returns: `id`, `name`, `description`, `address`, `city`, `country`, `latitude`, `longitude`, `rating`, `images`
 - [ ] **Create `RoomTypeResource`** — Returns: `id`, `hotel` (name, conditional), `name`, `description`, `max_guests`, `price_per_night`, `images`
 - [ ] **Create `RoomResource`** — Returns: `id`, `hotel` (name, conditional), `room_type` (RoomTypeResource), `room_number`, `floor`, `status`
 
