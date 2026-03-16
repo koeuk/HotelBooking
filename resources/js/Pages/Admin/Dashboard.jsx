@@ -146,6 +146,13 @@ const STATUS_COLORS = {
     cancelled: "#ef4444",
 };
 
+const ROLE_COLORS = {
+    admin: "#6366f1",
+    user: "#3b82f6",
+};
+
+const RATING_COLORS = ["#ef4444", "#f59e0b", "#eab308", "#84cc16", "#10b981"];
+
 const CustomTooltip = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null;
     return (
@@ -161,7 +168,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     );
 };
 
-export default function Dashboard({ stats, recent_bookings, monthly_data = [], status_breakdown = {} }) {
+export default function Dashboard({ stats, recent_bookings, monthly_data = [], status_breakdown = {}, user_roles = {}, review_ratings = {} }) {
     const { auth } = usePage().props;
     const time = new Date().getHours();
     const greeting =
@@ -332,6 +339,137 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                         <span className="text-xs font-bold ml-auto">{value}</span>
                                     </div>
                                 ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* Users, Reviews & Hotels Charts */}
+                <div className="grid gap-6 md:grid-cols-3">
+                    {/* Users Growth */}
+                    <Card className="border-none shadow-lg">
+                        <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                                <Users className="h-5 w-5 text-indigo-500" />
+                                Users
+                            </CardTitle>
+                            <CardDescription>{stats.total_users} total users</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[180px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={monthly_data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                                        <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                                        <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+                                        <Tooltip content={<CustomTooltip />} />
+                                        <Bar dataKey="users" name="New Users" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                            <div className="flex items-center justify-between mt-4 pt-3 border-t">
+                                {Object.entries(user_roles).map(([key, value]) => (
+                                    <div key={key} className="flex items-center gap-2">
+                                        <span className="h-3 w-3 rounded-full" style={{ backgroundColor: ROLE_COLORS[key] }} />
+                                        <span className="text-xs capitalize text-muted-foreground">{key}</span>
+                                        <span className="text-xs font-bold">{value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Reviews Distribution */}
+                    <Card className="border-none shadow-lg">
+                        <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                                <TrendingUp className="h-5 w-5 text-yellow-500" />
+                                Reviews
+                            </CardTitle>
+                            <CardDescription>{stats.total_reviews} total reviews</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[180px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={monthly_data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                                        <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                                        <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+                                        <Tooltip content={<CustomTooltip />} />
+                                        <Bar dataKey="reviews" name="Reviews" fill="#eab308" radius={[4, 4, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                            <div className="space-y-2 mt-4 pt-3 border-t">
+                                {Object.entries(review_ratings).map(([key, value], i) => (
+                                    <div key={key} className="flex items-center gap-2">
+                                        <span className="text-xs w-14 text-muted-foreground">{key}</span>
+                                        <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                                            <div
+                                                className="h-full rounded-full transition-all"
+                                                style={{
+                                                    width: `${stats.total_reviews > 0 ? (value / stats.total_reviews) * 100 : 0}%`,
+                                                    backgroundColor: RATING_COLORS[i],
+                                                }}
+                                            />
+                                        </div>
+                                        <span className="text-xs font-bold w-6 text-right">{value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Hotels Growth */}
+                    <Card className="border-none shadow-lg">
+                        <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                                <Hotel className="h-5 w-5 text-emerald-500" />
+                                Hotels
+                            </CardTitle>
+                            <CardDescription>{stats.total_hotels} properties</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="h-[180px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={monthly_data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                                        <defs>
+                                            <linearGradient id="colorHotels" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                                        <XAxis dataKey="month" tick={{ fontSize: 10 }} />
+                                        <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+                                        <Tooltip content={<CustomTooltip />} />
+                                        <Area
+                                            type="monotone"
+                                            dataKey="hotels"
+                                            name="New Hotels"
+                                            stroke="#10b981"
+                                            strokeWidth={2}
+                                            fillOpacity={1}
+                                            fill="url(#colorHotels)"
+                                        />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                            <div className="flex items-center justify-between mt-4 pt-3 border-t">
+                                <div className="text-center">
+                                    <p className="text-2xl font-bold">{stats.total_hotels}</p>
+                                    <p className="text-xs text-muted-foreground">Properties</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-2xl font-bold">{stats.total_rooms}</p>
+                                    <p className="text-xs text-muted-foreground">Rooms</p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-2xl font-bold">
+                                        {stats.total_rooms > 0 ? Math.round(stats.total_rooms / stats.total_hotels) : 0}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">Avg/Hotel</p>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
