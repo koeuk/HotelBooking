@@ -1,31 +1,37 @@
 # Hotel Booking System
 
-A full-featured Hotel Booking System with Admin Dashboard, REST API, multi-channel notifications, and social authentication built with Laravel, Inertia.js, React, and shadcn/ui.
+A full-featured Hotel Booking System with Admin Dashboard, REST API, reports, dark mode, multi-channel notifications, and social authentication built with Laravel, Inertia.js, React, and shadcn/ui.
 
 ## Tech Stack
 
 - **Backend:** Laravel 12 (PHP 8.2+)
 - **Frontend:** React 18 + Inertia.js
 - **Styling:** Tailwind CSS + shadcn/ui (Radix UI primitives)
+- **Charts:** Recharts
 - **Auth (Web):** Laravel Breeze (session-based)
 - **Auth (API):** Laravel Sanctum (token-based)
 - **Social Auth:** Laravel Socialite (Google, Facebook)
 - **Notifications:** Mail, Database, Telegram
 - **Icons:** Lucide React
 - **Build Tool:** Vite
+- **Export:** jsPDF + SheetJS (PDF/Excel reports)
 
 ## Features
 
-- **Authentication** — Email/password registration and login, Google & Facebook OAuth, role-based access (guest/admin)
-- **Hotel Management** — CRUD for hotels, room types, rooms, and amenities with image support
-- **Booking System** — Date-based reservations with availability checking, overlap detection, and automatic price calculation
-- **Payments** — Record payments (card, cash, PayPal) with transaction tracking; auto-confirms bookings on successful payment
+- **Authentication** — Email/password login, Google & Facebook OAuth, role-based access (user/admin)
+- **Hotel Management** — CRUD for hotels, room types, rooms, and amenities with image upload + URL support
+- **Booking System** — Date-based reservations with availability checking, overlap detection, auto price calculation
+- **Payments** — Record payments (card, cash, PayPal) with transaction tracking; auto-confirms bookings
 - **Reviews & Ratings** — 1–5 star ratings tied to completed bookings (one review per booking)
 - **Coupons** — Percentage-based discount codes with date ranges and usage limits
-- **Notifications** — Queue-based multi-channel notifications (email, in-app, Telegram) for booking events and payments
-- **Admin Dashboard** — Stats overview, recent bookings, system health metrics, and full CRUD for all resources
-- **User Dashboard** — Booking stats, upcoming stays, recent bookings, featured hotels
-- **REST API** — 23+ endpoints under `/api/v1/` with Sanctum auth for mobile/public clients
+- **Notifications** — Queue-based multi-channel (email, in-app, Telegram) for booking events and payments
+- **Admin Dashboard** — Stats cards, booking/revenue/user/review/hotel charts, status breakdowns, recent bookings
+- **Reports** — Weekly/monthly/yearly analytics with charts + data tables, PDF & Excel export per section
+- **User Dashboard** — Booking stats, upcoming stays, hotel browsing, favorites, reviews, notifications
+- **Settings** — Unified settings page with profile, security, Telegram integration, danger zone (sidebar nav)
+- **Dark Mode** — Full dark/light theme toggle with persistent preference
+- **Avatar Upload** — Profile photo upload for users and admin user management
+- **REST API** — 34 endpoints under `/api/v1/` with Sanctum auth for mobile/public clients
 - **UUID Routing** — All models use UUID for route binding
 
 ## Prerequisites
@@ -33,26 +39,21 @@ A full-featured Hotel Booking System with Admin Dashboard, REST API, multi-chann
 - PHP 8.2+
 - Composer
 - Node.js 18+ & npm
-- SQLite (default) or MySQL/PostgreSQL
+- MySQL or SQLite
 
 ## Installation
 
 ```bash
-# Clone the repository
 git clone <repository-url>
 cd HotelBooking
 
-# Install PHP dependencies
 composer install
-
-# Install JavaScript dependencies
 npm install
 
-# Copy environment file and generate app key
 cp .env.example .env
 php artisan key:generate
+php artisan storage:link
 
-# Run database migrations and seed sample data
 php artisan migrate --seed
 ```
 
@@ -94,7 +95,7 @@ QUEUE_CONNECTION=database
 ## Running the Application
 
 ```bash
-# Development (runs Vite dev server + Laravel concurrently)
+# Development
 composer run dev
 
 # Or run separately:
@@ -108,11 +109,25 @@ php artisan queue:work
 npm run build
 ```
 
-## API Endpoints
+## Default Accounts
 
-All API routes are prefixed with `/api/v1/`.
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@gmail.com | 12345678 |
+| User | koeuk@gmail.com | 12345678 |
 
-### Public
+## API Documentation
+
+Full API documentation with request/response examples is available in [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md).
+
+See also:
+- [API Implementation Plan](docs/API_IMPLEMENTATION_PLAN.md)
+- [System Implementation Plan](docs/IMPLEMENTATION_PLAN.md)
+- [Booking Flow](docs/BOOKING_FLOW.md)
+
+**Quick overview — 34 endpoints under `/api/v1/`:**
+
+### Public Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -123,64 +138,70 @@ All API routes are prefixed with `/api/v1/`.
 | GET | `/hotels` | List hotels (filter by city, country, search) |
 | GET | `/hotels/{id}` | Hotel details with room types |
 | GET | `/hotels/{id}/room-types` | Room types for a hotel |
-| GET | `/hotels/{id}/rooms` | Rooms for a hotel |
+| GET | `/hotels/{id}/rooms` | Rooms for a hotel (filter by status, type) |
 | GET | `/room-types/{id}` | Room type details |
 | GET | `/rooms/{id}` | Room details |
-| GET | `/amenities` | List amenities |
+| GET | `/amenities` | List all amenities |
+| GET | `/amenities/{id}` | Amenity details with hotels |
 
-### Authenticated (Bearer token required)
+### Authenticated Endpoints (Bearer token)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/auth/logout` | Revoke token |
 | GET | `/bookings` | List user's bookings |
-| POST | `/bookings` | Create a booking |
+| POST | `/bookings` | Create a booking (with availability check) |
 | GET | `/bookings/{id}` | Booking details |
 | PATCH | `/bookings/{id}/cancel` | Cancel a pending booking |
-| POST | `/payments` | Record a payment |
+| POST | `/payments` | Process payment (auto-confirms booking) |
 | GET | `/payments/{id}` | Payment details |
 | GET | `/profile` | Get user profile |
-| PATCH | `/profile` | Update profile |
-| PATCH | `/profile/set-password` | Set/change password |
-| GET | `/reviews` | List user's reviews |
+| PATCH | `/profile` | Update profile (name, phone) |
+| PATCH | `/profile/set-password` | Set password (social auth users) |
+| GET | `/reviews` | List reviews (filter by hotel_id) |
+| GET | `/reviews/{id}` | Review details |
 | POST | `/reviews` | Create a review |
-| PATCH | `/reviews/{id}` | Update a review |
-| DELETE | `/reviews/{id}` | Delete a review |
+| PATCH | `/reviews/{id}` | Update own review |
+| DELETE | `/reviews/{id}` | Delete own review |
 | POST | `/coupons/validate` | Validate a coupon code |
-| GET | `/notifications` | List notifications |
+| GET | `/notifications` | List unread notifications |
 | PATCH | `/notifications/{id}/read` | Mark notification as read |
 | PATCH | `/notifications/read-all` | Mark all as read |
 
 ## Admin Panel
 
-Access the admin dashboard at `/admin/dashboard` (requires a user with `role = admin`).
+Access at `/admin/dashboard` (requires `role = admin`).
 
-Admin features include full CRUD management for:
-
-- Hotels, Room Types, Rooms
-- Bookings (with status workflow: pending → confirmed → completed/cancelled)
-- Payments (record and update payment status)
-- Users
-- Amenities
-- Reviews
-- Coupons
-- Settings (Telegram bot configuration)
+| Section | Features |
+|---------|----------|
+| **Dashboard** | Revenue/bookings/users/reviews/hotels charts, status breakdowns, recent bookings |
+| **Hotels** | Full CRUD with image upload, show page with room types/amenities/reviews |
+| **Room Types** | CRUD with hotel association and image upload |
+| **Rooms** | CRUD with hotel/type association, status management |
+| **Bookings** | CRUD with status workflow, payment recording, guest notifications |
+| **Payments** | Full CRUD with inline status updates, transaction tracking |
+| **Users** | CRUD with avatar upload, inline role switching (admin/user) |
+| **Amenities** | CRUD with icon support |
+| **Reviews** | CRUD with star ratings |
+| **Coupons** | CRUD with validity dates and usage tracking |
+| **Reports** | Weekly/monthly/yearly analytics, charts + data tables, PDF & Excel export |
+| **Settings** | Profile, security (password), Telegram integration, danger zone (delete account) |
 
 ## Database Schema
 
 | Table | Description |
 |-------|-------------|
-| `users` | User accounts with OAuth fields and role |
-| `hotels` | Hotel records with images (JSON) |
-| `room_types` | Room categories with pricing |
+| `users` | Accounts with OAuth fields, role (user/admin), avatar |
+| `hotels` | Properties with images (JSON), rating |
+| `room_types` | Room categories with pricing and images |
 | `rooms` | Individual rooms with status tracking |
-| `bookings` | Reservations with date ranges and pricing |
-| `payments` | Payment records with transaction IDs |
-| `reviews` | Guest ratings and comments |
-| `amenities` | Hotel amenities/features |
-| `hotel_amenities` | Hotel–amenity pivot table |
-| `coupons` | Discount codes with validity periods |
-| `settings` | Key-value app settings |
+| `bookings` | Reservations with dates, pricing, status workflow |
+| `payments` | Payment records with transaction IDs, method, status |
+| `reviews` | Star ratings and comments (unique per booking) |
+| `amenities` | Hotel features (WiFi, Pool, etc.) |
+| `hotel_amenities` | Hotel-amenity pivot table |
+| `coupons` | Discount codes with validity and usage limits |
+| `settings` | Key-value app configuration |
 | `notifications` | Laravel database notifications |
 | `personal_access_tokens` | Sanctum API tokens |
 
@@ -189,25 +210,35 @@ Admin features include full CRUD management for:
 ```
 app/
 ├── Http/
-│   ├── Controllers/         # Web controllers (admin CRUD, auth, dashboard)
-│   │   └── Api/             # API controllers (REST endpoints)
-│   └── Middleware/           # AdminMiddleware, HandleInertiaRequests
-├── Models/                  # Eloquent models with UUID trait
-├── Notifications/           # Multi-channel notification classes
-└── Traits/                  # HasUuid trait
+│   ├── Controllers/           # Web controllers (admin CRUD, auth, dashboard, reports)
+│   │   └── Api/               # REST API controllers (12 controllers, 34 methods)
+│   ├── Middleware/             # AdminMiddleware, HandleInertiaRequests
+│   ├── Requests/              # Form request validation
+│   └── Resources/             # API resources (User, Hotel, Room, Booking, Payment, RoomType)
+├── Models/                    # Eloquent models with UUID trait
+├── Notifications/             # Multi-channel notification classes (4)
+└── Traits/                    # HasUuid trait
 
 resources/js/
-├── Components/              # Reusable UI components (shadcn/ui)
-├── Layouts/                 # AdminLayout, AuthenticatedLayout, GuestLayout
+├── components/                # Reusable: ImageUploader, FilterTabs, ThemeToggle, ThemeProvider, NotificationBell
+├── components/ui/             # shadcn/ui components
+├── lib/                       # Utilities: utils.js, exportUtils.js (PDF/Excel)
+├── Layouts/                   # AdminLayout, AuthenticatedLayout, AppLayout, GuestLayout
 └── Pages/
-    ├── Admin/               # Admin CRUD pages (Hotels, Rooms, Bookings, etc.)
-    ├── Auth/                # Login, Register, Password Reset
-    ├── Profile/             # User profile management
-    └── Dashboard.jsx        # User dashboard
+    ├── Admin/                 # Dashboard, Hotels, RoomTypes, Rooms, Bookings, Payments,
+    │                          # Users, Amenities, Reviews, Coupons, Reports, Settings
+    ├── Auth/                  # Login, Register, ForgotPassword, ResetPassword
+    ├── Bookings/              # Guest booking list and details
+    ├── Hotels/                # Guest hotel browsing and details
+    ├── Favorites/             # Guest favorites
+    ├── Reviews/               # Guest reviews
+    ├── Notifications/         # Guest notification center
+    ├── Profile/               # Profile management (with AppLayout auto-detection)
+    └── Dashboard.jsx          # User dashboard
 
 routes/
-├── web.php                  # Web routes (admin, auth, dashboard)
-└── api.php                  # API v1 routes
+├── web.php                    # Web routes (admin, guest, auth)
+└── api.php                    # API v1 routes (34 endpoints)
 ```
 
 ## License
