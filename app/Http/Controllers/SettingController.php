@@ -8,13 +8,15 @@ use Inertia\Inertia;
 
 class SettingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('Admin/Settings/Index', [
             'settings' => [
                 'telegram_chat_id' => Setting::get('telegram_chat_id', ''),
                 'telegram_bot_token' => Setting::get('telegram_bot_token', ''),
             ],
+            'mustVerifyEmail' => $request->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail,
+            'status' => session('status'),
         ]);
     }
 

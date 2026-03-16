@@ -260,12 +260,6 @@ export default function AdminLayout({ children }) {
                                 <span>Settings</span>
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="cursor-pointer">
-                            <Link href={route("profile.edit")}>
-                                <UserCircle className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
-                            </Link>
-                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className="cursor-pointer text-rose-500 focus:text-rose-500"
