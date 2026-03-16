@@ -19,7 +19,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
+
 import { useMemo } from "react";
 
 export default function Edit({ room, hotels, roomTypes }) {
@@ -40,10 +40,7 @@ export default function Edit({ room, hotels, roomTypes }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.rooms.update", room.uuid), {
-            onSuccess: () => toast.success("Room updated successfully"),
-            onError: () => toast.error("Failed to update room"),
-        });
+        patch(route("admin.rooms.update", room.uuid));
     };
 
     return (

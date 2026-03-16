@@ -19,7 +19,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Create({ users, hotels, bookings }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -32,10 +31,7 @@ export default function Create({ users, hotels, bookings }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.reviews.store"), {
-            onSuccess: () => toast.success("Review created successfully"),
-            onError: () => toast.error("Failed to create review"),
-        });
+        post(route("admin.reviews.store"));
     };
 
     return (

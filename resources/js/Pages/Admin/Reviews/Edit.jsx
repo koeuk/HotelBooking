@@ -19,7 +19,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ review, users, hotels }) {
     const { data, setData, put, processing, errors } = useForm({
@@ -29,10 +28,7 @@ export default function Edit({ review, users, hotels }) {
 
     const submit = (e) => {
         e.preventDefault();
-        put(route("admin.reviews.update", review.uuid), {
-            onSuccess: () => toast.success("Review updated successfully"),
-            onError: () => toast.error("Failed to update review"),
-        });
+        put(route("admin.reviews.update", review.uuid));
     };
 
     return (

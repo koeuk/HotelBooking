@@ -19,7 +19,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
@@ -33,10 +32,7 @@ export default function Create() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.users.store"), {
-            onSuccess: () => toast.success("User created successfully"),
-            onError: () => toast.error("Failed to create user"),
-        });
+        post(route("admin.users.store"));
     };
 
     return (

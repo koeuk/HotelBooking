@@ -20,7 +20,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft, Plus, X } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ roomType, hotels }) {
     const { data, setData, patch, processing, errors } = useForm({
@@ -34,10 +33,7 @@ export default function Edit({ roomType, hotels }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.room-types.update", roomType.uuid), {
-            onSuccess: () => toast.success("Room type updated successfully"),
-            onError: () => toast.error("Failed to update room type"),
-        });
+        patch(route("admin.room-types.update", roomType.uuid));
     };
 
     const addImage = () => {

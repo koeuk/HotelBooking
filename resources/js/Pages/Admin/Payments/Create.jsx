@@ -19,7 +19,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Create({ bookings }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -46,10 +45,7 @@ export default function Create({ bookings }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.payments.store"), {
-            onSuccess: () => toast.success("Payment created successfully"),
-            onError: () => toast.error("Failed to create payment"),
-        });
+        post(route("admin.payments.store"));
     };
 
     return (

@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft, Plus, X } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
@@ -32,10 +31,7 @@ export default function Create() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.hotels.store"), {
-            onSuccess: () => toast.success("Hotel created successfully"),
-            onError: () => toast.error("Failed to create hotel"),
-        });
+        post(route("admin.hotels.store"));
     };
 
     const addImage = () => {

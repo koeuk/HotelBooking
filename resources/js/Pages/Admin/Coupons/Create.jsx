@@ -12,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
@@ -25,10 +24,7 @@ export default function Create() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.coupons.store"), {
-            onSuccess: () => toast.success("Coupon created successfully"),
-            onError: () => toast.error("Failed to create coupon"),
-        });
+        post(route("admin.coupons.store"));
     };
 
     return (

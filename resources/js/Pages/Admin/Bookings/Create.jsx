@@ -17,7 +17,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Create({ users, rooms }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -46,9 +45,7 @@ export default function Create({ users, rooms }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.bookings.store"), {
-            onSuccess: () => toast.success("Booking created successfully"),
-        });
+        post(route("admin.bookings.store"));
     };
 
     return (

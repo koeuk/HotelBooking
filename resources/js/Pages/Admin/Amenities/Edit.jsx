@@ -12,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ amenity }) {
     const { data, setData, put, processing, errors } = useForm({
@@ -22,10 +21,7 @@ export default function Edit({ amenity }) {
 
     const submit = (e) => {
         e.preventDefault();
-        put(route("admin.amenities.update", amenity.uuid), {
-            onSuccess: () => toast.success("Amenity updated successfully"),
-            onError: () => toast.error("Failed to update amenity"),
-        });
+        put(route("admin.amenities.update", amenity.uuid));
     };
 
     return (

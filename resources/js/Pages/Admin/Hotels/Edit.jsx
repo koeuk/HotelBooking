@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft, Plus, X } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ hotel }) {
     const { data, setData, patch, processing, errors } = useForm({
@@ -28,10 +27,7 @@ export default function Edit({ hotel }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.hotels.update", hotel.uuid), {
-            onSuccess: () => toast.success("Hotel updated successfully"),
-            onError: () => toast.error("Failed to update hotel"),
-        });
+        patch(route("admin.hotels.update", hotel.uuid));
     };
 
     const addImage = () => {

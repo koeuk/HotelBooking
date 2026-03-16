@@ -20,7 +20,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft, Plus, X } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Create({ hotels }) {
     const { data, setData, post, processing, errors } = useForm({
@@ -34,10 +33,7 @@ export default function Create({ hotels }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.room-types.store"), {
-            onSuccess: () => toast.success("Room type created successfully"),
-            onError: () => toast.error("Failed to create room type"),
-        });
+        post(route("admin.room-types.store"));
     };
 
     const addImage = () => {

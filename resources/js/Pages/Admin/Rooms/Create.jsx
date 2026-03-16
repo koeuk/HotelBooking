@@ -19,7 +19,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
+
 import { useMemo } from "react";
 
 export default function Create({ hotels, roomTypes }) {
@@ -40,10 +40,7 @@ export default function Create({ hotels, roomTypes }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.rooms.store"), {
-            onSuccess: () => toast.success("Room created successfully"),
-            onError: () => toast.error("Failed to create room"),
-        });
+        post(route("admin.rooms.store"));
     };
 
     return (

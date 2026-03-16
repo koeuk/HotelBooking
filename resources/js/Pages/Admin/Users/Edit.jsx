@@ -19,7 +19,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ user }) {
     const { data, setData, patch, processing, errors } = useForm({
@@ -33,10 +32,7 @@ export default function Edit({ user }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.users.update", user.uuid), {
-            onSuccess: () => toast.success("User updated successfully"),
-            onError: () => toast.error("Failed to update user"),
-        });
+        patch(route("admin.users.update", user.uuid));
     };
 
     return (

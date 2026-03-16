@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ payment }) {
     const booking = payment.booking;
@@ -35,10 +34,7 @@ export default function Edit({ payment }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.payments.update", payment.uuid), {
-            onSuccess: () => toast.success("Payment updated successfully"),
-            onError: () => toast.error("Failed to update payment"),
-        });
+        patch(route("admin.payments.update", payment.uuid));
     };
 
     return (

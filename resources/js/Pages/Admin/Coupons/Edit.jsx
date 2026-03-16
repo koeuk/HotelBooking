@@ -12,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ coupon }) {
     const { data, setData, put, processing, errors } = useForm({
@@ -25,10 +24,7 @@ export default function Edit({ coupon }) {
 
     const submit = (e) => {
         e.preventDefault();
-        put(route("admin.coupons.update", coupon.uuid), {
-            onSuccess: () => toast.success("Coupon updated successfully"),
-            onError: () => toast.error("Failed to update coupon"),
-        });
+        put(route("admin.coupons.update", coupon.uuid));
     };
 
     return (

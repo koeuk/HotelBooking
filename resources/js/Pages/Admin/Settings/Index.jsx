@@ -12,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Settings, Send } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Index({ settings }) {
     const { data, setData, post, processing } = useForm({
@@ -22,9 +21,7 @@ export default function Index({ settings }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.settings.update"), {
-            onSuccess: () => toast.success("Settings updated successfully."),
-        });
+        post(route("admin.settings.update"));
     };
 
     return (

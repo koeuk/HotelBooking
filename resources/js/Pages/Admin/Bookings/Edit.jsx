@@ -17,7 +17,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "sonner";
 
 export default function Edit({ booking, users, rooms }) {
     const { data, setData, patch, processing, errors } = useForm({
@@ -47,10 +46,7 @@ export default function Edit({ booking, users, rooms }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.bookings.update", booking.uuid), {
-            onSuccess: () => toast.success("Booking updated successfully"),
-            onError: () => toast.error("Failed to update booking"),
-        });
+        patch(route("admin.bookings.update", booking.uuid));
     };
 
     return (
