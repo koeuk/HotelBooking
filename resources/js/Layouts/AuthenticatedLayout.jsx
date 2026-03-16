@@ -24,6 +24,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -76,7 +77,7 @@ export default function AuthenticatedLayout({ children }) {
     }, [flash]);
 
     const NavContent = () => (
-        <div className="flex flex-col h-full bg-zinc-950 text-zinc-400">
+        <div className="flex flex-col h-full bg-[#1e293b] text-slate-400">
             <div className="p-6 flex items-center justify-between">
                 <Link
                     href={route("dashboard")}
@@ -99,11 +100,11 @@ export default function AuthenticatedLayout({ children }) {
                         key={section.label}
                         className={cn(
                             "space-y-1 py-4",
-                            sIndex > 0 && "border-t border-zinc-900 mt-2",
+                            sIndex > 0 && "border-t border-slate-700/50 mt-2",
                         )}
                     >
                         {!isCollapsed && (
-                            <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                            <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
                                 {section.label}
                             </p>
                         )}
@@ -119,7 +120,7 @@ export default function AuthenticatedLayout({ children }) {
                                         "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
                                         isActive
                                             ? "bg-primary/10 text-primary"
-                                            : "hover:bg-zinc-900 hover:text-white",
+                                            : "hover:bg-slate-700/50 hover:text-white",
                                     )}
                                 >
                                     <item.icon
@@ -143,16 +144,16 @@ export default function AuthenticatedLayout({ children }) {
                 ))}
             </ScrollArea>
 
-            <div className="p-4 border-t border-zinc-900">
+            <div className="p-4 border-t border-slate-700/50">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <button
                             className={cn(
-                                "w-full bg-zinc-900/50 rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-zinc-800/70 cursor-pointer",
+                                "w-full bg-slate-800/50 rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-slate-700/50 cursor-pointer",
                                 isCollapsed ? "justify-center px-2" : "",
                             )}
                         >
-                            <Avatar className="h-8 w-8 border border-zinc-800">
+                            <Avatar className="h-8 w-8 border border-slate-600/50">
                                 <AvatarImage src={user.avatar} />
                                 <AvatarFallback>
                                     {user.name.charAt(0)}
@@ -164,11 +165,11 @@ export default function AuthenticatedLayout({ children }) {
                                         <p className="text-xs font-bold text-white truncate">
                                             {user.name}
                                         </p>
-                                        <p className="text-[10px] text-zinc-500 truncate">
+                                        <p className="text-[10px] text-slate-500 truncate">
                                             {user.email}
                                         </p>
                                     </div>
-                                    <ChevronLeft className="h-4 w-4 text-zinc-500 rotate-90" />
+                                    <ChevronLeft className="h-4 w-4 text-slate-500 rotate-90" />
                                 </>
                             )}
                         </button>
@@ -178,7 +179,7 @@ export default function AuthenticatedLayout({ children }) {
                         align="start"
                         className="w-56 mb-2"
                     >
-                        <DropdownMenuLabel className="font-normal">
+                        <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-9 w-9">
                                     <AvatarImage src={user.avatar} />
@@ -189,7 +190,7 @@ export default function AuthenticatedLayout({ children }) {
                                     <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                                 </div>
                             </div>
-                        </DropdownMenuLabel>
+                        </DropdownMenuLabel></DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild className="cursor-pointer">
                             <Link href={route("profile.edit")}>
@@ -216,7 +217,7 @@ export default function AuthenticatedLayout({ children }) {
             {/* Desktop Sidebar */}
             <aside
                 className={cn(
-                    "hidden md:flex flex-col transition-all duration-300 border-r border-zinc-200 dark:border-zinc-800 overflow-hidden",
+                    "hidden md:flex flex-col transition-all duration-300 border-r border-zinc-200 dark:border-slate-600/50 overflow-hidden",
                     isCollapsed ? "w-20" : "w-72",
                 )}
             >
@@ -226,13 +227,13 @@ export default function AuthenticatedLayout({ children }) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col overflow-hidden relative">
                 {/* Navbar */}
-                <header className="h-16 flex items-center justify-between px-6 sticky top-0 z-30 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800">
+                <header className="h-16 flex items-center justify-between px-6 sticky top-0 z-30 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border-b border-zinc-200 dark:border-slate-600/50">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => setIsCollapsed(!isCollapsed)}
-                            className="hidden md:flex text-zinc-500"
+                            className="hidden md:flex text-slate-500"
                         >
                             <Menu className="h-5 w-5" />
                         </Button>
@@ -252,7 +253,7 @@ export default function AuthenticatedLayout({ children }) {
                             </SheetTrigger>
                             <SheetContent
                                 side="left"
-                                className="w-72 p-0 bg-zinc-950"
+                                className="w-72 p-0 bg-[#1e293b]"
                             >
                                 <NavContent />
                             </SheetContent>
@@ -272,7 +273,7 @@ export default function AuthenticatedLayout({ children }) {
                             <span className="text-xs font-bold text-zinc-900 dark:text-white">
                                 Welcome back
                             </span>
-                            <span className="text-[10px] text-zinc-500">
+                            <span className="text-[10px] text-slate-500">
                                 {new Date().toLocaleDateString("en-US", {
                                     weekday: "long",
                                     month: "short",
@@ -307,16 +308,16 @@ export default function AuthenticatedLayout({ children }) {
                                 align="end"
                                 forceMount
                             >
-                                <DropdownMenuLabel className="font-normal">
+                                <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
                                     <div className="flex flex-col space-y-1">
                                         <p className="text-sm font-bold leading-none">
                                             {user.name}
                                         </p>
-                                        <p className="text-xs leading-none text-zinc-500">
+                                        <p className="text-xs leading-none text-slate-500">
                                             {user.email}
                                         </p>
                                     </div>
-                                </DropdownMenuLabel>
+                                </DropdownMenuLabel></DropdownMenuGroup>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
                                     asChild
@@ -345,7 +346,7 @@ export default function AuthenticatedLayout({ children }) {
                         {children}
                     </div>
 
-                    <footer className="p-6 text-center text-[10px] text-zinc-400 border-t border-zinc-200 dark:border-zinc-800">
+                    <footer className="p-6 text-center text-[10px] text-zinc-400 border-t border-zinc-200 dark:border-slate-600/50">
                         &copy; 2026 Hotel Booking Pro. Managed by{" "}
                         <span className="text-primary font-bold">koeuk</span>
                     </footer>

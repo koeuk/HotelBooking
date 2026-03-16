@@ -27,6 +27,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -115,7 +116,7 @@ export default function AdminLayout({ children }) {
     }, [flash]);
 
     const NavContent = () => (
-        <div className="flex flex-col h-full bg-zinc-950 text-zinc-400">
+        <div className="flex flex-col h-full bg-zinc-500 text-zinc-200">
             <div className="p-6 flex items-center justify-between">
                 <Link
                     href={route("admin.dashboard")}
@@ -135,7 +136,7 @@ export default function AdminLayout({ children }) {
             <ScrollArea className="flex-1 px-4">
                 <div className="space-y-1 py-4">
                     {!isCollapsed && (
-                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
                             Main Menu
                         </p>
                     )}
@@ -151,7 +152,7 @@ export default function AdminLayout({ children }) {
                                     "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
                                     isActive
                                         ? "bg-primary/10 text-primary"
-                                        : "hover:bg-zinc-900 hover:text-white",
+                                        : "hover:bg-slate-700/50 hover:text-white",
                                 )}
                             >
                                 <item.icon
@@ -173,9 +174,9 @@ export default function AdminLayout({ children }) {
                     })}
                 </div>
 
-                <div className="mt-8 space-y-1 py-4 border-t border-zinc-900">
+                <div className="mt-8 space-y-1 py-4 border-t border-slate-700/50">
                     {!isCollapsed && (
-                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
                             Support
                         </p>
                     )}
@@ -187,15 +188,15 @@ export default function AdminLayout({ children }) {
                                 <Link
                                     href={route("admin.settings.index")}
                                     className={cn(
-                                        "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group",
+                                        "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-slate-700/50 hover:text-white group",
                                         isSettingsActive ? "bg-primary/10 text-primary" : "",
                                     )}
                                 >
-                                    <Settings className={cn("h-5 w-5 group-hover:text-white", isSettingsActive ? "text-primary" : "text-zinc-500")} />
+                                    <Settings className={cn("h-5 w-5 group-hover:text-white", isSettingsActive ? "text-primary" : "text-slate-500")} />
                                     {!isCollapsed && <span>Settings</span>}
                                 </Link>
-                                <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-zinc-900 hover:text-white group">
-                                    <HelpCircle className="h-5 w-5 text-zinc-500 group-hover:text-white" />
+                                <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-slate-700/50 hover:text-white group">
+                                    <HelpCircle className="h-5 w-5 text-slate-500 group-hover:text-white" />
                                     {!isCollapsed && <span>Internal Help</span>}
                                 </button>
                             </>
@@ -204,16 +205,16 @@ export default function AdminLayout({ children }) {
                 </div>
             </ScrollArea>
 
-            <div className="p-4 border-t border-zinc-900">
+            <div className="p-4 border-t border-slate-700/50">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <button
                             className={cn(
-                                "w-full bg-zinc-900/50 rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-zinc-800/70 cursor-pointer",
+                                "w-full bg-slate-800/50 rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-slate-700/50 cursor-pointer",
                                 isCollapsed ? "justify-center px-2" : "",
                             )}
                         >
-                            <Avatar className="h-8 w-8 border border-zinc-800">
+                            <Avatar className="h-8 w-8 border border-slate-600/50">
                                 <AvatarImage src={auth.user.avatar} />
                                 <AvatarFallback>
                                     {auth.user.name.charAt(0)}
@@ -225,11 +226,11 @@ export default function AdminLayout({ children }) {
                                         <p className="text-xs font-bold text-white truncate">
                                             {auth.user.name}
                                         </p>
-                                        <p className="text-[10px] text-zinc-500 truncate">
+                                        <p className="text-[10px] text-slate-500 truncate">
                                             {auth.user.email}
                                         </p>
                                     </div>
-                                    <ChevronLeft className="h-4 w-4 text-zinc-500 rotate-90" />
+                                    <ChevronLeft className="h-4 w-4 text-slate-500 rotate-90" />
                                 </>
                             )}
                         </button>
@@ -239,7 +240,7 @@ export default function AdminLayout({ children }) {
                         align="start"
                         className="w-56 mb-2"
                     >
-                        <DropdownMenuLabel className="font-normal">
+                        <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-9 w-9">
                                     <AvatarImage src={auth.user.avatar} />
@@ -250,7 +251,7 @@ export default function AdminLayout({ children }) {
                                     <p className="text-xs text-muted-foreground truncate">{auth.user.email}</p>
                                 </div>
                             </div>
-                        </DropdownMenuLabel>
+                        </DropdownMenuLabel></DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild className="cursor-pointer">
                             <Link href={route("admin.settings.index")}>
@@ -283,7 +284,7 @@ export default function AdminLayout({ children }) {
             {/* Desktop Sidebar */}
             <aside
                 className={cn(
-                    "hidden md:flex flex-col transition-all duration-300 border-r border-zinc-200 dark:border-zinc-800 overflow-hidden",
+                    "hidden md:flex flex-col transition-all duration-300 border-r border-zinc-200 dark:border-slate-600/50 overflow-hidden",
                     isCollapsed ? "w-20" : "w-72",
                 )}
             >
@@ -293,13 +294,13 @@ export default function AdminLayout({ children }) {
             {/* Main Content */}
             <div className="flex-1 flex flex-col overflow-hidden relative">
                 {/* Navbar */}
-                <header className="h-20 flex items-center justify-between px-6 sticky top-0 z-30 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800">
+                <header className="h-20 flex items-center justify-between px-6 sticky top-0 z-30 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl border-b border-zinc-200 dark:border-slate-600/50">
                     <div className="flex items-center gap-4">
                         <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => setIsCollapsed(!isCollapsed)}
-                            className="hidden md:flex text-zinc-500"
+                            className="hidden md:flex text-slate-500"
                         >
                             <Menu className="h-5 w-5" />
                         </Button>
@@ -319,7 +320,7 @@ export default function AdminLayout({ children }) {
                             </SheetTrigger>
                             <SheetContent
                                 side="left"
-                                className="w-72 p-0 bg-zinc-950"
+                                className="w-72 p-0 bg-[#1e293b]"
                             >
                                 <NavContent />
                             </SheetContent>
@@ -339,7 +340,7 @@ export default function AdminLayout({ children }) {
                             <span className="text-xs font-bold text-zinc-900 dark:text-white underline decoration-primary/50 underline-offset-4">
                                 Admin Portal
                             </span>
-                            <span className="text-[10px] text-zinc-500">
+                            <span className="text-[10px] text-slate-500">
                                 {new Date().toLocaleDateString("en-US", {
                                     weekday: "long",
                                     month: "short",
@@ -374,16 +375,16 @@ export default function AdminLayout({ children }) {
                                 align="end"
                                 forceMount
                             >
-                                <DropdownMenuLabel className="font-normal">
+                                <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
                                     <div className="flex flex-col space-y-1">
                                         <p className="text-sm font-bold leading-none">
                                             {auth.user.name}
                                         </p>
-                                        <p className="text-xs leading-none text-zinc-500">
+                                        <p className="text-xs leading-none text-slate-500">
                                             {auth.user.email}
                                         </p>
                                     </div>
-                                </DropdownMenuLabel>
+                                </DropdownMenuLabel></DropdownMenuGroup>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
                                     asChild
@@ -413,7 +414,7 @@ export default function AdminLayout({ children }) {
                     </div>
 
                     {/* Subtle Footer */}
-                    <footer className="p-6 text-center text-[10px] text-zinc-400 border-t border-zinc-200 dark:border-zinc-800">
+                    <footer className="p-6 text-center text-[10px] text-zinc-400 border-t border-zinc-200 dark:border-slate-600/50">
                         &copy; 2026 Hotel Booking Pro. Managed by{" "}
                         <span className="text-primary font-bold">koeuk</span>
                     </footer>
