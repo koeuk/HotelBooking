@@ -44,6 +44,21 @@ class ReportController extends Controller
                     ? round(Booking::where('status', 'cancelled')->count() / Booking::count() * 100, 1)
                     : 0,
             ],
+            'top_hotels' => Hotel::withCount('rooms')
+                ->withCount('reviews')
+                ->withAvg('reviews', 'rating')
+                ->orderByDesc('reviews_avg_rating')
+                ->take(10)
+                ->get(),
+            'recent_bookings' => Booking::with(['user', 'room.hotel', 'room.roomType', 'payment'])
+                ->latest()->take(10)->get(),
+            'recent_users' => User::withCount('bookings')->latest()->take(10)->get(),
+            'recent_reviews' => Review::with(['user', 'hotel'])->latest()->take(10)->get(),
+            'top_payments' => Payment::with(['booking.user', 'booking.room.hotel'])
+                ->where('status', 'paid')
+                ->orderByDesc('amount')
+                ->take(10)
+                ->get(),
         ]);
     }
 
@@ -76,9 +91,7 @@ class ReportController extends Controller
         for ($w = 0; $w < 52; $w++) {
             $weekStart = $start->copy()->addWeeks($w)->startOfWeek();
             $weekEnd = $weekStart->copy()->endOfWeek();
-
-            if ($weekStart->year > $year) break;
-            if ($weekStart->gt($now)) break;
+            if ($weekStart->year > $year || $weekStart->gt($now)) break;
 
             $data[] = [
                 'label' => 'W' . ($w + 1),
