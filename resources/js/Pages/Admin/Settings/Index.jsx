@@ -1,5 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -31,6 +31,7 @@ import {
     Check,
     Phone,
     Calendar,
+    Camera,
 } from "lucide-react";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -46,6 +47,8 @@ function ProfileSection({ mustVerifyEmail, status }) {
     const { auth } = usePage().props;
     const user = auth.user;
 
+    const avatarInput = useRef();
+
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
@@ -56,17 +59,39 @@ function ProfileSection({ mustVerifyEmail, status }) {
         patch(route("profile.update"));
     };
 
+    const handleAvatarChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        router.post(route("profile.avatar"), { avatar: file }, { forceFormData: true });
+    };
+
     return (
         <div className="space-y-6">
             <Card className="border-none shadow-sm">
                 <CardContent className="p-6">
                     <div className="flex items-center gap-6">
-                        <Avatar className="h-20 w-20 border-2 border-primary/20">
-                            <AvatarImage src={user.avatar} />
-                            <AvatarFallback className="text-2xl font-bold bg-primary/10 text-primary">
-                                {user.name?.charAt(0)}
-                            </AvatarFallback>
-                        </Avatar>
+                        <div className="relative group">
+                            <Avatar className="h-20 w-20 border-2 border-primary/20">
+                                <AvatarImage src={user.avatar} />
+                                <AvatarFallback className="text-2xl font-bold bg-primary/10 text-primary">
+                                    {user.name?.charAt(0)}
+                                </AvatarFallback>
+                            </Avatar>
+                            <button
+                                type="button"
+                                onClick={() => avatarInput.current?.click()}
+                                className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                            >
+                                <Camera className="h-6 w-6 text-white" />
+                            </button>
+                            <input
+                                ref={avatarInput}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleAvatarChange}
+                            />
+                        </div>
                         <div className="flex-1">
                             <h3 className="text-xl font-bold">{user.name}</h3>
                             <p className="text-sm text-muted-foreground">{user.email}</p>

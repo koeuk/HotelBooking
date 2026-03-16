@@ -30,15 +30,22 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:guest,admin',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'avatar' => 'nullable|image|max:2048',
         ]);
 
-        User::create([
+        $userData = [
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'role' => $request->role,
             'password' => Hash::make($request->password),
-        ]);
+        ];
+
+        if ($request->hasFile('avatar')) {
+            $userData['avatar'] = '/storage/' . $request->file('avatar')->store('avatars', 'public');
+        }
+
+        User::create($userData);
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
@@ -66,6 +73,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20',
             'role' => 'required|in:guest,admin',
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
+            'avatar' => 'nullable|image|max:2048',
         ]);
 
         $userData = [
@@ -77,6 +85,10 @@ class UserController extends Controller
 
         if ($request->password) {
             $userData['password'] = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('avatar')) {
+            $userData['avatar'] = '/storage/' . $request->file('avatar')->store('avatars', 'public');
         }
 
         $user->update($userData);

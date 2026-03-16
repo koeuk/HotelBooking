@@ -16,6 +16,7 @@ Route::get('/dashboard', [\App\Http\Controllers\UserDashboardController::class, 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/my-bookings', [\App\Http\Controllers\GuestBookingController::class, 'index'])->name('bookings.index');
