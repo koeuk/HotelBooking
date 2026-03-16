@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import FavoriteButton from "@/components/FavoriteButton";
 
 export default function Home({ featuredHotels, totalHotels, totalReviews, amenities, latestReviews }) {
     const [search, setSearch] = useState("");
@@ -103,7 +104,8 @@ export default function Home({ featuredHotels, totalHotels, totalReviews, amenit
                     {featuredHotels.map((hotel) => (
                         <Link key={hotel.id} href={`/explore/${hotel.uuid}`}>
                             <Card className="group overflow-hidden border-none shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer">
-                                <div className="aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                                <div className="aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800 relative">
+                                        <FavoriteButton hotelId={hotel.id} className="absolute top-3 right-3 z-10" />
                                     {hotel.images?.[0] ? (
                                         <img
                                             src={hotel.images[0]}

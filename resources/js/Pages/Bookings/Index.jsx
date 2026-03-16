@@ -64,7 +64,7 @@ export default function BookingsIndex({ bookings }) {
                         {bookingData.map((booking) => (
                             <Link
                                 key={booking.id}
-                                href={route("bookings.show", booking.id)}
+                                href={route("bookings.show", booking.uuid)}
                                 className="block"
                             >
                                 <Card className="border-none shadow-sm hover:shadow-md transition-all">

@@ -63,6 +63,16 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class);
     }
 
+    public function favorites()
+    {
+        return $this->belongsToMany(Hotel::class, 'favorites')->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function isAdmin()
     {
         return $this->role === 'admin';

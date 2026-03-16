@@ -55,8 +55,21 @@ Route::middleware(['auth', 'verified'])->prefix('web')->group(function () {
     Route::get('/hotels', [\App\Http\Controllers\WebHotelController::class, 'index'])->name('hotels.index');
     Route::get('/hotels/{hotel}', [\App\Http\Controllers\WebHotelController::class, 'show'])->name('hotels.show');
 
-    // Other user pages
-    Route::get('/favorites', function () { return \Inertia\Inertia::render('Favorites/Index'); })->name('favorites.index');
+    // Favorites
+    Route::get('/favorites', function (\Illuminate\Http\Request $request) {
+        $hotels = $request->user()->favorites()
+            ->withCount('rooms')
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
+            ->latest('favorites.created_at')
+            ->get();
+        return \Inertia\Inertia::render('Favorites/Index', ['hotels' => $hotels]);
+    })->name('favorites.index');
+    Route::post('/favorites/{hotel}/toggle', function (\Illuminate\Http\Request $request, \App\Models\Hotel $hotel) {
+        $user = $request->user();
+        $user->favorites()->toggle($hotel->id);
+        return back();
+    })->name('favorites.toggle');
     Route::get('/my-reviews', function (\Illuminate\Http\Request $request) {
         return \Inertia\Inertia::render('Reviews/Index', ['reviews' => \App\Models\Review::where('user_id', $request->user()->id)->with(['hotel', 'booking'])->latest()->paginate(10)]);
     })->name('reviews.index');
