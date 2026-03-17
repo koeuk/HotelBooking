@@ -132,12 +132,12 @@ export default function Index({ users, auth }) {
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="admin">
-                                                    <span className="flex items-center gap-1.5">
-                                                        <ShieldCheck className="w-3 h-3" />{" "}
-                                                        Admin
-                                                    </span>
-                                                </SelectItem>
+                                            <SelectItem value="admin">
+                                                <span className="flex items-center gap-1.5">
+                                                    <ShieldCheck className="w-3 h-3" />{" "}
+                                                    Dashboard
+                                                </span>
+                                            </SelectItem>
                                                 <SelectItem value="user">
                                                     <span className="flex items-center gap-1.5">
                                                         <UserIcon className="w-3 h-3" />{" "}

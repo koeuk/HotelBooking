@@ -140,7 +140,7 @@ export default function Edit({ user }) {
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="user">User</SelectItem>
-                                            <SelectItem value="admin">Admin</SelectItem>
+                                            <SelectItem value="admin">Dashboard</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     {errors.role && <p className="text-sm text-destructive">{errors.role}</p>}

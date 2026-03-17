@@ -10,7 +10,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramMessage;
 
-class BookingCreatedAdminNotification extends Notification implements ShouldQueue
+class BookingCreatedDashboardNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

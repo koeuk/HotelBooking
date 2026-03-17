@@ -72,7 +72,7 @@ export default function Show({ user }) {
                                 {user.role === "admin" ? (
                                     <Badge className="bg-primary/10 text-primary border-primary/20">
                                         <ShieldCheck className="w-3 h-3 mr-1" />{" "}
-                                        Admin
+                                        Dashboard
                                     </Badge>
                                 ) : (
                                     <Badge variant="secondary">

@@ -39,7 +39,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                 <div className="flex items-center gap-2 mt-2">
                                     <Badge variant="secondary" className="text-xs">
                                         {user.role === "admin" ? (
-                                            <><Shield className="h-3 w-3 mr-1" /> Admin</>
+                                            <><Shield className="h-3 w-3 mr-1" /> Dashboard</>
                                         ) : (
                                             <><User className="h-3 w-3 mr-1" /> User</>
                                         )}

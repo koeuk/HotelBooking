@@ -7,7 +7,7 @@ use App\Http\Resources\BookingResource;
 use App\Models\Booking;
 use App\Models\Room;
 use App\Models\User;
-use App\Notifications\BookingCreatedAdminNotification;
+use App\Notifications\BookingCreatedDashboardNotification;
 use App\Notifications\BookingStatusUpdatedUserNotification;
 use Illuminate\Http\Request;
 
@@ -91,7 +91,7 @@ class BookingApiController extends Controller
         try {
             $admin = User::where('role', 'admin')->first();
             if ($admin) {
-                $admin->notify(new BookingCreatedAdminNotification($booking));
+                $admin->notify(new BookingCreatedDashboardNotification($booking));
             }
         } catch (\Exception $e) {
             // Don't break booking flow on notification failure

@@ -80,7 +80,7 @@ class WebBookingController extends Controller
         try {
             $admin = \App\Models\User::where('role', 'admin')->first();
             if ($admin) {
-                $admin->notify(new \App\Notifications\BookingCreatedAdminNotification($booking));
+                $admin->notify(new \App\Notifications\BookingCreatedDashboardNotification($booking));
             }
         } catch (\Exception $e) {}
 
