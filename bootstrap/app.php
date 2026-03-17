@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
         then: function () {
             Route::middleware('web')
-                ->group(base_path('routes/admin.php'));
+                ->group(base_path('routes/dashboard.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
@@ -25,6 +25,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
+
+        $middleware->redirectGuestsTo(fn ($request) => $request->is('dashboard/*') || $request->is('dashboard') ? route('dashboard.login') : route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

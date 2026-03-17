@@ -35,7 +35,7 @@ Route::get('/auth/facebook/callback', [\App\Http\Controllers\SocialAuthControlle
 
 Route::middleware(['auth', 'verified'])->prefix('web')->group(function () {
     // Dashboard (at /web)
-    Route::get('/', [\App\Http\Controllers\WebDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [\App\Http\Controllers\WebDashboardController::class, 'index'])->name('user.dashboard');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,4 +84,5 @@ Route::middleware('auth')->prefix('api/v1')->group(function () {
     Route::patch('/notifications/read-all', [\App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead']);
 });
 
+require __DIR__.'/dashboard.php';
 require __DIR__.'/auth.php';

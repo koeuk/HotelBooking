@@ -275,7 +275,7 @@ export default function AdminLayout({ children }) {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className="cursor-pointer text-rose-500 focus:text-rose-500"
-                            onClick={() => router.post(route("logout"))}
+                            onClick={() => router.post(route("admin.logout"))}
                         >
                             <LogOut className="h-4 w-4" />
                             Log out
@@ -401,7 +401,7 @@ export default function AdminLayout({ children }) {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     className="text-rose-500 focus:text-rose-500 cursor-pointer"
-                                    onClick={() => router.post(route("logout"))}
+                                    onClick={() => router.post(route("admin.logout"))}
                                 >
                                     <LogOut className="h-4 w-4" />
                                     Sign Out

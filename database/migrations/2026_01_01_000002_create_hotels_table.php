@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('city');
             $table->string('country');
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
             $table->decimal('rating', 2, 1)->default(0);
             $table->json('images')->nullable();
             $table->timestamps();

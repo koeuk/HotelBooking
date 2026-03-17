@@ -4,18 +4,28 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Admin Dashboard Routes
+| Management Dashboard Routes
 |--------------------------------------------------------------------------
 |
-| All routes here are prefixed with /admin and use the admin.* name prefix.
+| All routes here are prefixed with /dashboard and use the dashboard.* name prefix.
 | They require authentication + admin role middleware.
 |
 */
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+// Guest routes for Dashboard Management
+Route::middleware('guest')->prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('login', [\App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])
+        ->name('login');
+    Route::post('login', [\App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'store']);
+});
 
-    // Dashboard
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
+    // Logout
+    Route::post('logout', [\App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+
+    // Main Dashboard View
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
 
     // CRUD Resources
     Route::resource('hotels', \App\Http\Controllers\HotelController::class);
