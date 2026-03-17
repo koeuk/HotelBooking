@@ -46,73 +46,73 @@ import { cn } from "@/lib/utils";
 const navItems = [
     {
         name: "Dashboard",
-        routeName: "admin.dashboard",
+        routeName: "dashboard.index",
         icon: LayoutDashboard,
         color: "text-blue-500",
     },
     {
         name: "Hotels",
-        routeName: "admin.hotels.index",
+        routeName: "dashboard.hotels.index",
         icon: Hotel,
         color: "text-emerald-500",
     },
     {
         name: "Room Types",
-        routeName: "admin.room-types.index",
+        routeName: "dashboard.room-types.index",
         icon: BedDouble,
         color: "text-indigo-500",
     },
     {
         name: "Rooms",
-        routeName: "admin.rooms.index",
+        routeName: "dashboard.rooms.index",
         icon: Bed,
         color: "text-violet-500",
     },
     {
         name: "Bookings",
-        routeName: "admin.bookings.index",
+        routeName: "dashboard.bookings.index",
         icon: CalendarCheck,
         color: "text-amber-500",
     },
     {
         name: "Payments",
-        routeName: "admin.payments.index",
+        routeName: "dashboard.payments.index",
         icon: CreditCard,
         color: "text-rose-500",
     },
     {
         name: "Users",
-        routeName: "admin.users.index",
+        routeName: "dashboard.users.index",
         icon: Users,
         color: "text-cyan-500",
     },
     {
         name: "Amenities",
-        routeName: "admin.amenities.index",
+        routeName: "dashboard.amenities.index",
         icon: Sparkles,
         color: "text-teal-500",
     },
     {
         name: "Reviews",
-        routeName: "admin.reviews.index",
+        routeName: "dashboard.reviews.index",
         icon: Star,
         color: "text-yellow-500",
     },
     {
         name: "Coupons",
-        routeName: "admin.coupons.index",
+        routeName: "dashboard.coupons.index",
         icon: Tag,
         color: "text-pink-500",
     },
     {
         name: "Reports",
-        routeName: "admin.reports.index",
+        routeName: "dashboard.reports.index",
         icon: BarChart3,
         color: "text-orange-500",
     },
 ];
 
-export default function AdminLayout({ children }) {
+export default function DashboardLayout({ children }) {
     const { auth, flash } = usePage().props;
     const { url } = usePage();
     const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -127,7 +127,7 @@ export default function AdminLayout({ children }) {
         <div className="flex flex-col h-full bg-slate-800 dark:bg-zinc-900 text-zinc-200">
             <div className="p-6 flex items-center justify-between">
                 <Link
-                    href={route("admin.dashboard")}
+                    href={route("dashboard.index")}
                     className="flex items-center gap-2 group"
                 >
                     <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl group-hover:scale-110 transition-transform">
@@ -135,7 +135,7 @@ export default function AdminLayout({ children }) {
                     </div>
                     {!isCollapsed && (
                         <span className="text-xl font-bold tracking-tight text-white animate-in fade-in slide-in-from-left-2 duration-300">
-                            Hotel<span className="text-primary">Admin</span>
+                            Hotel<span className="text-primary">Dashboard</span>
                         </span>
                     )}
                 </Link>
@@ -151,7 +151,7 @@ export default function AdminLayout({ children }) {
                     {navItems.map((item) => {
                         const itemUrl = route(item.routeName);
                         const itemPath = new URL(itemUrl).pathname;
-                        const isActive = url === itemPath || (itemPath !== '/admin/dashboard' && url.startsWith(itemPath));
+                        const isActive = url === itemPath || (itemPath !== '/dashboard' && url.startsWith(itemPath));
                         return (
                             <Link
                                 key={item.name}
@@ -189,12 +189,12 @@ export default function AdminLayout({ children }) {
                         </p>
                     )}
                     {(() => {
-                        const settingsPath = new URL(route("admin.settings.index")).pathname;
+                        const settingsPath = new URL(route("dashboard.settings.index")).pathname;
                         const isSettingsActive = url.startsWith(settingsPath);
                         return (
                             <>
                                 <Link
-                                    href={route("admin.settings.index")}
+                                    href={route("dashboard.settings.index")}
                                     className={cn(
                                         "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
                                         isSettingsActive
@@ -268,14 +268,14 @@ export default function AdminLayout({ children }) {
                             </div>
                         </DropdownMenuLabel></DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("admin.settings.index"))}>
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("dashboard.settings.index"))}>
                             <Settings className="h-4 w-4" />
                             Settings
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             className="cursor-pointer text-rose-500 focus:text-rose-500"
-                            onClick={() => router.post(route("admin.logout"))}
+                            onClick={() => router.post(route("dashboard.logout"))}
                         >
                             <LogOut className="h-4 w-4" />
                             Log out
@@ -345,7 +345,7 @@ export default function AdminLayout({ children }) {
                     <div className="flex items-center gap-3">
                         <div className="hidden lg:flex flex-col text-right mr-2">
                             <span className="text-xs font-bold text-zinc-900 dark:text-white underline decoration-primary/50 underline-offset-4">
-                                Admin Portal
+                                Management Dashboard
                             </span>
                             <span className="text-[10px] text-zinc-300">
                                 {new Date().toLocaleDateString("en-US", {
@@ -395,13 +395,13 @@ export default function AdminLayout({ children }) {
                                     </div>
                                 </DropdownMenuLabel></DropdownMenuGroup>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("admin.settings.index"))}>
+                                <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("dashboard.settings.index"))}>
                                     <UserCircle className="h-4 w-4" />
                                     Profile Settings
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     className="text-rose-500 focus:text-rose-500 cursor-pointer"
-                                    onClick={() => router.post(route("admin.logout"))}
+                                    onClick={() => router.post(route("dashboard.logout"))}
                                 >
                                     <LogOut className="h-4 w-4" />
                                     Sign Out

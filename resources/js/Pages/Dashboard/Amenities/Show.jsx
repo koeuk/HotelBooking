@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,14 +19,14 @@ import {
 
 export default function Show({ amenity }) {
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Amenity - ${amenity.name}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.amenities.index")}>
+                            <Link href={route("dashboard.amenities.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -37,7 +37,7 @@ export default function Show({ amenity }) {
                     <Button asChild>
                         <Link
                             href={route(
-                                "admin.amenities.edit",
+                                "dashboard.amenities.edit",
                                 amenity.uuid
                             )}
                         >
@@ -106,7 +106,7 @@ export default function Show({ amenity }) {
                                                 >
                                                     <Link
                                                         href={route(
-                                                            "admin.hotels.show",
+                                                            "dashboard.hotels.show",
                                                             hotel.uuid
                                                         )}
                                                     >
@@ -126,6 +126,6 @@ export default function Show({ amenity }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

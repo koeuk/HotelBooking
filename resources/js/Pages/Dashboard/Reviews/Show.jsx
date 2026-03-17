@@ -1,12 +1,7 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -22,14 +17,14 @@ import {
 
 export default function Show({ review }) {
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Review #${review.id}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.reviews.index")}>
+                            <Link href={route("dashboard.reviews.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -38,9 +33,7 @@ export default function Show({ review }) {
                         </h2>
                     </div>
                     <Button asChild>
-                        <Link
-                            href={route("admin.reviews.edit", review.uuid)}
-                        >
+                        <Link href={route("dashboard.reviews.edit", review.uuid)}>
                             <Edit className="mr-2 h-4 w-4" /> Edit Review
                         </Link>
                     </Button>
@@ -97,7 +90,7 @@ export default function Show({ review }) {
                                     </Label>
                                     <p className="text-sm mt-1">
                                         {new Date(
-                                            review.created_at
+                                            review.created_at,
                                         ).toLocaleDateString(undefined, {
                                             dateStyle: "long",
                                         })}
@@ -112,7 +105,7 @@ export default function Show({ review }) {
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
-                                    <User className="h-5 w-5" /> Guest
+                                    <User className="h-5 w-5" /> user
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
@@ -132,8 +125,8 @@ export default function Show({ review }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.users.show",
-                                                    review.user.uuid
+                                                    "dashboard.users.show",
+                                                    review.user.uuid,
                                                 )}
                                             >
                                                 View User
@@ -172,8 +165,8 @@ export default function Show({ review }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.hotels.show",
-                                                    review.hotel.uuid
+                                                    "dashboard.hotels.show",
+                                                    review.hotel.uuid,
                                                 )}
                                             >
                                                 View Hotel
@@ -192,8 +185,7 @@ export default function Show({ review }) {
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
-                                        <Calendar className="h-5 w-5" />{" "}
-                                        Booking
+                                        <Calendar className="h-5 w-5" /> Booking
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
@@ -210,7 +202,7 @@ export default function Show({ review }) {
                                                 Check-in:{" "}
                                             </span>
                                             {new Date(
-                                                review.booking.check_in_date
+                                                review.booking.check_in_date,
                                             ).toLocaleDateString()}
                                         </p>
                                         <p className="text-sm">
@@ -218,7 +210,7 @@ export default function Show({ review }) {
                                                 Check-out:{" "}
                                             </span>
                                             {new Date(
-                                                review.booking.check_out_date
+                                                review.booking.check_out_date,
                                             ).toLocaleDateString()}
                                         </p>
                                         <Button
@@ -229,8 +221,8 @@ export default function Show({ review }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.bookings.show",
-                                                    review.booking.uuid
+                                                    "dashboard.bookings.show",
+                                                    review.booking.uuid,
                                                 )}
                                             >
                                                 View Booking
@@ -243,6 +235,6 @@ export default function Show({ review }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

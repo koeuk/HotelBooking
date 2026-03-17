@@ -67,7 +67,7 @@ class PaymentReceivedNotification extends Notification implements ShouldQueue
             ->to(env('TELEGRAM_ADMIN_CHAT_ID'))
             ->content(
                 "💳 *Payment Received - Booking #" . $this->booking->id . "*\n\n" .
-                "👤 Guest: {$this->booking->user->name}\n" .
+                "👤 user: {$this->booking->user->name}\n" .
                 "🏠 Hotel: {$this->booking->room->hotel->name}\n" .
                 "💰 Amount: \${$this->booking->total_price}\n" .
                 "💳 Method: " . strtoupper($this->booking->payment->method ?? 'N/A') . "\n" .

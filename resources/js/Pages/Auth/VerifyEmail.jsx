@@ -1,6 +1,6 @@
-import PrimaryButton from '@/Components/PrimaryButton';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import PrimaryButton from "@/Components/PrimaryButton";
+import userLayout from "@/Layouts/userLayout";
+import { Head, Link, useForm } from "@inertiajs/react";
 
 export default function VerifyEmail({ status }) {
     const { post, processing } = useForm({});
@@ -8,11 +8,11 @@ export default function VerifyEmail({ status }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('verification.send'));
+        post(route("verification.send"));
     };
 
     return (
-        <GuestLayout>
+        <userLayout>
             <Head title="Email Verification" />
 
             <div className="mb-4 text-sm text-gray-600">
@@ -22,7 +22,7 @@ export default function VerifyEmail({ status }) {
                 another.
             </div>
 
-            {status === 'verification-link-sent' && (
+            {status === "verification-link-sent" && (
                 <div className="mb-4 text-sm font-medium text-green-600">
                     A new verification link has been sent to the email address
                     you provided during registration.
@@ -36,7 +36,7 @@ export default function VerifyEmail({ status }) {
                     </PrimaryButton>
 
                     <Link
-                        href={route('logout')}
+                        href={route("logout")}
                         method="post"
                         as="button"
                         className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -45,6 +45,6 @@ export default function VerifyEmail({ status }) {
                     </Link>
                 </div>
             </form>
-        </GuestLayout>
+        </userLayout>
     );
 }

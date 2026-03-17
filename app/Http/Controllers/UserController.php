@@ -47,7 +47,7 @@ class UserController extends Controller
 
         User::create($userData);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+        return redirect()->route('dashboard.users.index')->with('success', 'User created successfully.');
     }
 
     public function show(User $user)
@@ -93,7 +93,7 @@ class UserController extends Controller
 
         $user->update($userData);
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('dashboard.users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
@@ -103,6 +103,6 @@ class UserController extends Controller
         }
 
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('dashboard.users.index')->with('success', 'User deleted successfully.');
     }
 }

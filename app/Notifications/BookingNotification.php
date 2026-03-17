@@ -83,7 +83,7 @@ class BookingNotification extends Notification implements ShouldQueue
         return TelegramMessage::create()
             ->to(env('TELEGRAM_ADMIN_CHAT_ID'))
             ->content("*{$this->getSubject()}*\n\n" . $this->getIntroLine() . "\n" .
-                "Guest: {$this->booking->user->name}\n" .
+                "user: {$this->booking->user->name}\n" .
                 "Hotel: {$this->booking->room->hotel->name}\n" .
                 "Dates: {$this->booking->check_in_date->format('M d')} - {$this->booking->check_out_date->format('M d')}\n" .
                 "Total: \${$this->booking->total_price}")

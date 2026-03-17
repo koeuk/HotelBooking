@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,17 +32,17 @@ export default function Edit({ hotel }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.hotels.update", hotel.uuid), { forceFormData: true });
+        post(route("dashboard.hotels.update", hotel.uuid), { forceFormData: true });
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Edit Hotel - ${hotel.name}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.hotels.index")}>
+                        <Link href={route("dashboard.hotels.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -167,7 +167,7 @@ export default function Edit({ hotel }) {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.hotels.index")}>Cancel</Link>
+                                <Link href={route("dashboard.hotels.index")}>Cancel</Link>
                             </Button>
                             <Button type="submit" disabled={processing}>
                                 {processing ? "Saving..." : "Update Hotel"}
@@ -176,6 +176,6 @@ export default function Edit({ hotel }) {
                     </Card>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

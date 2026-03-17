@@ -112,16 +112,17 @@ npm run build
 
 ## Default Accounts
 
-| Role | Email | Password |
-|------|-------|----------|
+| Role  | Email           | Password |
+| ----- | --------------- | -------- |
 | Admin | admin@gmail.com | 12345678 |
-| User | koeuk@gmail.com | 12345678 |
+| User  | koeuk@gmail.com | 12345678 |
 
 ## API Documentation
 
 Full API documentation with request/response examples is available in [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md).
 
 See also:
+
 - [API Implementation Plan](docs/API_IMPLEMENTATION_PLAN.md)
 - [System Implementation Plan](docs/IMPLEMENTATION_PLAN.md)
 - [Booking Flow](docs/BOOKING_FLOW.md)
@@ -130,81 +131,81 @@ See also:
 
 ### Public Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/register` | Register a new user |
-| POST | `/auth/login` | Login and get Sanctum token |
-| POST | `/auth/google` | Google OAuth token exchange |
-| POST | `/auth/facebook` | Facebook OAuth token exchange |
-| GET | `/hotels` | List hotels (filter by city, country, search) |
-| GET | `/hotels/{id}` | Hotel details with room types |
-| GET | `/hotels/{id}/room-types` | Room types for a hotel |
-| GET | `/hotels/{id}/rooms` | Rooms for a hotel (filter by status, type) |
-| GET | `/room-types/{id}` | Room type details |
-| GET | `/rooms/{id}` | Room details |
-| GET | `/amenities` | List all amenities |
-| GET | `/amenities/{id}` | Amenity details with hotels |
+| Method | Endpoint                  | Description                                   |
+| ------ | ------------------------- | --------------------------------------------- |
+| POST   | `/auth/register`          | Register a new user                           |
+| POST   | `/auth/login`             | Login and get Sanctum token                   |
+| POST   | `/auth/google`            | Google OAuth token exchange                   |
+| POST   | `/auth/facebook`          | Facebook OAuth token exchange                 |
+| GET    | `/hotels`                 | List hotels (filter by city, country, search) |
+| GET    | `/hotels/{id}`            | Hotel details with room types                 |
+| GET    | `/hotels/{id}/room-types` | Room types for a hotel                        |
+| GET    | `/hotels/{id}/rooms`      | Rooms for a hotel (filter by status, type)    |
+| GET    | `/room-types/{id}`        | Room type details                             |
+| GET    | `/rooms/{id}`             | Room details                                  |
+| GET    | `/amenities`              | List all amenities                            |
+| GET    | `/amenities/{id}`         | Amenity details with hotels                   |
 
 ### Authenticated Endpoints (Bearer token)
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/logout` | Revoke token |
-| GET | `/bookings` | List user's bookings |
-| POST | `/bookings` | Create a booking (with availability check) |
-| GET | `/bookings/{id}` | Booking details |
-| PATCH | `/bookings/{id}/cancel` | Cancel a pending booking |
-| POST | `/payments` | Process payment (auto-confirms booking) |
-| GET | `/payments/{id}` | Payment details |
-| GET | `/profile` | Get user profile |
-| PATCH | `/profile` | Update profile (name, phone) |
-| PATCH | `/profile/set-password` | Set password (social auth users) |
-| GET | `/reviews` | List reviews (filter by hotel_id) |
-| GET | `/reviews/{id}` | Review details |
-| POST | `/reviews` | Create a review |
-| PATCH | `/reviews/{id}` | Update own review |
-| DELETE | `/reviews/{id}` | Delete own review |
-| POST | `/coupons/validate` | Validate a coupon code |
-| GET | `/notifications` | List unread notifications |
-| PATCH | `/notifications/{id}/read` | Mark notification as read |
-| PATCH | `/notifications/read-all` | Mark all as read |
+| Method | Endpoint                   | Description                                |
+| ------ | -------------------------- | ------------------------------------------ |
+| POST   | `/auth/logout`             | Revoke token                               |
+| GET    | `/bookings`                | List user's bookings                       |
+| POST   | `/bookings`                | Create a booking (with availability check) |
+| GET    | `/bookings/{id}`           | Booking details                            |
+| PATCH  | `/bookings/{id}/cancel`    | Cancel a pending booking                   |
+| POST   | `/payments`                | Process payment (auto-confirms booking)    |
+| GET    | `/payments/{id}`           | Payment details                            |
+| GET    | `/profile`                 | Get user profile                           |
+| PATCH  | `/profile`                 | Update profile (name, phone)               |
+| PATCH  | `/profile/set-password`    | Set password (social auth users)           |
+| GET    | `/reviews`                 | List reviews (filter by hotel_id)          |
+| GET    | `/reviews/{id}`            | Review details                             |
+| POST   | `/reviews`                 | Create a review                            |
+| PATCH  | `/reviews/{id}`            | Update own review                          |
+| DELETE | `/reviews/{id}`            | Delete own review                          |
+| POST   | `/coupons/validate`        | Validate a coupon code                     |
+| GET    | `/notifications`           | List unread notifications                  |
+| PATCH  | `/notifications/{id}/read` | Mark notification as read                  |
+| PATCH  | `/notifications/read-all`  | Mark all as read                           |
 
 ## Admin Panel
 
 Access at `/admin/dashboard` (requires `role = admin`).
 
-| Section | Features |
-|---------|----------|
-| **Dashboard** | Revenue/bookings/users/reviews/hotels charts, status breakdowns, recent bookings |
-| **Hotels** | Full CRUD with image upload, show page with room types/amenities/reviews |
-| **Room Types** | CRUD with hotel association and image upload |
-| **Rooms** | CRUD with hotel/type association, status management |
-| **Bookings** | CRUD with status workflow, payment recording, guest notifications |
-| **Payments** | Full CRUD with inline status updates, transaction tracking |
-| **Users** | CRUD with avatar upload, inline role switching (admin/user) |
-| **Amenities** | CRUD with icon support |
-| **Reviews** | CRUD with star ratings |
-| **Coupons** | CRUD with validity dates and usage tracking |
-| **Reports** | Weekly/monthly/yearly analytics, charts + data tables, PDF & Excel export |
-| **Settings** | Profile, security (password), Telegram integration, danger zone (delete account) |
+| Section        | Features                                                                         |
+| -------------- | -------------------------------------------------------------------------------- |
+| **Dashboard**  | Revenue/bookings/users/reviews/hotels charts, status breakdowns, recent bookings |
+| **Hotels**     | Full CRUD with image upload, show page with room types/amenities/reviews         |
+| **Room Types** | CRUD with hotel association and image upload                                     |
+| **Rooms**      | CRUD with hotel/type association, status management                              |
+| **Bookings**   | CRUD with status workflow, payment recording, user notifications                 |
+| **Payments**   | Full CRUD with inline status updates, transaction tracking                       |
+| **Users**      | CRUD with avatar upload, inline role switching (admin/user)                      |
+| **Amenities**  | CRUD with icon support                                                           |
+| **Reviews**    | CRUD with star ratings                                                           |
+| **Coupons**    | CRUD with validity dates and usage tracking                                      |
+| **Reports**    | Weekly/monthly/yearly analytics, charts + data tables, PDF & Excel export        |
+| **Settings**   | Profile, security (password), Telegram integration, danger zone (delete account) |
 
 ## Database Schema
 
-| Table | Description |
-|-------|-------------|
-| `users` | Accounts with OAuth fields, role (user/admin), avatar |
-| `hotels` | Properties with images (JSON), rating, latitude/longitude |
-| `room_types` | Room categories with pricing and images |
-| `rooms` | Individual rooms with status tracking |
-| `bookings` | Reservations with dates, pricing, status workflow |
-| `payments` | Payment records with transaction IDs, method, status |
-| `reviews` | Star ratings and comments (unique per booking) |
-| `amenities` | Hotel features (WiFi, Pool, etc.) |
-| `hotel_amenities` | Hotel-amenity pivot table |
-| `coupons` | Discount codes with validity and usage limits |
-| `settings` | Key-value app configuration |
-| `notifications` | Laravel database notifications |
-| `personal_access_tokens` | Sanctum API tokens |
+| Table                    | Description                                               |
+| ------------------------ | --------------------------------------------------------- |
+| `users`                  | Accounts with OAuth fields, role (user/admin), avatar     |
+| `hotels`                 | Properties with images (JSON), rating, latitude/longitude |
+| `room_types`             | Room categories with pricing and images                   |
+| `rooms`                  | Individual rooms with status tracking                     |
+| `bookings`               | Reservations with dates, pricing, status workflow         |
+| `payments`               | Payment records with transaction IDs, method, status      |
+| `reviews`                | Star ratings and comments (unique per booking)            |
+| `amenities`              | Hotel features (WiFi, Pool, etc.)                         |
+| `hotel_amenities`        | Hotel-amenity pivot table                                 |
+| `coupons`                | Discount codes with validity and usage limits             |
+| `settings`               | Key-value app configuration                               |
+| `notifications`          | Laravel database notifications                            |
+| `personal_access_tokens` | Sanctum API tokens                                        |
 
 ## Project Structure
 
@@ -224,21 +225,21 @@ resources/js/
 ├── components/                # Reusable: ImageUploader, FilterTabs, ThemeToggle, ThemeProvider, NotificationBell, HotelMap
 ├── components/ui/             # shadcn/ui components
 ├── lib/                       # Utilities: utils.js, exportUtils.js (PDF/Excel)
-├── Layouts/                   # AdminLayout, AuthenticatedLayout, AppLayout, GuestLayout
+├── Layouts/                   # AdminLayout, AuthenticatedLayout, AppLayout, userLayout
 └── Pages/
     ├── Admin/                 # Dashboard, Hotels, RoomTypes, Rooms, Bookings, Payments,
     │                          # Users, Amenities, Reviews, Coupons, Reports, Settings
     ├── Auth/                  # Login, Register, ForgotPassword, ResetPassword
-    ├── Bookings/              # Guest booking list and details
-    ├── Hotels/                # Guest hotel browsing and details
-    ├── Favorites/             # Guest favorites
-    ├── Reviews/               # Guest reviews
-    ├── Notifications/         # Guest notification center
+    ├── Bookings/              # user booking list and details
+    ├── Hotels/                # user hotel browsing and details
+    ├── Favorites/             # user favorites
+    ├── Reviews/               # user reviews
+    ├── Notifications/         # user notification center
     ├── Profile/               # Profile management (with AppLayout auto-detection)
     └── Dashboard.jsx          # User dashboard
 
 routes/
-├── web.php                    # Web routes (admin, guest, auth)
+├── web.php                    # Web routes (admin, user, auth)
 └── api.php                    # API v1 routes (34 endpoints)
 ```
 

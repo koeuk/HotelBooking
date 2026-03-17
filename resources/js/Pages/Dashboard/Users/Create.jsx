@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,17 +38,17 @@ export default function Create() {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.users.store"), { forceFormData: true });
+        post(route("dashboard.users.store"), { forceFormData: true });
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Add User" />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.users.index")}>
+                        <Link href={route("dashboard.users.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -166,7 +166,7 @@ export default function Create() {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.users.index")}>Cancel</Link>
+                                <Link href={route("dashboard.users.index")}>Cancel</Link>
                             </Button>
                             <Button type="submit" disabled={processing}>
                                 {processing ? "Creating..." : "Create User"}
@@ -175,6 +175,6 @@ export default function Create() {
                     </Card>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

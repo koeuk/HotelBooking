@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'admin' => \App\Http\Middleware\DashboardMiddleware::class,
         ]);
 
         $middleware->redirectGuestsTo(fn ($request) => $request->is('dashboard/*') || $request->is('dashboard') ? route('dashboard.login') : route('login'));

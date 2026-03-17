@@ -29,7 +29,7 @@ class AmenityController extends Controller
 
         Amenity::create($validated);
 
-        return redirect()->route('admin.amenities.index')->with('success', 'Amenity created successfully.');
+        return redirect()->route('dashboard.amenities.index')->with('success', 'Amenity created successfully.');
     }
 
     public function show(Amenity $amenity)
@@ -56,12 +56,12 @@ class AmenityController extends Controller
 
         $amenity->update($validated);
 
-        return redirect()->route('admin.amenities.index')->with('success', 'Amenity updated successfully.');
+        return redirect()->route('dashboard.amenities.index')->with('success', 'Amenity updated successfully.');
     }
 
     public function destroy(Amenity $amenity)
     {
         $amenity->delete();
-        return redirect()->route('admin.amenities.index')->with('success', 'Amenity deleted successfully.');
+        return redirect()->route('dashboard.amenities.index')->with('success', 'Amenity deleted successfully.');
     }
 }

@@ -67,7 +67,7 @@ class BookingController extends Controller
             // Don't break flow
         }
 
-        return redirect()->route('admin.bookings.index')->with('success', 'Booking created successfully.');
+        return redirect()->route('dashboard.bookings.index')->with('success', 'Booking created successfully.');
     }
 
     public function show(Booking $booking)
@@ -119,12 +119,12 @@ class BookingController extends Controller
             }
         }
 
-        return redirect()->route('admin.bookings.index')->with('success', 'Booking updated successfully.');
+        return redirect()->route('dashboard.bookings.index')->with('success', 'Booking updated successfully.');
     }
 
     public function destroy(Booking $booking)
     {
         $booking->delete();
-        return redirect()->route('admin.bookings.index')->with('success', 'Booking deleted successfully.');
+        return redirect()->route('dashboard.bookings.index')->with('success', 'Booking deleted successfully.');
     }
 }

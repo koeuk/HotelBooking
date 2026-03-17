@@ -39,7 +39,7 @@ class ReviewController extends Controller
 
         Review::create($validated);
 
-        return redirect()->route('admin.reviews.index')->with('success', 'Review created successfully.');
+        return redirect()->route('dashboard.reviews.index')->with('success', 'Review created successfully.');
     }
 
     public function show(Review $review)
@@ -69,12 +69,12 @@ class ReviewController extends Controller
 
         $review->update($validated);
 
-        return redirect()->route('admin.reviews.index')->with('success', 'Review updated successfully.');
+        return redirect()->route('dashboard.reviews.index')->with('success', 'Review updated successfully.');
     }
 
     public function destroy(Review $review)
     {
         $review->delete();
-        return redirect()->route('admin.reviews.index')->with('success', 'Review deleted successfully.');
+        return redirect()->route('dashboard.reviews.index')->with('success', 'Review deleted successfully.');
     }
 }

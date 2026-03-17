@@ -14,7 +14,7 @@ class WebDashboardController extends Controller
         $user = $request->user();
 
         if ($user->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('dashboard.index');
         }
 
         $bookings = $user->bookings()
@@ -49,7 +49,7 @@ class WebDashboardController extends Controller
             ->take(4)
             ->get();
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('User/Dashboard', [
             'stats' => $stats,
             'upcomingBookings' => $upcomingBookings,
             'recentBookings' => $recentBookings,

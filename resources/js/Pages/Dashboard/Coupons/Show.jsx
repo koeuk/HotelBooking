@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,14 +39,14 @@ export default function Show({ coupon }) {
           : "bg-blue-100 text-blue-800";
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Coupon - ${coupon.code}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.coupons.index")}>
+                            <Link href={route("dashboard.coupons.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -57,7 +57,7 @@ export default function Show({ coupon }) {
                     </div>
                     <Button asChild>
                         <Link
-                            href={route("admin.coupons.edit", coupon.uuid)}
+                            href={route("dashboard.coupons.edit", coupon.uuid)}
                         >
                             <Edit className="mr-2 h-4 w-4" /> Edit Coupon
                         </Link>
@@ -189,6 +189,6 @@ export default function Show({ coupon }) {
                     </Card>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm, usePage, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -256,7 +256,7 @@ function IntegrationsSection({ settings }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.settings.update"));
+        post(route("dashboard.settings.update"));
     };
 
     return (
@@ -390,7 +390,7 @@ export default function Index({ settings, mustVerifyEmail, status }) {
     const [activeSection, setActiveSection] = useState("profile");
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Settings" />
 
             <div className="space-y-6">
@@ -467,6 +467,6 @@ export default function Index({ settings, mustVerifyEmail, status }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

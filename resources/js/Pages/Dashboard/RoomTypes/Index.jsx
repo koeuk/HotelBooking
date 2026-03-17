@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Table,
@@ -28,7 +28,7 @@ export default function Index({ roomTypes }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.room-types.destroy", roomTypeToDelete.uuid), {
+        destroy(route("dashboard.room-types.destroy", roomTypeToDelete.uuid), {
             onSuccess: () => {
                 setRoomTypeToDelete(null);
                 toast.success("Room type deleted successfully");
@@ -38,7 +38,7 @@ export default function Index({ roomTypes }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Room Types Management" />
 
             <div className="space-y-6">
@@ -52,7 +52,7 @@ export default function Index({ roomTypes }) {
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.room-types.create")}>
+                        <Link href={route("dashboard.room-types.create")}>
                             <Plus className="mr-2 h-4 w-4" /> Add Room Type
                         </Link>
                     </Button>
@@ -64,7 +64,7 @@ export default function Index({ roomTypes }) {
                             <TableRow>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Hotel</TableHead>
-                                <TableHead>Max Guests</TableHead>
+                                <TableHead>Max users</TableHead>
                                 <TableHead>Price</TableHead>
                                 <TableHead className="text-right">
                                     Actions
@@ -78,7 +78,7 @@ export default function Index({ roomTypes }) {
                                         {type.name}
                                     </TableCell>
                                     <TableCell>{type.hotel.name}</TableCell>
-                                    <TableCell>{type.max_guests}</TableCell>
+                                    <TableCell>{type.max_users}</TableCell>
                                     <TableCell className="font-semibold text-primary">
                                         ${type.price_per_night}
                                     </TableCell>
@@ -90,7 +90,7 @@ export default function Index({ roomTypes }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.room-types.show",
+                                                    "dashboard.room-types.show",
                                                     type.uuid,
                                                 )}
                                             >
@@ -104,7 +104,7 @@ export default function Index({ roomTypes }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.room-types.edit",
+                                                    "dashboard.room-types.edit",
                                                     type.uuid,
                                                 )}
                                             >
@@ -216,6 +216,6 @@ export default function Index({ roomTypes }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

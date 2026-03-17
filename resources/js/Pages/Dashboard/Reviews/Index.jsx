@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Table,
@@ -44,7 +44,7 @@ export default function Index({ reviews }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.reviews.destroy", reviewToDelete.uuid), {
+        destroy(route("dashboard.reviews.destroy", reviewToDelete.uuid), {
             onSuccess: () => {
                 setReviewToDelete(null);
                 toast.success("Review deleted successfully");
@@ -54,7 +54,7 @@ export default function Index({ reviews }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Reviews Management" />
 
             <div className="space-y-6">
@@ -64,11 +64,11 @@ export default function Index({ reviews }) {
                             Reviews
                         </h2>
                         <p className="text-muted-foreground">
-                            Manage guest reviews and ratings.
+                            Manage user reviews and ratings.
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.reviews.create")}>
+                        <Link href={route("dashboard.reviews.create")}>
                             <Plus className="mr-2 h-4 w-4" /> New Review
                         </Link>
                     </Button>
@@ -78,7 +78,7 @@ export default function Index({ reviews }) {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Guest</TableHead>
+                                <TableHead>user</TableHead>
                                 <TableHead>Hotel</TableHead>
                                 <TableHead>Booking #</TableHead>
                                 <TableHead>Rating</TableHead>
@@ -99,12 +99,8 @@ export default function Index({ reviews }) {
                                             {review.user?.email}
                                         </div>
                                     </TableCell>
-                                    <TableCell>
-                                        {review.hotel?.name}
-                                    </TableCell>
-                                    <TableCell>
-                                        #{review.booking_id}
-                                    </TableCell>
+                                    <TableCell>{review.hotel?.name}</TableCell>
+                                    <TableCell>#{review.booking_id}</TableCell>
                                     <TableCell>
                                         <StarRating rating={review.rating} />
                                     </TableCell>
@@ -119,7 +115,7 @@ export default function Index({ reviews }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.reviews.show",
+                                                    "dashboard.reviews.show",
                                                     review.uuid,
                                                 )}
                                             >
@@ -133,7 +129,7 @@ export default function Index({ reviews }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.reviews.edit",
+                                                    "dashboard.reviews.edit",
                                                     review.uuid,
                                                 )}
                                             >
@@ -147,7 +143,9 @@ export default function Index({ reviews }) {
                                                     variant="destructive"
                                                     size="icon"
                                                     onClick={() =>
-                                                        setReviewToDelete(review)
+                                                        setReviewToDelete(
+                                                            review,
+                                                        )
                                                     }
                                                 >
                                                     <Trash2 className="h-4 w-4" />
@@ -245,6 +243,6 @@ export default function Index({ reviews }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

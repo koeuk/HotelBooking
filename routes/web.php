@@ -74,7 +74,7 @@ Route::middleware(['auth', 'verified'])->prefix('web')->group(function () {
         return \Inertia\Inertia::render('Reviews/Index', ['reviews' => \App\Models\Review::where('user_id', $request->user()->id)->with(['hotel', 'booking'])->latest()->paginate(10)]);
     })->name('reviews.index');
     Route::get('/notifications', function () { return \Inertia\Inertia::render('Notifications/Index'); })->name('notifications.index');
-    Route::get('/settings', function () { return redirect()->route('profile.edit'); })->name('settings.index.guest');
+    Route::get('/settings', function () { return redirect()->route('profile.edit'); })->name('settings.index.user');
 });
 
 // Notification API (web session auth)

@@ -51,7 +51,7 @@ class HotelController extends Controller
 
         Hotel::create($validated);
 
-        return redirect()->route('admin.hotels.index')->with('success', 'Hotel created successfully.');
+        return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel created successfully.');
     }
 
     public function show(Hotel $hotel)
@@ -99,12 +99,12 @@ class HotelController extends Controller
 
         $hotel->update($validated);
 
-        return redirect()->route('admin.hotels.index')->with('success', 'Hotel updated successfully.');
+        return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel updated successfully.');
     }
 
     public function destroy(Hotel $hotel)
     {
         $hotel->delete();
-        return redirect()->route('admin.hotels.index')->with('success', 'Hotel deleted successfully.');
+        return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel deleted successfully.');
     }
 }

@@ -1,12 +1,7 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -61,14 +56,16 @@ export default function Show({ payment }) {
     const roomType = room?.room_type;
 
     return (
-        <AdminLayout>
-            <Head title={`Payment - ${payment.transaction_id || `PAY-${payment.id}`}`} />
+        <DashboardLayout>
+            <Head
+                title={`Payment - ${payment.transaction_id || `PAY-${payment.id}`}`}
+            />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.payments.index")}>
+                            <Link href={route("dashboard.payments.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -77,7 +74,7 @@ export default function Show({ payment }) {
                         </h2>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.payments.edit", payment.uuid)}>
+                        <Link href={route("dashboard.payments.edit", payment.uuid)}>
                             <Edit className="mr-2 h-4 w-4" /> Edit Payment
                         </Link>
                     </Button>
@@ -189,7 +186,7 @@ export default function Show({ payment }) {
                                             </Label>
                                             <Link
                                                 href={route(
-                                                    "admin.bookings.show",
+                                                    "dashboard.bookings.show",
                                                     booking.uuid,
                                                 )}
                                                 className="text-primary hover:underline font-semibold text-lg block"
@@ -287,13 +284,13 @@ export default function Show({ payment }) {
                         )}
                     </div>
 
-                    {/* Guest Info */}
+                    {/* user Info */}
                     {user && (
                         <div>
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
-                                        <User className="h-5 w-5" /> Guest
+                                        <User className="h-5 w-5" /> user
                                         Information
                                     </CardTitle>
                                 </CardHeader>
@@ -321,6 +318,6 @@ export default function Show({ payment }) {
                     )}
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

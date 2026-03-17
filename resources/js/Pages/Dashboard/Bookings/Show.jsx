@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm, router } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,16 +51,20 @@ export default function Show({ booking }) {
 
     const updateStatus = (status) => {
         setProcessing(true);
-        router.patch(route("admin.bookings.update", booking.uuid), { status }, {
-            onSuccess: () => toast.success("Status updated"),
-            onFinish: () => setProcessing(false),
-        });
+        router.patch(
+            route("dashboard.bookings.update", booking.uuid),
+            { status },
+            {
+                onSuccess: () => toast.success("Status updated"),
+                onFinish: () => setProcessing(false),
+            },
+        );
     };
 
     const handleRecordPayment = () => {
         setPaymentProcessing(true);
         router.post(
-            route("admin.payments.store"),
+            route("dashboard.payments.store"),
             {
                 booking_id: booking.id,
                 amount: booking.total_price,
@@ -79,14 +83,14 @@ export default function Show({ booking }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Booking Details - #${booking.id}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.bookings.index")}>
+                            <Link href={route("dashboard.bookings.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -127,7 +131,7 @@ export default function Show({ booking }) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Guest & Stay Details */}
+                    {/* user & Stay Details */}
                     <div className="md:col-span-2 space-y-6">
                         <Card>
                             <CardHeader>
@@ -204,23 +208,29 @@ export default function Show({ booking }) {
                             </CardContent>
                         </Card>
 
-                        {booking.room?.hotel?.latitude && booking.room?.hotel?.longitude && (
-                            <Card className="overflow-hidden">
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <MapPin className="h-5 w-5" /> Hotel Location
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-0">
-                                    <HotelMap
-                                        latitude={booking.room.hotel.latitude}
-                                        longitude={booking.room.hotel.longitude}
-                                        name={booking.room.hotel.name}
-                                        className="h-[200px] w-full"
-                                    />
-                                </CardContent>
-                            </Card>
-                        )}
+                        {booking.room?.hotel?.latitude &&
+                            booking.room?.hotel?.longitude && (
+                                <Card className="overflow-hidden">
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center gap-2">
+                                            <MapPin className="h-5 w-5" /> Hotel
+                                            Location
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="p-0">
+                                        <HotelMap
+                                            latitude={
+                                                booking.room.hotel.latitude
+                                            }
+                                            longitude={
+                                                booking.room.hotel.longitude
+                                            }
+                                            name={booking.room.hotel.name}
+                                            className="h-[200px] w-full"
+                                        />
+                                    </CardContent>
+                                </Card>
+                            )}
 
                         <Card>
                             <CardHeader>
@@ -384,11 +394,11 @@ export default function Show({ booking }) {
                         </Card>
                     </div>
 
-                    {/* Guest Info */}
+                    {/* user Info */}
                     <div>
                         <Card>
                             <CardHeader>
-                                <CardTitle>Guest Information</CardTitle>
+                                <CardTitle>user Information</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex flex-col items-center gap-2 mb-4">
@@ -430,7 +440,7 @@ export default function Show({ booking }) {
                                 >
                                     <Link
                                         href={route(
-                                            "admin.users.edit",
+                                            "dashboard.users.edit",
                                             booking.user.uuid,
                                         )}
                                     >
@@ -442,6 +452,6 @@ export default function Show({ booking }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

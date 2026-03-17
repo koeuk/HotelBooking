@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm, router } from "@inertiajs/react";
 import {
     Table,
@@ -43,7 +43,7 @@ export default function Index({ users, auth }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.users.destroy", userToDelete.uuid), {
+        destroy(route("dashboard.users.destroy", userToDelete.uuid), {
             onSuccess: () => {
                 setUserToDelete(null);
                 toast.success("User deleted successfully");
@@ -53,7 +53,7 @@ export default function Index({ users, auth }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Users Management" />
 
             <div className="space-y-6">
@@ -63,11 +63,11 @@ export default function Index({ users, auth }) {
                             Users
                         </h2>
                         <p className="text-muted-foreground">
-                            Manage guest accounts and administrator roles.
+                            Manage user accounts and administrator roles.
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.users.create")}>
+                        <Link href={route("dashboard.users.create")}>
                             <Plus className="mr-2 h-4 w-4" /> Add User
                         </Link>
                     </Button>
@@ -111,13 +111,20 @@ export default function Index({ users, auth }) {
                                         <Select
                                             defaultValue={user.role}
                                             onValueChange={(v) => {
-                                                router.patch(route("admin.users.update", user.uuid), {
-                                                    name: user.name,
-                                                    email: user.email,
-                                                    role: v,
-                                                }, {
-                                                    preserveScroll: true,
-                                                });
+                                                router.patch(
+                                                    route(
+                                                        "dashboard.users.update",
+                                                        user.uuid,
+                                                    ),
+                                                    {
+                                                        name: user.name,
+                                                        email: user.email,
+                                                        role: v,
+                                                    },
+                                                    {
+                                                        preserveScroll: true,
+                                                    },
+                                                );
                                             }}
                                             disabled={user.id === auth.user.id}
                                         >
@@ -127,12 +134,14 @@ export default function Index({ users, auth }) {
                                             <SelectContent>
                                                 <SelectItem value="admin">
                                                     <span className="flex items-center gap-1.5">
-                                                        <ShieldCheck className="w-3 h-3" /> Admin
+                                                        <ShieldCheck className="w-3 h-3" />{" "}
+                                                        Admin
                                                     </span>
                                                 </SelectItem>
                                                 <SelectItem value="user">
                                                     <span className="flex items-center gap-1.5">
-                                                        <UserIcon className="w-3 h-3" /> User
+                                                        <UserIcon className="w-3 h-3" />{" "}
+                                                        User
                                                     </span>
                                                 </SelectItem>
                                             </SelectContent>
@@ -146,7 +155,7 @@ export default function Index({ users, auth }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.users.show",
+                                                    "dashboard.users.show",
                                                     user.uuid,
                                                 )}
                                             >
@@ -160,7 +169,7 @@ export default function Index({ users, auth }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.users.edit",
+                                                    "dashboard.users.edit",
                                                     user.uuid,
                                                 )}
                                             >
@@ -267,6 +276,6 @@ export default function Index({ users, auth }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

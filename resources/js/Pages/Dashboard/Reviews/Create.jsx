@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,17 +31,17 @@ export default function Create({ users, hotels, bookings }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.reviews.store"));
+        post(route("dashboard.reviews.store"));
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Add Review" />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.reviews.index")}>
+                        <Link href={route("dashboard.reviews.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -61,7 +61,7 @@ export default function Create({ users, hotels, bookings }) {
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="user_id">Guest</Label>
+                                    <Label htmlFor="user_id">user</Label>
                                     <select
                                         id="user_id"
                                         value={data.user_id}
@@ -70,7 +70,7 @@ export default function Create({ users, hotels, bookings }) {
                                         }
                                         className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                     >
-                                        <option value="">Select a guest</option>
+                                        <option value="">Select a user</option>
                                         {users.map((user) => (
                                             <option
                                                 key={user.id}
@@ -122,11 +122,16 @@ export default function Create({ users, hotels, bookings }) {
                                         id="booking_id"
                                         value={data.booking_id}
                                         onChange={(e) =>
-                                            setData("booking_id", e.target.value)
+                                            setData(
+                                                "booking_id",
+                                                e.target.value,
+                                            )
                                         }
                                         className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                     >
-                                        <option value="">Select a booking</option>
+                                        <option value="">
+                                            Select a booking
+                                        </option>
                                         {bookings.map((booking) => (
                                             <option
                                                 key={booking.id}
@@ -160,7 +165,10 @@ export default function Create({ users, hotels, bookings }) {
                                                     key={num}
                                                     value={String(num)}
                                                 >
-                                                    {num} {num === 1 ? "Star" : "Stars"}
+                                                    {num}{" "}
+                                                    {num === 1
+                                                        ? "Star"
+                                                        : "Stars"}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -193,7 +201,7 @@ export default function Create({ users, hotels, bookings }) {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.reviews.index")}>
+                                <Link href={route("dashboard.reviews.index")}>
                                     Cancel
                                 </Link>
                             </Button>
@@ -204,6 +212,6 @@ export default function Create({ users, hotels, bookings }) {
                     </Card>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

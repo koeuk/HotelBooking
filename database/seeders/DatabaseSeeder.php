@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
 
         // 2. Create Regular Test User
         User::factory()->create([
-            'name' => 'Demo Guest',
+            'name' => 'Demo user',
             'email' => 'koeuk@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'user',
@@ -72,13 +72,13 @@ class DatabaseSeeder extends Seeder
 
         // 6. Create 10 Bookings with Users and Payments
         $rooms = Room::all();
-        $guests = User::factory(10)->create(['role' => 'user']);
+        $users = User::factory(10)->create(['role' => 'user']);
 
-        foreach ($guests as $guest) {
+        foreach ($users as $user) {
             $room = $rooms->random();
             
             $booking = Booking::factory()->create([
-                'user_id' => $guest->id,
+                'user_id' => $user->id,
                 'room_id' => $room->id,
                 'total_price' => $room->roomType->price_per_night * 2, // 2 nights
             ]);
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
             // Create a review for some bookings
             if (rand(0, 1)) {
                 Review::create([
-                    'user_id' => $guest->id,
+                    'user_id' => $user->id,
                     'hotel_id' => $room->hotel_id,
                     'booking_id' => $booking->id,
                     'rating' => rand(3, 5),

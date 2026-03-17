@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,14 +34,14 @@ const bookingStatusColors = {
 
 export default function Show({ room }) {
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Room - ${room.room_number}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.rooms.index")}>
+                            <Link href={route("dashboard.rooms.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -56,7 +56,7 @@ export default function Show({ room }) {
                     </div>
 
                     <Button asChild>
-                        <Link href={route("admin.rooms.edit", room.uuid)}>
+                        <Link href={route("dashboard.rooms.edit", room.uuid)}>
                             <Pencil className="mr-2 h-4 w-4" />
                             Edit Room
                         </Link>
@@ -83,7 +83,7 @@ export default function Show({ room }) {
                                             <p className="font-semibold text-lg">
                                                 <Link
                                                     href={route(
-                                                        "admin.hotels.show",
+                                                        "dashboard.hotels.show",
                                                         room.hotel.uuid,
                                                     )}
                                                     className="hover:underline"
@@ -105,7 +105,7 @@ export default function Show({ room }) {
                                             <p className="font-semibold text-lg">
                                                 <Link
                                                     href={route(
-                                                        "admin.room-types.show",
+                                                        "dashboard.room-types.show",
                                                         room.room_type.uuid,
                                                     )}
                                                     className="hover:underline"
@@ -180,7 +180,7 @@ export default function Show({ room }) {
                                                 <div>
                                                     <Link
                                                         href={route(
-                                                            "admin.bookings.show",
+                                                            "dashboard.bookings.show",
                                                             booking.uuid,
                                                         )}
                                                         className="font-medium hover:underline"
@@ -228,6 +228,6 @@ export default function Show({ room }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

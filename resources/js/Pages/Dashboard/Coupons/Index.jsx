@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Table,
@@ -28,7 +28,7 @@ export default function Index({ coupons }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.coupons.destroy", couponToDelete.uuid), {
+        destroy(route("dashboard.coupons.destroy", couponToDelete.uuid), {
             onSuccess: () => {
                 setCouponToDelete(null);
                 toast.success("Coupon deleted successfully");
@@ -43,7 +43,7 @@ export default function Index({ coupons }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Coupons Management" />
 
             <div className="space-y-6">
@@ -57,7 +57,7 @@ export default function Index({ coupons }) {
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.coupons.create")}>
+                        <Link href={route("dashboard.coupons.create")}>
                             <Plus className="mr-2 h-4 w-4" /> New Coupon
                         </Link>
                     </Button>
@@ -111,7 +111,7 @@ export default function Index({ coupons }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.coupons.show",
+                                                    "dashboard.coupons.show",
                                                     coupon.uuid,
                                                 )}
                                             >
@@ -125,7 +125,7 @@ export default function Index({ coupons }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.coupons.edit",
+                                                    "dashboard.coupons.edit",
                                                     coupon.uuid,
                                                 )}
                                             >
@@ -226,6 +226,6 @@ export default function Index({ coupons }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

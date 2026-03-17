@@ -1,13 +1,8 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import HotelMap from "@/components/HotelMap";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -42,14 +37,14 @@ export default function Show({ hotel }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Hotel - ${hotel.name}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.hotels.index")}>
+                            <Link href={route("dashboard.hotels.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -59,7 +54,7 @@ export default function Show({ hotel }) {
                     </div>
 
                     <Button asChild>
-                        <Link href={route("admin.hotels.edit", hotel.uuid)}>
+                        <Link href={route("dashboard.hotels.edit", hotel.uuid)}>
                             <Pencil className="mr-2 h-4 w-4" />
                             Edit Hotel
                         </Link>
@@ -164,7 +159,7 @@ export default function Show({ hotel }) {
                         )}
 
                         {/* Map */}
-                        {(hotel.latitude && hotel.longitude) && (
+                        {hotel.latitude && hotel.longitude && (
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
@@ -204,7 +199,7 @@ export default function Show({ hotel }) {
                                                 <div>
                                                     <Link
                                                         href={route(
-                                                            "admin.room-types.show",
+                                                            "dashboard.room-types.show",
                                                             roomType.uuid,
                                                         )}
                                                         className="font-medium hover:underline"
@@ -215,16 +210,13 @@ export default function Show({ hotel }) {
                                                         <span className="flex items-center gap-1">
                                                             <Users className="h-3 w-3" />
                                                             Max{" "}
-                                                            {
-                                                                roomType.max_guests
-                                                            }{" "}
-                                                            guests
+                                                            {roomType.max_users}{" "}
+                                                            users
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <Badge variant="outline">
-                                                    $
-                                                    {roomType.price_per_night}
+                                                    ${roomType.price_per_night}
                                                     /night
                                                 </Badge>
                                             </div>
@@ -250,8 +242,7 @@ export default function Show({ hotel }) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                {hotel.reviews &&
-                                hotel.reviews.length > 0 ? (
+                                {hotel.reviews && hotel.reviews.length > 0 ? (
                                     <div className="space-y-4">
                                         {hotel.reviews.map((review) => (
                                             <div
@@ -318,6 +309,6 @@ export default function Show({ hotel }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

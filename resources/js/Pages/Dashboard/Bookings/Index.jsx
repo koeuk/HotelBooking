@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm, router } from "@inertiajs/react";
 import {
     Table,
@@ -54,22 +54,26 @@ export default function Index({ bookings }) {
     const { delete: destroy, processing } = useForm();
 
     const updateStatus = (id, status) => {
-        router.patch(route("admin.bookings.update", id), { status }, {
-            onSuccess: () => toast.success("Status updated"),
-            onError: () => toast.error("Update failed"),
-        });
+        router.patch(
+            route("dashboard.bookings.update", id),
+            { status },
+            {
+                onSuccess: () => toast.success("Status updated"),
+                onError: () => toast.error("Update failed"),
+            },
+        );
     };
 
     const handleDelete = (id) => {
         if (confirm("Are you sure you want to delete this booking?")) {
-            destroy(route("admin.bookings.destroy", id), {
+            destroy(route("dashboard.bookings.destroy", id), {
                 onSuccess: () => toast.success("Booking deleted"),
             });
         }
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Bookings Management" />
 
             <div className="space-y-6">
@@ -83,7 +87,7 @@ export default function Index({ bookings }) {
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.bookings.create")}>
+                        <Link href={route("dashboard.bookings.create")}>
                             <Plus className="mr-2 h-4 w-4" /> New Booking
                         </Link>
                     </Button>
@@ -93,7 +97,7 @@ export default function Index({ bookings }) {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Guest</TableHead>
+                                <TableHead>user</TableHead>
                                 <TableHead>Hotel / Room</TableHead>
                                 <TableHead>Dates</TableHead>
                                 <TableHead>Total</TableHead>
@@ -171,7 +175,7 @@ export default function Index({ bookings }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.bookings.show",
+                                                    "dashboard.bookings.show",
                                                     booking.uuid,
                                                 )}
                                             >
@@ -186,7 +190,7 @@ export default function Index({ bookings }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.bookings.edit",
+                                                    "dashboard.bookings.edit",
                                                     booking.uuid,
                                                 )}
                                             >
@@ -252,6 +256,6 @@ export default function Index({ bookings }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,17 +24,17 @@ export default function Edit({ coupon }) {
 
     const submit = (e) => {
         e.preventDefault();
-        put(route("admin.coupons.update", coupon.uuid));
+        put(route("dashboard.coupons.update", coupon.uuid));
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Edit Coupon - ${coupon.code}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.coupons.index")}>
+                        <Link href={route("dashboard.coupons.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -164,7 +164,7 @@ export default function Edit({ coupon }) {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.coupons.index")}>
+                                <Link href={route("dashboard.coupons.index")}>
                                     Cancel
                                 </Link>
                             </Button>
@@ -177,6 +177,6 @@ export default function Edit({ coupon }) {
                     </Card>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

@@ -45,7 +45,9 @@ export default function HotelShow({ hotel }) {
                 {/* Header */}
                 <div className="flex items-start justify-between flex-wrap gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">{hotel.name}</h1>
+                        <h1 className="text-2xl font-bold tracking-tight">
+                            {hotel.name}
+                        </h1>
                         <div className="flex items-center gap-2 mt-1 text-muted-foreground">
                             <MapPin className="h-4 w-4" />
                             <span>
@@ -69,7 +71,9 @@ export default function HotelShow({ hotel }) {
                             <div
                                 key={index}
                                 className={`${
-                                    index === 0 ? "md:col-span-2 md:row-span-2 h-64 md:h-full" : "h-48"
+                                    index === 0
+                                        ? "md:col-span-2 md:row-span-2 h-64 md:h-full"
+                                        : "h-48"
                                 } bg-zinc-100 dark:bg-zinc-800 overflow-hidden`}
                             >
                                 <img
@@ -89,7 +93,7 @@ export default function HotelShow({ hotel }) {
                 )}
 
                 {/* Map */}
-                {(hotel.latitude && hotel.longitude) && (
+                {hotel.latitude && hotel.longitude && (
                     <Card className="border-none shadow-sm overflow-hidden">
                         <CardHeader className="pb-3">
                             <CardTitle className="flex items-center gap-2 text-lg">
@@ -115,7 +119,9 @@ export default function HotelShow({ hotel }) {
                         {hotel.description && (
                             <Card className="border-none shadow-sm">
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-lg">About this Hotel</CardTitle>
+                                    <CardTitle className="text-lg">
+                                        About this Hotel
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <p className="text-muted-foreground leading-relaxed">
@@ -132,15 +138,20 @@ export default function HotelShow({ hotel }) {
                                     <BedDouble className="h-5 w-5 text-primary" />
                                     Room Types
                                 </CardTitle>
-                                <CardDescription>Available rooms and pricing</CardDescription>
+                                <CardDescription>
+                                    Available rooms and pricing
+                                </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 {roomTypes.length > 0 ? (
                                     <div className="space-y-4">
                                         {roomTypes.map((roomType) => {
-                                            const availableRooms = roomType.rooms?.filter(
-                                                (r) => r.status === "available"
-                                            ) || [];
+                                            const availableRooms =
+                                                roomType.rooms?.filter(
+                                                    (r) =>
+                                                        r.status ===
+                                                        "available",
+                                                ) || [];
                                             return (
                                                 <div
                                                     key={roomType.id}
@@ -148,28 +159,45 @@ export default function HotelShow({ hotel }) {
                                                 >
                                                     <div className="flex items-start justify-between flex-wrap gap-3">
                                                         <div>
-                                                            <h4 className="font-semibold">{roomType.name}</h4>
+                                                            <h4 className="font-semibold">
+                                                                {roomType.name}
+                                                            </h4>
                                                             {roomType.description && (
                                                                 <p className="text-sm text-muted-foreground mt-1">
-                                                                    {roomType.description}
+                                                                    {
+                                                                        roomType.description
+                                                                    }
                                                                 </p>
                                                             )}
                                                             <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                                                                 <span className="flex items-center gap-1">
                                                                     <BedDouble className="h-3.5 w-3.5" />
-                                                                    {availableRooms.length} available
+                                                                    {
+                                                                        availableRooms.length
+                                                                    }{" "}
+                                                                    available
                                                                 </span>
                                                                 {roomType.capacity && (
-                                                                    <span>Up to {roomType.capacity} guests</span>
+                                                                    <span>
+                                                                        Up to{" "}
+                                                                        {
+                                                                            roomType.capacity
+                                                                        }{" "}
+                                                                        users
+                                                                    </span>
                                                                 )}
                                                             </div>
                                                         </div>
                                                         <div className="text-right">
                                                             <p className="text-2xl font-bold text-primary flex items-center gap-0.5">
                                                                 <DollarSign className="h-5 w-5" />
-                                                                {roomType.price_per_night}
+                                                                {
+                                                                    roomType.price_per_night
+                                                                }
                                                             </p>
-                                                            <p className="text-xs text-muted-foreground">per night</p>
+                                                            <p className="text-xs text-muted-foreground">
+                                                                per night
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -178,7 +206,9 @@ export default function HotelShow({ hotel }) {
                                     </div>
                                 ) : (
                                     <div className="flex flex-col items-center justify-center py-8 text-center">
-                                        <p className="text-muted-foreground">No room information available.</p>
+                                        <p className="text-muted-foreground">
+                                            No room information available.
+                                        </p>
                                     </div>
                                 )}
                             </CardContent>
@@ -189,10 +219,13 @@ export default function HotelShow({ hotel }) {
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
                                     <MessageSquare className="h-5 w-5 text-primary" />
-                                    Guest Reviews
+                                    user Reviews
                                 </CardTitle>
                                 <CardDescription>
-                                    {reviews.length} {reviews.length === 1 ? "review" : "reviews"}
+                                    {reviews.length}{" "}
+                                    {reviews.length === 1
+                                        ? "review"
+                                        : "reviews"}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -209,20 +242,25 @@ export default function HotelShow({ hotel }) {
                                                             <User className="h-4 w-4 text-primary" />
                                                         </div>
                                                         <span className="font-medium text-sm">
-                                                            {review.user?.name || "Guest"}
+                                                            {review.user
+                                                                ?.name ||
+                                                                "user"}
                                                         </span>
                                                     </div>
                                                     <div className="flex items-center gap-1">
-                                                        {[...Array(5)].map((_, i) => (
-                                                            <Star
-                                                                key={i}
-                                                                className={`h-3.5 w-3.5 ${
-                                                                    i < review.rating
-                                                                        ? "fill-amber-400 text-amber-400"
-                                                                        : "text-zinc-300"
-                                                                }`}
-                                                            />
-                                                        ))}
+                                                        {[...Array(5)].map(
+                                                            (_, i) => (
+                                                                <Star
+                                                                    key={i}
+                                                                    className={`h-3.5 w-3.5 ${
+                                                                        i <
+                                                                        review.rating
+                                                                            ? "fill-amber-400 text-amber-400"
+                                                                            : "text-zinc-300"
+                                                                    }`}
+                                                                />
+                                                            ),
+                                                        )}
                                                     </div>
                                                 </div>
                                                 {review.comment && (
@@ -238,7 +276,9 @@ export default function HotelShow({ hotel }) {
                                         <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
                                             <MessageSquare className="h-6 w-6 text-muted-foreground" />
                                         </div>
-                                        <p className="text-muted-foreground font-medium">No reviews yet</p>
+                                        <p className="text-muted-foreground font-medium">
+                                            No reviews yet
+                                        </p>
                                         <p className="text-sm text-muted-foreground mt-1">
                                             Be the first to review this hotel.
                                         </p>
@@ -272,7 +312,9 @@ export default function HotelShow({ hotel }) {
                                         ))}
                                     </div>
                                 ) : (
-                                    <p className="text-sm text-muted-foreground">No amenities listed.</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        No amenities listed.
+                                    </p>
                                 )}
                             </CardContent>
                         </Card>
@@ -280,9 +322,12 @@ export default function HotelShow({ hotel }) {
                         {/* Contact / Book */}
                         <Card className="border-none shadow-sm bg-gradient-to-br from-slate-50 to-slate-100">
                             <CardContent className="p-6">
-                                <h4 className="font-semibold text-sm">Interested in booking?</h4>
+                                <h4 className="font-semibold text-sm">
+                                    Interested in booking?
+                                </h4>
                                 <p className="text-sm text-muted-foreground mt-1">
-                                    Contact our team to make a reservation at this hotel.
+                                    Contact our team to make a reservation at
+                                    this hotel.
                                 </p>
                                 <Button className="mt-4 w-full" asChild>
                                     <Link href={route("dashboard")}>

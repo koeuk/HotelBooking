@@ -11,20 +11,20 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Validation\ValidationException;
 
-class AdminAuthenticatedSessionController extends Controller
+class DashboardAuthenticatedSessionController extends Controller
 {
     /**
-     * Display the admin login view.
+     * Display the management login view.
      */
     public function create(): Response
     {
-        return Inertia::render('Admin/Auth/Login', [
+        return Inertia::render('Dashboard/Auth/Login', [
             'status' => session('status'),
         ]);
     }
 
     /**
-     * Handle an incoming admin authentication request.
+     * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
@@ -38,11 +38,11 @@ class AdminAuthenticatedSessionController extends Controller
             $request->session()->regenerateToken();
 
             throw ValidationException::withMessages([
-                'login' => 'These credentials do not have administrative access.',
+                'login' => 'These credentials do not have access.',
             ]);
         }
 
-        return redirect()->intended(route('admin.dashboard', absolute: false));
+        return redirect()->intended(route('dashboard.index', absolute: false));
     }
 
     /**
@@ -56,6 +56,6 @@ class AdminAuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        return redirect()->route('dashboard.login');
     }
 }

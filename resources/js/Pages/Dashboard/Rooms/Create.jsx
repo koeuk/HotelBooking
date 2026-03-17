@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,17 +40,17 @@ export default function Create({ hotels, roomTypes }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.rooms.store"));
+        post(route("dashboard.rooms.store"));
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Add Room" />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.rooms.index")}>
+                        <Link href={route("dashboard.rooms.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -206,7 +206,7 @@ export default function Create({ hotels, roomTypes }) {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.rooms.index")}>
+                                <Link href={route("dashboard.rooms.index")}>
                                     Cancel
                                 </Link>
                             </Button>
@@ -217,6 +217,6 @@ export default function Create({ hotels, roomTypes }) {
                     </Card>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

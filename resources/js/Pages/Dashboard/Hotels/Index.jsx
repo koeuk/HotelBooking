@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Table,
@@ -28,7 +28,7 @@ export default function Index({ hotels }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.hotels.destroy", hotelToDelete.uuid), {
+        destroy(route("dashboard.hotels.destroy", hotelToDelete.uuid), {
             onSuccess: () => {
                 setHotelToDelete(null);
                 toast.success("Hotel deleted successfully");
@@ -38,7 +38,7 @@ export default function Index({ hotels }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Hotels Management" />
 
             <div className="space-y-6">
@@ -52,7 +52,7 @@ export default function Index({ hotels }) {
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.hotels.create")}>
+                        <Link href={route("dashboard.hotels.create")}>
                             <Plus className="mr-2 h-4 w-4" /> Add Hotel
                         </Link>
                     </Button>
@@ -95,7 +95,7 @@ export default function Index({ hotels }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.hotels.show",
+                                                    "dashboard.hotels.show",
                                                     hotel.uuid,
                                                 )}
                                             >
@@ -109,7 +109,7 @@ export default function Index({ hotels }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.hotels.edit",
+                                                    "dashboard.hotels.edit",
                                                     hotel.uuid,
                                                 )}
                                             >
@@ -218,6 +218,6 @@ export default function Index({ hotels }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Table,
@@ -52,7 +52,7 @@ export default function Index({ rooms }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.rooms.destroy", roomToDelete.uuid), {
+        destroy(route("dashboard.rooms.destroy", roomToDelete.uuid), {
             onSuccess: () => {
                 setRoomToDelete(null);
                 toast.success("Room deleted successfully");
@@ -62,7 +62,7 @@ export default function Index({ rooms }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Rooms Management" />
 
             <div className="space-y-6">
@@ -76,7 +76,7 @@ export default function Index({ rooms }) {
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.rooms.create")}>
+                        <Link href={route("dashboard.rooms.create")}>
                             <Plus className="mr-2 h-4 w-4" /> Add Room
                         </Link>
                     </Button>
@@ -116,7 +116,7 @@ export default function Index({ rooms }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.rooms.show",
+                                                    "dashboard.rooms.show",
                                                     room.uuid,
                                                 )}
                                             >
@@ -130,7 +130,7 @@ export default function Index({ rooms }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.rooms.edit",
+                                                    "dashboard.rooms.edit",
                                                     room.uuid,
                                                 )}
                                             >
@@ -242,6 +242,6 @@ export default function Index({ rooms }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

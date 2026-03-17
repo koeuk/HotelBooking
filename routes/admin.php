@@ -4,28 +4,28 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Management Dashboard Routes
+| Admin Dashboard Routes
 |--------------------------------------------------------------------------
 |
-| All routes here are prefixed with /dashboard and use the dashboard.* name prefix.
+| All routes here are prefixed with /admin and use the admin.* name prefix.
 | They require authentication + admin role middleware.
 |
 */
 
-// Guest routes for Dashboard Management
-Route::middleware('guest')->prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::get('login', [\App\Http\Controllers\Auth\DashboardAuthenticatedSessionController::class, 'create'])
+// user routes for Admin
+Route::middleware('user')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('login', [\App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'create'])
         ->name('login');
-    Route::post('login', [\App\Http\Controllers\Auth\DashboardAuthenticatedSessionController::class, 'store']);
+    Route::post('login', [\App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'store']);
 });
 
-Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Logout
-    Route::post('logout', [\App\Http\Controllers\Auth\DashboardAuthenticatedSessionController::class, 'destroy'])
+    Route::post('logout', [\App\Http\Controllers\Auth\AdminAuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
-    // Main Dashboard View
-    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
+    // Dashboard
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // CRUD Resources
     Route::resource('hotels', \App\Http\Controllers\HotelController::class);

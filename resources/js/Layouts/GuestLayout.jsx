@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 import { Hotel } from "lucide-react";
 
-export default function GuestLayout({ children }) {
+export default function userLayout({ children }) {
     return (
         <div
             className="relative flex items-center justify-center min-h-screen bg-cover bg-center"
@@ -23,9 +23,7 @@ export default function GuestLayout({ children }) {
                         Antigravity Hotels
                     </span>
                 </div>
-                <div className="text-white">
-                    {children}
-                </div>
+                <div className="text-white">{children}</div>
             </div>
         </div>
     );

@@ -39,7 +39,7 @@ class BookingCreatedAdminNotification extends Notification implements ShouldQueu
             ->subject('New Booking Reservation #' . $this->booking->id)
             ->greeting('Hello ' . $notifiable->name . '!')
             ->line('A new booking reservation has been placed.')
-            ->line('**Guest:** ' . $this->booking->user->name . ' (' . $this->booking->user->email . ')')
+            ->line('**user:** ' . $this->booking->user->name . ' (' . $this->booking->user->email . ')')
             ->line('**Hotel:** ' . $this->booking->room->hotel->name)
             ->line('**Room:** ' . $this->booking->room->roomType->name . ' (#' . $this->booking->room->room_number . ')')
             ->line('**Check-in:** ' . $this->booking->check_in_date->format('M d, Y'))
@@ -71,7 +71,7 @@ class BookingCreatedAdminNotification extends Notification implements ShouldQueu
             ->to($chatId)
             ->content(
                 "🏨 *New Booking Reservation #" . $this->booking->id . "*\n\n" .
-                "👤 Guest: {$this->booking->user->name}\n" .
+                "👤 user: {$this->booking->user->name}\n" .
                 "📧 Email: {$this->booking->user->email}\n" .
                 "🏠 Hotel: {$this->booking->room->hotel->name}\n" .
                 "🛏 Room: {$this->booking->room->roomType->name} (#{$this->booking->room->room_number})\n" .

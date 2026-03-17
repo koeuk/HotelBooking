@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,17 +28,17 @@ export default function Edit({ review, users, hotels }) {
 
     const submit = (e) => {
         e.preventDefault();
-        put(route("admin.reviews.update", review.uuid));
+        put(route("dashboard.reviews.update", review.uuid));
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Edit Review" />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.reviews.index")}>
+                        <Link href={route("dashboard.reviews.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -60,9 +60,10 @@ export default function Edit({ review, users, hotels }) {
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label>Guest</Label>
+                                    <Label>user</Label>
                                     <p className="text-sm text-muted-foreground pt-2">
-                                        {review.user?.name} ({review.user?.email})
+                                        {review.user?.name} (
+                                        {review.user?.email})
                                     </p>
                                 </div>
                                 <div className="space-y-2">
@@ -97,7 +98,10 @@ export default function Edit({ review, users, hotels }) {
                                                     key={num}
                                                     value={String(num)}
                                                 >
-                                                    {num} {num === 1 ? "Star" : "Stars"}
+                                                    {num}{" "}
+                                                    {num === 1
+                                                        ? "Star"
+                                                        : "Stars"}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -130,7 +134,7 @@ export default function Edit({ review, users, hotels }) {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.reviews.index")}>
+                                <Link href={route("dashboard.reviews.index")}>
                                     Cancel
                                 </Link>
                             </Button>
@@ -141,6 +145,6 @@ export default function Edit({ review, users, hotels }) {
                     </Card>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

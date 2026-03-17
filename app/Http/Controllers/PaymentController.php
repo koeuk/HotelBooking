@@ -62,7 +62,7 @@ class PaymentController extends Controller
             }
         }
 
-        return redirect()->route('admin.payments.index')->with('success', 'Payment recorded successfully.');
+        return redirect()->route('dashboard.payments.index')->with('success', 'Payment recorded successfully.');
     }
 
     public function show(Payment $payment)
@@ -107,6 +107,6 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         $payment->delete();
-        return redirect()->route('admin.payments.index')->with('success', 'Payment deleted successfully.');
+        return redirect()->route('dashboard.payments.index')->with('success', 'Payment deleted successfully.');
     }
 }

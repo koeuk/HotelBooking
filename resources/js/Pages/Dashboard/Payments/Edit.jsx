@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,17 +34,19 @@ export default function Edit({ payment }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route("admin.payments.update", payment.uuid));
+        patch(route("dashboard.payments.update", payment.uuid));
     };
 
     return (
-        <AdminLayout>
-            <Head title={`Edit Payment - ${payment.transaction_id || `PAY-${payment.id}`}`} />
+        <DashboardLayout>
+            <Head
+                title={`Edit Payment - ${payment.transaction_id || `PAY-${payment.id}`}`}
+            />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.payments.index")}>
+                        <Link href={route("dashboard.payments.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -75,7 +77,7 @@ export default function Edit({ payment }) {
                                     </div>
                                     <div>
                                         <Label className="text-muted-foreground">
-                                            Guest
+                                            user
                                         </Label>
                                         <p className="font-semibold">
                                             {user?.name || "N/A"}
@@ -202,9 +204,7 @@ export default function Edit({ payment }) {
                             </CardContent>
                             <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                                 <Button variant="outline" asChild>
-                                    <Link
-                                        href={route("admin.payments.index")}
-                                    >
+                                    <Link href={route("dashboard.payments.index")}>
                                         Cancel
                                     </Link>
                                 </Button>
@@ -218,6 +218,6 @@ export default function Edit({ payment }) {
                     </div>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

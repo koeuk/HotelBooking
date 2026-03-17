@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +21,7 @@ export default function Edit({ roomType, hotels }) {
         hotel_id: roomType.hotel_id.toString(),
         name: roomType.name || "",
         description: roomType.description || "",
-        max_guests: roomType.max_guests || 1,
+        max_users: roomType.max_users || 1,
         price_per_night: roomType.price_per_night || 0,
         existing_images: roomType.images || [],
         new_images: [],
@@ -29,21 +29,25 @@ export default function Edit({ roomType, hotels }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.room-types.update", roomType.uuid), { forceFormData: true });
+        post(route("dashboard.room-types.update", roomType.uuid), {
+            forceFormData: true,
+        });
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Edit Room Type - ${roomType.name}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.room-types.index")}>
+                        <Link href={route("dashboard.room-types.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
-                    <h2 className="text-3xl font-bold tracking-tight">Edit Room Type</h2>
+                    <h2 className="text-3xl font-bold tracking-tight">
+                        Edit Room Type
+                    </h2>
                 </div>
 
                 <form onSubmit={submit}>
@@ -51,7 +55,8 @@ export default function Edit({ roomType, hotels }) {
                         <CardHeader>
                             <CardTitle>Room Type Details</CardTitle>
                             <CardDescription>
-                                Update information for <strong>{roomType.name}</strong>.
+                                Update information for{" "}
+                                <strong>{roomType.name}</strong>.
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -60,17 +65,26 @@ export default function Edit({ roomType, hotels }) {
                                 <select
                                     id="hotel_id"
                                     value={data.hotel_id}
-                                    onChange={(e) => setData("hotel_id", e.target.value)}
+                                    onChange={(e) =>
+                                        setData("hotel_id", e.target.value)
+                                    }
                                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                 >
                                     <option value="">Select a hotel</option>
                                     {hotels.map((hotel) => (
-                                        <option key={hotel.id} value={hotel.id.toString()}>
+                                        <option
+                                            key={hotel.id}
+                                            value={hotel.id.toString()}
+                                        >
                                             {hotel.name}
                                         </option>
                                     ))}
                                 </select>
-                                {errors.hotel_id && <p className="text-sm text-destructive">{errors.hotel_id}</p>}
+                                {errors.hotel_id && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.hotel_id}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="space-y-2">
@@ -78,10 +92,16 @@ export default function Edit({ roomType, hotels }) {
                                 <Input
                                     id="name"
                                     value={data.name}
-                                    onChange={(e) => setData("name", e.target.value)}
+                                    onChange={(e) =>
+                                        setData("name", e.target.value)
+                                    }
                                     placeholder="e.g. Deluxe Double Sea View"
                                 />
-                                {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                                {errors.name && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.name}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="space-y-2">
@@ -89,50 +109,79 @@ export default function Edit({ roomType, hotels }) {
                                 <Textarea
                                     id="description"
                                     value={data.description}
-                                    onChange={(e) => setData("description", e.target.value)}
+                                    onChange={(e) =>
+                                        setData("description", e.target.value)
+                                    }
                                     placeholder="Describe the room features, amenities, etc."
                                     rows={4}
                                 />
-                                {errors.description && <p className="text-sm text-destructive">{errors.description}</p>}
+                                {errors.description && (
+                                    <p className="text-sm text-destructive">
+                                        {errors.description}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="max_guests">Max Guests</Label>
+                                    <Label htmlFor="max_users">Max users</Label>
                                     <Input
-                                        id="max_guests"
+                                        id="max_users"
                                         type="number"
                                         min="1"
-                                        value={data.max_guests}
-                                        onChange={(e) => setData("max_guests", e.target.value)}
+                                        value={data.max_users}
+                                        onChange={(e) =>
+                                            setData("max_users", e.target.value)
+                                        }
                                     />
-                                    {errors.max_guests && <p className="text-sm text-destructive">{errors.max_guests}</p>}
+                                    {errors.max_users && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.max_users}
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="price_per_night">Price Per Night ($)</Label>
+                                    <Label htmlFor="price_per_night">
+                                        Price Per Night ($)
+                                    </Label>
                                     <Input
                                         id="price_per_night"
                                         type="number"
                                         step="0.01"
                                         min="0"
                                         value={data.price_per_night}
-                                        onChange={(e) => setData("price_per_night", e.target.value)}
+                                        onChange={(e) =>
+                                            setData(
+                                                "price_per_night",
+                                                e.target.value,
+                                            )
+                                        }
                                     />
-                                    {errors.price_per_night && <p className="text-sm text-destructive">{errors.price_per_night}</p>}
+                                    {errors.price_per_night && (
+                                        <p className="text-sm text-destructive">
+                                            {errors.price_per_night}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
 
                             <ImageUploader
                                 existingImages={data.existing_images}
-                                onExistingChange={(imgs) => setData("existing_images", imgs)}
+                                onExistingChange={(imgs) =>
+                                    setData("existing_images", imgs)
+                                }
                                 newFiles={data.new_images}
-                                onFilesChange={(files) => setData("new_images", files)}
+                                onFilesChange={(files) =>
+                                    setData("new_images", files)
+                                }
                                 errors={errors.images || errors.new_images}
                             />
                         </CardContent>
                         <CardFooter className="flex justify-end gap-4 border-t px-6 py-4">
                             <Button variant="outline" asChild>
-                                <Link href={route("admin.room-types.index")}>Cancel</Link>
+                                <Link href={route("dashboard.room-types.index")}>
+                                    Cancel
+                                </Link>
                             </Button>
                             <Button type="submit" disabled={processing}>
                                 {processing ? "Saving..." : "Update Room Type"}
@@ -141,6 +190,6 @@ export default function Edit({ roomType, hotels }) {
                     </Card>
                 </form>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

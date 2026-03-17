@@ -23,12 +23,12 @@ export default function Login({ status }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("admin.login"));
+        post(route("dashboard.login"));
     };
 
     return (
         <GuestLayout>
-            <Head title="Admin Login" />
+            <Head title="Dashboard Login" />
 
             <div className="space-y-6 text-center">
                 <div className="flex flex-col items-center gap-2 mb-2">
@@ -36,7 +36,7 @@ export default function Login({ status }) {
                         <ShieldCheck className="w-6 h-6 text-white" />
                     </div>
                     <h1 className="text-2xl font-bold tracking-tight text-white">
-                        Admin Portal
+                        Management Portal
                     </h1>
                     <p className="text-sm text-white/70">
                         Management access only
@@ -55,13 +55,18 @@ export default function Login({ status }) {
 
                 <form onSubmit={submit} className="space-y-4">
                     <div className="text-left">
-                        <Label htmlFor="login" className="text-white/80 ml-1 mb-1 block">Username or Email</Label>
+                        <Label
+                            htmlFor="login"
+                            className="text-white/80 ml-1 mb-1 block"
+                        >
+                            Username or Email
+                        </Label>
                         <Input
                             id="login"
                             type="text"
                             value={data.login}
                             onChange={(e) => setData("login", e.target.value)}
-                            placeholder="Enter admin credentials"
+                            placeholder="Enter credentials"
                             required
                             autoComplete="username"
                             className="bg-white/5 border-white/20 text-white placeholder:text-white/30 rounded-lg h-12 px-4 focus:ring-amber-500 focus:border-amber-500"
@@ -74,7 +79,12 @@ export default function Login({ status }) {
                     </div>
 
                     <div className="text-left">
-                        <Label htmlFor="password" className="text-white/80 ml-1 mb-1 block">Password</Label>
+                        <Label
+                            htmlFor="password"
+                            className="text-white/80 ml-1 mb-1 block"
+                        >
+                            Password
+                        </Label>
                         <Input
                             id="password"
                             type="password"
@@ -118,7 +128,9 @@ export default function Login({ status }) {
                         className="w-full rounded-lg h-12 text-base bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-lg shadow-amber-900/20"
                         disabled={processing}
                     >
-                        {processing ? "Authenticating..." : "Login to Dashboard"}
+                        {processing
+                            ? "Authenticating..."
+                            : "Login to Dashboard"}
                     </Button>
                 </form>
 

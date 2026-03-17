@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class RoomType extends Model
 {
     use HasFactory, HasUuid;
-    protected $fillable = ['hotel_id', 'name', 'description', 'max_guests', 'price_per_night', 'images'];
+    protected $fillable = ['hotel_id', 'name', 'description', 'max_users', 'price_per_night', 'images'];
 
     protected $casts = [
         'images' => 'array',

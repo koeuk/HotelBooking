@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('hotel_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('max_guests')->default(1);
+            $table->integer('max_users')->default(1);
             $table->decimal('price_per_night', 10, 2);
             $table->json('images')->nullable();
             $table->timestamps();

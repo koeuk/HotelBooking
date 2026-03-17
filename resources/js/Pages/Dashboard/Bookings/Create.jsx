@@ -1,12 +1,7 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -45,17 +40,17 @@ export default function Create({ users, rooms }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.bookings.store"));
+        post(route("dashboard.bookings.store"));
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Create Booking" />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href={route("admin.bookings.index")}>
+                        <Link href={route("dashboard.bookings.index")}>
                             <ChevronLeft className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -71,14 +66,16 @@ export default function Create({ users, rooms }) {
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="space-y-2">
-                                <Label htmlFor="user_id">Guest</Label>
+                                <Label htmlFor="user_id">user</Label>
                                 <select
                                     id="user_id"
                                     value={data.user_id}
-                                    onChange={(e) => setData("user_id", e.target.value)}
+                                    onChange={(e) =>
+                                        setData("user_id", e.target.value)
+                                    }
                                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                 >
-                                    <option value="">Select a guest</option>
+                                    <option value="">Select a user</option>
                                     {users.map((user) => (
                                         <option key={user.id} value={user.id}>
                                             {user.name} ({user.email})
@@ -97,13 +94,19 @@ export default function Create({ users, rooms }) {
                                 <select
                                     id="room_id"
                                     value={data.room_id}
-                                    onChange={(e) => setData("room_id", e.target.value)}
+                                    onChange={(e) =>
+                                        setData("room_id", e.target.value)
+                                    }
                                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                 >
                                     <option value="">Select a room</option>
                                     {rooms.map((room) => (
                                         <option key={room.id} value={room.id}>
-                                            {room.hotel.name} - {room.room_type.name} (#{room.room_number}) - ${room.room_type.price_per_night}/night
+                                            {room.hotel.name} -{" "}
+                                            {room.room_type.name} (#
+                                            {room.room_number}) - $
+                                            {room.room_type.price_per_night}
+                                            /night
                                         </option>
                                     ))}
                                 </select>
@@ -164,8 +167,12 @@ export default function Create({ users, rooms }) {
                                 <div className="flex justify-between items-center bg-muted p-4 rounded-lg">
                                     <div>
                                         <p className="text-sm text-muted-foreground">
-                                            {nights} night{nights > 1 ? "s" : ""} x $
-                                            {selectedRoom?.room_type.price_per_night}
+                                            {nights} night
+                                            {nights > 1 ? "s" : ""} x $
+                                            {
+                                                selectedRoom?.room_type
+                                                    .price_per_night
+                                            }
                                         </p>
                                     </div>
                                     <p className="text-2xl font-bold text-primary">
@@ -175,19 +182,12 @@ export default function Create({ users, rooms }) {
                             )}
 
                             <div className="flex gap-3 justify-end">
-                                <Button
-                                    variant="outline"
-                                    type="button"
-                                    asChild
-                                >
-                                    <Link href={route("admin.bookings.index")}>
+                                <Button variant="outline" type="button" asChild>
+                                    <Link href={route("dashboard.bookings.index")}>
                                         Cancel
                                     </Link>
                                 </Button>
-                                <Button
-                                    type="submit"
-                                    disabled={processing}
-                                >
+                                <Button type="submit" disabled={processing}>
                                     Create Booking
                                 </Button>
                             </div>
@@ -195,6 +195,6 @@ export default function Create({ users, rooms }) {
                     </CardContent>
                 </Card>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

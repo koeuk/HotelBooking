@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     Table,
@@ -43,7 +43,7 @@ export default function Index({ amenities }) {
     const { delete: destroy, processing } = useForm();
 
     const handleDelete = () => {
-        destroy(route("admin.amenities.destroy", amenityToDelete.uuid), {
+        destroy(route("dashboard.amenities.destroy", amenityToDelete.uuid), {
             onSuccess: () => {
                 setAmenityToDelete(null);
                 toast.success("Amenity deleted successfully");
@@ -53,7 +53,7 @@ export default function Index({ amenities }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Amenities Management" />
 
             <div className="space-y-6">
@@ -67,7 +67,7 @@ export default function Index({ amenities }) {
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.amenities.create")}>
+                        <Link href={route("dashboard.amenities.create")}>
                             <Plus className="mr-2 h-4 w-4" /> New Amenity
                         </Link>
                     </Button>
@@ -108,7 +108,7 @@ export default function Index({ amenities }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.amenities.show",
+                                                    "dashboard.amenities.show",
                                                     amenity.uuid,
                                                 )}
                                             >
@@ -122,7 +122,7 @@ export default function Index({ amenities }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.amenities.edit",
+                                                    "dashboard.amenities.edit",
                                                     amenity.uuid,
                                                 )}
                                             >
@@ -231,6 +231,6 @@ export default function Index({ amenities }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

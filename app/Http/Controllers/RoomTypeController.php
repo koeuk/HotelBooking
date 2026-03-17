@@ -29,7 +29,7 @@ class RoomTypeController extends Controller
             'hotel_id' => 'required|exists:hotels,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'max_guests' => 'required|integer|min:1',
+            'max_users' => 'required|integer|min:1',
             'price_per_night' => 'required|numeric|min:0',
             'existing_images' => 'nullable|array',
             'existing_images.*' => 'nullable|string',
@@ -50,7 +50,7 @@ class RoomTypeController extends Controller
 
         RoomType::create($validated);
 
-        return redirect()->route('admin.room-types.index')->with('success', 'Room type created successfully.');
+        return redirect()->route('dashboard.room-types.index')->with('success', 'Room type created successfully.');
     }
 
     public function show(RoomType $roomType)
@@ -75,7 +75,7 @@ class RoomTypeController extends Controller
             'hotel_id' => 'required|exists:hotels,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'max_guests' => 'required|integer|min:1',
+            'max_users' => 'required|integer|min:1',
             'price_per_night' => 'required|numeric|min:0',
             'existing_images' => 'nullable|array',
             'existing_images.*' => 'nullable|string',
@@ -96,12 +96,12 @@ class RoomTypeController extends Controller
 
         $roomType->update($validated);
 
-        return redirect()->route('admin.room-types.index')->with('success', 'Room type updated successfully.');
+        return redirect()->route('dashboard.room-types.index')->with('success', 'Room type updated successfully.');
     }
 
     public function destroy(RoomType $roomType)
     {
         $roomType->delete();
-        return redirect()->route('admin.room-types.index')->with('success', 'Room type deleted successfully.');
+        return redirect()->route('dashboard.room-types.index')->with('success', 'Room type deleted successfully.');
     }
 }

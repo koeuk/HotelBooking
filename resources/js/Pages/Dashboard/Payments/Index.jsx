@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router, useForm } from "@inertiajs/react";
 import {
     Table,
@@ -68,13 +68,13 @@ export default function Index({ payments }) {
     const { delete: destroy, processing } = useForm();
 
     const updateStatus = (id, status) => {
-        router.patch(route("admin.payments.update", id), { status }, {
+        router.patch(route("dashboard.payments.update", id), { status }, {
             onSuccess: () => toast.success("Payment status updated"),
         });
     };
 
     const handleDelete = () => {
-        destroy(route("admin.payments.destroy", paymentToDelete.uuid), {
+        destroy(route("dashboard.payments.destroy", paymentToDelete.uuid), {
             onSuccess: () => {
                 setPaymentToDelete(null);
                 toast.success("Payment deleted successfully");
@@ -84,7 +84,7 @@ export default function Index({ payments }) {
     };
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title="Payments Management" />
 
             <div className="space-y-6">
@@ -98,7 +98,7 @@ export default function Index({ payments }) {
                         </p>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.payments.create")}>
+                        <Link href={route("dashboard.payments.create")}>
                             <Plus className="mr-2 h-4 w-4" /> Add Payment
                         </Link>
                     </Button>
@@ -129,7 +129,7 @@ export default function Index({ payments }) {
                                     <TableCell>
                                         <Link
                                             href={route(
-                                                "admin.bookings.show",
+                                                "dashboard.bookings.show",
                                                 payment.booking.uuid,
                                             )}
                                             className="text-primary hover:underline"
@@ -186,7 +186,7 @@ export default function Index({ payments }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.payments.show",
+                                                    "dashboard.payments.show",
                                                     payment.uuid,
                                                 )}
                                             >
@@ -200,7 +200,7 @@ export default function Index({ payments }) {
                                         >
                                             <Link
                                                 href={route(
-                                                    "admin.payments.edit",
+                                                    "dashboard.payments.edit",
                                                     payment.uuid,
                                                 )}
                                             >
@@ -312,6 +312,6 @@ export default function Index({ payments }) {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

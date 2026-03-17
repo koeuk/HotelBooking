@@ -1,12 +1,7 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -39,14 +34,14 @@ export default function Show({ user }) {
         .slice(0, 2);
 
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`User - ${user.name}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.users.index")}>
+                            <Link href={route("dashboard.users.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -55,7 +50,7 @@ export default function Show({ user }) {
                         </h2>
                     </div>
                     <Button asChild>
-                        <Link href={route("admin.users.edit", user.uuid)}>
+                        <Link href={route("dashboard.users.edit", user.uuid)}>
                             <Edit className="mr-2 h-4 w-4" /> Edit User
                         </Link>
                     </Button>
@@ -82,7 +77,7 @@ export default function Show({ user }) {
                                 ) : (
                                     <Badge variant="secondary">
                                         <UserIcon className="w-3 h-3 mr-1" />{" "}
-                                        Guest
+                                        user
                                     </Badge>
                                 )}
                             </div>
@@ -103,7 +98,7 @@ export default function Show({ user }) {
                                     <span>
                                         Joined{" "}
                                         {new Date(
-                                            user.created_at
+                                            user.created_at,
                                         ).toLocaleDateString(undefined, {
                                             dateStyle: "long",
                                         })}
@@ -142,11 +137,11 @@ export default function Show({ user }) {
                                                         <Calendar className="h-3 w-3" />
                                                         <span>
                                                             {new Date(
-                                                                booking.check_in_date
+                                                                booking.check_in_date,
                                                             ).toLocaleDateString()}{" "}
                                                             -{" "}
                                                             {new Date(
-                                                                booking.check_out_date
+                                                                booking.check_out_date,
                                                             ).toLocaleDateString()}
                                                         </span>
                                                     </div>
@@ -155,7 +150,9 @@ export default function Show({ user }) {
                                                     <div className="text-right">
                                                         <div className="flex items-center gap-1 font-semibold">
                                                             <DollarSign className="h-4 w-4" />
-                                                            {booking.total_price}
+                                                            {
+                                                                booking.total_price
+                                                            }
                                                         </div>
                                                         <Badge
                                                             className={
@@ -175,8 +172,8 @@ export default function Show({ user }) {
                                                     >
                                                         <Link
                                                             href={route(
-                                                                "admin.bookings.show",
-                                                                booking.uuid
+                                                                "dashboard.bookings.show",
+                                                                booking.uuid,
                                                             )}
                                                         >
                                                             View
@@ -196,6 +193,6 @@ export default function Show({ user }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

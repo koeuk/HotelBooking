@@ -1,4 +1,4 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
 import {
     Card,
@@ -159,16 +159,31 @@ const CustomTooltip = ({ active, payload, label }) => {
         <div className="bg-popover border rounded-lg shadow-lg p-3 text-sm">
             <p className="font-bold mb-1">{label}</p>
             {payload.map((entry, i) => (
-                <p key={i} style={{ color: entry.color }} className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: entry.color }} />
-                    {entry.name}: {entry.name === "Revenue" ? `$${entry.value}` : entry.value}
+                <p
+                    key={i}
+                    style={{ color: entry.color }}
+                    className="flex items-center gap-2"
+                >
+                    <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: entry.color }}
+                    />
+                    {entry.name}:{" "}
+                    {entry.name === "Revenue" ? `$${entry.value}` : entry.value}
                 </p>
             ))}
         </div>
     );
 };
 
-export default function Dashboard({ stats, recent_bookings, monthly_data = [], status_breakdown = {}, user_roles = {}, review_ratings = {} }) {
+export default function Dashboard({
+    stats,
+    recent_bookings,
+    monthly_data = [],
+    status_breakdown = {},
+    user_roles = {},
+    review_ratings = {},
+}) {
     const { auth } = usePage().props;
     const time = new Date().getHours();
     const greeting =
@@ -179,22 +194,25 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
               : "Good Evening";
 
     return (
-        <AdminLayout>
-            <Head title="Admin Dashboard" />
+        <DashboardLayout>
+            <Head title="Management Dashboard" />
 
             <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                         <h2 className="text-4xl font-extrabold tracking-tight text-foreground">
-                            {greeting}, <span className="text-primary">{auth.user.name}</span>
+                            {greeting},{" "}
+                            <span className="text-primary">
+                                {auth.user.name}
+                            </span>
                         </h2>
                         <p className="text-muted-foreground mt-1 text-lg">
                             Here's what's happening with your properties today.
                         </p>
                     </div>
                     <div className="flex gap-3">
-                        <Link href={route("admin.hotels.create")}>
+                        <Link href={route("dashboard.hotels.create")}>
                             <Button className="shadow-lg hover:shadow-primary/20 transition-all rounded-full px-6">
                                 <Plus className="mr-2 h-4 w-4" /> Add Property
                             </Button>
@@ -256,27 +274,84 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                     {/* Bookings & Revenue Chart */}
                     <Card className="md:col-span-5 border-none shadow-lg">
                         <CardHeader>
-                            <CardTitle className="text-xl">Booking & Revenue Overview</CardTitle>
-                            <CardDescription>Monthly bookings and revenue for the last 12 months.</CardDescription>
+                            <CardTitle className="text-xl">
+                                Booking & Revenue Overview
+                            </CardTitle>
+                            <CardDescription>
+                                Monthly bookings and revenue for the last 12
+                                months.
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[300px]">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <AreaChart data={monthly_data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
+                                    <AreaChart
+                                        data={monthly_data}
+                                        margin={{
+                                            top: 5,
+                                            right: 10,
+                                            left: 0,
+                                            bottom: 0,
+                                        }}
+                                    >
                                         <defs>
-                                            <linearGradient id="colorBookings" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                                                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                                            <linearGradient
+                                                id="colorBookings"
+                                                x1="0"
+                                                y1="0"
+                                                x2="0"
+                                                y2="1"
+                                            >
+                                                <stop
+                                                    offset="5%"
+                                                    stopColor="#6366f1"
+                                                    stopOpacity={0.3}
+                                                />
+                                                <stop
+                                                    offset="95%"
+                                                    stopColor="#6366f1"
+                                                    stopOpacity={0}
+                                                />
                                             </linearGradient>
-                                            <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                                                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                            <linearGradient
+                                                id="colorRevenue"
+                                                x1="0"
+                                                y1="0"
+                                                x2="0"
+                                                y2="1"
+                                            >
+                                                <stop
+                                                    offset="5%"
+                                                    stopColor="#10b981"
+                                                    stopOpacity={0.3}
+                                                />
+                                                <stop
+                                                    offset="95%"
+                                                    stopColor="#10b981"
+                                                    stopOpacity={0}
+                                                />
                                             </linearGradient>
                                         </defs>
-                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                                        <XAxis dataKey="month" className="text-xs" tick={{ fontSize: 12 }} />
-                                        <YAxis yAxisId="left" className="text-xs" tick={{ fontSize: 12 }} />
-                                        <YAxis yAxisId="right" orientation="right" className="text-xs" tick={{ fontSize: 12 }} />
+                                        <CartesianGrid
+                                            strokeDasharray="3 3"
+                                            className="stroke-muted"
+                                        />
+                                        <XAxis
+                                            dataKey="month"
+                                            className="text-xs"
+                                            tick={{ fontSize: 12 }}
+                                        />
+                                        <YAxis
+                                            yAxisId="left"
+                                            className="text-xs"
+                                            tick={{ fontSize: 12 }}
+                                        />
+                                        <YAxis
+                                            yAxisId="right"
+                                            orientation="right"
+                                            className="text-xs"
+                                            tick={{ fontSize: 12 }}
+                                        />
                                         <Tooltip content={<CustomTooltip />} />
                                         <Area
                                             yAxisId="left"
@@ -307,15 +382,24 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                     {/* Status Breakdown */}
                     <Card className="md:col-span-2 border-none shadow-lg">
                         <CardHeader>
-                            <CardTitle className="text-xl">Booking Status</CardTitle>
-                            <CardDescription>Current breakdown by status.</CardDescription>
+                            <CardTitle className="text-xl">
+                                Booking Status
+                            </CardTitle>
+                            <CardDescription>
+                                Current breakdown by status.
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[200px]">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
                                         <Pie
-                                            data={Object.entries(status_breakdown).map(([name, value]) => ({ name, value }))}
+                                            data={Object.entries(
+                                                status_breakdown,
+                                            ).map(([name, value]) => ({
+                                                name,
+                                                value,
+                                            }))}
                                             cx="50%"
                                             cy="50%"
                                             innerRadius={50}
@@ -323,22 +407,44 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                             paddingAngle={4}
                                             dataKey="value"
                                         >
-                                            {Object.keys(status_breakdown).map((key) => (
-                                                <Cell key={key} fill={STATUS_COLORS[key]} />
-                                            ))}
+                                            {Object.keys(status_breakdown).map(
+                                                (key) => (
+                                                    <Cell
+                                                        key={key}
+                                                        fill={
+                                                            STATUS_COLORS[key]
+                                                        }
+                                                    />
+                                                ),
+                                            )}
                                         </Pie>
                                         <Tooltip />
                                     </PieChart>
                                 </ResponsiveContainer>
                             </div>
                             <div className="grid grid-cols-2 gap-2 mt-4">
-                                {Object.entries(status_breakdown).map(([key, value]) => (
-                                    <div key={key} className="flex items-center gap-2">
-                                        <span className="h-3 w-3 rounded-full" style={{ backgroundColor: STATUS_COLORS[key] }} />
-                                        <span className="text-xs capitalize text-muted-foreground">{key}</span>
-                                        <span className="text-xs font-bold ml-auto">{value}</span>
-                                    </div>
-                                ))}
+                                {Object.entries(status_breakdown).map(
+                                    ([key, value]) => (
+                                        <div
+                                            key={key}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <span
+                                                className="h-3 w-3 rounded-full"
+                                                style={{
+                                                    backgroundColor:
+                                                        STATUS_COLORS[key],
+                                                }}
+                                            />
+                                            <span className="text-xs capitalize text-muted-foreground">
+                                                {key}
+                                            </span>
+                                            <span className="text-xs font-bold ml-auto">
+                                                {value}
+                                            </span>
+                                        </div>
+                                    ),
+                                )}
                             </div>
                         </CardContent>
                     </Card>
@@ -353,28 +459,67 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                 <Users className="h-5 w-5 text-indigo-500" />
                                 Users
                             </CardTitle>
-                            <CardDescription>{stats.total_users} total users</CardDescription>
+                            <CardDescription>
+                                {stats.total_users} total users
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[180px]">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={monthly_data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                                        <XAxis dataKey="month" tick={{ fontSize: 10 }} />
-                                        <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+                                    <BarChart
+                                        data={monthly_data}
+                                        margin={{
+                                            top: 0,
+                                            right: 0,
+                                            left: -20,
+                                            bottom: 0,
+                                        }}
+                                    >
+                                        <CartesianGrid
+                                            strokeDasharray="3 3"
+                                            className="stroke-muted"
+                                        />
+                                        <XAxis
+                                            dataKey="month"
+                                            tick={{ fontSize: 10 }}
+                                        />
+                                        <YAxis
+                                            tick={{ fontSize: 10 }}
+                                            allowDecimals={false}
+                                        />
                                         <Tooltip content={<CustomTooltip />} />
-                                        <Bar dataKey="users" name="New Users" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                                        <Bar
+                                            dataKey="users"
+                                            name="New Users"
+                                            fill="#6366f1"
+                                            radius={[4, 4, 0, 0]}
+                                        />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
                             <div className="flex items-center justify-between mt-4 pt-3 border-t">
-                                {Object.entries(user_roles).map(([key, value]) => (
-                                    <div key={key} className="flex items-center gap-2">
-                                        <span className="h-3 w-3 rounded-full" style={{ backgroundColor: ROLE_COLORS[key] }} />
-                                        <span className="text-xs capitalize text-muted-foreground">{key}</span>
-                                        <span className="text-xs font-bold">{value}</span>
-                                    </div>
-                                ))}
+                                {Object.entries(user_roles).map(
+                                    ([key, value]) => (
+                                        <div
+                                            key={key}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <span
+                                                className="h-3 w-3 rounded-full"
+                                                style={{
+                                                    backgroundColor:
+                                                        ROLE_COLORS[key],
+                                                }}
+                                            />
+                                            <span className="text-xs capitalize text-muted-foreground">
+                                                {key}
+                                            </span>
+                                            <span className="text-xs font-bold">
+                                                {value}
+                                            </span>
+                                        </div>
+                                    ),
+                                )}
                             </div>
                         </CardContent>
                     </Card>
@@ -386,36 +531,70 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                 <TrendingUp className="h-5 w-5 text-yellow-500" />
                                 Reviews
                             </CardTitle>
-                            <CardDescription>{stats.total_reviews} total reviews</CardDescription>
+                            <CardDescription>
+                                {stats.total_reviews} total reviews
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[180px]">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={monthly_data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                                        <XAxis dataKey="month" tick={{ fontSize: 10 }} />
-                                        <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+                                    <BarChart
+                                        data={monthly_data}
+                                        margin={{
+                                            top: 0,
+                                            right: 0,
+                                            left: -20,
+                                            bottom: 0,
+                                        }}
+                                    >
+                                        <CartesianGrid
+                                            strokeDasharray="3 3"
+                                            className="stroke-muted"
+                                        />
+                                        <XAxis
+                                            dataKey="month"
+                                            tick={{ fontSize: 10 }}
+                                        />
+                                        <YAxis
+                                            tick={{ fontSize: 10 }}
+                                            allowDecimals={false}
+                                        />
                                         <Tooltip content={<CustomTooltip />} />
-                                        <Bar dataKey="reviews" name="Reviews" fill="#eab308" radius={[4, 4, 0, 0]} />
+                                        <Bar
+                                            dataKey="reviews"
+                                            name="Reviews"
+                                            fill="#eab308"
+                                            radius={[4, 4, 0, 0]}
+                                        />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </div>
                             <div className="space-y-2 mt-4 pt-3 border-t">
-                                {Object.entries(review_ratings).map(([key, value], i) => (
-                                    <div key={key} className="flex items-center gap-2">
-                                        <span className="text-xs w-14 text-muted-foreground">{key}</span>
-                                        <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full rounded-full transition-all"
-                                                style={{
-                                                    width: `${stats.total_reviews > 0 ? (value / stats.total_reviews) * 100 : 0}%`,
-                                                    backgroundColor: RATING_COLORS[i],
-                                                }}
-                                            />
+                                {Object.entries(review_ratings).map(
+                                    ([key, value], i) => (
+                                        <div
+                                            key={key}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <span className="text-xs w-14 text-muted-foreground">
+                                                {key}
+                                            </span>
+                                            <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full rounded-full transition-all"
+                                                    style={{
+                                                        width: `${stats.total_reviews > 0 ? (value / stats.total_reviews) * 100 : 0}%`,
+                                                        backgroundColor:
+                                                            RATING_COLORS[i],
+                                                    }}
+                                                />
+                                            </div>
+                                            <span className="text-xs font-bold w-6 text-right">
+                                                {value}
+                                            </span>
                                         </div>
-                                        <span className="text-xs font-bold w-6 text-right">{value}</span>
-                                    </div>
-                                ))}
+                                    ),
+                                )}
                             </div>
                         </CardContent>
                     </Card>
@@ -427,21 +606,54 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                 <Hotel className="h-5 w-5 text-emerald-500" />
                                 Hotels
                             </CardTitle>
-                            <CardDescription>{stats.total_hotels} properties</CardDescription>
+                            <CardDescription>
+                                {stats.total_hotels} properties
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="h-[180px]">
                                 <ResponsiveContainer width="100%" height="100%">
-                                    <AreaChart data={monthly_data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                                    <AreaChart
+                                        data={monthly_data}
+                                        margin={{
+                                            top: 0,
+                                            right: 0,
+                                            left: -20,
+                                            bottom: 0,
+                                        }}
+                                    >
                                         <defs>
-                                            <linearGradient id="colorHotels" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                                                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                            <linearGradient
+                                                id="colorHotels"
+                                                x1="0"
+                                                y1="0"
+                                                x2="0"
+                                                y2="1"
+                                            >
+                                                <stop
+                                                    offset="5%"
+                                                    stopColor="#10b981"
+                                                    stopOpacity={0.3}
+                                                />
+                                                <stop
+                                                    offset="95%"
+                                                    stopColor="#10b981"
+                                                    stopOpacity={0}
+                                                />
                                             </linearGradient>
                                         </defs>
-                                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                                        <XAxis dataKey="month" tick={{ fontSize: 10 }} />
-                                        <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+                                        <CartesianGrid
+                                            strokeDasharray="3 3"
+                                            className="stroke-muted"
+                                        />
+                                        <XAxis
+                                            dataKey="month"
+                                            tick={{ fontSize: 10 }}
+                                        />
+                                        <YAxis
+                                            tick={{ fontSize: 10 }}
+                                            allowDecimals={false}
+                                        />
                                         <Tooltip content={<CustomTooltip />} />
                                         <Area
                                             type="monotone"
@@ -457,18 +669,33 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                             </div>
                             <div className="flex items-center justify-between mt-4 pt-3 border-t">
                                 <div className="text-center">
-                                    <p className="text-2xl font-bold">{stats.total_hotels}</p>
-                                    <p className="text-xs text-muted-foreground">Properties</p>
-                                </div>
-                                <div className="text-center">
-                                    <p className="text-2xl font-bold">{stats.total_rooms}</p>
-                                    <p className="text-xs text-muted-foreground">Rooms</p>
+                                    <p className="text-2xl font-bold">
+                                        {stats.total_hotels}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">
+                                        Properties
+                                    </p>
                                 </div>
                                 <div className="text-center">
                                     <p className="text-2xl font-bold">
-                                        {stats.total_rooms > 0 ? Math.round(stats.total_rooms / stats.total_hotels) : 0}
+                                        {stats.total_rooms}
                                     </p>
-                                    <p className="text-xs text-muted-foreground">Avg/Hotel</p>
+                                    <p className="text-xs text-muted-foreground">
+                                        Rooms
+                                    </p>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-2xl font-bold">
+                                        {stats.total_rooms > 0
+                                            ? Math.round(
+                                                  stats.total_rooms /
+                                                      stats.total_hotels,
+                                              )
+                                            : 0}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">
+                                        Avg/Hotel
+                                    </p>
                                 </div>
                             </div>
                         </CardContent>
@@ -487,7 +714,7 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                     Last 5 bookings made across your platform.
                                 </CardDescription>
                             </div>
-                            <Link href={route("admin.bookings.index")}>
+                            <Link href={route("dashboard.bookings.index")}>
                                 <Button
                                     variant="ghost"
                                     size="sm"
@@ -504,7 +731,7 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                     <TableHeader className="bg-muted/30">
                                         <TableRow>
                                             <TableHead className="font-bold">
-                                                Guest
+                                                user
                                             </TableHead>
                                             <TableHead className="font-bold">
                                                 Hotel / Room
@@ -592,7 +819,7 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                                                 <TableCell className="text-right pr-6">
                                                     <Link
                                                         href={route(
-                                                            "admin.bookings.show",
+                                                            "dashboard.bookings.show",
                                                             booking.uuid,
                                                         )}
                                                     >
@@ -692,6 +919,6 @@ export default function Dashboard({ stats, recent_bookings, monthly_data = [], s
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }

@@ -37,7 +37,7 @@ class RoomController extends Controller
 
         Room::create($validated);
 
-        return redirect()->route('admin.rooms.index')->with('success', 'Room created successfully.');
+        return redirect()->route('dashboard.rooms.index')->with('success', 'Room created successfully.');
     }
 
     public function show(Room $room)
@@ -69,12 +69,12 @@ class RoomController extends Controller
 
         $room->update($validated);
 
-        return redirect()->route('admin.rooms.index')->with('success', 'Room updated successfully.');
+        return redirect()->route('dashboard.rooms.index')->with('success', 'Room updated successfully.');
     }
 
     public function destroy(Room $room)
     {
         $room->delete();
-        return redirect()->route('admin.rooms.index')->with('success', 'Room deleted successfully.');
+        return redirect()->route('dashboard.rooms.index')->with('success', 'Room deleted successfully.');
     }
 }

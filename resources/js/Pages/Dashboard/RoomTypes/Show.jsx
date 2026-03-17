@@ -1,12 +1,7 @@
-import AdminLayout from "@/Layouts/AdminLayout";
+import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -29,14 +24,14 @@ const statusColors = {
 
 export default function Show({ roomType }) {
     return (
-        <AdminLayout>
+        <DashboardLayout>
             <Head title={`Room Type - ${roomType.name}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-4">
                         <Button variant="outline" size="icon" asChild>
-                            <Link href={route("admin.room-types.index")}>
+                            <Link href={route("dashboard.room-types.index")}>
                                 <ChevronLeft className="h-4 w-4" />
                             </Link>
                         </Button>
@@ -47,10 +42,7 @@ export default function Show({ roomType }) {
 
                     <Button asChild>
                         <Link
-                            href={route(
-                                "admin.room-types.edit",
-                                roomType.uuid,
-                            )}
+                            href={route("dashboard.room-types.edit", roomType.uuid)}
                         >
                             <Pencil className="mr-2 h-4 w-4" />
                             Edit Room Type
@@ -78,7 +70,7 @@ export default function Show({ roomType }) {
                                             <p className="font-semibold text-lg">
                                                 <Link
                                                     href={route(
-                                                        "admin.hotels.show",
+                                                        "dashboard.hotels.show",
                                                         roomType.hotel.uuid,
                                                     )}
                                                     className="hover:underline"
@@ -122,10 +114,10 @@ export default function Show({ roomType }) {
                                         </div>
                                         <div>
                                             <Label className="text-muted-foreground text-xs uppercase tracking-wider">
-                                                Max Guests
+                                                Max users
                                             </Label>
                                             <p className="font-medium">
-                                                {roomType.max_guests}
+                                                {roomType.max_users}
                                             </p>
                                         </div>
                                     </div>
@@ -182,8 +174,7 @@ export default function Show({ roomType }) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                {roomType.rooms &&
-                                roomType.rooms.length > 0 ? (
+                                {roomType.rooms && roomType.rooms.length > 0 ? (
                                     <div className="space-y-3">
                                         {roomType.rooms.map((room) => (
                                             <div
@@ -193,13 +184,12 @@ export default function Show({ roomType }) {
                                                 <div>
                                                     <Link
                                                         href={route(
-                                                            "admin.rooms.show",
+                                                            "dashboard.rooms.show",
                                                             room.uuid,
                                                         )}
                                                         className="font-medium hover:underline"
                                                     >
-                                                        Room{" "}
-                                                        {room.room_number}
+                                                        Room {room.room_number}
                                                     </Link>
                                                     <p className="text-sm text-muted-foreground">
                                                         Floor {room.floor}
@@ -227,6 +217,6 @@ export default function Show({ roomType }) {
                     </div>
                 </div>
             </div>
-        </AdminLayout>
+        </DashboardLayout>
     );
 }
