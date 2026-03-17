@@ -33,7 +33,7 @@ export default function Login({ status, canResetPassword }) {
             <div className="space-y-6 text-center">
                 <div>
                     <h1 className="text-2xl font-semibold tracking-tight">
-                        Welcome back
+                        Web Login
                     </h1>
                     <p className="text-sm text-white/70">
                         Enter your credentials to access your account

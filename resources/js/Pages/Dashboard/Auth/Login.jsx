@@ -36,7 +36,7 @@ export default function Login({ status }) {
                         <ShieldCheck className="w-6 h-6 text-white" />
                     </div>
                     <h1 className="text-2xl font-bold tracking-tight text-white">
-                        Management Portal
+                        Admin Hotel
                     </h1>
                     <p className="text-sm text-white/70">
                         Management access only
