@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Head, Link, useForm } from "@inertiajs/react";
-import userLayout from "@/Layouts/userLayout";
+import GuestLayout from "@/Layouts/GuestLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +27,7 @@ export default function Register() {
     };
 
     return (
-        <userLayout>
+        <GuestLayout>
             <Head title="Register" />
 
             <div className="space-y-6">
@@ -152,6 +152,6 @@ export default function Register() {
                     </Link>
                 </p>
             </div>
-        </userLayout>
+        </GuestLayout>
     );
 }

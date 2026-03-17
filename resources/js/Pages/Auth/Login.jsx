@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Head, Link, useForm } from "@inertiajs/react";
-import userLayout from "@/Layouts/userLayout";
+import GuestLayout from "@/Layouts/GuestLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +27,7 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <userLayout>
+        <GuestLayout>
             <Head title="Log in" />
 
             <div className="space-y-6 text-center">
@@ -165,6 +165,6 @@ export default function Login({ status, canResetPassword }) {
                     </Link>
                 </p>
             </div>
-        </userLayout>
+        </GuestLayout>
     );
 }
