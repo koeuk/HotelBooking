@@ -1,17 +1,38 @@
 import AppLayout from "@/Layouts/AppLayout";
-import { Head, usePage } from "@inertiajs/react";
+import { Head, usePage, useForm } from "@inertiajs/react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { User, Shield, Mail, Phone, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { User, Shield, Mail, Phone, Calendar, Camera, Loader2 } from "lucide-react";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import DeleteUserForm from "./Partials/DeleteUserForm";
+import { useRef } from "react";
 
 export default function Edit({ mustVerifyEmail, status }) {
     const { auth } = usePage().props;
     const user = auth.user;
+    const fileInput = useRef();
+
+    const { data, setData, post, processing } = useForm({
+        avatar: null,
+    });
+
+    const handleAvatarSelect = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setData("avatar", file);
+            // Auto submit on select
+            const formData = new FormData();
+            formData.append("avatar", file);
+            post(route("profile.avatar"), {
+                preserveScroll: true,
+                forceFormData: true,
+            });
+        }
+    };
 
     return (
         <AppLayout>
@@ -27,12 +48,37 @@ export default function Edit({ mustVerifyEmail, status }) {
                 <Card className="border-none shadow-sm">
                     <CardContent className="p-6">
                         <div className="flex items-center gap-6">
-                            <Avatar className="h-20 w-20 border-2 border-primary/20">
-                                <AvatarImage src={user.avatar} />
-                                <AvatarFallback className="text-2xl font-bold bg-primary/10 text-primary">
-                                    {user.name?.charAt(0)}
-                                </AvatarFallback>
-                            </Avatar>
+                            <div className="relative group">
+                                <Avatar className="h-24 w-24 border-2 border-primary/20 shadow-inner">
+                                    <AvatarImage src={user.avatar} className="object-cover" />
+                                    <AvatarFallback className="text-3xl font-bold bg-primary/10 text-primary">
+                                        {user.name?.charAt(0)}
+                                    </AvatarFallback>
+                                </Avatar>
+                                
+                                <input
+                                    type="file"
+                                    ref={fileInput}
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={handleAvatarSelect}
+                                />
+
+                                <Button
+                                    type="button"
+                                    variant="secondary"
+                                    size="icon"
+                                    className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full border border-background shadow hover:scale-110 transition-transform"
+                                    onClick={() => fileInput.current.click()}
+                                    disabled={processing}
+                                >
+                                    {processing ? (
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                    ) : (
+                                        <Camera className="h-4 w-4" />
+                                    )}
+                                </Button>
+                            </div>
                             <div className="flex-1">
                                 <h3 className="text-xl font-bold">{user.name}</h3>
                                 <p className="text-sm text-muted-foreground">{user.email}</p>
