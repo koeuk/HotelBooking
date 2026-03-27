@@ -1,4 +1,4 @@
-import WebLayout from "@/Layouts/WebLayout";
+import UserLayout from "@/Layouts/UserLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -8,10 +8,10 @@ import FavoriteButton from "@/components/FavoriteButton";
 
 export default function Index({ hotels = [] }) {
     return (
-        <WebLayout>
+        <UserLayout title="My Favorites">
             <Head title="My Favorites" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div className="space-y-8">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">My Favorites</h1>
                     <p className="text-muted-foreground mt-1">
@@ -86,6 +86,6 @@ export default function Index({ hotels = [] }) {
                     </Card>
                 )}
             </div>
-        </WebLayout>
+        </UserLayout>
     );
 }

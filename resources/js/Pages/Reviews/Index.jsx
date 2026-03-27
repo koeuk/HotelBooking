@@ -1,4 +1,4 @@
-import WebLayout from "@/Layouts/WebLayout";
+import UserLayout from "@/Layouts/UserLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,10 +24,10 @@ function StarRating({ rating }) {
 
 export default function Index({ reviews }) {
     return (
-        <WebLayout>
+        <UserLayout title="My Reviews">
             <Head title="My Reviews" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+            <div className="space-y-6">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">
                         My Reviews
@@ -131,6 +131,6 @@ export default function Index({ reviews }) {
                     </div>
                 )}
             </div>
-        </WebLayout>
+        </UserLayout>
     );
 }

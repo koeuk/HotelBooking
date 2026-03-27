@@ -17,7 +17,7 @@ export default function Edit({ mustVerifyEmail, status }) {
         <AppLayout>
             <Head title="Profile" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+            <div className="space-y-6">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">Profile Settings</h2>
                     <p className="text-muted-foreground">Manage your account information and security.</p>

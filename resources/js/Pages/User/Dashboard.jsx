@@ -1,4 +1,4 @@
-import WebLayout from "@/Layouts/WebLayout";
+import UserLayout from "@/Layouts/UserLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
 import {
     Card,
@@ -64,10 +64,10 @@ export default function Dashboard({ stats, upcomingBookings, recentBookings, fea
     };
 
     return (
-        <WebLayout>
+        <UserLayout title="User Dashboard">
             <Head title="Dashboard" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div className="space-y-8">
                     {/* Welcome Section */}
                     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 p-8 text-white shadow-lg">
                         <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-2xl" />
@@ -329,6 +329,6 @@ export default function Dashboard({ stats, upcomingBookings, recentBookings, fea
                         </div>
                     </div>
                 </div>
-        </WebLayout>
+        </UserLayout>
     );
 }
