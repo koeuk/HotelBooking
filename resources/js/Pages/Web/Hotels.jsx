@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Star, MapPin, BedDouble, Search, X } from "lucide-react";
 import { useState } from "react";
 import FavoriteButton from "@/components/FavoriteButton";
+import DestinationFilter from "@/components/DestinationFilter";
 
 export default function Hotels({ hotels, cities, filters }) {
     const [search, setSearch] = useState(filters?.search || "");
@@ -31,12 +32,12 @@ export default function Hotels({ hotels, cities, filters }) {
                 </div>
 
                 {/* Filters */}
-                <div className="flex flex-wrap gap-3 mb-8">
-                    <div className="relative flex-1 min-w-[200px] max-w-md">
+                <div className="flex flex-wrap items-center gap-4 mb-10 p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
+                    <div className="relative flex-1 min-w-[280px]">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
-                            placeholder="Search hotels..."
-                            className="pl-10"
+                            placeholder="Search by hotel name..."
+                            className="pl-10 h-11 bg-background border-zinc-200/60 dark:border-zinc-800/60 shadow-none focus-visible:ring-primary/20 transition-all rounded-xl"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             onKeyDown={(e) => {
@@ -44,34 +45,27 @@ export default function Hotels({ hotels, cities, filters }) {
                             }}
                         />
                     </div>
-                    <div className="flex gap-2 overflow-x-auto">
-                        <Button
-                            variant={!filters?.city ? "default" : "outline"}
-                            size="sm"
-                            className="rounded-full shrink-0"
-                            onClick={() => applyFilters({ city: null, page: 1 })}
-                        >
-                            All Cities
-                        </Button>
-                        {cities.map((city) => (
-                            <Button
-                                key={city}
-                                variant={filters?.city === city ? "default" : "outline"}
-                                size="sm"
-                                className="rounded-full shrink-0"
-                                onClick={() => applyFilters({ city, page: 1 })}
-                            >
-                                {city}
-                            </Button>
-                        ))}
+
+                    <div className="flex-1 min-w-[280px]">
+                        <DestinationFilter
+                            cities={cities}
+                            currentCity={filters?.city}
+                            onCitySelect={(city) => applyFilters({ city, page: 1 })}
+                        />
                     </div>
+
                     {(filters?.search || filters?.city) && (
                         <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => router.get("/explore")}
+                            className="h-11 px-4 lg:px-6 hover:bg-zinc-200 items-center justify-center shrink-0 rounded-xl transition-all"
+                            onClick={() => {
+                                setSearch("");
+                                router.get("/explore");
+                            }}
                         >
-                            <X className="h-4 w-4 mr-1" /> Clear
+                            <X className="h-4 w-4 mr-2" />
+                            Clear Filters
                         </Button>
                     )}
                 </div>
