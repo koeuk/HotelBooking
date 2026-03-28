@@ -5,7 +5,7 @@ import {
     DropdownMenu, DropdownMenuContent, DropdownMenuGroup,
     DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Hotel, Menu, X, User, LogOut, Settings, CalendarCheck, Star, Bell, Heart } from "lucide-react";
+import { Hotel, Menu, X, User, LogOut, Settings, CalendarCheck, Star, Bell, Heart, LogIn, UserPlus } from "lucide-react";
 import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Toaster } from "@/components/ui/sonner";
@@ -128,12 +128,18 @@ export default function WebLayout({ children }) {
                                     </DropdownMenu>
                                 </div>
                             ) : (
-                                <div className="hidden md:flex items-center gap-2">
-                                    <Button variant="ghost" size="sm" asChild>
-                                        <Link href={route("login")}>Sign In</Link>
+                                <div className="hidden md:flex items-center gap-3">
+                                    <Button variant="outline" size="sm" asChild className="rounded-full px-4">
+                                        <Link href={route("login")}>
+                                            <LogIn className="mr-2 h-4 w-4" />
+                                            Sign In
+                                        </Link>
                                     </Button>
-                                    <Button size="sm" asChild>
-                                        <Link href={route("register")}>Get Started</Link>
+                                    <Button size="sm" asChild className="rounded-full px-4">
+                                        <Link href={route("register")}>
+                                            <UserPlus className="mr-2 h-4 w-4" />
+                                            Get Started
+                                        </Link>
                                     </Button>
                                 </div>
                             )}
@@ -176,11 +182,11 @@ export default function WebLayout({ children }) {
                                         </Button>
                                     ) : (
                                         <>
-                                            <Button variant="outline" className="flex-1" asChild>
-                                                <Link href={route("login")}>Sign In</Link>
+                                            <Button variant="outline" className="flex-1 rounded-full" asChild>
+                                                <Link href={route("login")}><LogIn className="mr-2 h-4 w-4" />Sign In</Link>
                                             </Button>
-                                            <Button className="flex-1" asChild>
-                                                <Link href={route("register")}>Get Started</Link>
+                                            <Button className="flex-1 rounded-full" asChild>
+                                                <Link href={route("register")}><UserPlus className="mr-2 h-4 w-4" />Get Started</Link>
                                             </Button>
                                         </>
                                     )}
