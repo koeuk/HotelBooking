@@ -4,13 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Star, MapPin, BedDouble, Search, X } from "lucide-react";
+import { Star, MapPin, BedDouble, Search, X, Loader2 } from "lucide-react";
 import { useState } from "react";
 import FavoriteButton from "@/components/FavoriteButton";
 import DestinationFilter from "@/components/DestinationFilter";
 
 export default function Hotels({ hotels, cities, filters }) {
     const [search, setSearch] = useState(filters?.search || "");
+    const [loadingMore, setLoadingMore] = useState(false);
 
     const applyFilters = (newFilters) => {
         router.get("/explore", { ...filters, ...newFilters }, { preserveState: true });
@@ -132,9 +133,23 @@ export default function Hotels({ hotels, cities, filters }) {
                             variant="outline"
                             size="lg"
                             className="rounded-xl px-8"
-                            onClick={() => applyFilters({ all: 1 })}
+                            disabled={loadingMore}
+                            onClick={() => {
+                                setLoadingMore(true);
+                                router.get("/explore", { ...filters, all: 1 }, {
+                                    preserveState: true,
+                                    onFinish: () => setLoadingMore(false),
+                                });
+                            }}
                         >
-                            See More ({hotels.total - hotels.data.length} more)
+                            {loadingMore ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Loading...
+                                </>
+                            ) : (
+                                `See More (${hotels.total - hotels.data.length} more)`
+                            )}
                         </Button>
                     </div>
                 )}
