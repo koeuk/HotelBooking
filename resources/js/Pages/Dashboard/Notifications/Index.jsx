@@ -3,7 +3,7 @@ import { Head, router } from "@inertiajs/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Bell, Check, CheckCheck, Calendar, Hotel } from "lucide-react";
+import { Bell, Check, CheckCheck, Calendar, Hotel, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function timeAgo(dateString) {
@@ -92,17 +92,30 @@ export default function Index({ notifications }) {
                                                 {timeAgo(notification.created_at)}
                                             </p>
                                         </div>
-                                        {!notification.read_at && (
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="shrink-0 text-xs"
-                                                onClick={() => markAsRead(notification.id)}
-                                            >
-                                                <Check className="mr-1 h-3.5 w-3.5" />
-                                                Read
-                                            </Button>
-                                        )}
+                                        <div className="flex items-center gap-2 shrink-0">
+                                            {notification.data?.booking_id && (
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="text-xs"
+                                                    onClick={() => router.get(route("dashboard.bookings.show", notification.data.booking_id))}
+                                                >
+                                                    <Eye className="mr-1 h-3.5 w-3.5" />
+                                                    View
+                                                </Button>
+                                            )}
+                                            {!notification.read_at && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="shrink-0 text-xs"
+                                                    onClick={() => markAsRead(notification.id)}
+                                                >
+                                                    <Check className="mr-1 h-3.5 w-3.5" />
+                                                    Read
+                                                </Button>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
