@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/react";
-import { Hotel } from "lucide-react";
+import { Hotel, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function GuestLayout({ children }) {
@@ -60,8 +61,14 @@ export default function GuestLayout({ children }) {
                         <span className="text-lg font-bold tracking-tight">HotelBook</span>
                     </Link>
                 </div>
-                <div className="absolute top-6 right-6">
+                <div className="absolute top-6 right-6 flex items-center gap-2">
                     <ThemeToggle />
+                    <Button variant="outline" size="sm" asChild className="rounded-full">
+                        <Link href="/">
+                            <ArrowLeft className="mr-2 h-4 w-4" />
+                            Home
+                        </Link>
+                    </Button>
                 </div>
 
                 <div className="w-full max-w-[420px]">
