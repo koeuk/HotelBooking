@@ -10,10 +10,30 @@ use Inertia\Inertia;
 
 class RoomController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $query = Room::with(['hotel', 'roomType']);
+
+        if ($status = $request->input('status')) {
+            $query->where('status', $status);
+        }
+        if ($hotel = $request->input('hotel')) {
+            $query->where('hotel_id', $hotel);
+        }
+        if ($search = $request->input('search')) {
+            $query->where('room_number', 'like', "%{$search}%");
+        }
+
         return Inertia::render('Dashboard/Rooms/Index', [
-            'rooms' => Room::with(['hotel', 'roomType'])->latest()->paginate(10)
+            'rooms' => $query->latest()->paginate(10)->withQueryString(),
+            'hotels' => Hotel::all(['id', 'name']),
+            'filters' => $request->only(['status', 'hotel', 'search']),
+            'counts' => [
+                'all' => Room::count(),
+                'available' => Room::where('status', 'available')->count(),
+                'booked' => Room::where('status', 'booked')->count(),
+                'maintenance' => Room::where('status', 'maintenance')->count(),
+            ],
         ]);
     }
 

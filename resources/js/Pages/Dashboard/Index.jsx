@@ -1,5 +1,5 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, usePage, router } from "@inertiajs/react";
 import {
     Card,
     CardContent,
@@ -183,6 +183,7 @@ export default function Dashboard({
     status_breakdown = {},
     user_roles = {},
     review_ratings = {},
+    period = "year",
 }) {
     const { auth } = usePage().props;
     const time = new Date().getHours();
@@ -211,7 +212,29 @@ export default function Dashboard({
                             Here's what's happening with your properties today.
                         </p>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center bg-muted rounded-full p-1">
+                            {[
+                                { label: "Week", value: "week" },
+                                { label: "Month", value: "month" },
+                                { label: "Year", value: "year" },
+                            ].map((item) => (
+                                <Button
+                                    key={item.value}
+                                    variant={period === item.value ? "default" : "ghost"}
+                                    size="sm"
+                                    className={cn(
+                                        "rounded-full px-5 text-xs font-semibold",
+                                        period === item.value ? "shadow-sm" : "hover:bg-transparent"
+                                    )}
+                                    onClick={() =>
+                                        router.get(route("dashboard.index"), { period: item.value }, { preserveState: true })
+                                    }
+                                >
+                                    {item.label}
+                                </Button>
+                            ))}
+                        </div>
                         <Link href={route("dashboard.hotels.create")}>
                             <Button className="shadow-lg hover:shadow-primary/20 transition-all rounded-full px-6">
                                 <Plus className="mr-2 h-4 w-4" /> Add Property
@@ -278,8 +301,9 @@ export default function Dashboard({
                                 Booking & Revenue Overview
                             </CardTitle>
                             <CardDescription>
-                                Monthly bookings and revenue for the last 12
-                                months.
+                                {period === "week" ? "Daily data for the last 7 days" :
+                                 period === "month" ? "Data for the last 30 days" :
+                                 "Monthly data for the last 12 months"}.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
