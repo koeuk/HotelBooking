@@ -81,7 +81,7 @@ export default function Index({ hotels }) {
                                     <TableCell>
                                         <Badge
                                             variant="secondary"
-                                            className="font-bold"
+                                            className="font-bold rounded-full"
                                         >
                                             {hotel.rating} ★
                                         </Badge>
