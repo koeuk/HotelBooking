@@ -16,9 +16,8 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Eye, Pencil, Trash2, Star } from "lucide-react";
+import { Plus, Eye, Pencil, Trash2, Star, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -137,64 +136,16 @@ export default function Index({ reviews }) {
                                             </Link>
                                         </Button>
 
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="icon"
-                                                    onClick={() =>
-                                                        setReviewToDelete(
-                                                            review,
-                                                        )
-                                                    }
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>
-                                                        Are you absolutely sure?
-                                                    </DialogTitle>
-                                                    <DialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently delete the
-                                                        review by
-                                                        <strong>
-                                                            {" "}
-                                                            {review.user?.name}
-                                                        </strong>{" "}
-                                                        for{" "}
-                                                        <strong>
-                                                            {review.hotel?.name}
-                                                        </strong>
-                                                        .
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <DialogFooter>
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() =>
-                                                            setReviewToDelete(
-                                                                null,
-                                                            )
-                                                        }
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        variant="destructive"
-                                                        onClick={handleDelete}
-                                                        disabled={processing}
-                                                    >
-                                                        {processing
-                                                            ? "Deleting..."
-                                                            : "Delete Review"}
-                                                    </Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-destructive hover:text-destructive"
+                                            onClick={() =>
+                                                setReviewToDelete(review)
+                                            }
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -243,6 +194,50 @@ export default function Index({ reviews }) {
                     </div>
                 )}
             </div>
+
+            <Dialog open={!!reviewToDelete} onOpenChange={(open) => !open && setReviewToDelete(null)}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader className="text-center sm:text-center">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
+                            <AlertTriangle className="h-7 w-7 text-destructive" />
+                        </div>
+                        <DialogTitle className="text-xl">Delete Review</DialogTitle>
+                        <DialogDescription className="pt-2 text-center">
+                            Are you sure? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {reviewToDelete && (
+                        <div className="rounded-xl bg-muted/50 p-4 space-y-2 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">User</span>
+                                <span className="font-medium">{reviewToDelete.user?.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Hotel</span>
+                                <span className="font-medium">{reviewToDelete.hotel?.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Rating</span>
+                                <span className="font-medium">{reviewToDelete.rating} / 5</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Comment</span>
+                                <span className="font-medium truncate max-w-[200px]">
+                                    {reviewToDelete.comment?.length > 50
+                                        ? reviewToDelete.comment.substring(0, 50) + "..."
+                                        : reviewToDelete.comment}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button variant="outline" className="flex-1" onClick={() => setReviewToDelete(null)}>Cancel</Button>
+                        <Button variant="destructive" className="flex-1" onClick={handleDelete} disabled={processing}>
+                            {processing ? "Deleting..." : "Delete"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </DashboardLayout>
     );
 }

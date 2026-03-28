@@ -16,10 +16,9 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Eye, Edit, Trash2 } from "lucide-react";
+import { Plus, Eye, Edit, Trash2, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -111,62 +110,16 @@ export default function Index({ roomTypes }) {
                                                 <Edit className="h-4 w-4" />
                                             </Link>
                                         </Button>
-
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="icon"
-                                                    onClick={() =>
-                                                        setRoomTypeToDelete(
-                                                            type,
-                                                        )
-                                                    }
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>
-                                                        Are you absolutely sure?
-                                                    </DialogTitle>
-                                                    <DialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently delete the
-                                                        room type
-                                                        <strong>
-                                                            {" "}
-                                                            {type.name}
-                                                        </strong>{" "}
-                                                        and all associated rooms
-                                                        and bookings.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <DialogFooter>
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() =>
-                                                            setRoomTypeToDelete(
-                                                                null,
-                                                            )
-                                                        }
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        variant="destructive"
-                                                        onClick={handleDelete}
-                                                        disabled={processing}
-                                                    >
-                                                        {processing
-                                                            ? "Deleting..."
-                                                            : "Delete Room Type"}
-                                                    </Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-destructive hover:text-destructive"
+                                            onClick={() =>
+                                                setRoomTypeToDelete(type)
+                                            }
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -216,6 +169,69 @@ export default function Index({ roomTypes }) {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog
+                open={!!roomTypeToDelete}
+                onOpenChange={(open) => {
+                    if (!open) setRoomTypeToDelete(null);
+                }}
+            >
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader className="flex flex-col items-center text-center">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                            <AlertTriangle className="h-7 w-7 text-red-600 dark:text-red-400" />
+                        </div>
+                        <DialogTitle className="text-center">
+                            Delete Room Type
+                        </DialogTitle>
+                        <DialogDescription className="text-center">
+                            This action cannot be undone. This will permanently
+                            delete this room type and all associated rooms and
+                            bookings.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    {roomTypeToDelete && (
+                        <div className="rounded-lg border bg-muted/50 p-4 space-y-2 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Name</span>
+                                <span className="font-medium">{roomTypeToDelete.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Hotel</span>
+                                <span className="font-medium">{roomTypeToDelete.hotel.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Price per night</span>
+                                <span className="font-medium">${roomTypeToDelete.price_per_night}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Max users</span>
+                                <span className="font-medium">{roomTypeToDelete.max_users}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <DialogFooter className="flex gap-2 sm:gap-0">
+                        <Button
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => setRoomTypeToDelete(null)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            className="flex-1"
+                            onClick={handleDelete}
+                            disabled={processing}
+                        >
+                            {processing ? "Deleting..." : "Delete Room Type"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </DashboardLayout>
     );
 }

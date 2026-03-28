@@ -16,9 +16,8 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-import { Plus, Eye, Pencil, Trash2, Wifi, Waves, Dumbbell, Sparkles, Utensils, Car, Snowflake, Wine, HelpCircle } from "lucide-react";
+import { Plus, Eye, Pencil, Trash2, Wifi, Waves, Dumbbell, Sparkles, Utensils, Car, Snowflake, Wine, HelpCircle, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 
 const iconMap = {
@@ -129,60 +128,16 @@ export default function Index({ amenities }) {
                                                 <Pencil className="h-4 w-4" />
                                             </Link>
                                         </Button>
-
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="icon"
-                                                    onClick={() =>
-                                                        setAmenityToDelete(amenity)
-                                                    }
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>
-                                                        Are you absolutely sure?
-                                                    </DialogTitle>
-                                                    <DialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently delete the
-                                                        amenity
-                                                        <strong>
-                                                            {" "}
-                                                            {amenity.name}
-                                                        </strong>{" "}
-                                                        and remove it from all
-                                                        associated hotels.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <DialogFooter>
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() =>
-                                                            setAmenityToDelete(
-                                                                null,
-                                                            )
-                                                        }
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        variant="destructive"
-                                                        onClick={handleDelete}
-                                                        disabled={processing}
-                                                    >
-                                                        {processing
-                                                            ? "Deleting..."
-                                                            : "Delete Amenity"}
-                                                    </Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-destructive hover:text-destructive"
+                                            onClick={() =>
+                                                setAmenityToDelete(amenity)
+                                            }
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -231,6 +186,64 @@ export default function Index({ amenities }) {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog
+                open={!!amenityToDelete}
+                onOpenChange={(open) => {
+                    if (!open) setAmenityToDelete(null);
+                }}
+            >
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader className="flex flex-col items-center text-center">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                            <AlertTriangle className="h-7 w-7 text-red-600 dark:text-red-400" />
+                        </div>
+                        <DialogTitle className="text-center">
+                            Delete Amenity
+                        </DialogTitle>
+                        <DialogDescription className="text-center">
+                            This action cannot be undone. This will permanently
+                            delete this amenity and remove it from all
+                            associated hotels.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    {amenityToDelete && (
+                        <div className="rounded-lg border bg-muted/50 p-4 space-y-2 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Name</span>
+                                <span className="font-medium">{amenityToDelete.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Icon</span>
+                                <span className="font-medium flex items-center gap-2">
+                                    <AmenityIcon name={amenityToDelete.icon} className="h-4 w-4" />
+                                    {amenityToDelete.icon}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    <DialogFooter className="flex gap-2 sm:gap-0">
+                        <Button
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => setAmenityToDelete(null)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            className="flex-1"
+                            onClick={handleDelete}
+                            disabled={processing}
+                        >
+                            {processing ? "Deleting..." : "Delete Amenity"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </DashboardLayout>
     );
 }

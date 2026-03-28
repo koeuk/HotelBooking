@@ -7,14 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Dialog, DialogContent, DialogDescription, DialogFooter,
-    DialogHeader, DialogTitle, DialogTrigger,
+    DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
 import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Eye, Edit, Trash2, Search, X, CheckCircle, Clock, Wrench, Bed } from "lucide-react";
+import { Plus, Eye, Edit, Trash2, Search, X, CheckCircle, Clock, Wrench, Bed, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -175,27 +175,14 @@ export default function Index({ rooms, hotels = [], filters = {}, counts = {} })
                                                         <Edit className="h-4 w-4" />
                                                     </Link>
                                                 </Button>
-                                                <Dialog>
-                                                    <DialogTrigger asChild>
-                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => setRoomToDelete(room)}>
-                                                            <Trash2 className="h-4 w-4" />
-                                                        </Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent>
-                                                        <DialogHeader>
-                                                            <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                                            <DialogDescription>
-                                                                This will permanently delete room <strong>{room.room_number}</strong> from <strong>{room.hotel.name}</strong>.
-                                                            </DialogDescription>
-                                                        </DialogHeader>
-                                                        <DialogFooter>
-                                                            <Button variant="outline" onClick={() => setRoomToDelete(null)}>Cancel</Button>
-                                                            <Button variant="destructive" onClick={handleDelete} disabled={processing}>
-                                                                {processing ? "Deleting..." : "Delete Room"}
-                                                            </Button>
-                                                        </DialogFooter>
-                                                    </DialogContent>
-                                                </Dialog>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-8 w-8 text-destructive hover:text-destructive"
+                                                    onClick={() => setRoomToDelete(room)}
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -235,6 +222,72 @@ export default function Index({ rooms, hotels = [], filters = {}, counts = {} })
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <Dialog
+                open={!!roomToDelete}
+                onOpenChange={(open) => {
+                    if (!open) setRoomToDelete(null);
+                }}
+            >
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader className="flex flex-col items-center text-center">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+                            <AlertTriangle className="h-7 w-7 text-red-600 dark:text-red-400" />
+                        </div>
+                        <DialogTitle className="text-center">
+                            Delete Room
+                        </DialogTitle>
+                        <DialogDescription className="text-center">
+                            This action cannot be undone. This will permanently
+                            delete this room and all associated bookings.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    {roomToDelete && (
+                        <div className="rounded-lg border bg-muted/50 p-4 space-y-2 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Room number</span>
+                                <span className="font-medium">#{roomToDelete.room_number}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Hotel</span>
+                                <span className="font-medium">{roomToDelete.hotel.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Type</span>
+                                <span className="font-medium">{roomToDelete.room_type.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Floor</span>
+                                <span className="font-medium">{roomToDelete.floor || "-"}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Status</span>
+                                <span className="font-medium capitalize">{roomToDelete.status}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <DialogFooter className="flex gap-2 sm:gap-0">
+                        <Button
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => setRoomToDelete(null)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            className="flex-1"
+                            onClick={handleDelete}
+                            disabled={processing}
+                        >
+                            {processing ? "Deleting..." : "Delete Room"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </DashboardLayout>
     );
 }

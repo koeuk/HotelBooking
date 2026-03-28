@@ -16,7 +16,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -34,6 +33,7 @@ import {
     Trash2,
     ShieldCheck,
     User as UserIcon,
+    AlertTriangle,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -178,65 +178,16 @@ export default function Index({ users, auth }) {
                                         </Button>
 
                                         {user.id !== auth.user.id && (
-                                            <Dialog>
-                                                <DialogTrigger asChild>
-                                                    <Button
-                                                        variant="destructive"
-                                                        size="icon"
-                                                        onClick={() =>
-                                                            setUserToDelete(
-                                                                user,
-                                                            )
-                                                        }
-                                                    >
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <DialogHeader>
-                                                        <DialogTitle>
-                                                            Are you absolutely
-                                                            sure?
-                                                        </DialogTitle>
-                                                        <DialogDescription>
-                                                            This action cannot
-                                                            be undone. This will
-                                                            permanently delete
-                                                            the user account for
-                                                            <strong>
-                                                                {" "}
-                                                                {user.name}
-                                                            </strong>
-                                                            .
-                                                        </DialogDescription>
-                                                    </DialogHeader>
-                                                    <DialogFooter>
-                                                        <Button
-                                                            variant="outline"
-                                                            onClick={() =>
-                                                                setUserToDelete(
-                                                                    null,
-                                                                )
-                                                            }
-                                                        >
-                                                            Cancel
-                                                        </Button>
-                                                        <Button
-                                                            variant="destructive"
-                                                            onClick={
-                                                                handleDelete
-                                                            }
-                                                            disabled={
-                                                                processing
-                                                            }
-                                                        >
-                                                            {processing
-                                                                ? "Deleting..."
-                                                                : "Delete User"}
-                                                        </Button>
-                                                    </DialogFooter>
-                                                </DialogContent>
-                                            </Dialog>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="text-destructive hover:text-destructive"
+                                                onClick={() =>
+                                                    setUserToDelete(user)
+                                                }
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
                                         )}
                                     </TableCell>
                                 </TableRow>
@@ -276,6 +227,46 @@ export default function Index({ users, auth }) {
                     </div>
                 )}
             </div>
+
+            <Dialog open={!!userToDelete} onOpenChange={(open) => !open && setUserToDelete(null)}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader className="text-center sm:text-center">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
+                            <AlertTriangle className="h-7 w-7 text-destructive" />
+                        </div>
+                        <DialogTitle className="text-xl">Delete User</DialogTitle>
+                        <DialogDescription className="pt-2 text-center">
+                            Are you sure? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {userToDelete && (
+                        <div className="rounded-xl bg-muted/50 p-4 space-y-2 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Name</span>
+                                <span className="font-medium">{userToDelete.name}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Email</span>
+                                <span className="font-medium">{userToDelete.email}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Role</span>
+                                <span className="font-medium capitalize">{userToDelete.role}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Joined</span>
+                                <span className="font-medium">{userToDelete.created_at}</span>
+                            </div>
+                        </div>
+                    )}
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button variant="outline" className="flex-1" onClick={() => setUserToDelete(null)}>Cancel</Button>
+                        <Button variant="destructive" className="flex-1" onClick={handleDelete} disabled={processing}>
+                            {processing ? "Deleting..." : "Delete"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </DashboardLayout>
     );
 }

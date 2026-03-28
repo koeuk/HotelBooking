@@ -16,10 +16,9 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Eye, Pencil, Trash2 } from "lucide-react";
+import { Plus, Eye, Pencil, Trash2, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -133,61 +132,16 @@ export default function Index({ coupons }) {
                                             </Link>
                                         </Button>
 
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Button
-                                                    variant="destructive"
-                                                    size="icon"
-                                                    onClick={() =>
-                                                        setCouponToDelete(
-                                                            coupon,
-                                                        )
-                                                    }
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogHeader>
-                                                    <DialogTitle>
-                                                        Are you absolutely
-                                                        sure?
-                                                    </DialogTitle>
-                                                    <DialogDescription>
-                                                        This action cannot be
-                                                        undone. This will
-                                                        permanently delete the
-                                                        coupon
-                                                        <strong>
-                                                            {" "}
-                                                            {coupon.code}
-                                                        </strong>
-                                                        .
-                                                    </DialogDescription>
-                                                </DialogHeader>
-                                                <DialogFooter>
-                                                    <Button
-                                                        variant="outline"
-                                                        onClick={() =>
-                                                            setCouponToDelete(
-                                                                null,
-                                                            )
-                                                        }
-                                                    >
-                                                        Cancel
-                                                    </Button>
-                                                    <Button
-                                                        variant="destructive"
-                                                        onClick={handleDelete}
-                                                        disabled={processing}
-                                                    >
-                                                        {processing
-                                                            ? "Deleting..."
-                                                            : "Delete Coupon"}
-                                                    </Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-destructive hover:text-destructive"
+                                            onClick={() =>
+                                                setCouponToDelete(coupon)
+                                            }
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -226,6 +180,46 @@ export default function Index({ coupons }) {
                     </div>
                 )}
             </div>
+
+            <Dialog open={!!couponToDelete} onOpenChange={(open) => !open && setCouponToDelete(null)}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader className="text-center sm:text-center">
+                        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
+                            <AlertTriangle className="h-7 w-7 text-destructive" />
+                        </div>
+                        <DialogTitle className="text-xl">Delete Coupon</DialogTitle>
+                        <DialogDescription className="pt-2 text-center">
+                            Are you sure? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {couponToDelete && (
+                        <div className="rounded-xl bg-muted/50 p-4 space-y-2 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Code</span>
+                                <span className="font-medium">{couponToDelete.code}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Discount</span>
+                                <span className="font-medium">{couponToDelete.discount_percent}%</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Valid Until</span>
+                                <span className="font-medium">{couponToDelete.valid_until}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">Usage</span>
+                                <span className="font-medium">{couponToDelete.used_count} / {couponToDelete.max_uses}</span>
+                            </div>
+                        </div>
+                    )}
+                    <DialogFooter className="gap-2 sm:gap-0">
+                        <Button variant="outline" className="flex-1" onClick={() => setCouponToDelete(null)}>Cancel</Button>
+                        <Button variant="destructive" className="flex-1" onClick={handleDelete} disabled={processing}>
+                            {processing ? "Deleting..." : "Delete"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </DashboardLayout>
     );
 }
