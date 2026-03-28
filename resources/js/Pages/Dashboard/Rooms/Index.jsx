@@ -153,7 +153,7 @@ export default function Index({ rooms, hotels = [], filters = {}, counts = {} })
                                 {rooms.data.map((room) => (
                                     <TableRow key={room.id} className="hover:bg-muted/20 transition-colors">
                                         <TableCell>
-                                            <span className="font-bold text-sm bg-muted px-2.5 py-1 rounded-md">
+                                            <span className="font-bold text-sm bg-muted px-2.5 py-1 rounded-full">
                                                 #{room.room_number}
                                             </span>
                                         </TableCell>
