@@ -1,5 +1,5 @@
 import AppLayout from "@/Layouts/AppLayout";
-import { Head, usePage, useForm } from "@inertiajs/react";
+import { Head, usePage, router } from "@inertiajs/react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -9,27 +9,24 @@ import { User, Shield, Mail, Phone, Calendar, Camera, Loader2 } from "lucide-rea
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import DeleteUserForm from "./Partials/DeleteUserForm";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Edit({ mustVerifyEmail, status }) {
     const { auth } = usePage().props;
     const user = auth.user;
     const fileInput = useRef();
-
-    const { data, setData, post, processing } = useForm({
-        avatar: null,
-    });
+    const [processing, setProcessing] = useState(false);
 
     const handleAvatarSelect = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setData("avatar", file);
-            // Auto submit on select
             const formData = new FormData();
             formData.append("avatar", file);
-            post(route("profile.avatar"), {
+            router.post(route("profile.avatar"), formData, {
                 preserveScroll: true,
                 forceFormData: true,
+                onStart: () => setProcessing(true),
+                onFinish: () => setProcessing(false),
             });
         }
     };
