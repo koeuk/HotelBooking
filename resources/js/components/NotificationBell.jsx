@@ -35,7 +35,7 @@ export default function NotificationBell() {
 
     const fetchNotifications = useCallback(async () => {
         try {
-            const response = await fetch("/api/v1/notifications", {
+            const response = await fetch("/web/api/notifications", {
                 headers: {
                     Accept: "application/json",
                     "X-Requested-With": "XMLHttpRequest",
@@ -62,7 +62,7 @@ export default function NotificationBell() {
 
     const markAsRead = async (id) => {
         try {
-            await fetch(`/api/v1/notifications/${id}/read`, {
+            await fetch(`/web/api/notifications/${id}/read`, {
                 method: "PATCH",
                 headers: {
                     Accept: "application/json",
@@ -81,7 +81,7 @@ export default function NotificationBell() {
 
     const markAllAsRead = async () => {
         try {
-            await fetch("/api/v1/notifications/read-all", {
+            await fetch("/web/api/notifications/read-all", {
                 method: "PATCH",
                 headers: {
                     Accept: "application/json",

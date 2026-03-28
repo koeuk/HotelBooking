@@ -78,10 +78,10 @@ Route::middleware(['auth', 'verified'])->prefix('web')->group(function () {
 });
 
 // Notification API (web session auth)
-Route::middleware('auth')->prefix('api/v1')->group(function () {
-    Route::get('/notifications', [\App\Http\Controllers\Api\NotificationController::class, 'index']);
-    Route::patch('/notifications/{id}/read', [\App\Http\Controllers\Api\NotificationController::class, 'markAsRead']);
-    Route::patch('/notifications/read-all', [\App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead']);
+Route::middleware('auth')->prefix('web/api')->group(function () {
+    Route::get('/notifications', [\App\Http\Controllers\Api\NotificationController::class, 'index'])->name('web.notifications.api');
+    Route::patch('/notifications/{id}/read', [\App\Http\Controllers\Api\NotificationController::class, 'markAsRead'])->name('web.notifications.read');
+    Route::patch('/notifications/read-all', [\App\Http\Controllers\Api\NotificationController::class, 'markAllAsRead'])->name('web.notifications.readAll');
 });
 
 require __DIR__.'/dashboard.php';
