@@ -17,8 +17,33 @@ import {
     DollarSign,
     Users,
     Wifi,
+    Waves,
+    Dumbbell,
+    Sparkles,
+    UtensilsCrossed,
+    Car,
+    Snowflake,
+    Wine,
+    ConciergeBell,
 } from "lucide-react";
 import HotelMap from "@/components/HotelMap";
+
+const amenityIcons = {
+    wifi: Wifi,
+    waves: Waves,
+    pool: Waves,
+    dumbbell: Dumbbell,
+    gym: Dumbbell,
+    sparkles: Sparkles,
+    spa: Sparkles,
+    utensils: UtensilsCrossed,
+    restaurant: UtensilsCrossed,
+    car: Car,
+    parking: Car,
+    snowflake: Snowflake,
+    wine: Wine,
+    bar: Wine,
+};
 
 export default function HotelDetail({ hotel }) {
     const { auth } = usePage().props;
@@ -276,16 +301,21 @@ export default function HotelDetail({ hotel }) {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="flex flex-wrap gap-2">
-                                        {amenities.map((a) => (
-                                            <Badge
-                                                key={a.id}
-                                                variant="secondary"
-                                                className="text-xs py-1 px-2.5"
-                                            >
-                                                {a.name}
-                                            </Badge>
-                                        ))}
+                                    <div className="grid grid-cols-2 gap-3">
+                                        {amenities.map((a) => {
+                                            const IconComponent = amenityIcons[a.icon?.toLowerCase()] || amenityIcons[a.name?.toLowerCase()] || ConciergeBell;
+                                            return (
+                                                <div
+                                                    key={a.id}
+                                                    className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted/80 transition-colors"
+                                                >
+                                                    <div className="flex items-center justify-center h-9 w-9 rounded-lg bg-primary/10 text-primary shrink-0">
+                                                        <IconComponent className="h-4.5 w-4.5" />
+                                                    </div>
+                                                    <span className="text-sm font-medium">{a.name}</span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </CardContent>
                             </Card>
