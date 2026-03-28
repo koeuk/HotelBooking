@@ -30,38 +30,106 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in" />
 
-            <div className="space-y-6 text-center">
-                <div>
-                    <h1 className="text-2xl font-semibold tracking-tight">
-                        Web Login
+            <div className="space-y-6">
+                <div className="space-y-2">
+                    <h1 className="text-3xl font-bold tracking-tight">
+                        Welcome back
                     </h1>
-                    <p className="text-sm text-white/70">
+                    <p className="text-muted-foreground">
                         Enter your credentials to access your account
                     </p>
                 </div>
 
                 {status && (
-                    <div className="p-3 text-sm font-medium text-green-400 bg-green-900/30 rounded-full">
+                    <div className="p-3 text-sm font-medium text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/30 rounded-lg">
                         {status}
                     </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-4">
+                <form onSubmit={submit} className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="login">Email or username</Label>
+                        <Input
+                            id="login"
+                            type="text"
+                            value={data.login}
+                            onChange={(e) => setData("login", e.target.value)}
+                            placeholder="you@example.com"
+                            required
+                            autoComplete="username"
+                            className="h-11"
+                        />
+                        {errors.login && (
+                            <p className="text-sm text-destructive">{errors.login}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="password">Password</Label>
+                            {canResetPassword && (
+                                <Link
+                                    href={route("password.request")}
+                                    className="text-sm text-primary hover:underline"
+                                >
+                                    Forgot password?
+                                </Link>
+                            )}
+                        </div>
+                        <Input
+                            id="password"
+                            type="password"
+                            value={data.password}
+                            onChange={(e) => setData("password", e.target.value)}
+                            placeholder="Enter your password"
+                            required
+                            autoComplete="current-password"
+                            className="h-11"
+                        />
+                        {errors.password && (
+                            <p className="text-sm text-destructive">{errors.password}</p>
+                        )}
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                        <Checkbox
+                            id="remember"
+                            checked={data.remember}
+                            onCheckedChange={(checked) => setData("remember", checked)}
+                        />
+                        <Label htmlFor="remember" className="text-sm font-normal text-muted-foreground">
+                            Remember me
+                        </Label>
+                    </div>
+
                     <Button
-                        variant="outline"
-                        asChild
-                        className="w-full rounded-full h-12 bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white"
+                        type="submit"
+                        className="w-full h-11 text-base"
+                        disabled={processing}
                     >
+                        {processing ? "Logging in..." : "Log in"}
+                    </Button>
+                </form>
+
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <Separator />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                        <span className="px-2 bg-background text-muted-foreground">
+                            Or continue with
+                        </span>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                    <Button variant="outline" asChild className="h-11 bg-red-500/10 border-red-500/30 text-red-600 hover:bg-red-500/20 hover:text-red-600 dark:text-red-400 dark:hover:text-red-400">
                         <a href={route("auth.google")}>
                             <Chrome className="mr-2 h-4 w-4" />
                             Google
                         </a>
                     </Button>
-                    <Button
-                        variant="outline"
-                        asChild
-                        className="w-full rounded-full h-12 bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white"
-                    >
+                    <Button variant="outline" asChild className="h-11 bg-blue-500/10 border-blue-500/30 text-blue-600 hover:bg-blue-500/20 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-400">
                         <a href={route("auth.facebook")}>
                             <Facebook className="mr-2 h-4 w-4" />
                             Facebook
@@ -69,97 +137,11 @@ export default function Login({ status, canResetPassword }) {
                     </Button>
                 </div>
 
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <Separator className="bg-white/20" />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                        <span className="px-2 text-white/50 bg-white/10 backdrop-blur-sm rounded-full">
-                            Or continue with email
-                        </span>
-                    </div>
-                </div>
-
-                <form onSubmit={submit} className="space-y-4">
-                    <div>
-                        <Input
-                            id="login"
-                            type="text"
-                            value={data.login}
-                            onChange={(e) => setData("login", e.target.value)}
-                            placeholder="Email or username"
-                            required
-                            autoComplete="username"
-                            className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-full h-12 px-5"
-                        />
-                        {errors.login && (
-                            <p className="text-sm text-red-400 mt-1">
-                                {errors.login}
-                            </p>
-                        )}
-                    </div>
-
-                    <div>
-                        <Input
-                            id="password"
-                            type="password"
-                            value={data.password}
-                            onChange={(e) =>
-                                setData("password", e.target.value)
-                            }
-                            placeholder="Password"
-                            required
-                            autoComplete="current-password"
-                            className="bg-white/10 border-white/20 text-white placeholder:text-white/50 rounded-full h-12 px-5"
-                        />
-                        {errors.password && (
-                            <p className="text-sm text-red-400 mt-1">
-                                {errors.password}
-                            </p>
-                        )}
-                    </div>
-
-                    <div className="flex items-center justify-between px-1">
-                        <div className="flex items-center space-x-2">
-                            <Checkbox
-                                id="remember"
-                                checked={data.remember}
-                                onCheckedChange={(checked) =>
-                                    setData("remember", checked)
-                                }
-                                className="border-white/30 data-[state=checked]:bg-primary"
-                            />
-                            <Label
-                                htmlFor="remember"
-                                className="text-sm font-normal text-white/70"
-                            >
-                                Remember me
-                            </Label>
-                        </div>
-                        {canResetPassword && (
-                            <Link
-                                href={route("password.request")}
-                                className="text-sm text-white/70 hover:text-white hover:underline"
-                            >
-                                Forgot password?
-                            </Link>
-                        )}
-                    </div>
-
-                    <Button
-                        type="submit"
-                        className="w-full rounded-full h-12 text-base"
-                        disabled={processing}
-                    >
-                        {processing ? "Logging in..." : "Log in"}
-                    </Button>
-                </form>
-
-                <p className="text-sm text-white/60">
+                <p className="text-center text-sm text-muted-foreground">
                     Don't have an account?{" "}
                     <Link
                         href={route("register")}
-                        className="font-semibold text-white hover:underline"
+                        className="font-semibold text-primary hover:underline"
                     >
                         Sign up
                     </Link>
