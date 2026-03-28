@@ -110,6 +110,12 @@ const navItems = [
         icon: BarChart3,
         color: "text-orange-500",
     },
+    {
+        name: "Notifications",
+        routeName: "dashboard.notifications.index",
+        icon: Bell,
+        color: "text-rose-500",
+    },
 ];
 
 export default function DashboardLayout({ children }) {

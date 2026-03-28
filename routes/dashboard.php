@@ -38,6 +38,22 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->name('dashboard.')->g
     Route::resource('reviews', \App\Http\Controllers\ReviewController::class);
     Route::resource('coupons', \App\Http\Controllers\CouponController::class);
 
+    // Notifications
+    Route::get('/notifications', function () {
+        $notifications = auth()->user()->notifications()->paginate(20);
+        return \Inertia\Inertia::render('Dashboard/Notifications/Index', [
+            'notifications' => $notifications,
+        ]);
+    })->name('notifications.index');
+    Route::patch('/notifications/{id}/read', function ($id) {
+        auth()->user()->notifications()->findOrFail($id)->markAsRead();
+        return back();
+    })->name('notifications.read');
+    Route::patch('/notifications/read-all', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+        return back();
+    })->name('notifications.readAll');
+
     // Reports
     Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
