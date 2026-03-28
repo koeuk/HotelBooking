@@ -47,7 +47,8 @@ class WebController extends Controller
             $query->where('city', $city);
         }
 
-        $hotels = $query->orderByDesc('rating')->paginate(12);
+        $perPage = $request->input('all') ? 1000 : 6;
+        $hotels = $query->orderByDesc('rating')->paginate($perPage);
         $cities = Hotel::distinct()->pluck('city');
 
         return Inertia::render('Web/Hotels', [

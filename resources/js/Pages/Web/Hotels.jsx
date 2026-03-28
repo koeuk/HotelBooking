@@ -125,25 +125,17 @@ export default function Hotels({ hotels, cities, filters }) {
                     </div>
                 )}
 
-                {/* Pagination */}
-                {hotels.links?.length > 3 && (
-                    <div className="flex items-center justify-center space-x-2 mt-8">
-                        {hotels.links.map((link, i) => (
-                            <Button
-                                key={i}
-                                variant={link.active ? "default" : "outline"}
-                                size="sm"
-                                asChild={!!link.url}
-                                disabled={!link.url}
-                                className={!link.url ? "opacity-50" : ""}
-                            >
-                                {link.url ? (
-                                    <Link href={link.url} dangerouslySetInnerHTML={{ __html: link.label }} />
-                                ) : (
-                                    <span dangerouslySetInnerHTML={{ __html: link.label }} />
-                                )}
-                            </Button>
-                        ))}
+                {/* See More */}
+                {hotels.total > hotels.data.length && (
+                    <div className="flex justify-center mt-10">
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            className="rounded-xl px-8"
+                            onClick={() => applyFilters({ all: 1 })}
+                        >
+                            See More ({hotels.total - hotels.data.length} more)
+                        </Button>
                     </div>
                 )}
             </div>
