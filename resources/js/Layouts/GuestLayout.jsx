@@ -1,5 +1,6 @@
 import { Link } from "@inertiajs/react";
 import { Hotel } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function GuestLayout({ children }) {
     return (
@@ -50,7 +51,7 @@ export default function GuestLayout({ children }) {
 
             {/* Right side - Form */}
             <div className="flex-1 flex items-center justify-center p-6 sm:p-8 bg-background">
-                {/* Mobile logo */}
+                {/* Mobile logo & Theme toggle */}
                 <div className="absolute top-6 left-6 lg:hidden">
                     <Link href="/" className="flex items-center gap-2">
                         <div className="bg-primary p-2 rounded-lg">
@@ -58,6 +59,9 @@ export default function GuestLayout({ children }) {
                         </div>
                         <span className="text-lg font-bold tracking-tight">HotelBook</span>
                     </Link>
+                </div>
+                <div className="absolute top-6 right-6">
+                    <ThemeToggle />
                 </div>
 
                 <div className="w-full max-w-[420px]">
