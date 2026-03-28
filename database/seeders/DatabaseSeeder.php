@@ -49,8 +49,45 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Bar', 'icon' => 'wine'],
         ])->map(fn ($a) => Amenity::create($a));
 
-        // 4. Create 3 Hotels
-        $hotels = Hotel::factory(3)->create();
+        // 4. Create 14 Hotels in Cambodia
+        $cambodiaHotels = [
+            ['name' => 'Sokha Phnom Penh Hotel', 'city' => 'Phnom Penh', 'address' => 'Sokha Hotel, Chroy Changvar, Phnom Penh', 'latitude' => 11.5756, 'longitude' => 104.9285],
+            ['name' => 'Raffles Hotel Le Royal', 'city' => 'Phnom Penh', 'address' => '92 Rukhak Vithei Daun Penh, Phnom Penh', 'latitude' => 11.5731, 'longitude' => 104.9228],
+            ['name' => 'The Plantation Urban Resort', 'city' => 'Phnom Penh', 'address' => '28 Street 184, Phnom Penh', 'latitude' => 11.5623, 'longitude' => 104.9275],
+            ['name' => 'Rosewood Phnom Penh', 'city' => 'Phnom Penh', 'address' => 'Vattanac Capital Tower, Phnom Penh', 'latitude' => 11.5565, 'longitude' => 104.9283],
+            ['name' => 'Sofitel Angkor Phokeethra', 'city' => 'Siem Reap', 'address' => 'Vithei Charles de Gaulle, Siem Reap', 'latitude' => 13.3540, 'longitude' => 103.8560],
+            ['name' => 'Park Hyatt Siem Reap', 'city' => 'Siem Reap', 'address' => 'Sivutha Boulevard, Siem Reap', 'latitude' => 13.3533, 'longitude' => 103.8580],
+            ['name' => 'Shinta Mani Angkor', 'city' => 'Siem Reap', 'address' => 'Junction of Street 14 & Oum Khun, Siem Reap', 'latitude' => 13.3560, 'longitude' => 103.8555],
+            ['name' => 'Viroth\'s Hotel', 'city' => 'Siem Reap', 'address' => 'Street 23, Wat Bo Village, Siem Reap', 'latitude' => 13.3510, 'longitude' => 103.8640],
+            ['name' => 'Song Saa Private Island', 'city' => 'Sihanoukville', 'address' => 'Koh Rong Archipelago, Sihanoukville', 'latitude' => 10.7588, 'longitude' => 103.2783],
+            ['name' => 'The Royal Sands Koh Rong', 'city' => 'Sihanoukville', 'address' => 'Koh Rong Island, Sihanoukville', 'latitude' => 10.7275, 'longitude' => 103.2400],
+            ['name' => 'Alila Villas Koh Russey', 'city' => 'Sihanoukville', 'address' => 'Koh Russey Island, Sihanoukville', 'latitude' => 10.6140, 'longitude' => 103.5210],
+            ['name' => 'Knai Bang Chatt', 'city' => 'Kep', 'address' => 'Phum Prey Thom, Kep', 'latitude' => 10.4833, 'longitude' => 104.3000],
+            ['name' => 'Six Senses Krabey Island', 'city' => 'Sihanoukville', 'address' => 'Krabey Island, Ream, Sihanoukville', 'latitude' => 10.5440, 'longitude' => 103.5630],
+            ['name' => 'Jaya House River Park', 'city' => 'Siem Reap', 'address' => 'River Road, Siem Reap', 'latitude' => 13.3640, 'longitude' => 103.8590],
+        ];
+
+        $hotelImages = [
+            ['https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1000', 'https://images.unsplash.com/photo-1582719478250-c89cae4df85b?auto=format&fit=crop&q=80&w=1000'],
+            ['https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&q=80&w=1000', 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=1000'],
+            ['https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1000', 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1000'],
+            ['https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&q=80&w=1000', 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80&w=1000'],
+            ['https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&q=80&w=1000', 'https://images.unsplash.com/photo-1549294413-26f195200c16?auto=format&fit=crop&q=80&w=1000'],
+        ];
+
+        $hotels = collect($cambodiaHotels)->map(function ($data, $index) use ($hotelImages) {
+            return Hotel::create([
+                'name' => $data['name'],
+                'description' => fake()->paragraph(3),
+                'address' => $data['address'],
+                'city' => $data['city'],
+                'country' => 'Cambodia',
+                'latitude' => $data['latitude'],
+                'longitude' => $data['longitude'],
+                'rating' => fake()->randomFloat(1, 3.5, 5),
+                'images' => $hotelImages[$index % count($hotelImages)],
+            ]);
+        });
 
         foreach ($hotels as $hotel) {
             // Attach random amenities to each hotel

@@ -33,22 +33,18 @@ export default function Home({
             {/* Hero */}
             <section className="relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-primary/10 dark:from-primary/10 dark:via-zinc-950 dark:to-primary/5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-                    <div className="max-w-3xl">
-                        <Badge variant="secondary" className="mb-4 text-xs">
-                            <Sparkles className="h-3 w-3 mr-1" /> {totalHotels}+
-                            Hotels Available
-                        </Badge>
+                    <div className="max-w-3xl mx-auto text-center">
                         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
                             Find Your Perfect{" "}
                             <span className="text-primary">Hotel Stay</span>
                         </h1>
-                        <p className="mt-4 text-lg text-muted-foreground max-w-xl">
+                        <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
                             Discover amazing hotels at the best prices. Book
                             with confidence and enjoy unforgettable experiences.
                         </p>
 
                         {/* Search Bar */}
-                        <div className="mt-8 flex gap-2 max-w-lg">
+                        <div className="mt-8 flex gap-2 max-w-lg mx-auto">
                             <div className="relative flex-1">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                                 <Input
@@ -76,7 +72,7 @@ export default function Home({
                         </div>
 
                         {/* Trust Badges */}
-                        <div className="mt-8 flex items-center gap-6 text-sm text-muted-foreground">
+                        <div className="mt-8 flex items-center justify-center gap-6 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1.5">
                                 <Shield className="h-4 w-4 text-green-500" />
                                 Best Price Guarantee
