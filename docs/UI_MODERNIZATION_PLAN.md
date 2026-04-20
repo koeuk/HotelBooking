@@ -36,12 +36,12 @@ A phased, low-risk roadmap to modernize the HotelBooking UI. Each phase is small
 **Scope:** Update shadcn primitives to match new tokens.
 **Files:** [resources/js/components/ui/](../resources/js/components/ui/)
 
-- [ ] `button.jsx` — pill variant, gradient variant, hover lift
-- [ ] `card.jsx` — glass variant, hover transform
-- [ ] `input.jsx` — softer borders, focus glow
-- [ ] `badge.jsx` — already updated, verify consistency
-- [ ] `dialog.jsx` — backdrop blur, slide+scale animation
-- [ ] Add `skeleton.jsx` if missing
+- [x] `button.jsx` — pill variant, gradient variant, hover lift
+- [x] `card.jsx` — glass variant, hover transform
+- [x] `input.jsx` — softer borders, focus glow
+- [x] `badge.jsx` — already updated, verify consistency
+- [x] `dialog.jsx` — backdrop blur, slide+scale animation
+- [x] Add `skeleton.jsx` if missing — added shimmer variant
 
 **Verify:** Component variants work in isolation.
 
@@ -51,13 +51,13 @@ A phased, low-risk roadmap to modernize the HotelBooking UI. Each phase is small
 **Scope:** Full redesign of one page as the pattern.
 **File:** [resources/js/Pages/Bookings/Create.jsx](../resources/js/Pages/Bookings/Create.jsx)
 
-- [ ] Hero header with hotel image as backdrop + glass overlay
-- [ ] Stepper component for "Dates → Room → Confirm"
-- [ ] Date picker with inline range calendar (shadcn Calendar)
-- [ ] Room cards with image, hover lift, smooth select transition
-- [ ] Sticky summary card with glass effect, animated price counter
-- [ ] CTA button with gradient + ripple on click
-- [ ] Responsive bottom-sheet summary on mobile
+- [x] Hero header with hotel image as backdrop + glass overlay
+- [x] Stepper component for "Dates → Room → Confirm"
+- [ ] Date picker with inline range calendar (shadcn Calendar) — kept native date input + soft variant; Calendar primitive not installed
+- [x] Room cards with image, hover lift, smooth select transition
+- [x] Sticky summary card with glass effect, animated price counter
+- [x] CTA button with gradient + ripple on click — gradient + lift; ripple skipped (motion subtle)
+- [x] Responsive bottom-sheet summary on mobile
 
 **Verify:** Test golden path booking flow end-to-end in browser.
 

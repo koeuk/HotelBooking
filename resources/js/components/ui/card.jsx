@@ -1,20 +1,43 @@
 import * as React from "react"
+import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+
+const cardVariants = cva(
+  "group/card flex flex-col gap-4 overflow-hidden py-4 text-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0",
+  {
+    variants: {
+      variant: {
+        default: "rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        glass: "rounded-2xl glass text-card-foreground *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
+        soft: "rounded-2xl bg-muted/40 text-card-foreground *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
+        elevated: "rounded-2xl bg-card text-card-foreground shadow-soft ring-1 ring-foreground/5 *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
+        outline: "rounded-2xl border border-border bg-transparent text-card-foreground *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
+      },
+      interactive: {
+        true: "transition-all duration-300 ease-out-expo hover:-translate-y-1 hover:shadow-glow",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      interactive: false,
+    },
+  }
+)
 
 function Card({
   className,
   size = "default",
+  variant = "default",
+  interactive = false,
   ...props
 }) {
   return (
     <div
       data-slot="card"
       data-size={size}
-      className={cn(
-        "group/card flex flex-col gap-4 overflow-hidden rounded-xl bg-card py-4 text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
-        className
-      )}
+      className={cn(cardVariants({ variant, interactive, className }))}
       {...props} />
   );
 }
@@ -111,4 +134,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  cardVariants,
 }

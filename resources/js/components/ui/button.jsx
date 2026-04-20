@@ -19,6 +19,10 @@ const buttonVariants = cva(
                 destructive:
                     "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
                 link: "text-primary underline-offset-4 hover:underline",
+                gradient:
+                    "text-primary-foreground bg-gradient-primary shadow-glow hover:shadow-glow-lg hover:-translate-y-0.5 transition-all ease-out-expo",
+                glass:
+                    "glass text-foreground hover:bg-foreground/5 hover:-translate-y-0.5 transition-all ease-out-expo",
             },
             size: {
                 default:
@@ -26,6 +30,7 @@ const buttonVariants = cva(
                 xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
                 sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
                 lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
+                xl: "h-12 gap-2 px-5 text-base rounded-2xl has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
                 icon: "size-8",
                 "icon-xs":
                     "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
@@ -33,10 +38,15 @@ const buttonVariants = cva(
                     "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
                 "icon-lg": "size-9",
             },
+            shape: {
+                default: "",
+                pill: "rounded-full",
+            },
         },
         defaultVariants: {
             variant: "default",
             size: "default",
+            shape: "default",
         },
     },
 );
@@ -45,6 +55,7 @@ function Button({
     className,
     variant = "default",
     size = "default",
+    shape = "default",
     asChild = false,
     ...props
 }) {
@@ -52,7 +63,7 @@ function Button({
     return (
         <Comp
             data-slot="button"
-            className={cn(buttonVariants({ variant, size, className }))}
+            className={cn(buttonVariants({ variant, size, shape, className }))}
             {...props}
         />
     );

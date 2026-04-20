@@ -4,7 +4,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Star, MapPin, BedDouble, Search, X, Loader2 } from "lucide-react";
+import {
+    Star,
+    MapPin,
+    BedDouble,
+    Search,
+    X,
+    Loader2,
+    Sparkles,
+} from "lucide-react";
 import { useState } from "react";
 import FavoriteButton from "@/components/FavoriteButton";
 import DestinationFilter from "@/components/DestinationFilter";
@@ -14,104 +22,158 @@ export default function Hotels({ hotels, cities, filters }) {
     const [loadingMore, setLoadingMore] = useState(false);
 
     const applyFilters = (newFilters) => {
-        router.get("/explore", { ...filters, ...newFilters }, { preserveState: true });
+        router.get(
+            "/explore",
+            { ...filters, ...newFilters },
+            { preserveState: true },
+        );
     };
+
+    const hasFilters = filters?.search || filters?.city;
 
     return (
         <WebLayout>
             <Head title="Explore Hotels" />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold tracking-tight">Explore Hotels</h1>
-                    <p className="text-muted-foreground mt-1">
-                        {hotels.total} hotels found
+            {/* Hero */}
+            <section className="relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-mesh" />
+                <div className="absolute inset-0 noise" />
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-10 space-y-4">
+                    <Badge
+                        variant="outline"
+                        className="glass border-foreground/10 w-fit"
+                    >
+                        <Sparkles className="h-3 w-3" />
+                        {hotels.total} hotels
                         {filters?.city ? ` in ${filters.city}` : ""}
                         {filters?.search ? ` for "${filters.search}"` : ""}
+                    </Badge>
+                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight animate-fade-up">
+                        Explore{" "}
+                        <span className="text-gradient-primary">hotels</span>
+                    </h1>
+                    <p className="text-muted-foreground max-w-xl animate-fade-up [animation-delay:80ms]">
+                        Find the perfect place for your next trip — search by
+                        name, city, or destination.
                     </p>
                 </div>
+            </section>
 
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
                 {/* Filters */}
-                <div className="flex flex-wrap items-center gap-4 mb-10 p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
-                    <div className="relative flex-1 min-w-[280px]">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                            placeholder="Search by hotel name..."
-                            className="pl-10 h-11 bg-background border-zinc-200/60 dark:border-zinc-800/60 shadow-none focus-visible:ring-primary/20 transition-all rounded-xl"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") applyFilters({ search, page: 1 });
-                            }}
-                        />
-                    </div>
+                <div className="glass rounded-3xl p-3 sm:p-4 -mt-2 shadow-soft animate-fade-up [animation-delay:120ms]">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <div className="relative flex-1 min-w-[260px]">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                variant="soft"
+                                placeholder="Search by hotel name…"
+                                className="pl-11"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter")
+                                        applyFilters({ search, page: 1 });
+                                }}
+                            />
+                        </div>
 
-                    <div className="flex-1 min-w-[280px]">
-                        <DestinationFilter
-                            cities={cities}
-                            currentCity={filters?.city}
-                            onCitySelect={(city) => applyFilters({ city, page: 1 })}
-                        />
-                    </div>
+                        <div className="flex-1 min-w-[260px]">
+                            <DestinationFilter
+                                cities={cities}
+                                currentCity={filters?.city}
+                                onCitySelect={(city) =>
+                                    applyFilters({ city, page: 1 })
+                                }
+                            />
+                        </div>
 
-                    {(filters?.search || filters?.city) && (
                         <Button
-                            variant="ghost"
-                            size="sm"
-                            className="h-11 px-4 lg:px-6 hover:bg-zinc-200 items-center justify-center shrink-0 rounded-xl transition-all"
-                            onClick={() => {
-                                setSearch("");
-                                router.get("/explore");
-                            }}
+                            variant="gradient"
+                            shape="pill"
+                            size="lg"
+                            onClick={() => applyFilters({ search, page: 1 })}
                         >
-                            <X className="h-4 w-4 mr-2" />
-                            Clear Filters
+                            Search
                         </Button>
-                    )}
+
+                        {hasFilters && (
+                            <Button
+                                variant="ghost"
+                                shape="pill"
+                                size="lg"
+                                onClick={() => {
+                                    setSearch("");
+                                    router.get("/explore");
+                                }}
+                            >
+                                <X className="h-4 w-4" />
+                                Clear
+                            </Button>
+                        )}
+                    </div>
                 </div>
 
                 {/* Grid */}
                 {hotels.data.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {hotels.data.map((hotel) => (
-                            <Link key={hotel.id} href={`/explore/${hotel.uuid}`}>
-                                <Card className="group overflow-hidden border-none shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer h-full">
-                                    <div className="aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800 relative">
-                                        <FavoriteButton hotelId={hotel.id} hotelUuid={hotel.uuid} className="absolute top-3 right-3 z-10" />
+                        {hotels.data.map((hotel, idx) => (
+                            <Link
+                                key={hotel.id}
+                                href={`/explore/${hotel.uuid}`}
+                                className="block group animate-fade-up"
+                                style={{
+                                    animationDelay: `${Math.min(idx * 40, 320)}ms`,
+                                }}
+                            >
+                                <Card
+                                    variant="elevated"
+                                    interactive
+                                    className="overflow-hidden h-full"
+                                >
+                                    <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+                                        <FavoriteButton
+                                            hotelId={hotel.id}
+                                            hotelUuid={hotel.uuid}
+                                            className="absolute top-3 right-3 z-10"
+                                        />
                                         {hotel.images?.[0] ? (
                                             <img
                                                 src={hotel.images[0]}
                                                 alt={hotel.name}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                className="w-full h-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center">
-                                                <BedDouble className="h-12 w-12 text-zinc-400" />
+                                                <BedDouble className="h-12 w-12 text-muted-foreground" />
+                                            </div>
+                                        )}
+                                        {hotel.rating > 0 && (
+                                            <div className="absolute top-3 left-3 glass rounded-full px-2.5 py-1 text-xs font-semibold inline-flex items-center gap-1">
+                                                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                                                {Number(hotel.rating).toFixed(
+                                                    1,
+                                                )}
                                             </div>
                                         )}
                                     </div>
                                     <CardContent className="p-4">
-                                        <div className="flex items-start justify-between">
-                                            <div>
-                                                <h3 className="font-semibold group-hover:text-primary transition-colors">
+                                        <div className="flex items-start justify-between gap-3">
+                                            <div className="min-w-0">
+                                                <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
                                                     {hotel.name}
                                                 </h3>
-                                                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                                                    <MapPin className="h-3.5 w-3.5" />
-                                                    {hotel.city}, {hotel.country}
+                                                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1 truncate">
+                                                    <MapPin className="h-3.5 w-3.5 shrink-0" />
+                                                    {hotel.city},{" "}
+                                                    {hotel.country}
                                                 </p>
                                             </div>
-                                            {hotel.rating > 0 && (
-                                                <Badge variant="secondary" className="font-bold shrink-0">
-                                                    <Star className="h-3 w-3 mr-1 fill-yellow-400 text-yellow-400" />
-                                                    {Number(hotel.rating).toFixed(1)}
-                                                </Badge>
-                                            )}
                                         </div>
-                                        <div className="flex items-center justify-between mt-3 pt-3 border-t">
-                                            <span className="text-xs text-muted-foreground">{hotel.rooms_count} rooms</span>
-                                            <span className="text-xs text-muted-foreground">{hotel.reviews_count} reviews</span>
+                                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60 text-xs text-muted-foreground">
+                                            <span>{hotel.rooms_count} rooms</span>
+                                            <span>{hotel.reviews_count} reviews</span>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -119,36 +181,49 @@ export default function Hotels({ hotels, cities, filters }) {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-20">
-                        <BedDouble className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold">No hotels found</h3>
-                        <p className="text-muted-foreground mt-1">Try adjusting your search or filters.</p>
-                    </div>
+                    <Card variant="soft" className="text-center py-16">
+                        <CardContent>
+                            <div className="mx-auto h-16 w-16 rounded-full bg-gradient-primary-soft flex items-center justify-center mb-4">
+                                <BedDouble className="h-8 w-8 text-primary" />
+                            </div>
+                            <p className="font-semibold text-lg">
+                                No hotels found
+                            </p>
+                            <p className="text-sm text-muted-foreground mt-1">
+                                Try adjusting your search or filters.
+                            </p>
+                        </CardContent>
+                    </Card>
                 )}
 
                 {/* See More */}
                 {hotels.total > hotels.data.length && (
-                    <div className="flex justify-center mt-10">
+                    <div className="flex justify-center">
                         <Button
-                            variant="outline"
-                            size="lg"
-                            className="rounded-xl px-8"
+                            variant="glass"
+                            size="xl"
+                            shape="pill"
                             disabled={loadingMore}
                             onClick={() => {
                                 setLoadingMore(true);
-                                router.get("/explore", { ...filters, all: 1 }, {
-                                    preserveState: true,
-                                    onFinish: () => setLoadingMore(false),
-                                });
+                                router.get(
+                                    "/explore",
+                                    { ...filters, all: 1 },
+                                    {
+                                        preserveState: true,
+                                        onFinish: () =>
+                                            setLoadingMore(false),
+                                    },
+                                );
                             }}
                         >
                             {loadingMore ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Loading...
+                                    Loading…
                                 </>
                             ) : (
-                                `See More (${hotels.total - hotels.data.length} more)`
+                                `See more (${hotels.total - hotels.data.length} more)`
                             )}
                         </Button>
                     </div>

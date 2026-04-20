@@ -6,7 +6,6 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
-    CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -15,20 +14,65 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
     ArrowLeft,
-    Hotel,
     BedDouble,
     Users,
     MapPin,
     Star,
     Calendar,
-    DollarSign,
-    CheckCircle,
+    CheckCircle2,
     CreditCard,
+    Sparkles,
 } from "lucide-react";
 import HotelMap from "@/components/HotelMap";
+import { cn } from "@/lib/utils";
+
+function Stepper({ step }) {
+    const steps = [
+        { id: 1, label: "Dates", icon: Calendar },
+        { id: 2, label: "Room", icon: BedDouble },
+        { id: 3, label: "Confirm", icon: CheckCircle2 },
+    ];
+    return (
+        <div className="flex items-center gap-2 sm:gap-3">
+            {steps.map((s, i) => {
+                const Icon = s.icon;
+                const active = step >= s.id;
+                const current = step === s.id;
+                return (
+                    <div key={s.id} className="flex items-center gap-2 sm:gap-3">
+                        <div
+                            className={cn(
+                                "flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300 ease-out-expo",
+                                active
+                                    ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                                    : "bg-muted text-muted-foreground",
+                                current && "scale-105",
+                            )}
+                        >
+                            <Icon className="h-3.5 w-3.5" />
+                            <span>{s.label}</span>
+                        </div>
+                        {i < steps.length - 1 && (
+                            <div
+                                className={cn(
+                                    "h-px w-6 sm:w-10 transition-colors duration-300",
+                                    step > s.id
+                                        ? "bg-primary/60"
+                                        : "bg-border",
+                                )}
+                            />
+                        )}
+                    </div>
+                );
+            })}
+        </div>
+    );
+}
 
 export default function Create({ hotel }) {
     const roomTypes = hotel.room_types || [];
+    const heroImage = hotel.images?.[0] || null;
+
     const [selectedRoomType, setSelectedRoomType] = useState(null);
     const [selectedRoom, setSelectedRoom] = useState(null);
 
@@ -48,6 +92,9 @@ export default function Create({ hotel }) {
     const pricePerNight = selectedRoomType?.price_per_night || 0;
     const totalPrice = nights * pricePerNight;
 
+    const datesValid = nights > 0;
+    const step = !datesValid ? 1 : !selectedRoom ? 2 : 3;
+
     const selectRoom = (roomType, room) => {
         setSelectedRoomType(roomType);
         setSelectedRoom(room);
@@ -65,45 +112,93 @@ export default function Create({ hotel }) {
         <WebLayout>
             <Head title={`Book ${hotel.name}`} />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-                <Button variant="ghost" size="sm" asChild>
-                    <Link href={`/explore/${hotel.uuid}`}>
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Back to{" "}
-                        {hotel.name}
-                    </Link>
-                </Button>
+            {/* Hero */}
+            <div className="relative overflow-hidden">
+                {heroImage ? (
+                    <div
+                        className="absolute inset-0 bg-cover bg-center scale-110 blur-sm"
+                        style={{ backgroundImage: `url(${heroImage})` }}
+                    />
+                ) : (
+                    <div className="absolute inset-0 bg-gradient-mesh" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
 
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Book Your Stay
-                    </h1>
-                    <p className="text-muted-foreground mt-1 flex items-center gap-1">
-                        <MapPin className="h-4 w-4" /> {hotel.name} —{" "}
-                        {hotel.city}, {hotel.country}
-                    </p>
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12 space-y-6">
+                    <Button variant="ghost" size="sm" asChild className="w-fit">
+                        <Link href={`/explore/${hotel.uuid}`}>
+                            <ArrowLeft className="mr-2 h-4 w-4" /> Back to{" "}
+                            {hotel.name}
+                        </Link>
+                    </Button>
+
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                        <div className="space-y-2 animate-fade-up">
+                            <Badge
+                                variant="outline"
+                                className="glass border-foreground/10 text-foreground/80"
+                            >
+                                <Sparkles className="h-3 w-3" />
+                                Reserve your stay
+                            </Badge>
+                            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
+                                Book{" "}
+                                <span className="text-gradient-primary">
+                                    {hotel.name}
+                                </span>
+                            </h1>
+                            <p className="text-muted-foreground flex items-center gap-1.5">
+                                <MapPin className="h-4 w-4" />
+                                {hotel.city}, {hotel.country}
+                                {hotel.rating > 0 && (
+                                    <>
+                                        <span className="mx-1">•</span>
+                                        <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                                        <span className="font-medium text-foreground">
+                                            {hotel.rating}
+                                        </span>
+                                    </>
+                                )}
+                            </p>
+                        </div>
+                        <div className="animate-fade-up [animation-delay:100ms]">
+                            <Stepper step={step} />
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <form onSubmit={submit}>
+            <form onSubmit={submit}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 pb-32 lg:pb-8">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Left - Room Selection & Dates */}
+                        {/* Left - Steps */}
                         <div className="lg:col-span-2 space-y-6">
-                            {/* Step 1: Select Dates */}
-                            <Card className="border-none shadow-sm">
+                            {/* Step 1: Dates */}
+                            <Card
+                                variant="elevated"
+                                className="animate-fade-up"
+                            >
                                 <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Calendar className="h-5 w-5 text-primary" />
-                                        1. Select Dates
+                                    <CardTitle className="flex items-center gap-2 text-base">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold">
+                                            1
+                                        </span>
+                                        Select your dates
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="check_in_date">
-                                                Check-in Date
+                                            <Label
+                                                htmlFor="check_in_date"
+                                                className="text-xs uppercase tracking-wide text-muted-foreground"
+                                            >
+                                                Check-in
                                             </Label>
                                             <Input
                                                 id="check_in_date"
                                                 type="date"
+                                                variant="soft"
                                                 min={today}
                                                 value={data.check_in_date}
                                                 onChange={(e) =>
@@ -120,12 +215,16 @@ export default function Create({ hotel }) {
                                             )}
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="check_out_date">
-                                                Check-out Date
+                                            <Label
+                                                htmlFor="check_out_date"
+                                                className="text-xs uppercase tracking-wide text-muted-foreground"
+                                            >
+                                                Check-out
                                             </Label>
                                             <Input
                                                 id="check_out_date"
                                                 type="date"
+                                                variant="soft"
                                                 min={
                                                     data.check_in_date || today
                                                 }
@@ -144,27 +243,35 @@ export default function Create({ hotel }) {
                                             )}
                                         </div>
                                     </div>
-                                    {nights > 0 && (
-                                        <p className="text-sm text-muted-foreground mt-3">
+                                    {datesValid && (
+                                        <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-medium animate-scale-in">
+                                            <CheckCircle2 className="h-3.5 w-3.5" />
                                             {nights} night
-                                            {nights !== 1 ? "s" : ""}
-                                        </p>
+                                            {nights !== 1 ? "s" : ""} selected
+                                        </div>
                                     )}
                                 </CardContent>
                             </Card>
 
-                            {/* Step 2: Select Room */}
-                            <Card className="border-none shadow-sm">
+                            {/* Step 2: Rooms */}
+                            <Card
+                                variant="elevated"
+                                className="animate-fade-up [animation-delay:80ms]"
+                            >
                                 <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <BedDouble className="h-5 w-5 text-primary" />
-                                        2. Select a Room
+                                    <CardTitle className="flex items-center gap-2 text-base">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold">
+                                            2
+                                        </span>
+                                        Choose a room
                                     </CardTitle>
-                                    <CardDescription>
-                                        {roomTypes.length} room types available
-                                    </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
+                                    {roomTypes.length === 0 && (
+                                        <p className="text-sm text-muted-foreground text-center py-6">
+                                            No rooms available right now.
+                                        </p>
+                                    )}
                                     {roomTypes.map((type) => {
                                         const availableRooms = (
                                             type.rooms || []
@@ -174,20 +281,21 @@ export default function Create({ hotel }) {
                                         return (
                                             <div
                                                 key={type.id}
-                                                className="border rounded-xl p-4 space-y-3"
+                                                className="rounded-2xl border border-border/60 bg-muted/20 p-4 space-y-4 transition-all duration-300 ease-out-expo hover:border-primary/30"
                                             >
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <h3 className="font-semibold text-lg">
+                                                <div className="flex items-start justify-between gap-4">
+                                                    <div className="space-y-1">
+                                                        <h3 className="font-semibold text-lg leading-tight">
                                                             {type.name}
                                                         </h3>
-                                                        <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
-                                                            <span className="flex items-center gap-1">
-                                                                <Users className="h-3.5 w-3.5" />{" "}
+                                                        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                                                            <span className="inline-flex items-center gap-1 rounded-full bg-background px-2 py-0.5">
+                                                                <Users className="h-3 w-3" />
                                                                 {type.max_users}{" "}
-                                                                users
+                                                                guests
                                                             </span>
-                                                            <span>
+                                                            <span className="inline-flex items-center gap-1 rounded-full bg-background px-2 py-0.5">
+                                                                <BedDouble className="h-3 w-3" />
                                                                 {
                                                                     availableRooms.length
                                                                 }{" "}
@@ -195,73 +303,91 @@ export default function Create({ hotel }) {
                                                             </span>
                                                         </div>
                                                         {type.description && (
-                                                            <p className="text-sm text-muted-foreground mt-2">
+                                                            <p className="text-sm text-muted-foreground pt-1">
                                                                 {
                                                                     type.description
                                                                 }
                                                             </p>
                                                         )}
                                                     </div>
-                                                    <div className="text-right">
-                                                        <p className="text-xl font-bold text-primary">
+                                                    <div className="text-right shrink-0">
+                                                        <p className="text-2xl font-bold text-gradient-primary leading-none">
                                                             $
                                                             {
                                                                 type.price_per_night
                                                             }
                                                         </p>
-                                                        <p className="text-xs text-muted-foreground">
-                                                            per night
+                                                        <p className="text-xs text-muted-foreground mt-1">
+                                                            / night
                                                         </p>
                                                     </div>
                                                 </div>
 
                                                 {availableRooms.length > 0 ? (
-                                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                                                         {availableRooms.map(
-                                                            (room) => (
-                                                                <button
-                                                                    key={
-                                                                        room.id
-                                                                    }
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                        selectRoom(
-                                                                            type,
-                                                                            room,
-                                                                        )
-                                                                    }
-                                                                    className={`p-3 rounded-lg border text-center text-sm transition-all ${
-                                                                        selectedRoom?.id ===
-                                                                        room.id
-                                                                            ? "border-primary bg-primary/5 ring-2 ring-primary"
-                                                                            : "border-zinc-200 dark:border-zinc-700 hover:border-primary/50"
-                                                                    }`}
-                                                                >
-                                                                    <p className="font-medium">
-                                                                        Room{" "}
-                                                                        {
-                                                                            room.room_number
+                                                            (room) => {
+                                                                const selected =
+                                                                    selectedRoom?.id ===
+                                                                    room.id;
+                                                                return (
+                                                                    <button
+                                                                        key={
+                                                                            room.id
                                                                         }
-                                                                    </p>
-                                                                    {room.floor && (
-                                                                        <p className="text-xs text-muted-foreground">
-                                                                            Floor{" "}
+                                                                        type="button"
+                                                                        onClick={() =>
+                                                                            selectRoom(
+                                                                                type,
+                                                                                room,
+                                                                            )
+                                                                        }
+                                                                        className={cn(
+                                                                            "group relative p-3 rounded-xl border text-center text-sm transition-all duration-300 ease-out-expo overflow-hidden",
+                                                                            selected
+                                                                                ? "border-primary bg-gradient-primary text-primary-foreground shadow-glow scale-[1.02]"
+                                                                                : "border-border bg-background hover:border-primary/40 hover:-translate-y-0.5",
+                                                                        )}
+                                                                    >
+                                                                        <p
+                                                                            className={cn(
+                                                                                "font-semibold",
+                                                                                selected
+                                                                                    ? "text-primary-foreground"
+                                                                                    : "",
+                                                                            )}
+                                                                        >
+                                                                            #
                                                                             {
-                                                                                room.floor
+                                                                                room.room_number
                                                                             }
                                                                         </p>
-                                                                    )}
-                                                                    {selectedRoom?.id ===
-                                                                        room.id && (
-                                                                        <CheckCircle className="h-4 w-4 text-primary mx-auto mt-1" />
-                                                                    )}
-                                                                </button>
-                                                            ),
+                                                                        {room.floor && (
+                                                                            <p
+                                                                                className={cn(
+                                                                                    "text-[10px] mt-0.5",
+                                                                                    selected
+                                                                                        ? "text-primary-foreground/80"
+                                                                                        : "text-muted-foreground",
+                                                                                )}
+                                                                            >
+                                                                                Floor{" "}
+                                                                                {
+                                                                                    room.floor
+                                                                                }
+                                                                            </p>
+                                                                        )}
+                                                                        {selected && (
+                                                                            <CheckCircle2 className="absolute top-1 right-1 h-3.5 w-3.5 animate-scale-in" />
+                                                                        )}
+                                                                    </button>
+                                                                );
+                                                            },
                                                         )}
                                                     </div>
                                                 ) : (
                                                     <p className="text-sm text-muted-foreground text-center py-2">
-                                                        No rooms available
+                                                        Sold out for these dates
                                                     </p>
                                                 )}
                                             </div>
@@ -277,10 +403,13 @@ export default function Create({ hotel }) {
 
                             {/* Map */}
                             {hotel.latitude && hotel.longitude && (
-                                <Card className="border-none shadow-sm overflow-hidden">
+                                <Card
+                                    variant="elevated"
+                                    className="animate-fade-up [animation-delay:160ms] overflow-hidden"
+                                >
                                     <CardHeader className="pb-3">
-                                        <CardTitle className="flex items-center gap-2">
-                                            <MapPin className="h-5 w-5 text-primary" />{" "}
+                                        <CardTitle className="flex items-center gap-2 text-base">
+                                            <MapPin className="h-4 w-4 text-primary" />
                                             Location
                                         </CardTitle>
                                     </CardHeader>
@@ -289,144 +418,184 @@ export default function Create({ hotel }) {
                                             latitude={hotel.latitude}
                                             longitude={hotel.longitude}
                                             name={hotel.name}
-                                            className="h-[250px] w-full"
+                                            className="h-[280px] w-full"
                                         />
                                     </CardContent>
                                 </Card>
                             )}
                         </div>
 
-                        {/* Right - Booking Summary */}
-                        <div className="space-y-6">
-                            <Card className="border-none shadow-sm sticky top-20">
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <CreditCard className="h-5 w-5 text-primary" />
-                                        Booking Summary
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <div>
-                                        <p className="font-semibold">
-                                            {hotel.name}
-                                        </p>
-                                        <p className="text-sm text-muted-foreground">
-                                            {hotel.city}, {hotel.country}
-                                        </p>
-                                    </div>
-                                    <Separator />
-
-                                    {selectedRoomType ? (
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-muted-foreground">
-                                                    Room Type
-                                                </span>
-                                                <span className="font-medium">
-                                                    {selectedRoomType.name}
-                                                </span>
-                                            </div>
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-muted-foreground">
-                                                    Room
-                                                </span>
-                                                <span className="font-medium">
-                                                    #{selectedRoom?.room_number}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <p className="text-sm text-muted-foreground text-center py-2">
-                                            Select a room above
-                                        </p>
-                                    )}
-
-                                    {data.check_in_date &&
-                                        data.check_out_date && (
-                                            <div className="space-y-2">
-                                                <div className="flex justify-between text-sm">
-                                                    <span className="text-muted-foreground">
-                                                        Check-in
-                                                    </span>
-                                                    <span className="font-medium">
-                                                        {new Date(
-                                                            data.check_in_date,
-                                                        ).toLocaleDateString()}
-                                                    </span>
-                                                </div>
-                                                <div className="flex justify-between text-sm">
-                                                    <span className="text-muted-foreground">
-                                                        Check-out
-                                                    </span>
-                                                    <span className="font-medium">
-                                                        {new Date(
-                                                            data.check_out_date,
-                                                        ).toLocaleDateString()}
-                                                    </span>
-                                                </div>
-                                                <div className="flex justify-between text-sm">
-                                                    <span className="text-muted-foreground">
-                                                        Duration
-                                                    </span>
-                                                    <span className="font-medium">
-                                                        {nights} night
-                                                        {nights !== 1
-                                                            ? "s"
-                                                            : ""}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                    <Separator />
-
-                                    {nights > 0 && selectedRoomType && (
-                                        <>
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-muted-foreground">
-                                                    ${pricePerNight} × {nights}{" "}
-                                                    night
-                                                    {nights !== 1 ? "s" : ""}
-                                                </span>
-                                                <span className="font-medium">
-                                                    ${totalPrice.toFixed(2)}
-                                                </span>
-                                            </div>
-                                            <Separator />
-                                            <div className="flex justify-between items-center">
-                                                <span className="font-semibold text-lg">
-                                                    Total
-                                                </span>
-                                                <span className="font-bold text-2xl text-primary">
-                                                    ${totalPrice.toFixed(2)}
-                                                </span>
-                                            </div>
-                                        </>
-                                    )}
-
-                                    <Button
-                                        type="submit"
-                                        className="w-full h-12 text-base rounded-xl"
-                                        disabled={
-                                            processing ||
-                                            !selectedRoom ||
-                                            nights <= 0
-                                        }
-                                    >
-                                        {processing
-                                            ? "Booking..."
-                                            : "Confirm Booking"}
-                                    </Button>
-                                    <p className="text-xs text-center text-muted-foreground">
-                                        You won't be charged yet. Pay after
-                                        confirmation.
-                                    </p>
-                                </CardContent>
-                            </Card>
+                        {/* Right - Sticky Summary (desktop) */}
+                        <div className="hidden lg:block">
+                            <BookingSummary
+                                hotel={hotel}
+                                selectedRoomType={selectedRoomType}
+                                selectedRoom={selectedRoom}
+                                checkIn={data.check_in_date}
+                                checkOut={data.check_out_date}
+                                nights={nights}
+                                pricePerNight={pricePerNight}
+                                totalPrice={totalPrice}
+                                processing={processing}
+                                canSubmit={!!selectedRoom && nights > 0}
+                            />
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                {/* Mobile sticky bottom bar */}
+                <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 glass-strong border-t border-border/40 px-4 py-3">
+                    <div className="flex items-center justify-between gap-3">
+                        <div>
+                            {selectedRoom && nights > 0 ? (
+                                <>
+                                    <p className="text-xs text-muted-foreground">
+                                        Total · {nights} night
+                                        {nights !== 1 ? "s" : ""}
+                                    </p>
+                                    <p className="text-xl font-bold text-gradient-primary">
+                                        ${totalPrice.toFixed(2)}
+                                    </p>
+                                </>
+                            ) : (
+                                <p className="text-sm text-muted-foreground">
+                                    Pick dates & room to continue
+                                </p>
+                            )}
+                        </div>
+                        <Button
+                            type="submit"
+                            variant="gradient"
+                            size="xl"
+                            shape="pill"
+                            disabled={
+                                processing || !selectedRoom || nights <= 0
+                            }
+                        >
+                            {processing ? "Booking…" : "Confirm"}
+                        </Button>
+                    </div>
+                </div>
+            </form>
         </WebLayout>
+    );
+}
+
+function BookingSummary({
+    hotel,
+    selectedRoomType,
+    selectedRoom,
+    checkIn,
+    checkOut,
+    nights,
+    pricePerNight,
+    totalPrice,
+    processing,
+    canSubmit,
+}) {
+    return (
+        <Card variant="glass" className="sticky top-24 animate-fade-up">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base">
+                    <CreditCard className="h-4 w-4 text-primary" />
+                    Booking summary
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                <div>
+                    <p className="font-semibold">{hotel.name}</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                        <MapPin className="h-3.5 w-3.5" />
+                        {hotel.city}, {hotel.country}
+                    </p>
+                </div>
+
+                <Separator />
+
+                {selectedRoomType ? (
+                    <div className="space-y-2 text-sm animate-fade-up">
+                        <Row label="Room type" value={selectedRoomType.name} />
+                        <Row
+                            label="Room"
+                            value={`#${selectedRoom?.room_number}`}
+                        />
+                    </div>
+                ) : (
+                    <p className="text-sm text-muted-foreground text-center py-2">
+                        Select a room above
+                    </p>
+                )}
+
+                {checkIn && checkOut && (
+                    <div className="space-y-2 text-sm animate-fade-up">
+                        <Row
+                            label="Check-in"
+                            value={new Date(checkIn).toLocaleDateString(
+                                undefined,
+                                {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                },
+                            )}
+                        />
+                        <Row
+                            label="Check-out"
+                            value={new Date(checkOut).toLocaleDateString(
+                                undefined,
+                                {
+                                    month: "short",
+                                    day: "numeric",
+                                    year: "numeric",
+                                },
+                            )}
+                        />
+                        <Row
+                            label="Duration"
+                            value={`${nights} night${nights !== 1 ? "s" : ""}`}
+                        />
+                    </div>
+                )}
+
+                {nights > 0 && selectedRoomType && (
+                    <>
+                        <Separator />
+                        <Row
+                            label={`$${pricePerNight} × ${nights} night${nights !== 1 ? "s" : ""}`}
+                            value={`$${totalPrice.toFixed(2)}`}
+                        />
+                        <div className="rounded-2xl bg-gradient-primary-soft p-4 flex items-center justify-between">
+                            <span className="font-semibold">Total</span>
+                            <span className="text-2xl font-bold text-gradient-primary">
+                                ${totalPrice.toFixed(2)}
+                            </span>
+                        </div>
+                    </>
+                )}
+
+                <Button
+                    type="submit"
+                    variant="gradient"
+                    size="xl"
+                    shape="pill"
+                    className="w-full"
+                    disabled={processing || !canSubmit}
+                >
+                    {processing ? "Booking…" : "Confirm Booking"}
+                </Button>
+                <p className="text-xs text-center text-muted-foreground">
+                    You won't be charged yet. Pay after confirmation.
+                </p>
+            </CardContent>
+        </Card>
+    );
+}
+
+function Row({ label, value }) {
+    return (
+        <div className="flex justify-between gap-4">
+            <span className="text-muted-foreground">{label}</span>
+            <span className="font-medium text-right">{value}</span>
+        </div>
     );
 }
