@@ -30,10 +30,11 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <div className="space-y-6">
+            <div className="space-y-7">
                 <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Create an account
+                    <h1 className="text-4xl font-bold tracking-tight">
+                        Create your{" "}
+                        <span className="text-gradient-primary">account</span>
                     </h1>
                     <p className="text-muted-foreground">
                         Join our community of travelers and start booking
@@ -42,14 +43,19 @@ export default function Register() {
 
                 <form onSubmit={submit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Full Name</Label>
+                        <Label
+                            htmlFor="name"
+                            className="text-xs uppercase tracking-wide text-muted-foreground"
+                        >
+                            Full name
+                        </Label>
                         <Input
                             id="name"
+                            variant="soft"
                             value={data.name}
                             onChange={(e) => setData("name", e.target.value)}
                             placeholder="John Doe"
                             required
-                            className="h-11"
                         />
                         {errors.name && (
                             <p className="text-sm text-destructive">
@@ -59,15 +65,20 @@ export default function Register() {
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label
+                            htmlFor="email"
+                            className="text-xs uppercase tracking-wide text-muted-foreground"
+                        >
+                            Email
+                        </Label>
                         <Input
                             id="email"
                             type="email"
+                            variant="soft"
                             value={data.email}
                             onChange={(e) => setData("email", e.target.value)}
                             placeholder="name@example.com"
                             required
-                            className="h-11"
                         />
                         {errors.email && (
                             <p className="text-sm text-destructive">
@@ -78,16 +89,21 @@ export default function Register() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label
+                                htmlFor="password"
+                                className="text-xs uppercase tracking-wide text-muted-foreground"
+                            >
+                                Password
+                            </Label>
                             <Input
                                 id="password"
                                 type="password"
+                                variant="soft"
                                 value={data.password}
                                 onChange={(e) =>
                                     setData("password", e.target.value)
                                 }
                                 required
-                                className="h-11"
                             />
                             {errors.password && (
                                 <p className="text-sm text-destructive">
@@ -96,12 +112,16 @@ export default function Register() {
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="password_confirmation">
+                            <Label
+                                htmlFor="password_confirmation"
+                                className="text-xs uppercase tracking-wide text-muted-foreground"
+                            >
                                 Confirm
                             </Label>
                             <Input
                                 id="password_confirmation"
                                 type="password"
+                                variant="soft"
                                 value={data.password_confirmation}
                                 onChange={(e) =>
                                     setData(
@@ -110,13 +130,19 @@ export default function Register() {
                                     )
                                 }
                                 required
-                                className="h-11"
                             />
                         </div>
                     </div>
 
-                    <Button className="w-full h-11 text-base" disabled={processing}>
-                        {processing ? "Creating account..." : "Sign up"}
+                    <Button
+                        type="submit"
+                        variant="gradient"
+                        size="xl"
+                        shape="pill"
+                        className="w-full"
+                        disabled={processing}
+                    >
+                        {processing ? "Creating account…" : "Sign up"}
                     </Button>
                 </form>
 
@@ -125,22 +151,32 @@ export default function Register() {
                         <Separator />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
+                        <span className="bg-background px-3 text-muted-foreground">
                             Or continue with
                         </span>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                    <Button variant="outline" asChild className="h-11 bg-red-500/10 border-red-500/30 text-red-600 hover:bg-red-500/20 hover:text-red-600 dark:text-red-400 dark:hover:text-red-400">
+                    <Button
+                        variant="glass"
+                        shape="pill"
+                        size="lg"
+                        asChild
+                    >
                         <a href={route("auth.google")}>
-                            <Chrome className="mr-2 h-4 w-4" />
+                            <Chrome className="mr-2 h-4 w-4 text-rose-500" />
                             Google
                         </a>
                     </Button>
-                    <Button variant="outline" asChild className="h-11 bg-blue-500/10 border-blue-500/30 text-blue-600 hover:bg-blue-500/20 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-400">
+                    <Button
+                        variant="glass"
+                        shape="pill"
+                        size="lg"
+                        asChild
+                    >
                         <a href={route("auth.facebook")}>
-                            <Facebook className="mr-2 h-4 w-4" />
+                            <Facebook className="mr-2 h-4 w-4 text-sky-500" />
                             Facebook
                         </a>
                     </Button>

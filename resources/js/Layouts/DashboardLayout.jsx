@@ -130,18 +130,24 @@ export default function DashboardLayout({ children }) {
     }, [flash]);
 
     const NavContent = () => (
-        <div className="flex flex-col h-full bg-slate-800 dark:bg-zinc-900 text-zinc-200">
+        <div className="flex flex-col h-full relative text-zinc-200 overflow-hidden">
+            <div className="absolute inset-0 bg-slate-900 dark:bg-zinc-950" />
+            <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+            <div className="relative flex flex-col h-full">
             <div className="p-6 flex items-center justify-between">
                 <Link
                     href={route("dashboard.index")}
                     className="flex items-center gap-2 group"
                 >
-                    <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl group-hover:scale-110 transition-transform">
+                    <div className="h-9 w-9 rounded-2xl bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold text-xl shadow-glow group-hover:scale-110 transition-transform">
                         H
                     </div>
                     {!isCollapsed && (
                         <span className="text-xl font-bold tracking-tight text-white animate-in fade-in slide-in-from-left-2 duration-300">
-                            Hotel<span className="text-primary">Dashboard</span>
+                            Hotel
+                            <span className="text-gradient-primary">
+                                Dashboard
+                            </span>
                         </span>
                     )}
                 </Link>
@@ -163,25 +169,24 @@ export default function DashboardLayout({ children }) {
                                 key={item.name}
                                 href={itemUrl}
                                 className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
+                                    "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 ease-out-expo group relative",
                                     isActive
-                                        ? "bg-primary/10 text-primary"
-                                        : "hover:bg-slate-700/50 hover:text-white",
+                                        ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                                        : "hover:bg-white/5 hover:text-white",
                                 )}
                             >
                                 <item.icon
                                     className={cn(
                                         "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
-                                        isActive ? "text-primary" : item.color,
+                                        isActive
+                                            ? "text-primary-foreground"
+                                            : item.color,
                                     )}
                                 />
                                 {!isCollapsed && (
                                     <span className="animate-in fade-in slide-in-from-left-2 duration-300">
                                         {item.name}
                                     </span>
-                                )}
-                                {isActive && !isCollapsed && (
-                                    <div className="absolute right-2 h-1.5 w-1.5 rounded-full bg-primary" />
                                 )}
                             </Link>
                         );
@@ -202,21 +207,18 @@ export default function DashboardLayout({ children }) {
                                 <Link
                                     href={route("dashboard.settings.index")}
                                     className={cn(
-                                        "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
+                                        "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 ease-out-expo group relative",
                                         isSettingsActive
-                                            ? "bg-primary/10 text-primary"
-                                            : "hover:bg-slate-700/50 hover:text-white",
+                                            ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                                            : "hover:bg-white/5 hover:text-white",
                                     )}
                                 >
-                                    <Settings className={cn("h-5 w-5 transition-transform duration-200 group-hover:scale-110", isSettingsActive ? "text-primary" : "text-zinc-300")} />
+                                    <Settings className={cn("h-5 w-5 transition-transform duration-200 group-hover:scale-110", isSettingsActive ? "text-primary-foreground" : "text-zinc-300")} />
                                     {!isCollapsed && (
                                         <span className="animate-in fade-in slide-in-from-left-2 duration-300">Settings</span>
                                     )}
-                                    {isSettingsActive && !isCollapsed && (
-                                        <div className="absolute right-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                                    )}
                                 </Link>
-                                <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all hover:bg-slate-700/50 hover:text-white group">
+                                <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all hover:bg-white/5 hover:text-white group">
                                     <HelpCircle className="h-5 w-5 text-zinc-300 group-hover:text-white" />
                                     {!isCollapsed && <span>Internal Help</span>}
                                 </button>
@@ -226,12 +228,12 @@ export default function DashboardLayout({ children }) {
                 </div>
             </ScrollArea>
 
-            <div className="p-4 border-t border-slate-700/50">
+            <div className="p-4 border-t border-white/5">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <button
                             className={cn(
-                                "w-full bg-slate-700/50 rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-slate-700/50 cursor-pointer",
+                                "w-full glass rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-white/10 cursor-pointer",
                                 isCollapsed ? "justify-center px-2" : "",
                             )}
                         >
@@ -289,6 +291,7 @@ export default function DashboardLayout({ children }) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+            </div>
         </div>
     );
 
@@ -314,6 +317,11 @@ export default function DashboardLayout({ children }) {
                             size="icon"
                             onClick={() => setIsCollapsed(!isCollapsed)}
                             className="hidden md:flex text-zinc-300"
+                            aria-label={
+                                isCollapsed
+                                    ? "Expand sidebar"
+                                    : "Collapse sidebar"
+                            }
                         >
                             <Menu className="h-5 w-5" />
                         </Button>
@@ -327,6 +335,7 @@ export default function DashboardLayout({ children }) {
                                     variant="ghost"
                                     size="icon"
                                     className="md:hidden"
+                                    aria-label="Open navigation"
                                 >
                                     <Menu className="h-5 w-5" />
                                 </Button>
@@ -340,10 +349,11 @@ export default function DashboardLayout({ children }) {
                         </Sheet>
 
                         <div className="hidden sm:flex items-center relative group">
-                            <Search className="absolute left-3 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                            <Search className="absolute left-4 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
                             <Input
-                                placeholder="Search everything..."
-                                className="pl-10 w-64 bg-zinc-100 dark:bg-zinc-900 border-none rounded-full focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
+                                variant="soft"
+                                placeholder="Search everything…"
+                                className="pl-11 w-64"
                             />
                         </div>
                     </div>

@@ -21,15 +21,22 @@ export default function FavoriteButton({ hotelId, hotelUuid, className = "" }) {
         <button
             type="button"
             onClick={toggle}
+            aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+            aria-pressed={isFavorited}
             className={cn(
-                "p-2 rounded-full transition-all",
+                "p-2 rounded-full transition-all duration-300 ease-out-expo hover:scale-110 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-primary/50",
                 isFavorited
-                    ? "bg-rose-500 text-white hover:bg-rose-600"
-                    : "bg-black/30 text-white hover:bg-black/50 backdrop-blur-sm",
+                    ? "bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-glow"
+                    : "glass text-white hover:bg-black/40",
                 className,
             )}
         >
-            <Heart className={cn("h-4 w-4", isFavorited && "fill-current")} />
+            <Heart
+                className={cn(
+                    "h-4 w-4 transition-transform",
+                    isFavorited && "fill-current scale-110",
+                )}
+            />
         </button>
     );
 }

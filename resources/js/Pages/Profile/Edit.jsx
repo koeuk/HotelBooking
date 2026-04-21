@@ -37,22 +37,30 @@ export default function Edit({ mustVerifyEmail, status }) {
 
             <div className="space-y-6">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Profile Settings</h2>
-                    <p className="text-muted-foreground">Manage your account information and security.</p>
+                    <h2 className="text-3xl font-bold tracking-tight">
+                        Profile{" "}
+                        <span className="text-gradient-primary">settings</span>
+                    </h2>
+                    <p className="text-muted-foreground mt-1">
+                        Manage your account information and security.
+                    </p>
                 </div>
 
-                {/* Profile Header Card */}
-                <Card className="border-none shadow-sm">
+                {/* Profile Header */}
+                <Card variant="glass" className="animate-fade-up">
                     <CardContent className="p-6">
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-6 flex-wrap">
                             <div className="relative group">
-                                <Avatar className="h-24 w-24 border-2 border-primary/20 shadow-inner">
-                                    <AvatarImage src={user.avatar} className="object-cover" />
-                                    <AvatarFallback className="text-3xl font-bold bg-primary/10 text-primary">
+                                <Avatar className="h-24 w-24 ring-2 ring-primary/30 shadow-glow">
+                                    <AvatarImage
+                                        src={user.avatar}
+                                        className="object-cover"
+                                    />
+                                    <AvatarFallback className="text-3xl font-bold bg-gradient-primary text-primary-foreground">
                                         {user.name?.charAt(0)}
                                     </AvatarFallback>
                                 </Avatar>
-                                
+
                                 <input
                                     type="file"
                                     ref={fileInput}
@@ -63,9 +71,10 @@ export default function Edit({ mustVerifyEmail, status }) {
 
                                 <Button
                                     type="button"
-                                    variant="secondary"
-                                    size="icon"
-                                    className="absolute -bottom-1 -right-1 h-8 w-8 rounded-full border border-background shadow hover:scale-110 transition-transform"
+                                    variant="gradient"
+                                    size="icon-sm"
+                                    shape="pill"
+                                    className="absolute -bottom-1 -right-1 shadow-glow"
                                     onClick={() => fileInput.current.click()}
                                     disabled={processing}
                                 >
@@ -76,24 +85,45 @@ export default function Edit({ mustVerifyEmail, status }) {
                                     )}
                                 </Button>
                             </div>
-                            <div className="flex-1">
-                                <h3 className="text-xl font-bold">{user.name}</h3>
-                                <p className="text-sm text-muted-foreground">{user.email}</p>
-                                <div className="flex items-center gap-2 mt-2">
-                                    <Badge variant="secondary" className="text-xs">
+                            <div className="flex-1 min-w-0">
+                                <h3 className="text-2xl font-bold">
+                                    {user.name}
+                                </h3>
+                                <p className="text-sm text-muted-foreground">
+                                    {user.email}
+                                </p>
+                                <div className="flex items-center gap-2 mt-3 flex-wrap">
+                                    <Badge className="bg-gradient-primary text-primary-foreground">
                                         {user.role === "admin" ? (
-                                            <><Shield className="h-3 w-3 mr-1" /> Dashboard</>
+                                            <>
+                                                <Shield className="h-3 w-3 mr-1" />{" "}
+                                                Admin
+                                            </>
                                         ) : (
-                                            <><User className="h-3 w-3 mr-1" /> User</>
+                                            <>
+                                                <User className="h-3 w-3 mr-1" />{" "}
+                                                Member
+                                            </>
                                         )}
                                     </Badge>
                                     {user.phone && (
-                                        <Badge variant="outline" className="text-xs">
-                                            <Phone className="h-3 w-3 mr-1" /> {user.phone}
+                                        <Badge
+                                            variant="outline"
+                                            className="text-xs"
+                                        >
+                                            <Phone className="h-3 w-3 mr-1" />{" "}
+                                            {user.phone}
                                         </Badge>
                                     )}
-                                    <Badge variant="outline" className="text-xs">
-                                        <Calendar className="h-3 w-3 mr-1" /> Joined {new Date(user.created_at).toLocaleDateString()}
+                                    <Badge
+                                        variant="outline"
+                                        className="text-xs"
+                                    >
+                                        <Calendar className="h-3 w-3 mr-1" />{" "}
+                                        Joined{" "}
+                                        {new Date(
+                                            user.created_at,
+                                        ).toLocaleDateString()}
                                     </Badge>
                                 </div>
                             </div>
@@ -102,12 +132,11 @@ export default function Edit({ mustVerifyEmail, status }) {
                 </Card>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Profile Info */}
-                    <Card className="border-none shadow-sm">
+                    <Card variant="elevated" className="animate-fade-up">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <User className="h-5 w-5 text-primary" />
-                                Profile Information
+                                Profile information
                             </CardTitle>
                             <CardDescription>
                                 Update your name and email address.
@@ -121,15 +150,15 @@ export default function Edit({ mustVerifyEmail, status }) {
                         </CardContent>
                     </Card>
 
-                    {/* Password */}
-                    <Card className="border-none shadow-sm">
+                    <Card variant="elevated" className="animate-fade-up">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Shield className="h-5 w-5 text-primary" />
-                                Update Password
+                                Update password
                             </CardTitle>
                             <CardDescription>
-                                Use a strong password to keep your account secure.
+                                Use a strong password to keep your account
+                                secure.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -138,14 +167,17 @@ export default function Edit({ mustVerifyEmail, status }) {
                     </Card>
                 </div>
 
-                {/* Delete Account */}
-                <Card className="border-none shadow-sm border-destructive/20">
+                <Card
+                    variant="outline"
+                    className="border-destructive/30 animate-fade-up"
+                >
                     <CardHeader>
-                        <CardTitle className="text-destructive flex items-center gap-2">
-                            Danger Zone
+                        <CardTitle className="text-destructive">
+                            Danger zone
                         </CardTitle>
                         <CardDescription>
-                            Permanently delete your account and all associated data.
+                            Permanently delete your account and all associated
+                            data.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

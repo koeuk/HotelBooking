@@ -30,10 +30,11 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in" />
 
-            <div className="space-y-6">
+            <div className="space-y-7">
                 <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight">
-                        Welcome back
+                    <h1 className="text-4xl font-bold tracking-tight">
+                        Welcome{" "}
+                        <span className="text-gradient-primary">back</span>
                     </h1>
                     <p className="text-muted-foreground">
                         Enter your credentials to access your account
@@ -41,32 +42,44 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 {status && (
-                    <div className="p-3 text-sm font-medium text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/30 rounded-lg">
+                    <div className="rounded-2xl bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400 animate-scale-in">
                         {status}
                     </div>
                 )}
 
                 <form onSubmit={submit} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="login">Email or username</Label>
+                        <Label
+                            htmlFor="login"
+                            className="text-xs uppercase tracking-wide text-muted-foreground"
+                        >
+                            Email or username
+                        </Label>
                         <Input
                             id="login"
                             type="text"
+                            variant="soft"
                             value={data.login}
                             onChange={(e) => setData("login", e.target.value)}
                             placeholder="you@example.com"
                             required
                             autoComplete="username"
-                            className="h-11"
                         />
                         {errors.login && (
-                            <p className="text-sm text-destructive">{errors.login}</p>
+                            <p className="text-sm text-destructive">
+                                {errors.login}
+                            </p>
                         )}
                     </div>
 
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                            <Label htmlFor="password">Password</Label>
+                            <Label
+                                htmlFor="password"
+                                className="text-xs uppercase tracking-wide text-muted-foreground"
+                            >
+                                Password
+                            </Label>
                             {canResetPassword && (
                                 <Link
                                     href={route("password.request")}
@@ -79,15 +92,19 @@ export default function Login({ status, canResetPassword }) {
                         <Input
                             id="password"
                             type="password"
+                            variant="soft"
                             value={data.password}
-                            onChange={(e) => setData("password", e.target.value)}
+                            onChange={(e) =>
+                                setData("password", e.target.value)
+                            }
                             placeholder="Enter your password"
                             required
                             autoComplete="current-password"
-                            className="h-11"
                         />
                         {errors.password && (
-                            <p className="text-sm text-destructive">{errors.password}</p>
+                            <p className="text-sm text-destructive">
+                                {errors.password}
+                            </p>
                         )}
                     </div>
 
@@ -95,19 +112,27 @@ export default function Login({ status, canResetPassword }) {
                         <Checkbox
                             id="remember"
                             checked={data.remember}
-                            onCheckedChange={(checked) => setData("remember", checked)}
+                            onCheckedChange={(checked) =>
+                                setData("remember", checked)
+                            }
                         />
-                        <Label htmlFor="remember" className="text-sm font-normal text-muted-foreground">
+                        <Label
+                            htmlFor="remember"
+                            className="text-sm font-normal text-muted-foreground"
+                        >
                             Remember me
                         </Label>
                     </div>
 
                     <Button
                         type="submit"
-                        className="w-full h-11 text-base"
+                        variant="gradient"
+                        size="xl"
+                        shape="pill"
+                        className="w-full"
                         disabled={processing}
                     >
-                        {processing ? "Logging in..." : "Log in"}
+                        {processing ? "Logging in…" : "Log in"}
                     </Button>
                 </form>
 
@@ -116,22 +141,32 @@ export default function Login({ status, canResetPassword }) {
                         <Separator />
                     </div>
                     <div className="relative flex justify-center text-xs uppercase">
-                        <span className="px-2 bg-background text-muted-foreground">
+                        <span className="px-3 bg-background text-muted-foreground">
                             Or continue with
                         </span>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                    <Button variant="outline" asChild className="h-11 bg-red-500/10 border-red-500/30 text-red-600 hover:bg-red-500/20 hover:text-red-600 dark:text-red-400 dark:hover:text-red-400">
+                    <Button
+                        variant="glass"
+                        shape="pill"
+                        size="lg"
+                        asChild
+                    >
                         <a href={route("auth.google")}>
-                            <Chrome className="mr-2 h-4 w-4" />
+                            <Chrome className="mr-2 h-4 w-4 text-rose-500" />
                             Google
                         </a>
                     </Button>
-                    <Button variant="outline" asChild className="h-11 bg-blue-500/10 border-blue-500/30 text-blue-600 hover:bg-blue-500/20 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-400">
+                    <Button
+                        variant="glass"
+                        shape="pill"
+                        size="lg"
+                        asChild
+                    >
                         <a href={route("auth.facebook")}>
-                            <Facebook className="mr-2 h-4 w-4" />
+                            <Facebook className="mr-2 h-4 w-4 text-sky-500" />
                             Facebook
                         </a>
                     </Button>

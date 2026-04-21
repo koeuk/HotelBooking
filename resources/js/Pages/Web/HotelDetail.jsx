@@ -14,7 +14,6 @@ import {
     Star,
     MapPin,
     BedDouble,
-    DollarSign,
     Users,
     Wifi,
     Waves,
@@ -27,6 +26,7 @@ import {
     ConciergeBell,
 } from "lucide-react";
 import HotelMap from "@/components/HotelMap";
+import FavoriteButton from "@/components/FavoriteButton";
 
 const amenityIcons = {
     wifi: Wifi,
@@ -51,69 +51,136 @@ export default function HotelDetail({ hotel }) {
     const amenities = hotel.amenities || [];
     const reviews = hotel.reviews || [];
     const images = hotel.images || [];
+    const heroImage = images[0];
 
     return (
         <WebLayout>
             <Head title={hotel.name} />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Back */}
-                <Button variant="ghost" size="sm" className="mb-4" asChild>
-                    <Link href="/explore">
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Hotels
-                    </Link>
-                </Button>
+            {/* Hero */}
+            <section className="relative overflow-hidden">
+                {heroImage ? (
+                    <div
+                        className="absolute inset-0 bg-cover bg-center scale-110 blur-md"
+                        style={{ backgroundImage: `url(${heroImage})` }}
+                    />
+                ) : (
+                    <div className="absolute inset-0 bg-gradient-mesh" />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
 
-                {/* Header */}
-                <div className="flex items-start justify-between flex-wrap gap-4 mb-6">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            {hotel.name}
-                        </h1>
-                        <p className="text-muted-foreground flex items-center gap-1 mt-1">
-                            <MapPin className="h-4 w-4" />
-                            {hotel.address && `${hotel.address}, `}
-                            {hotel.city}, {hotel.country}
-                        </p>
-                    </div>
-                    {hotel.rating > 0 && (
-                        <div className="flex items-center gap-1 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 px-3 py-1.5 rounded-lg text-sm font-semibold">
-                            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                            {hotel.rating} / 5
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10 space-y-6">
+                    <Button
+                        variant="ghost"
+                        shape="pill"
+                        size="sm"
+                        asChild
+                        className="w-fit"
+                    >
+                        <Link href="/explore">
+                            <ArrowLeft className="mr-2 h-4 w-4" /> Back to
+                            hotels
+                        </Link>
+                    </Button>
+
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                        <div className="space-y-2 animate-fade-up">
+                            <Badge
+                                variant="outline"
+                                className="glass border-foreground/10"
+                            >
+                                <Sparkles className="h-3 w-3" />
+                                Featured stay
+                            </Badge>
+                            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
+                                <span className="text-gradient-primary">
+                                    {hotel.name}
+                                </span>
+                            </h1>
+                            <p className="flex items-center gap-2 text-muted-foreground">
+                                <MapPin className="h-4 w-4" />
+                                {hotel.address && `${hotel.address}, `}
+                                {hotel.city}, {hotel.country}
+                            </p>
                         </div>
-                    )}
+                        <div className="flex items-center gap-2 animate-fade-up [animation-delay:80ms]">
+                            <FavoriteButton
+                                hotelId={hotel.id}
+                                hotelUuid={hotel.uuid}
+                            />
+                            {hotel.rating > 0 && (
+                                <div className="glass rounded-full px-4 py-2 inline-flex items-center gap-1.5 font-semibold">
+                                    <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                                    {hotel.rating} / 5
+                                </div>
+                            )}
+                            {auth?.user ? (
+                                <Button
+                                    variant="gradient"
+                                    size="xl"
+                                    shape="pill"
+                                    asChild
+                                >
+                                    <Link
+                                        href={route(
+                                            "bookings.create",
+                                            hotel.uuid,
+                                        )}
+                                    >
+                                        Book now
+                                    </Link>
+                                </Button>
+                            ) : (
+                                <Button
+                                    variant="gradient"
+                                    size="xl"
+                                    shape="pill"
+                                    asChild
+                                >
+                                    <Link href={route("login")}>
+                                        Sign in to book
+                                    </Link>
+                                </Button>
+                            )}
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                {/* Images */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-6">
+                {/* Gallery */}
                 {images.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 rounded-2xl overflow-hidden mb-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 rounded-3xl overflow-hidden animate-fade-up">
                         {images.slice(0, 3).map((image, i) => (
                             <div
                                 key={i}
-                                className={`${i === 0 ? "md:col-span-2 md:row-span-2 h-64 md:h-full" : "h-48"} bg-zinc-100 dark:bg-zinc-800 overflow-hidden`}
+                                className={`group overflow-hidden bg-muted ${
+                                    i === 0
+                                        ? "md:col-span-2 md:row-span-2 h-72 md:h-[420px]"
+                                        : "h-52"
+                                }`}
                             >
                                 <img
                                     src={image}
                                     alt={`${hotel.name} - ${i + 1}`}
-                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    className="w-full h-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
                                 />
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <div className="h-64 rounded-2xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center mb-8">
-                        <BedDouble className="h-16 w-16 text-zinc-400" />
+                    <div className="h-72 rounded-3xl bg-gradient-primary-soft flex items-center justify-center">
+                        <BedDouble className="h-16 w-16 text-primary/60" />
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Main */}
                     <div className="lg:col-span-2 space-y-6">
-                        {/* Description */}
                         {hotel.description && (
-                            <Card className="border-none shadow-sm">
+                            <Card variant="elevated" className="animate-fade-up">
                                 <CardHeader className="pb-3">
-                                    <CardTitle>About this Hotel</CardTitle>
+                                    <CardTitle>About this hotel</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <p className="text-muted-foreground leading-relaxed">
@@ -123,12 +190,12 @@ export default function HotelDetail({ hotel }) {
                             </Card>
                         )}
 
-                        {/* Room Types */}
-                        <Card className="border-none shadow-sm">
+                        {/* Rooms */}
+                        <Card variant="elevated" className="animate-fade-up">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2">
-                                    <BedDouble className="h-5 w-5 text-primary" />{" "}
-                                    Available Rooms
+                                    <BedDouble className="h-5 w-5 text-primary" />
+                                    Available rooms
                                 </CardTitle>
                                 <CardDescription>
                                     {roomTypes.length} room types available
@@ -136,42 +203,43 @@ export default function HotelDetail({ hotel }) {
                             </CardHeader>
                             <CardContent>
                                 {roomTypes.length > 0 ? (
-                                    <div className="space-y-4">
+                                    <div className="space-y-3">
                                         {roomTypes.map((type) => {
                                             const available = (
                                                 type.rooms || []
                                             ).filter(
-                                                (r) => r.status === "available",
+                                                (r) =>
+                                                    r.status === "available",
                                             ).length;
                                             return (
                                                 <div
                                                     key={type.id}
-                                                    className="flex items-center justify-between p-4 rounded-xl bg-muted/50 hover:bg-muted/80 transition-colors"
+                                                    className="flex items-center justify-between p-4 rounded-2xl bg-muted/40 transition-all duration-300 ease-out-expo hover:bg-muted/60 hover:-translate-y-0.5"
                                                 >
-                                                    <div className="flex-1">
+                                                    <div className="flex-1 min-w-0">
                                                         <h4 className="font-semibold">
                                                             {type.name}
                                                         </h4>
-                                                        <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                                                            <span className="flex items-center gap-1">
-                                                                <Users className="h-3.5 w-3.5" />{" "}
+                                                        <div className="flex items-center gap-2 mt-1.5 text-xs">
+                                                            <span className="inline-flex items-center gap-1 rounded-full bg-background px-2 py-0.5 text-muted-foreground">
+                                                                <Users className="h-3 w-3" />
                                                                 {type.max_users}{" "}
-                                                                users
+                                                                guests
                                                             </span>
-                                                            <span className="text-xs">
+                                                            <span className="inline-flex items-center rounded-full bg-background px-2 py-0.5 text-muted-foreground">
                                                                 {available}{" "}
                                                                 available
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div className="text-right">
-                                                        <p className="text-lg font-bold text-primary">
+                                                    <div className="text-right shrink-0 ml-3">
+                                                        <p className="text-xl font-bold text-gradient-primary leading-none">
                                                             $
                                                             {
                                                                 type.price_per_night
                                                             }
                                                         </p>
-                                                        <p className="text-xs text-muted-foreground">
+                                                        <p className="text-xs text-muted-foreground mt-1">
                                                             per night
                                                         </p>
                                                     </div>
@@ -185,12 +253,12 @@ export default function HotelDetail({ hotel }) {
                                     </p>
                                 )}
 
-                                {/* Book CTA */}
-                                <div className="mt-6 p-4 bg-primary/5 rounded-xl text-center">
+                                <div className="mt-6 rounded-2xl bg-gradient-primary-soft p-5 text-center">
                                     {auth?.user ? (
                                         <Button
-                                            size="lg"
-                                            className="rounded-xl"
+                                            variant="gradient"
+                                            size="xl"
+                                            shape="pill"
                                             asChild
                                         >
                                             <Link
@@ -199,24 +267,25 @@ export default function HotelDetail({ hotel }) {
                                                     hotel.uuid,
                                                 )}
                                             >
-                                                Book Now
+                                                Book now
                                             </Link>
                                         </Button>
                                     ) : (
-                                        <div>
+                                        <>
                                             <p className="text-sm text-muted-foreground mb-3">
                                                 Sign in to book this hotel
                                             </p>
                                             <Button
-                                                size="lg"
-                                                className="rounded-xl"
+                                                variant="gradient"
+                                                size="xl"
+                                                shape="pill"
                                                 asChild
                                             >
                                                 <Link href={route("login")}>
-                                                    Sign In to Book
+                                                    Sign in to book
                                                 </Link>
                                             </Button>
-                                        </div>
+                                        </>
                                     )}
                                 </div>
                             </CardContent>
@@ -224,10 +293,13 @@ export default function HotelDetail({ hotel }) {
 
                         {/* Map */}
                         {hotel.latitude && hotel.longitude && (
-                            <Card className="border-none shadow-sm overflow-hidden">
+                            <Card
+                                variant="elevated"
+                                className="overflow-hidden animate-fade-up"
+                            >
                                 <CardHeader className="pb-3">
                                     <CardTitle className="flex items-center gap-2">
-                                        <MapPin className="h-5 w-5 text-primary" />{" "}
+                                        <MapPin className="h-5 w-5 text-primary" />
                                         Location
                                     </CardTitle>
                                 </CardHeader>
@@ -236,7 +308,7 @@ export default function HotelDetail({ hotel }) {
                                         latitude={hotel.latitude}
                                         longitude={hotel.longitude}
                                         name={hotel.name}
-                                        className="h-[300px] w-full"
+                                        className="h-[320px] w-full"
                                     />
                                 </CardContent>
                             </Card>
@@ -244,41 +316,41 @@ export default function HotelDetail({ hotel }) {
 
                         {/* Reviews */}
                         {reviews.length > 0 && (
-                            <Card className="border-none shadow-sm">
+                            <Card variant="elevated" className="animate-fade-up">
                                 <CardHeader className="pb-3">
                                     <CardTitle className="flex items-center gap-2">
-                                        <Star className="h-5 w-5 text-yellow-500" />{" "}
-                                        user Reviews
+                                        <Star className="h-5 w-5 text-amber-500" />
+                                        Guest reviews
                                     </CardTitle>
                                     <CardDescription>
                                         {reviews.length} reviews
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="space-y-4">
+                                    <div className="space-y-3">
                                         {reviews.map((review) => (
                                             <div
                                                 key={review.id}
-                                                className="p-4 rounded-xl bg-muted/50"
+                                                className="p-4 rounded-2xl bg-muted/40"
                                             >
-                                                <div className="flex items-center justify-between mb-2">
+                                                <div className="flex items-center justify-between gap-2">
                                                     <span className="font-medium text-sm">
                                                         {review.user?.name ||
-                                                            "user"}
+                                                            "Guest"}
                                                     </span>
                                                     <div className="flex gap-0.5">
                                                         {[1, 2, 3, 4, 5].map(
                                                             (s) => (
                                                                 <Star
                                                                     key={s}
-                                                                    className={`h-3.5 w-3.5 ${s <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-zinc-300"}`}
+                                                                    className={`h-3.5 w-3.5 ${s <= review.rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/40"}`}
                                                                 />
                                                             ),
                                                         )}
                                                     </div>
                                                 </div>
                                                 {review.comment && (
-                                                    <p className="text-sm text-muted-foreground">
+                                                    <p className="text-sm text-muted-foreground mt-2">
                                                         {review.comment}
                                                     </p>
                                                 )}
@@ -292,27 +364,38 @@ export default function HotelDetail({ hotel }) {
 
                     {/* Sidebar */}
                     <div className="space-y-6">
-                        {/* Amenities */}
                         {amenities.length > 0 && (
-                            <Card className="border-none shadow-sm">
+                            <Card
+                                variant="glass"
+                                className="animate-fade-up"
+                            >
                                 <CardHeader className="pb-3">
                                     <CardTitle className="text-lg">
                                         Amenities
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-2 gap-2">
                                         {amenities.map((a) => {
-                                            const IconComponent = amenityIcons[a.icon?.toLowerCase()] || amenityIcons[a.name?.toLowerCase()] || ConciergeBell;
+                                            const IconComponent =
+                                                amenityIcons[
+                                                    a.icon?.toLowerCase()
+                                                ] ||
+                                                amenityIcons[
+                                                    a.name?.toLowerCase()
+                                                ] ||
+                                                ConciergeBell;
                                             return (
                                                 <div
                                                     key={a.id}
-                                                    className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted/80 transition-colors"
+                                                    className="flex items-center gap-2 p-2.5 rounded-xl bg-muted/30 transition-colors hover:bg-muted/50"
                                                 >
-                                                    <div className="flex items-center justify-center h-9 w-9 rounded-lg bg-primary/10 text-primary shrink-0">
-                                                        <IconComponent className="h-4.5 w-4.5" />
+                                                    <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-primary text-primary-foreground shrink-0">
+                                                        <IconComponent className="h-4 w-4" />
                                                     </div>
-                                                    <span className="text-sm font-medium">{a.name}</span>
+                                                    <span className="text-sm font-medium truncate">
+                                                        {a.name}
+                                                    </span>
                                                 </div>
                                             );
                                         })}
@@ -321,52 +404,45 @@ export default function HotelDetail({ hotel }) {
                             </Card>
                         )}
 
-                        {/* Quick Info */}
-                        <Card className="border-none shadow-sm">
+                        <Card variant="elevated" className="animate-fade-up">
                             <CardHeader className="pb-3">
                                 <CardTitle className="text-lg">
-                                    Quick Info
+                                    Quick info
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-3">
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-muted-foreground">
-                                        Room Types
-                                    </span>
-                                    <span className="font-medium">
-                                        {roomTypes.length}
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-muted-foreground">
-                                        Reviews
-                                    </span>
-                                    <span className="font-medium">
-                                        {reviews.length}
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-muted-foreground">
-                                        Rating
-                                    </span>
-                                    <span className="font-medium flex items-center gap-1">
-                                        <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                                        {hotel.rating || "—"}
-                                    </span>
-                                </div>
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-muted-foreground">
-                                        Location
-                                    </span>
-                                    <span className="font-medium">
-                                        {hotel.city}
-                                    </span>
-                                </div>
+                            <CardContent className="space-y-3 text-sm">
+                                <Row
+                                    label="Room types"
+                                    value={roomTypes.length}
+                                />
+                                <Row
+                                    label="Reviews"
+                                    value={reviews.length}
+                                />
+                                <Row
+                                    label="Rating"
+                                    value={
+                                        <span className="inline-flex items-center gap-1">
+                                            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                                            {hotel.rating || "—"}
+                                        </span>
+                                    }
+                                />
+                                <Row label="Location" value={hotel.city} />
                             </CardContent>
                         </Card>
                     </div>
                 </div>
             </div>
         </WebLayout>
+    );
+}
+
+function Row({ label, value }) {
+    return (
+        <div className="flex items-center justify-between">
+            <span className="text-muted-foreground">{label}</span>
+            <span className="font-medium">{value}</span>
+        </div>
     );
 }

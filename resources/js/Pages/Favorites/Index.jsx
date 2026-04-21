@@ -12,55 +12,87 @@ export default function Index({ hotels = [] }) {
             <Head title="My Favorites" />
 
             <div className="space-y-8">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">My Favorites</h1>
-                    <p className="text-muted-foreground mt-1">
-                        {hotels.length > 0
-                            ? `${hotels.length} saved hotel${hotels.length !== 1 ? "s" : ""}`
-                            : "Hotels you love will appear here"}
-                    </p>
+                {/* Hero */}
+                <div className="relative overflow-hidden rounded-3xl">
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-pink-500 to-fuchsia-500" />
+                    <div className="absolute inset-0 bg-gradient-mesh opacity-30 mix-blend-overlay" />
+                    <div className="absolute inset-0 noise opacity-30" />
+                    <div className="relative p-8 text-white space-y-2">
+                        <Badge
+                            variant="outline"
+                            className="glass border-white/20 text-white w-fit"
+                        >
+                            <Heart className="h-3 w-3 fill-current" />
+                            {hotels.length}{" "}
+                            {hotels.length === 1 ? "favorite" : "favorites"}
+                        </Badge>
+                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                            My favorites
+                        </h1>
+                        <p className="text-white/85 max-w-lg">
+                            {hotels.length > 0
+                                ? "Your saved hotels — ready to book."
+                                : "Hotels you love will appear here."}
+                        </p>
+                    </div>
                 </div>
 
+                {/* Grid */}
                 {hotels.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {hotels.map((hotel) => (
-                            <Link key={hotel.id} href={`/explore/${hotel.uuid}`}>
-                                <Card className="group overflow-hidden border-none shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer h-full">
-                                    <div className="aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800 relative">
-                                        <FavoriteButton hotelId={hotel.id} hotelUuid={hotel.uuid} className="absolute top-3 right-3 z-10" />
+                        {hotels.map((hotel, idx) => (
+                            <Link
+                                key={hotel.id}
+                                href={`/explore/${hotel.uuid}`}
+                                className="block group animate-fade-up"
+                                style={{
+                                    animationDelay: `${Math.min(idx * 40, 240)}ms`,
+                                }}
+                            >
+                                <Card
+                                    variant="elevated"
+                                    interactive
+                                    className="overflow-hidden h-full"
+                                >
+                                    <div className="aspect-[4/3] overflow-hidden bg-muted relative">
+                                        <FavoriteButton
+                                            hotelId={hotel.id}
+                                            hotelUuid={hotel.uuid}
+                                            className="absolute top-3 right-3 z-10"
+                                        />
                                         {hotel.images?.[0] ? (
                                             <img
                                                 src={hotel.images[0]}
                                                 alt={hotel.name}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                className="w-full h-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center">
-                                                <BedDouble className="h-12 w-12 text-zinc-400" />
+                                                <BedDouble className="h-12 w-12 text-muted-foreground" />
+                                            </div>
+                                        )}
+                                        {hotel.reviews_avg_rating && (
+                                            <div className="absolute top-3 left-3 glass rounded-full px-2.5 py-1 text-xs font-semibold inline-flex items-center gap-1">
+                                                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                                                {Number(
+                                                    hotel.reviews_avg_rating,
+                                                ).toFixed(1)}
                                             </div>
                                         )}
                                     </div>
                                     <CardContent className="p-4">
-                                        <div className="flex items-start justify-between">
-                                            <div>
-                                                <h3 className="font-semibold group-hover:text-primary transition-colors">
-                                                    {hotel.name}
-                                                </h3>
-                                                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                                                    <MapPin className="h-3.5 w-3.5" />
-                                                    {hotel.city}, {hotel.country}
-                                                </p>
-                                            </div>
-                                            {hotel.reviews_avg_rating && (
-                                                <Badge variant="secondary" className="font-bold shrink-0">
-                                                    <Star className="h-3 w-3 mr-1 fill-yellow-400 text-yellow-400" />
-                                                    {Number(hotel.reviews_avg_rating).toFixed(1)}
-                                                </Badge>
-                                            )}
+                                        <div className="min-w-0">
+                                            <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
+                                                {hotel.name}
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1 truncate">
+                                                <MapPin className="h-3.5 w-3.5 shrink-0" />
+                                                {hotel.city}, {hotel.country}
+                                            </p>
                                         </div>
-                                        <div className="flex items-center justify-between mt-3 pt-3 border-t">
-                                            <span className="text-xs text-muted-foreground">{hotel.rooms_count} rooms</span>
-                                            <span className="text-xs text-muted-foreground">{hotel.reviews_count} reviews</span>
+                                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60 text-xs text-muted-foreground">
+                                            <span>{hotel.rooms_count} rooms</span>
+                                            <span>{hotel.reviews_count} reviews</span>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -68,18 +100,28 @@ export default function Index({ hotels = [] }) {
                         ))}
                     </div>
                 ) : (
-                    <Card className="border-none shadow-sm">
-                        <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-                            <div className="h-16 w-16 rounded-full bg-rose-100 dark:bg-rose-900/20 flex items-center justify-center mb-4">
-                                <Heart className="h-8 w-8 text-rose-400" />
+                    <Card variant="soft" className="text-center py-16">
+                        <CardContent>
+                            <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center mb-4">
+                                <Heart className="h-8 w-8 text-white fill-current" />
                             </div>
-                            <h3 className="text-lg font-semibold">No favorites yet</h3>
-                            <p className="text-muted-foreground mt-1 max-w-sm">
-                                Browse hotels and tap the heart icon to save your favorites for easy access later.
+                            <p className="font-semibold text-lg">
+                                No favorites yet
                             </p>
-                            <Button className="mt-6 rounded-xl" asChild>
+                            <p className="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
+                                Browse hotels and tap the heart icon to save
+                                your favorites for easy access later.
+                            </p>
+                            <Button
+                                variant="gradient"
+                                shape="pill"
+                                size="lg"
+                                className="mt-6"
+                                asChild
+                            >
                                 <Link href="/explore">
-                                    Browse Hotels <ArrowRight className="ml-2 h-4 w-4" />
+                                    Browse hotels{" "}
+                                    <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>
                             </Button>
                         </CardContent>

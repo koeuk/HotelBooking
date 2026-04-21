@@ -55,18 +55,30 @@ const StatCard = ({
     trendValue,
     colorClass,
 }) => (
-    <Card className="relative overflow-hidden group border-none shadow-md hover:shadow-xl transition-all duration-300 bg-white dark:bg-zinc-950">
+    <Card
+        variant="elevated"
+        interactive
+        className="relative overflow-hidden group"
+    >
         <div
             className={cn(
-                "absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 rounded-full opacity-10 group-hover:scale-125 transition-transform duration-500",
+                "absolute top-0 right-0 w-32 h-32 -mr-10 -mt-10 rounded-full opacity-20 group-hover:scale-125 transition-transform duration-700 ease-out-expo blur-xl",
                 colorClass,
             )}
         />
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            <CardTitle className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 {title}
             </CardTitle>
-            <div className={cn("p-2 rounded-lg", colorClass, "bg-opacity-10")}>
+            <div
+                className={cn(
+                    "p-2 rounded-xl",
+                    colorClass,
+                    "bg-opacity-10 ring-1 ring-inset",
+                    colorClass.replace("bg-", "ring-"),
+                    "ring-opacity-20",
+                )}
+            >
                 <Icon
                     className={cn(
                         "h-4 w-4",
