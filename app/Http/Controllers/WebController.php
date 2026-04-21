@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMessage;
 use App\Models\Amenity;
 use App\Models\Hotel;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class WebController extends Controller
@@ -74,6 +77,44 @@ class WebController extends Controller
     public function contact()
     {
         return Inertia::render('Web/Contact');
+    }
+
+    public function sendContact(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:120',
+            'email' => 'required|email|max:160',
+            'subject' => 'required|string|max:160',
+            'message' => 'required|string|max:4000',
+        ]);
+
+        $recipient = config('mail.contact_to')
+            ?? env('CONTACT_TO')
+            ?? config('mail.from.address');
+
+        try {
+            Mail::to($recipient)->send(new ContactMessage(
+                senderName: $data['name'],
+                senderEmail: $data['email'],
+                subjectLine: $data['subject'],
+                body: $data['message'],
+            ));
+        } catch (\Throwable $e) {
+            Log::error('Contact form mail failed', [
+                'error' => $e->getMessage(),
+                'recipient' => $recipient,
+            ]);
+
+            return back()->with(
+                'error',
+                "We couldn't send your message right now. Please try again later.",
+            );
+        }
+
+        return back()->with(
+            'success',
+            "Thanks {$data['name']} — your message is on its way. We'll reply within 24 hours.",
+        );
     }
 
     public function help()
