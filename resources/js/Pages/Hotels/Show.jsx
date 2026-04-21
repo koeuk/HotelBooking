@@ -38,13 +38,13 @@ export default function HotelShow({ hotel }) {
             <section className="relative overflow-hidden">
                 {heroImage ? (
                     <div
-                        className="absolute inset-0 bg-cover bg-center scale-110 blur-md"
+                        className="absolute inset-0 bg-cover bg-center scale-110 blur-2xl"
                         style={{ backgroundImage: `url(${heroImage})` }}
                     />
                 ) : (
                     <div className="absolute inset-0 bg-gradient-mesh" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background" />
+                <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/92 to-background" />
 
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10 space-y-6">
                     <Button
@@ -74,11 +74,13 @@ export default function HotelShow({ hotel }) {
                                     {hotel.name}
                                 </span>
                             </h1>
-                            <p className="flex items-center gap-2 text-muted-foreground">
-                                <MapPin className="h-4 w-4" />
-                                {hotel.address && `${hotel.address}, `}
-                                {hotel.city}, {hotel.country}
-                            </p>
+                            <div className="inline-flex items-center gap-2 glass rounded-full px-3 py-1.5 text-sm text-foreground w-fit">
+                                <MapPin className="h-4 w-4 text-primary shrink-0" />
+                                <span className="truncate max-w-[60ch]">
+                                    {hotel.address && `${hotel.address}, `}
+                                    {hotel.city}, {hotel.country}
+                                </span>
+                            </div>
                         </div>
                         <div className="flex items-center gap-2 animate-fade-up [animation-delay:80ms]">
                             <FavoriteButton
@@ -114,24 +116,7 @@ export default function HotelShow({ hotel }) {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-6">
                 {/* Gallery */}
                 {images.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 rounded-3xl overflow-hidden animate-fade-up">
-                        {images.slice(0, 3).map((image, index) => (
-                            <div
-                                key={index}
-                                className={`group overflow-hidden bg-muted ${
-                                    index === 0
-                                        ? "md:col-span-2 md:row-span-2 h-72 md:h-[420px]"
-                                        : "h-52"
-                                }`}
-                            >
-                                <img
-                                    src={image}
-                                    alt={`${hotel.name} - ${index + 1}`}
-                                    className="w-full h-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
-                                />
-                            </div>
-                        ))}
-                    </div>
+                    <Gallery images={images} name={hotel.name} />
                 ) : (
                     <div className="h-72 rounded-3xl bg-gradient-primary-soft flex items-center justify-center">
                         <Hotel className="h-16 w-16 text-primary/60" />
@@ -396,5 +381,73 @@ export default function HotelShow({ hotel }) {
                 </div>
             </div>
         </WebLayout>
+    );
+}
+
+function Gallery({ images, name }) {
+    const count = images.length;
+    if (count === 1) {
+        return (
+            <div className="rounded-3xl overflow-hidden animate-fade-up">
+                <GalleryImage
+                    src={images[0]}
+                    alt={`${name} - 1`}
+                    className="h-72 md:h-[420px]"
+                />
+            </div>
+        );
+    }
+    if (count === 2) {
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 rounded-3xl overflow-hidden animate-fade-up">
+                {images.slice(0, 2).map((img, i) => (
+                    <GalleryImage
+                        key={i}
+                        src={img}
+                        alt={`${name} - ${i + 1}`}
+                        className="h-72 md:h-[420px]"
+                    />
+                ))}
+            </div>
+        );
+    }
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 rounded-3xl overflow-hidden animate-fade-up">
+            {images.slice(0, 3).map((img, i) => (
+                <GalleryImage
+                    key={i}
+                    src={img}
+                    alt={`${name} - ${i + 1}`}
+                    className={
+                        i === 0
+                            ? "md:col-span-2 md:row-span-2 h-72 md:h-[420px]"
+                            : "h-52"
+                    }
+                />
+            ))}
+        </div>
+    );
+}
+
+function GalleryImage({ src, alt, className = "" }) {
+    return (
+        <div className={`group relative overflow-hidden bg-muted ${className}`}>
+            <img
+                src={src}
+                alt={alt}
+                onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                    const ph = e.currentTarget.nextElementSibling;
+                    if (ph) ph.style.display = "flex";
+                }}
+                className="w-full h-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
+            />
+            <div
+                className="absolute inset-0 hidden items-center justify-center bg-gradient-primary-soft"
+                aria-hidden="true"
+            >
+                <Hotel className="h-12 w-12 text-primary/60" />
+            </div>
+        </div>
     );
 }

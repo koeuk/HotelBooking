@@ -15,6 +15,9 @@ Route::get('/explore', [WebController::class, 'hotels'])->name('web.hotels');
 Route::get('/explore/{hotel}', [WebController::class, 'hotelShow'])->name('web.hotel.show');
 Route::get('/about', [WebController::class, 'about'])->name('web.about');
 Route::get('/contact', [WebController::class, 'contact'])->name('web.contact');
+Route::get('/help', [WebController::class, 'help'])->name('web.help');
+Route::get('/privacy', [WebController::class, 'privacy'])->name('web.privacy');
+Route::get('/terms', [WebController::class, 'terms'])->name('web.terms');
 
 /*
 |--------------------------------------------------------------------------

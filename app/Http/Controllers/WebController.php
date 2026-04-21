@@ -75,4 +75,19 @@ class WebController extends Controller
     {
         return Inertia::render('Web/Contact');
     }
+
+    public function help()
+    {
+        return Inertia::render('Web/Help');
+    }
+
+    public function privacy()
+    {
+        return Inertia::render('Web/Privacy');
+    }
+
+    public function terms()
+    {
+        return Inertia::render('Web/Terms');
+    }
 }
