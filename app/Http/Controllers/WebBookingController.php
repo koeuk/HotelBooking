@@ -93,9 +93,46 @@ class WebBookingController extends Controller
             abort(403);
         }
         $booking->load(['room.hotel', 'room.roomType', 'payment', 'review']);
+
+        $canReview = !$booking->review
+            && in_array($booking->status, ['confirmed', 'completed'])
+            && now()->startOfDay()->gte($booking->check_out_date);
+
         return Inertia::render('Bookings/Show', [
             'booking' => $booking,
+            'canReview' => $canReview,
         ]);
+    }
+
+    public function storeReview(Request $request, \App\Models\Booking $booking)
+    {
+        if ($booking->user_id !== $request->user()->id) {
+            abort(403);
+        }
+        if ($booking->review()->exists()) {
+            return back()->with('error', 'You have already reviewed this stay.');
+        }
+        if (!in_array($booking->status, ['confirmed', 'completed'])) {
+            return back()->with('error', 'You can only review confirmed or completed stays.');
+        }
+        if (now()->startOfDay()->lt($booking->check_out_date)) {
+            return back()->with('error', 'You can leave a review after your stay ends.');
+        }
+
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
+        ]);
+
+        \App\Models\Review::create([
+            'user_id' => $request->user()->id,
+            'hotel_id' => $booking->room->hotel_id,
+            'booking_id' => $booking->id,
+            'rating' => $validated['rating'],
+            'comment' => $validated['comment'] ?? null,
+        ]);
+
+        return back()->with('success', 'Thanks for your review!');
     }
 
     public function cancel(Request $request, \App\Models\Booking $booking)

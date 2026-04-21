@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->prefix('web')->group(function () {
     Route::get('/my-bookings/{booking}', [\App\Http\Controllers\WebBookingController::class, 'show'])->name('bookings.show');
     Route::post('/my-bookings/{booking}/cancel', [\App\Http\Controllers\WebBookingController::class, 'cancel'])->name('bookings.cancel');
     Route::post('/my-bookings/{booking}/pay', [\App\Http\Controllers\WebBookingController::class, 'pay'])->name('bookings.pay');
+    Route::post('/my-bookings/{booking}/review', [\App\Http\Controllers\WebBookingController::class, 'storeReview'])->name('bookings.review');
 
     // Hotels (user view)
     Route::get('/hotels', [\App\Http\Controllers\WebHotelController::class, 'index'])->name('hotels.index');

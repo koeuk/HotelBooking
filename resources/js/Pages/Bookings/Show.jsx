@@ -1,6 +1,7 @@
 import { useState } from "react";
 import WebLayout from "@/Layouts/WebLayout";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
+import { Textarea } from "@/components/ui/textarea";
 import {
     Card,
     CardContent,
@@ -39,7 +40,7 @@ const getStatusBadge = (status) => {
     );
 };
 
-export default function BookingShow({ booking }) {
+export default function BookingShow({ booking, canReview }) {
     const [payOpen, setPayOpen] = useState(false);
     const [payMethod, setPayMethod] = useState("card");
     const [payProcessing, setPayProcessing] = useState(false);
@@ -201,7 +202,7 @@ export default function BookingShow({ booking }) {
                             </CardHeader>
                             <CardContent>
                                 {review ? (
-                                    <div className="p-4 rounded-xl bg-muted/50">
+                                    <div className="p-4 rounded-2xl bg-muted/40">
                                         <div className="flex items-center gap-1 mb-2">
                                             {[...Array(5)].map((_, i) => (
                                                 <Star
@@ -214,18 +215,19 @@ export default function BookingShow({ booking }) {
                                                 />
                                             ))}
                                         </div>
-                                        <p className="text-sm">{review.comment}</p>
+                                        {review.comment && (
+                                            <p className="text-sm">
+                                                {review.comment}
+                                            </p>
+                                        )}
                                     </div>
+                                ) : canReview ? (
+                                    <ReviewForm bookingUuid={booking.uuid} />
                                 ) : (
-                                    <div className="flex flex-col items-center justify-center py-8 text-center">
-                                        <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
-                                            <MessageSquare className="h-6 w-6 text-muted-foreground" />
-                                        </div>
-                                        <p className="text-muted-foreground font-medium">No review yet</p>
-                                        <p className="text-sm text-muted-foreground mt-1">
-                                            You haven't reviewed this stay yet.
-                                        </p>
-                                    </div>
+                                    <ReviewLockedState
+                                        status={booking.status}
+                                        checkOut={booking.check_out_date}
+                                    />
                                 )}
                             </CardContent>
                         </Card>
@@ -357,5 +359,137 @@ export default function BookingShow({ booking }) {
                 </div>
             </div>
         </WebLayout>
+    );
+}
+
+function ReviewForm({ bookingUuid }) {
+    const [hoverRating, setHoverRating] = useState(0);
+    const { data, setData, post, processing, errors } = useForm({
+        rating: 0,
+        comment: "",
+    });
+
+    const submit = (e) => {
+        e.preventDefault();
+        if (data.rating < 1) return;
+        post(route("bookings.review", bookingUuid), {
+            preserveScroll: true,
+        });
+    };
+
+    const display = hoverRating || data.rating;
+
+    return (
+        <form onSubmit={submit} className="space-y-4">
+            <div>
+                <p className="text-sm font-medium mb-2">How was your stay?</p>
+                <div
+                    className="flex items-center gap-1"
+                    onMouseLeave={() => setHoverRating(0)}
+                >
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                            key={star}
+                            type="button"
+                            onClick={() => setData("rating", star)}
+                            onMouseEnter={() => setHoverRating(star)}
+                            aria-label={`${star} star${star === 1 ? "" : "s"}`}
+                            className="p-1 transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
+                        >
+                            <Star
+                                className={`h-7 w-7 transition-colors ${
+                                    star <= display
+                                        ? "fill-amber-400 text-amber-400"
+                                        : "text-muted-foreground/40"
+                                }`}
+                            />
+                        </button>
+                    ))}
+                    <span className="ml-2 text-sm text-muted-foreground">
+                        {display > 0
+                            ? `${display}/5`
+                            : "Tap to rate"}
+                    </span>
+                </div>
+                {errors.rating && (
+                    <p className="text-sm text-destructive mt-1">
+                        {errors.rating}
+                    </p>
+                )}
+            </div>
+
+            <div className="space-y-2">
+                <Label
+                    htmlFor="comment"
+                    className="text-xs uppercase tracking-wide text-muted-foreground"
+                >
+                    Your feedback (optional)
+                </Label>
+                <Textarea
+                    id="comment"
+                    rows={4}
+                    placeholder="Share what made your stay memorable…"
+                    value={data.comment}
+                    onChange={(e) => setData("comment", e.target.value)}
+                    className="rounded-2xl bg-muted/60 border-input px-4 py-3 focus-visible:bg-background focus-visible:border-primary/40 focus-visible:ring-4 focus-visible:ring-primary/15 transition-all duration-300"
+                    maxLength={1000}
+                />
+                {errors.comment && (
+                    <p className="text-sm text-destructive">
+                        {errors.comment}
+                    </p>
+                )}
+            </div>
+
+            <Button
+                type="submit"
+                variant="gradient"
+                size="lg"
+                shape="pill"
+                disabled={processing || data.rating < 1}
+            >
+                {processing ? (
+                    <>
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        Submitting…
+                    </>
+                ) : (
+                    <>
+                        <Star className="h-4 w-4 mr-2 fill-current" />
+                        Submit review
+                    </>
+                )}
+            </Button>
+        </form>
+    );
+}
+
+function ReviewLockedState({ status, checkOut }) {
+    let message = "You haven't reviewed this stay yet.";
+    if (status === "pending") {
+        message = "Confirm your booking before leaving a review.";
+    } else if (status === "cancelled") {
+        message = "Cancelled bookings can't be reviewed.";
+    } else if (
+        ["confirmed", "completed"].includes(status) &&
+        new Date() < new Date(checkOut)
+    ) {
+        const out = new Date(checkOut).toLocaleDateString(undefined, {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+        });
+        message = `You can review your stay after check-out on ${out}.`;
+    }
+    return (
+        <div className="flex flex-col items-center justify-center py-8 text-center">
+            <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
+                <MessageSquare className="h-6 w-6 text-muted-foreground" />
+            </div>
+            <p className="text-muted-foreground font-medium">No review yet</p>
+            <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+                {message}
+            </p>
+        </div>
     );
 }
