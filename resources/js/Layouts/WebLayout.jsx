@@ -179,7 +179,7 @@ export default function WebLayout({ children }) {
                                 <div className="pt-2 mt-2 border-t border-zinc-200 dark:border-zinc-800 flex gap-2">
                                     {user ? (
                                         <Button variant="outline" className="w-full" asChild>
-                                            <Link href={route("dashboard")}>Dashboard</Link>
+                                            <Link href={route("user.dashboard")}>Dashboard</Link>
                                         </Button>
                                     ) : (
                                         <>

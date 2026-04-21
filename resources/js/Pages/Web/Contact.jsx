@@ -32,7 +32,8 @@ export default function Contact() {
         e.preventDefault();
         post(route("web.contact.send"), {
             preserveScroll: true,
-            onSuccess: () => {
+            onSuccess: (page) => {
+                if (page.props.flash?.error) return;
                 setSent(true);
                 reset("subject", "message");
             },

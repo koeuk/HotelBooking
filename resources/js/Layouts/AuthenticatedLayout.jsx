@@ -83,7 +83,7 @@ export default function AuthenticatedLayout({ children }) {
         <div className="flex flex-col h-full bg-slate-800 dark:bg-zinc-900 text-zinc-200">
             <div className="p-6 flex items-center justify-between">
                 <Link
-                    href={route("dashboard")}
+                    href={route("dashboard.index")}
                     className="flex items-center gap-2 group"
                 >
                     <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl group-hover:scale-110 transition-transform">
