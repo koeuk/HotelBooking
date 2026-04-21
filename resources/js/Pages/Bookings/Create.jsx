@@ -9,9 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import DateRangePicker from "@/components/DateRangePicker";
 import {
     ArrowLeft,
     BedDouble,
@@ -187,62 +186,28 @@ export default function Create({ hotel }) {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label
-                                                htmlFor="check_in_date"
-                                                className="text-xs uppercase tracking-wide text-muted-foreground"
-                                            >
-                                                Check-in
-                                            </Label>
-                                            <Input
-                                                id="check_in_date"
-                                                type="date"
-                                                variant="soft"
-                                                min={today}
-                                                value={data.check_in_date}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "check_in_date",
-                                                        e.target.value,
-                                                    )
-                                                }
-                                            />
-                                            {errors.check_in_date && (
-                                                <p className="text-sm text-destructive">
-                                                    {errors.check_in_date}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label
-                                                htmlFor="check_out_date"
-                                                className="text-xs uppercase tracking-wide text-muted-foreground"
-                                            >
-                                                Check-out
-                                            </Label>
-                                            <Input
-                                                id="check_out_date"
-                                                type="date"
-                                                variant="soft"
-                                                min={
-                                                    data.check_in_date || today
-                                                }
-                                                value={data.check_out_date}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "check_out_date",
-                                                        e.target.value,
-                                                    )
-                                                }
-                                            />
-                                            {errors.check_out_date && (
-                                                <p className="text-sm text-destructive">
-                                                    {errors.check_out_date}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
+                                    <DateRangePicker
+                                        checkIn={data.check_in_date}
+                                        checkOut={data.check_out_date}
+                                        minDate={today}
+                                        onChange={({
+                                            check_in_date,
+                                            check_out_date,
+                                        }) => {
+                                            setData((prev) => ({
+                                                ...prev,
+                                                check_in_date,
+                                                check_out_date,
+                                            }));
+                                        }}
+                                    />
+                                    {(errors.check_in_date ||
+                                        errors.check_out_date) && (
+                                        <p className="mt-2 text-sm text-destructive">
+                                            {errors.check_in_date ||
+                                                errors.check_out_date}
+                                        </p>
+                                    )}
                                     {datesValid && (
                                         <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-medium animate-scale-in">
                                             <CheckCircle2 className="h-3.5 w-3.5" />
