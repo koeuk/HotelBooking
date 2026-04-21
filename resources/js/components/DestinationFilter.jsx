@@ -12,7 +12,14 @@ import { Search, MapPin, X, Map } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-export default function DestinationFilter({ cities, currentCity, onCitySelect }) {
+export default function DestinationFilter({
+    cities,
+    currentCity,
+    onCitySelect,
+    triggerClassName,
+    placeholder = "Where are you going?",
+    icon: TriggerIcon = MapPin,
+}) {
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
 
@@ -32,17 +39,18 @@ export default function DestinationFilter({ cities, currentCity, onCitySelect })
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <div className="relative group cursor-pointer flex-1 min-w-[200px] max-w-sm">
+                <div className="relative group cursor-pointer w-full">
                     <div className={cn(
                         "flex items-center gap-2 h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900 group-hover:border-primary/50",
-                        currentCity && "border-primary/50 bg-primary/5"
+                        currentCity && "border-primary/50 bg-primary/5",
+                        triggerClassName
                     )}>
-                        <Search className="h-4 w-4 text-muted-foreground" />
+                        <TriggerIcon className="h-4 w-4 text-muted-foreground shrink-0" />
                         <span className={cn(
                             "flex-1 text-left line-clamp-1",
                             !currentCity && "text-muted-foreground"
                         )}>
-                            {currentCity || "Where are you going?"}
+                            {currentCity || placeholder}
                         </span>
                         {currentCity && (
                             <Button

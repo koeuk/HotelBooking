@@ -387,31 +387,35 @@ export default function About() {
 
             {/* CTA */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-                <div className="bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-8 md:p-12 text-center text-white">
-                    <h2 className="text-2xl md:text-3xl font-bold">
-                        Ready to Start Your Journey?
-                    </h2>
-                    <p className="mt-2 text-white/80 max-w-xl mx-auto">
-                        Join thousands of travelers who trust HotelBook for
-                        unforgettable stays worldwide.
-                    </p>
-                    <div className="mt-6 flex items-center justify-center gap-3">
+                <div className="relative overflow-hidden rounded-3xl bg-gradient-primary p-8 md:p-14 text-center text-primary-foreground">
+                    <div className="absolute inset-0 noise opacity-20" />
+                    <div className="relative">
+                        <h2 className="text-3xl md:text-4xl font-bold">
+                            Ready to start your journey?
+                        </h2>
+                        <p className="mt-3 text-primary-foreground/85 max-w-xl mx-auto">
+                            Join thousands of travelers who trust HotelBook for
+                            unforgettable stays worldwide.
+                        </p>
+                    <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                         <Button
-                            size="lg"
+                            size="xl"
+                            shape="pill"
                             variant="secondary"
-                            className="rounded-xl"
                             asChild
                         >
-                            <Link href="/explore">Browse Hotels</Link>
+                            <Link href="/explore">Browse hotels</Link>
                         </Button>
                         <Button
-                            size="lg"
-                            variant="outline"
-                            className="rounded-xl text-white border-white/30 hover:bg-white/10 hover:text-white"
+                            size="xl"
+                            shape="pill"
+                            variant="glass"
+                            className="text-primary-foreground border-white/20"
                             asChild
                         >
-                            <Link href={route("register")}>Create Account</Link>
+                            <Link href={route("register")}>Create account</Link>
                         </Button>
+                    </div>
                     </div>
                 </div>
             </section>

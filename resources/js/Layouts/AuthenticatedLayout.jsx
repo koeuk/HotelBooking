@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, usePage, router } from "@inertiajs/react";
 import {
     LayoutDashboard,
@@ -38,6 +38,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import BackToTop from "@/components/BackToTop";
 
 const navSections = [
     {
@@ -71,6 +72,7 @@ export default function AuthenticatedLayout({ children }) {
     const user = auth.user;
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const mainRef = useRef(null);
 
     useEffect(() => {
         if (flash?.success) toast.success(flash.success);
@@ -337,7 +339,10 @@ export default function AuthenticatedLayout({ children }) {
                 </header>
 
                 {/* Main Page View */}
-                <main className="flex-1 overflow-y-auto overflow-x-hidden">
+                <main
+                    ref={mainRef}
+                    className="flex-1 overflow-y-auto overflow-x-hidden"
+                >
                     <div className="p-6 md:p-10 min-h-full">
                         {children}
                     </div>
@@ -349,6 +354,7 @@ export default function AuthenticatedLayout({ children }) {
                 </main>
             </div>
             <Toaster position="top-right" closeButton richColors />
+            <BackToTop scrollContainer={mainRef} />
         </div>
     );
 }

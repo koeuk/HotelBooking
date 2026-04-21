@@ -11,6 +11,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import BackToTop from "@/components/BackToTop";
 
 const publicLinks = [
     { name: "Home", href: "/" },
@@ -247,6 +248,7 @@ export default function WebLayout({ children }) {
                 </div>
             </footer>
             <Toaster position="top-right" closeButton richColors />
+            <BackToTop />
         </div>
     );
 }
