@@ -72,7 +72,7 @@ export default function AdminDashboard() {
             label: 'Total Bookings',
             value: loading ? '—' : String(bookingStats.total),
             icon: <CalendarCheck size={22} />,
-            color: 'bg-green-500',
+            color: 'bg-primary',
             sub: 'All time',
         },
         {

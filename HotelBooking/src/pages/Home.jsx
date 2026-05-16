@@ -103,7 +103,7 @@ export default function Home() {
 
                         <div className="flex flex-wrap gap-6 mt-12 text-white/70 text-sm font-medium">
                             <div className="flex items-center gap-2">
-                                <CheckCircle size={16} className="text-green-400" />
+                                <CheckCircle size={16} className="text-primary-light" />
                                 <span>Free Cancellation</span>
                             </div>
                             <div className="flex items-center gap-2">

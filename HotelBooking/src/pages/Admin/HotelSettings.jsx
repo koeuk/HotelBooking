@@ -94,7 +94,7 @@ export default function AdminHotelSettings() {
                         </div>
                     )}
                     {saved && (
-                        <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-2xl text-sm font-medium">
+                        <div className="mb-6 p-4 bg-accent text-secondary rounded-2xl text-sm font-medium">
                             Settings saved successfully.
                         </div>
                     )}

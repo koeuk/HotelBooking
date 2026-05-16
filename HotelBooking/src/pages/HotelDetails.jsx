@@ -294,11 +294,11 @@ export default function HotelDetails() {
 
                             <div className="mt-6 pt-6 border-t border-slate-100 space-y-2">
                                 <div className="flex items-center gap-2 text-sm text-slate-500">
-                                    <BadgeCheck size={15} className="text-green-500" />
+                                    <BadgeCheck size={15} className="text-primary" />
                                     <span>Free cancellation up to 24h before</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-sm text-slate-500">
-                                    <BadgeCheck size={15} className="text-green-500" />
+                                    <BadgeCheck size={15} className="text-primary" />
                                     <span>Best price guaranteed</span>
                                 </div>
                             </div>

@@ -178,11 +178,11 @@ export default function BookRoom() {
                                     </h3>
                                     <ul className="space-y-2">
                                         <li className="flex items-center gap-2 text-sm text-slate-600">
-                                            <CheckCircle size={15} className="text-green-500" />
+                                            <CheckCircle size={15} className="text-primary" />
                                             Free cancellation until 24h before check-in
                                         </li>
                                         <li className="flex items-center gap-2 text-sm text-slate-600">
-                                            <CheckCircle size={15} className="text-green-500" />
+                                            <CheckCircle size={15} className="text-primary" />
                                             Check-in: 2:00 PM · Check-out: 12:00 PM
                                         </li>
                                     </ul>
