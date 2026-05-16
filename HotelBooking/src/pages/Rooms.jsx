@@ -39,7 +39,7 @@ export default function Rooms() {
         <div className="min-h-screen">
             {/* Header */}
             <div className="py-16 px-4 text-center">
-                <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Accommodations</p>
+                <p className="text-green-800 text-xs font-bold uppercase tracking-[0.2em] mb-3">Accommodations</p>
                 <h1 className="font-display text-5xl md:text-6xl font-bold text-foreground mb-4 leading-tight">Our Rooms</h1>
                 <p className="text-muted-foreground text-lg max-w-lg mx-auto">
                     {rooms.length} rooms across {ROOM_TYPES.length - 1} categories
