@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
-import { BedDouble, Users, Maximize2, Layers, ChevronRight, Hash, ChevronDown, Check } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import {
+    BedDouble, Users, Maximize2, Layers, ChevronRight,
+    Hash, ChevronDown, Check, Heart, ShoppingCart, X,
+} from 'lucide-react';
 
 const STATUS_STYLES = {
     available:   'bg-green-50 text-green-700 border-green-200',
@@ -66,9 +71,7 @@ function StatusDropdown({ value, onChange }) {
                                 <span className={isActive ? 'font-semibold text-foreground' : 'text-muted-foreground'}>
                                     {option.label}
                                 </span>
-                                {isActive && (
-                                    <Check size={13} className="text-green-800 ml-auto shrink-0" />
-                                )}
+                                {isActive && <Check size={13} className="text-green-800 ml-auto shrink-0" />}
                             </button>
                         );
                     })}
@@ -78,11 +81,38 @@ function StatusDropdown({ value, onChange }) {
     );
 }
 
+function Toast({ message, type, onClose }) {
+    useEffect(() => {
+        const t = setTimeout(onClose, 2500);
+        return () => clearTimeout(t);
+    }, [onClose]);
+
+    const colors = type === 'error'
+        ? 'bg-red-50 border-red-200 text-red-700'
+        : type === 'cart'
+        ? 'bg-blue-50 border-blue-200 text-blue-700'
+        : 'bg-green-50 border-green-200 text-green-800';
+
+    return (
+        <div className={`flex items-center gap-3 px-4 py-3 rounded-2xl border shadow-warm text-sm font-semibold ${colors}`}>
+            <span>{message}</span>
+            <button onClick={onClose} className="ml-auto cursor-pointer opacity-60 hover:opacity-100">
+                <X size={14} />
+            </button>
+        </div>
+    );
+}
+
 export default function Rooms() {
     const navigate = useNavigate();
+    const { user } = useAuth();
+    const { cartIds, toggleCart } = useCart();
     const [rooms, setRooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState({ type: 'All', status: 'available' });
+    const [favoriteIds, setFavoriteIds] = useState(new Set());
+    const [toasts, setToasts] = useState([]);
+    const [loadingActions, setLoadingActions] = useState({});
 
     useEffect(() => {
         setLoading(true);
@@ -95,6 +125,61 @@ export default function Rooms() {
             .finally(() => setLoading(false));
     }, []);
 
+    useEffect(() => {
+        if (!user) { setFavoriteIds(new Set()); return; }
+        api.get('/favorites')
+            .then(res => setFavoriteIds(new Set(res.data.data || [])))
+            .catch(() => {});
+    }, [user]);
+
+    const pushToast = useCallback((message, type = 'save') => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message, type }]);
+    }, []);
+
+    const removeToast = useCallback((id) => {
+        setToasts(prev => prev.filter(t => t.id !== id));
+    }, []);
+
+    const handleSave = async (roomTypeId) => {
+        if (!user) { navigate('/login'); return; }
+        const key = `save-${roomTypeId}`;
+        if (loadingActions[key]) return;
+        setLoadingActions(prev => ({ ...prev, [key]: true }));
+        try {
+            const isSaved = favoriteIds.has(roomTypeId);
+            if (isSaved) {
+                await api.delete(`/favorites/${roomTypeId}`);
+                setFavoriteIds(prev => { const s = new Set(prev); s.delete(roomTypeId); return s; });
+                pushToast('Removed from saved', 'save');
+            } else {
+                await api.post(`/favorites/${roomTypeId}`);
+                setFavoriteIds(prev => new Set([...prev, roomTypeId]));
+                pushToast('Room saved!', 'save');
+            }
+        } catch {
+            pushToast('Something went wrong', 'error');
+        } finally {
+            setLoadingActions(prev => ({ ...prev, [key]: false }));
+        }
+    };
+
+    const handleCart = async (roomTypeId) => {
+        if (!user) { navigate('/login'); return; }
+        const key = `cart-${roomTypeId}`;
+        if (loadingActions[key]) return;
+        setLoadingActions(prev => ({ ...prev, [key]: true }));
+        try {
+            const inCart = cartIds.has(roomTypeId);
+            await toggleCart(roomTypeId);
+            pushToast(inCart ? 'Removed from cart' : 'Added to cart!', 'cart');
+        } catch {
+            pushToast('Something went wrong', 'error');
+        } finally {
+            setLoadingActions(prev => ({ ...prev, [key]: false }));
+        }
+    };
+
     const filtered = rooms.filter(room => {
         if (filters.type !== 'All' && room.room_type?.name !== filters.type) return false;
         if (filters.status !== 'all' && room.status !== filters.status) return false;
@@ -103,6 +188,15 @@ export default function Rooms() {
 
     return (
         <div className="min-h-screen">
+            {/* Toast stack */}
+            <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none">
+                {toasts.map(t => (
+                    <div key={t.id} className="pointer-events-auto">
+                        <Toast message={t.message} type={t.type} onClose={() => removeToast(t.id)} />
+                    </div>
+                ))}
+            </div>
+
             {/* Header */}
             <div className="py-16 px-4 text-center">
                 <p className="text-green-800 text-xs font-bold uppercase tracking-[0.2em] mb-3">Accommodations</p>
@@ -115,7 +209,6 @@ export default function Rooms() {
             {/* Filter Bar */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
                 <div className="bg-card border border-border rounded-2xl shadow-warm p-2 flex flex-wrap gap-2 items-center">
-                    {/* Room type pills */}
                     <div className="flex items-center gap-1 p-1 bg-muted rounded-xl flex-wrap">
                         {ROOM_TYPES.map(t => (
                             <button
@@ -134,7 +227,6 @@ export default function Rooms() {
 
                     <div className="w-px h-8 bg-border mx-1 hidden sm:block" />
 
-                    {/* Custom status dropdown */}
                     <StatusDropdown
                         value={filters.status}
                         onChange={val => setFilters(f => ({ ...f, status: val }))}
@@ -169,7 +261,10 @@ export default function Rooms() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {filtered.map(room => {
                             const rt = room.room_type || {};
+                            const rtId = rt.id;
                             const isAvailable = room.status === 'available';
+                            const isSaved = favoriteIds.has(rtId);
+                            const inCart = cartIds.has(rtId);
                             return (
                                 <div
                                     key={room.uuid || room.id}
@@ -182,6 +277,19 @@ export default function Rooms() {
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+                                        {/* Save button */}
+                                        <button
+                                            onClick={() => handleSave(rtId)}
+                                            title={isSaved ? 'Remove from saved' : 'Save room'}
+                                            className={`absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-sm ${
+                                                isSaved
+                                                    ? 'bg-red-500 text-white'
+                                                    : 'bg-white/80 text-muted-foreground hover:bg-white hover:text-red-500'
+                                            }`}
+                                        >
+                                            <Heart size={14} className={isSaved ? 'fill-white' : ''} />
+                                        </button>
 
                                         <span className={`absolute top-3 right-3 text-xs font-bold px-2.5 py-1 rounded-full capitalize border ${STATUS_STYLES[room.status] || STATUS_STYLES.available}`}>
                                             {room.status}
@@ -228,24 +336,42 @@ export default function Rooms() {
                                             )}
                                         </div>
 
-                                        <button
-                                            onClick={() => isAvailable && navigate(`/book/${room.uuid}`)}
-                                            disabled={!isAvailable}
-                                            className={`mt-auto w-full flex items-center justify-center gap-2 py-2.5 font-bold rounded-2xl transition-colors duration-200 text-sm cursor-pointer ${
-                                                isAvailable
-                                                    ? 'text-white'
-                                                    : 'bg-muted text-muted-foreground cursor-not-allowed'
-                                            }`}
-                                            style={isAvailable ? { backgroundColor: 'var(--color-primary)' } : {}}
-                                            onMouseEnter={e => { if (isAvailable) e.currentTarget.style.backgroundColor = 'var(--color-primary-light)'; }}
-                                            onMouseLeave={e => { if (isAvailable) e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
-                                        >
-                                            {isAvailable ? (
-                                                <>Book Now <ChevronRight size={15} /></>
-                                            ) : (
-                                                <span className="capitalize">{room.status}</span>
-                                            )}
-                                        </button>
+                                        {/* Action row */}
+                                        <div className="mt-auto flex gap-2">
+                                            {/* Add to cart */}
+                                            <button
+                                                onClick={() => handleCart(rtId)}
+                                                title={inCart ? 'Remove from cart' : 'Add to cart'}
+                                                className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-2xl text-xs font-bold border transition-all duration-200 cursor-pointer shrink-0 ${
+                                                    inCart
+                                                        ? 'bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100'
+                                                        : 'bg-muted text-muted-foreground border-border hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'
+                                                }`}
+                                            >
+                                                <ShoppingCart size={13} className={inCart ? 'fill-blue-200' : ''} />
+                                                {inCart ? 'In Cart' : 'Cart'}
+                                            </button>
+
+                                            {/* Book Now */}
+                                            <button
+                                                onClick={() => isAvailable && navigate(`/book/${room.uuid}`)}
+                                                disabled={!isAvailable}
+                                                className={`flex-1 flex items-center justify-center gap-2 py-2.5 font-bold rounded-2xl transition-colors duration-200 text-sm cursor-pointer ${
+                                                    isAvailable
+                                                        ? 'text-white'
+                                                        : 'bg-muted text-muted-foreground cursor-not-allowed'
+                                                }`}
+                                                style={isAvailable ? { backgroundColor: 'var(--color-primary)' } : {}}
+                                                onMouseEnter={e => { if (isAvailable) e.currentTarget.style.backgroundColor = 'var(--color-primary-light)'; }}
+                                                onMouseLeave={e => { if (isAvailable) e.currentTarget.style.backgroundColor = 'var(--color-primary)'; }}
+                                            >
+                                                {isAvailable ? (
+                                                    <>Book Now <ChevronRight size={15} /></>
+                                                ) : (
+                                                    <span className="capitalize">{room.status}</span>
+                                                )}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             );
