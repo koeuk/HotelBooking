@@ -10,20 +10,16 @@ class Review extends Model
 {
     use HasFactory, HasUuid;
 
-    protected $fillable = ['user_id', 'hotel_id', 'booking_id', 'rating', 'comment'];
+    protected $fillable = ['uuid', 'user_id', 'booking_id', 'rating', 'comment', 'is_approved'];
 
     protected $casts = [
-        'rating' => 'integer',
+        'rating'      => 'integer',
+        'is_approved' => 'boolean',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function hotel()
-    {
-        return $this->belongsTo(Hotel::class);
     }
 
     public function booking()

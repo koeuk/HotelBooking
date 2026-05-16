@@ -9,30 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 class Hotel extends Model
 {
     use HasFactory, HasUuid;
-    protected $fillable = ['name', 'description', 'address', 'city', 'country', 'latitude', 'longitude', 'rating', 'images'];
 
-    protected $casts = [
-        'images' => 'array',
-        'rating' => 'decimal:1',
+    protected $fillable = [
+        'uuid', 'name', 'slug', 'description', 'address', 'city', 'country',
+        'zip_code', 'phone', 'email', 'website', 'latitude', 'longitude',
+        'star_rating', 'check_in_time', 'check_out_time', 'logo', 'images',
     ];
 
-    public function roomTypes()
-    {
-        return $this->hasMany(RoomType::class);
-    }
-
-    public function rooms()
-    {
-        return $this->hasMany(Room::class);
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
-    public function amenities()
-    {
-        return $this->belongsToMany(Amenity::class, 'hotel_amenities');
-    }
+    protected $casts = [
+        'images'      => 'array',
+        'star_rating' => 'integer',
+    ];
 }

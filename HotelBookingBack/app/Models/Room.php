@@ -9,12 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Room extends Model
 {
     use HasFactory, HasUuid;
-    protected $fillable = ['hotel_id', 'room_type_id', 'room_number', 'floor', 'status'];
 
-    public function hotel()
-    {
-        return $this->belongsTo(Hotel::class);
-    }
+    protected $fillable = ['uuid', 'room_type_id', 'room_number', 'floor', 'status', 'notes'];
 
     public function roomType()
     {
