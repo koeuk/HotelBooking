@@ -67,7 +67,7 @@ function StatusDropdown({ value, onChange }) {
                                     {option.label}
                                 </span>
                                 {isActive && (
-                                    <Check size={13} className="ml-auto shrink-0" style={{ color: 'var(--color-primary)' }} />
+                                    <Check size={13} className="text-green-800 ml-auto shrink-0" />
                                 )}
                             </button>
                         );
@@ -105,7 +105,7 @@ export default function Rooms() {
         <div className="min-h-screen">
             {/* Header */}
             <div className="py-16 px-4 text-center">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: 'var(--color-primary)' }}>Accommodations</p>
+                <p className="text-green-800 text-xs font-bold uppercase tracking-[0.2em] mb-3">Accommodations</p>
                 <h1 className="font-display text-5xl md:text-6xl font-bold text-foreground mb-4 leading-tight">Our Rooms</h1>
                 <p className="text-muted-foreground text-lg max-w-lg mx-auto">
                     {rooms.length} rooms across {ROOM_TYPES.length - 1} categories
@@ -123,10 +123,9 @@ export default function Rooms() {
                                 onClick={() => setFilters(f => ({ ...f, type: t }))}
                                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer whitespace-nowrap ${
                                     filters.type === t
-                                        ? 'bg-card shadow-warm-sm'
+                                        ? 'bg-card text-green-800 shadow-warm-sm'
                                         : 'text-muted-foreground hover:text-foreground'
                                 }`}
-                                style={filters.type === t ? { color: 'var(--color-primary)' } : {}}
                             >
                                 {t}
                             </button>
@@ -161,8 +160,7 @@ export default function Rooms() {
                         <p className="text-foreground text-xl font-semibold">No rooms match your filters.</p>
                         <button
                             onClick={() => setFilters({ type: 'All', status: 'all' })}
-                            className="mt-4 underline text-sm cursor-pointer hover:opacity-80 transition-opacity"
-                            style={{ color: 'var(--color-primary)' }}
+                            className="mt-4 underline text-sm cursor-pointer hover:opacity-80 transition-opacity text-green-800"
                         >
                             Clear filters
                         </button>
@@ -197,7 +195,7 @@ export default function Rooms() {
                                     <div className="p-4 flex flex-col flex-1">
                                         <div className="flex items-start justify-between mb-2">
                                             <div>
-                                                <p className="text-xs font-bold uppercase tracking-wide" style={{ color: 'var(--color-primary)' }}>{rt.name}</p>
+                                                <p className="text-green-800 text-xs font-bold uppercase tracking-wide">{rt.name}</p>
                                                 <h3 className="text-base font-bold text-foreground flex items-center gap-1.5 mt-0.5">
                                                     <Hash size={13} className="text-muted-foreground" />
                                                     Room {room.room_number}
@@ -207,24 +205,24 @@ export default function Rooms() {
 
                                         <div className="flex flex-wrap gap-1.5 mb-4">
                                             <span className="flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-lg">
-                                                <Layers size={11} style={{ color: 'var(--color-primary)' }} />
+                                                <Layers size={11} className="text-green-800" />
                                                 Floor {room.floor}
                                             </span>
                                             {rt.max_guests && (
                                                 <span className="flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-lg">
-                                                    <Users size={11} style={{ color: 'var(--color-primary)' }} />
+                                                    <Users size={11} className="text-green-800" />
                                                     {rt.max_guests} guests
                                                 </span>
                                             )}
                                             {rt.bed_type && (
                                                 <span className="flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-lg">
-                                                    <BedDouble size={11} style={{ color: 'var(--color-primary)' }} />
+                                                    <BedDouble size={11} className="text-green-800" />
                                                     {rt.bed_type}
                                                 </span>
                                             )}
                                             {rt.size_sqm && (
                                                 <span className="flex items-center gap-1 text-xs text-muted-foreground bg-muted px-2 py-1 rounded-lg">
-                                                    <Maximize2 size={11} style={{ color: 'var(--color-primary)' }} />
+                                                    <Maximize2 size={11} className="text-green-800" />
                                                     {rt.size_sqm} m²
                                                 </span>
                                             )}

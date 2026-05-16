@@ -67,7 +67,7 @@ export default function UserDashboard() {
       <div className="max-w-5xl mx-auto">
         {/* Profile Header */}
         <div className="bg-card border border-border rounded-3xl p-6 shadow-warm mb-8 flex items-center gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center font-display font-bold text-2xl shrink-0" style={{ color: 'var(--color-primary)' }}>
+          <div className="text-green-800 w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center font-display font-bold text-2xl shrink-0">
             {user?.name?.[0]?.toUpperCase() || "U"}
           </div>
           <div className="flex-1 min-w-0">
@@ -124,7 +124,7 @@ export default function UserDashboard() {
               {count > 0 && (
                 <span
                   className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${tab === id ? "bg-primary/10" : "bg-border text-muted-foreground"}`}
-                  style={tab === id ? { color: 'var(--color-primary)' } : {}}
+                  className={tab === id ? 'text-green-800' : ''}
                 >
                   {count}
                 </span>
@@ -187,12 +187,12 @@ export default function UserDashboard() {
                           </h3>
                           <div className="flex items-center gap-3 text-muted-foreground text-sm mt-1 flex-wrap">
                             <span className="flex items-center gap-1">
-                              <BedDouble size={12} style={{ color: 'var(--color-primary)' }} />
+                              <BedDouble size={12} className="text-green-800" />
                               Room {booking.room?.room_number || "—"}
                             </span>
                             {booking.room?.floor && (
                               <span className="flex items-center gap-1">
-                                <Layers size={12} style={{ color: 'var(--color-primary)' }} />
+                                <Layers size={12} className="text-green-800" />
                                 Floor {booking.room.floor}
                               </span>
                             )}
@@ -207,12 +207,12 @@ export default function UserDashboard() {
                       </div>
                       <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mt-2">
                         <span className="flex items-center gap-1.5">
-                          <CalendarDays size={12} style={{ color: 'var(--color-primary)' }} />
+                          <CalendarDays size={12} className="text-green-800" />
                           {booking.check_in_date || booking.check_in} →{" "}
                           {booking.check_out_date || booking.check_out}
                         </span>
                         <span className="flex items-center gap-1.5">
-                          <CreditCard size={12} style={{ color: 'var(--color-primary)' }} />
+                          <CreditCard size={12} className="text-green-800" />
                           <span className="font-semibold text-foreground">
                             ${booking.total_price}
                           </span>
@@ -278,7 +278,7 @@ export default function UserDashboard() {
                           />
                         </div>
                         <div className="p-4">
-                          <p className="text-xs font-bold uppercase tracking-wide mb-0.5" style={{ color: 'var(--color-primary)' }}>
+                          <p className="text-green-800 text-xs font-bold uppercase tracking-wide mb-0.5">
                             {roomType.name}
                           </p>
                           <div className="flex items-center gap-3 text-muted-foreground text-sm mt-1 flex-wrap">
@@ -286,13 +286,13 @@ export default function UserDashboard() {
                               <span className="flex items-center gap-1">
                                 <BedDouble
                                   size={11}
-                                  style={{ color: 'var(--color-primary)' }}
+                                  className="text-green-800"
                                 />{" "}
                                 {roomType.bed_type}
                               </span>
                             )}
                             {roomType.price_per_night && (
-                              <span className="font-semibold" style={{ color: 'var(--color-primary)' }}>
+                              <span className="text-green-800 font-semibold">
                                 ${roomType.price_per_night}/night
                               </span>
                             )}

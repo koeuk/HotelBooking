@@ -72,7 +72,7 @@ export default function Login() {
                 key={f}
                 className="flex items-center gap-3 text-white/70 text-sm"
               >
-                <CheckCircle size={14} style={{ color: 'var(--color-primary)' }} className="shrink-0" />
+                <CheckCircle size={14} className="text-green-800 shrink-0" />
                 {f}
               </div>
             ))}
@@ -165,7 +165,7 @@ export default function Login() {
             Don't have an account?{" "}
             <Link
               to="/register"
-              style={{ color: 'var(--color-primary)' }} className="font-semibold hover:underline"
+              className="text-green-800 font-semibold hover:underline"
             >
               Create one
             </Link>

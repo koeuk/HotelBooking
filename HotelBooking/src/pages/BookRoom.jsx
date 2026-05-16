@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import {
-  Calendar,
+  CalendarIcon,
   ChevronLeft,
   Info,
   CheckCircle,
@@ -15,12 +15,27 @@ import {
   Banknote,
   QrCode,
 } from "lucide-react";
+import { Calendar } from "../components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover";
 
 const PAYMENT_METHODS = [
   { value: 'card',    label: 'Credit / Debit Card', icon: <CreditCard size={20} /> },
   { value: 'cash',    label: 'Cash at Check-in',    icon: <Banknote size={20} /> },
   { value: 'qr_code', label: 'QR Code',             icon: <QrCode size={20} /> },
 ];
+
+function formatDate(date) {
+  if (!date) return null;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
+function toYMD(date) {
+  if (!date) return "";
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
 
 export default function BookRoom() {
   const { roomUuid } = useParams();
@@ -29,9 +44,8 @@ export default function BookRoom() {
 
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState({ from: undefined, to: undefined });
   const [bookingData, setBookingData] = useState({
-    check_in_date: "",
-    check_out_date: "",
     guests: 1,
     special_requests: "",
     payment_method: "card",
@@ -55,10 +69,8 @@ export default function BookRoom() {
   }, [roomUuid, user, navigate]);
 
   const calculateNights = () => {
-    if (!bookingData.check_in_date || !bookingData.check_out_date) return 0;
-    const start = new Date(bookingData.check_in_date);
-    const end = new Date(bookingData.check_out_date);
-    const diff = end - start;
+    if (!dateRange.from || !dateRange.to) return 0;
+    const diff = dateRange.to - dateRange.from;
     return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
   };
 
@@ -69,7 +81,7 @@ export default function BookRoom() {
 
     const nights = calculateNights();
     if (nights <= 0) {
-      setError("Check-out date must be after check-in date");
+      setError("Please select check-in and check-out dates");
       setSubmitting(false);
       return;
     }
@@ -77,8 +89,8 @@ export default function BookRoom() {
     try {
       await api.post("/bookings", {
         room_uuid: roomUuid,
-        check_in_date: bookingData.check_in_date,
-        check_out_date: bookingData.check_out_date,
+        check_in_date: toYMD(dateRange.from),
+        check_out_date: toYMD(dateRange.to),
         guests: bookingData.guests,
         special_requests: bookingData.special_requests || undefined,
         payment_method: bookingData.payment_method,
@@ -114,6 +126,8 @@ export default function BookRoom() {
   const pricePerNight = roomType.price_per_night || 0;
   const totalPrice = nights * pricePerNight;
   const maxGuests = roomType.max_guests || 4;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -131,7 +145,7 @@ export default function BookRoom() {
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-3xl p-8 shadow-xl">
               <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-                <Calendar className="text-green-800" />
+                <CalendarIcon className="text-primary" />
                 Complete Your Booking
               </h2>
 
@@ -143,53 +157,51 @@ export default function BookRoom() {
               )}
 
               <form onSubmit={handleBooking} className="space-y-6">
-                {/* Dates */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Check-in Date
-                    </label>
-                    <input
-                      type="date"
-                      required
-                      min={new Date().toISOString().split("T")[0]}
-                      value={bookingData.check_in_date}
-                      onChange={(e) =>
-                        setBookingData((d) => ({
-                          ...d,
-                          check_in_date: e.target.value,
-                        }))
-                      }
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Check-out Date
-                    </label>
-                    <input
-                      type="date"
-                      required
-                      min={
-                        bookingData.check_in_date ||
-                        new Date().toISOString().split("T")[0]
-                      }
-                      value={bookingData.check_out_date}
-                      onChange={(e) =>
-                        setBookingData((d) => ({
-                          ...d,
-                          check_out_date: e.target.value,
-                        }))
-                      }
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                    />
-                  </div>
+                {/* Date Range Picker */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Select Dates
+                  </label>
+                  <Popover>
+                    <PopoverTrigger
+                      className={`w-full flex items-center gap-3 px-4 py-3 bg-slate-50 border rounded-2xl text-left transition-all outline-none focus:ring-2 focus:ring-primary/20 ${
+                        dateRange.from ? "border-primary/40" : "border-slate-200"
+                      }`}
+                    >
+                      <CalendarIcon size={18} className="text-primary shrink-0" />
+                      {dateRange.from ? (
+                        <span className="text-slate-900 font-medium">
+                          {formatDate(dateRange.from)}
+                          {" — "}
+                          {dateRange.to ? formatDate(dateRange.to) : <span className="text-slate-400">Pick check-out</span>}
+                        </span>
+                      ) : (
+                        <span className="text-slate-400">Pick check-in → check-out</span>
+                      )}
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0" side="bottom" align="start">
+                      <Calendar
+                        mode="range"
+                        selected={dateRange}
+                        onSelect={setDateRange}
+                        disabled={{ before: today }}
+                        numberOfMonths={2}
+                        defaultMonth={today}
+                      />
+                    </PopoverContent>
+                  </Popover>
+
+                  {dateRange.from && dateRange.to && (
+                    <p className="text-xs text-green-800 mt-1.5 font-medium">
+                      {nights} night{nights !== 1 ? "s" : ""} selected
+                    </p>
+                  )}
                 </div>
 
                 {/* Guests */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                    <Users size={16} className="text-green-800" />
+                    <Users size={16} className="text-primary" />
                     Number of Guests
                   </label>
                   <input
@@ -214,7 +226,7 @@ export default function BookRoom() {
                 {/* Special Requests */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                    <MessageSquare size={16} className="text-green-800" />
+                    <MessageSquare size={16} className="text-primary" />
                     Special Requests{" "}
                     <span className="text-slate-400 font-normal">
                       (optional)
@@ -237,7 +249,7 @@ export default function BookRoom() {
                 {/* Payment Method */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-                    <CreditCard size={16} className="text-green-800" />
+                    <CreditCard size={16} className="text-primary" />
                     Payment Method
                   </label>
                   <div className="grid grid-cols-3 gap-3">
@@ -248,11 +260,11 @@ export default function BookRoom() {
                         onClick={() => setBookingData(d => ({ ...d, payment_method: value }))}
                         className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all cursor-pointer text-sm font-semibold ${
                           bookingData.payment_method === value
-                            ? 'border-primary/40 bg-primary/5 text-green-800'
+                            ? 'border-primary/40 bg-primary/5 text-primary'
                             : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300'
                         }`}
                       >
-                        <span className={bookingData.payment_method === value ? 'text-green-800' : 'text-slate-400'}>
+                        <span className={bookingData.payment_method === value ? 'text-primary' : 'text-slate-400'}>
                           {icon}
                         </span>
                         {label}
@@ -264,16 +276,16 @@ export default function BookRoom() {
                 {/* Info box */}
                 <div className="p-5 bg-primary/5 rounded-2xl border border-primary/10">
                   <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <Info size={16} className="text-green-800" />
+                    <Info size={16} className="text-primary" />
                     Important Information
                   </h3>
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2 text-sm text-slate-600">
-                      <CheckCircle size={15} className="text-green-800" />
+                      <CheckCircle size={15} className="text-primary" />
                       Free cancellation until 24h before check-in
                     </li>
                     <li className="flex items-center gap-2 text-sm text-slate-600">
-                      <CheckCircle size={15} className="text-green-800" />
+                      <CheckCircle size={15} className="text-primary" />
                       Check-in: 2:00 PM · Check-out: 12:00 PM
                     </li>
                   </ul>
@@ -315,7 +327,7 @@ export default function BookRoom() {
                     {roomType.name || "Room"}
                   </p>
                   <div className="flex items-center gap-1.5 text-slate-500 text-sm mt-1">
-                    <BedDouble size={14} className="text-green-800" />
+                    <BedDouble size={14} className="text-primary" />
                     <span>Room {room.room_number}</span>
                   </div>
                   {room.floor && (
@@ -325,6 +337,19 @@ export default function BookRoom() {
                   )}
                 </div>
               </div>
+
+              {dateRange.from && dateRange.to && (
+                <div className="mb-5 p-3 bg-slate-50 rounded-2xl text-sm space-y-1">
+                  <div className="flex justify-between text-slate-600">
+                    <span className="text-green-800 font-medium">Check-in</span>
+                    <span>{formatDate(dateRange.from)}</span>
+                  </div>
+                  <div className="flex justify-between text-slate-600">
+                    <span className="text-green-800 font-medium">Check-out</span>
+                    <span>{formatDate(dateRange.to)}</span>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-3 pt-5 border-t border-slate-100">
                 <div className="flex justify-between text-slate-600 text-sm">
@@ -340,7 +365,7 @@ export default function BookRoom() {
                 </div>
                 <div className="flex justify-between pt-4 border-t border-slate-100 text-lg font-bold text-slate-900">
                   <span>Total</span>
-                  <span className="text-green-800">${totalPrice}</span>
+                  <span className="text-primary">${totalPrice}</span>
                 </div>
               </div>
             </div>
