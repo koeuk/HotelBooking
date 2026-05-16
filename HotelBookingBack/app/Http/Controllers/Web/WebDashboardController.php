@@ -18,7 +18,7 @@ class WebDashboardController extends Controller
         }
 
         $bookings = $user->bookings()
-            ->with(['room.hotel', 'room.roomType', 'payment'])
+            ->with(['room.roomType', 'payment'])
             ->latest()
             ->get();
 
@@ -31,7 +31,7 @@ class WebDashboardController extends Controller
         ];
 
         $upcomingBookings = $user->bookings()
-            ->with(['room.hotel', 'room.roomType', 'payment'])
+            ->with(['room.roomType', 'payment'])
             ->whereIn('status', ['pending', 'confirmed'])
             ->where('check_in_date', '>=', now()->toDateString())
             ->orderBy('check_in_date')
@@ -39,7 +39,7 @@ class WebDashboardController extends Controller
             ->get();
 
         $recentBookings = $user->bookings()
-            ->with(['room.hotel', 'room.roomType', 'payment'])
+            ->with(['room.roomType', 'payment'])
             ->latest()
             ->take(5)
             ->get();

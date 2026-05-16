@@ -17,7 +17,7 @@ class BookingStatusUpdatedUserNotification extends Notification implements Shoul
 
     public function __construct(Booking $booking, string $status)
     {
-        $this->booking = $booking->load(['user', 'room.hotel', 'room.roomType']);
+        $this->booking = $booking->load(['user', 'room.roomType']);
         $this->status = $status;
     }
 
@@ -34,7 +34,7 @@ class BookingStatusUpdatedUserNotification extends Notification implements Shoul
             $message->subject('Booking Confirmed #' . $this->booking->id)
                 ->greeting('Great news, ' . $notifiable->name . '!')
                 ->line('Your booking has been confirmed.')
-                ->line('**Hotel:** ' . $this->booking->room->hotel->name)
+                ->line('**Hotel:** ' . $this->booking->room->roomType->name)
                 ->line('**Room:** ' . $this->booking->room->roomType->name . ' (#' . $this->booking->room->room_number . ')')
                 ->line('**Check-in:** ' . $this->booking->check_in_date->format('M d, Y'))
                 ->line('**Check-out:** ' . $this->booking->check_out_date->format('M d, Y'))
@@ -45,7 +45,7 @@ class BookingStatusUpdatedUserNotification extends Notification implements Shoul
             $message->subject('Booking Cancelled #' . $this->booking->id)
                 ->greeting('Hello ' . $notifiable->name . ',')
                 ->line('Your booking has been cancelled.')
-                ->line('**Hotel:** ' . $this->booking->room->hotel->name)
+                ->line('**Hotel:** ' . $this->booking->room->roomType->name)
                 ->line('**Room:** ' . $this->booking->room->roomType->name . ' (#' . $this->booking->room->room_number . ')')
                 ->line('**Check-in:** ' . $this->booking->check_in_date->format('M d, Y'))
                 ->line('**Check-out:** ' . $this->booking->check_out_date->format('M d, Y'))
@@ -55,7 +55,7 @@ class BookingStatusUpdatedUserNotification extends Notification implements Shoul
             $message->subject('Booking Completed #' . $this->booking->id)
                 ->greeting('Thank you, ' . $notifiable->name . '!')
                 ->line('Your stay has been marked as completed.')
-                ->line('**Hotel:** ' . $this->booking->room->hotel->name)
+                ->line('**Hotel:** ' . $this->booking->room->roomType->name)
                 ->action('View Booking', url('/dashboard'))
                 ->line('We hope you had a wonderful stay!');
         } else {
@@ -77,9 +77,9 @@ class BookingStatusUpdatedUserNotification extends Notification implements Shoul
         ];
 
         $messages = [
-            'confirmed' => 'Your booking at ' . $this->booking->room->hotel->name . ' has been confirmed.',
-            'cancelled' => 'Your booking at ' . $this->booking->room->hotel->name . ' has been cancelled.',
-            'completed' => 'Your stay at ' . $this->booking->room->hotel->name . ' is marked as completed.',
+            'confirmed' => 'Your booking at ' . $this->booking->room->roomType->name . ' has been confirmed.',
+            'cancelled' => 'Your booking at ' . $this->booking->room->roomType->name . ' has been cancelled.',
+            'completed' => 'Your stay at ' . $this->booking->room->roomType->name . ' is marked as completed.',
         ];
 
         return [
@@ -88,7 +88,7 @@ class BookingStatusUpdatedUserNotification extends Notification implements Shoul
             'message' => $messages[$this->status] ?? 'Your booking status has been updated to: ' . ucfirst($this->status) . '.',
             'booking_id' => $this->booking->id,
             'status' => $this->status,
-            'hotel_name' => $this->booking->room->hotel->name,
+            'hotel_name' => $this->booking->room->roomType->name,
         ];
     }
 }

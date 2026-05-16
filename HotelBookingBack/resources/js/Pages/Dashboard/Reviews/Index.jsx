@@ -98,7 +98,7 @@ export default function Index({ reviews }) {
                                             {review.user?.email}
                                         </div>
                                     </TableCell>
-                                    <TableCell>{review.hotel?.name}</TableCell>
+                                    <TableCell>{review.booking?.room?.room_type?.name ?? '—'}</TableCell>
                                     <TableCell>#{review.booking_id}</TableCell>
                                     <TableCell>
                                         <StarRating rating={review.rating} />

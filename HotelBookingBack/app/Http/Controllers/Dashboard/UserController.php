@@ -54,7 +54,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->load(['bookings.room.hotel', 'bookings.payment']);
+        $user->load(['bookings.payment']);
         return Inertia::render('Dashboard/Users/Show', [
             'user' => $user
         ]);

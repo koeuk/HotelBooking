@@ -18,7 +18,7 @@ class BookingCreatedDashboardNotification extends Notification implements Should
 
     public function __construct(Booking $booking)
     {
-        $this->booking = $booking->load(['user', 'room.hotel', 'room.roomType']);
+        $this->booking = $booking->load(['user', 'room.roomType']);
     }
 
     public function via(object $notifiable): array
@@ -40,7 +40,7 @@ class BookingCreatedDashboardNotification extends Notification implements Should
             ->greeting('Hello ' . $notifiable->name . '!')
             ->line('A new booking reservation has been placed.')
             ->line('**user:** ' . $this->booking->user->name . ' (' . $this->booking->user->email . ')')
-            ->line('**Hotel:** ' . $this->booking->room->hotel->name)
+            ->line('**Hotel:** ' . $this->booking->room->roomType->name)
             ->line('**Room:** ' . $this->booking->room->roomType->name . ' (#' . $this->booking->room->room_number . ')')
             ->line('**Check-in:** ' . $this->booking->check_in_date->format('M d, Y'))
             ->line('**Check-out:** ' . $this->booking->check_out_date->format('M d, Y'))
@@ -54,9 +54,9 @@ class BookingCreatedDashboardNotification extends Notification implements Should
         return [
             'type' => 'booking_created',
             'title' => 'New Booking #' . $this->booking->id,
-            'message' => $this->booking->user->name . ' booked ' . $this->booking->room->hotel->name . ' (' . $this->booking->room->roomType->name . ')',
+            'message' => $this->booking->user->name . ' booked ' . $this->booking->room->roomType->name . ' (' . $this->booking->room->roomType->name . ')',
             'booking_id' => $this->booking->id,
-            'hotel_name' => $this->booking->room->hotel->name,
+            'hotel_name' => $this->booking->room->roomType->name,
             'url' => '/admin/bookings/' . $this->booking->id,
         ];
     }
@@ -73,7 +73,7 @@ class BookingCreatedDashboardNotification extends Notification implements Should
                 "🏨 *New Booking Reservation #" . $this->booking->id . "*\n\n" .
                 "👤 user: {$this->booking->user->name}\n" .
                 "📧 Email: {$this->booking->user->email}\n" .
-                "🏠 Hotel: {$this->booking->room->hotel->name}\n" .
+                "🏠 Hotel: {$this->booking->room->roomType->name}\n" .
                 "🛏 Room: {$this->booking->room->roomType->name} (#{$this->booking->room->room_number})\n" .
                 "📅 Dates: {$this->booking->check_in_date->format('M d, Y')} - {$this->booking->check_out_date->format('M d, Y')}\n" .
                 "💰 Total: \${$this->booking->total_price}\n\n" .

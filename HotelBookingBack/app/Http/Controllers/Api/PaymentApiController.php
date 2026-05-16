@@ -19,7 +19,7 @@ class PaymentApiController extends Controller
             'method' => 'required|in:card,cash,paypal',
         ]);
 
-        $booking = Booking::with(['user', 'room.hotel', 'room.roomType'])
+        $booking = Booking::with(['user', 'room.roomType'])
             ->where('user_id', $request->user()->id)
             ->findOrFail($validated['booking_id']);
 
@@ -51,7 +51,7 @@ class PaymentApiController extends Controller
 
         // Notify user (email + database + telegram)
         try {
-            $booking->user->notify(new PaymentReceivedNotification($booking->fresh(['user', 'room.hotel', 'room.roomType', 'payment'])));
+            $booking->user->notify(new PaymentReceivedNotification($booking->fresh(['user', 'room.roomType', 'payment'])));
         } catch (\Exception $e) {
             // Don't break flow
         }

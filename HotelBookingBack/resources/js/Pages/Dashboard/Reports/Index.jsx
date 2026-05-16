@@ -283,7 +283,7 @@ export default function Index({
         const rows = recent_bookings.map((b) => [
             b.user?.name,
             b.user?.email,
-            b.room?.hotel?.name,
+            b.room?.room_type?.name ?? '—',
             b.room?.room_type?.name || b.room?.room_number,
             b.check_in_date,
             b.check_out_date,
@@ -343,7 +343,7 @@ export default function Index({
     const exportReviews = (format) => {
         const cols = ["Hotel", "user", "Rating", "Comment", "Date"];
         const rows = recent_reviews.map((r) => [
-            r.hotel?.name,
+            r.booking?.room?.room_type?.name ?? '—',
             r.user?.name,
             `${r.rating}/5`,
             r.comment ? r.comment.substring(0, 80) : "—",
@@ -369,7 +369,7 @@ export default function Index({
         const rows = top_payments.map((p) => [
             p.transaction_id || "—",
             p.booking?.user?.name,
-            p.booking?.room?.hotel?.name,
+            p.booking?.room?.room_type?.name ?? '—',
             p.amount,
             p.method,
             p.status,
@@ -421,7 +421,7 @@ export default function Index({
                 recent_bookings.map((b) => [
                     b.user?.name,
                     b.user?.email,
-                    b.room?.hotel?.name,
+                    b.room?.room_type?.name ?? '—',
                     b.total_price,
                     b.status,
                 ]),
@@ -454,7 +454,7 @@ export default function Index({
                 "Reviews",
                 ["Hotel", "user", "Rating", "Date"],
                 recent_reviews.map((r) => [
-                    r.hotel?.name,
+                    r.booking?.room?.room_type?.name ?? '—',
                     r.user?.name,
                     r.rating,
                     new Date(r.created_at).toLocaleDateString(),
@@ -466,7 +466,7 @@ export default function Index({
                 top_payments.map((p) => [
                     p.transaction_id,
                     p.booking?.user?.name,
-                    p.booking?.room?.hotel?.name,
+                    p.booking?.room?.room_type?.name ?? '—',
                     p.amount,
                     p.method,
                     p.status,
@@ -706,7 +706,7 @@ export default function Index({
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-xs">
-                                                {b.room?.hotel?.name}
+                                                {b.room?.room_type?.name ?? '—'}
                                             </TableCell>
                                             <TableCell className="text-sm font-bold text-green-800">
                                                 ${b.total_price}
@@ -1007,7 +1007,7 @@ export default function Index({
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-sm font-medium truncate">
-                                                    {r.hotel?.name}
+                                                    {r.booking?.room?.room_type?.name ?? '—'}
                                                 </p>
                                                 <p className="text-[10px] text-muted-foreground truncate">
                                                     by {r.user?.name}
@@ -1123,7 +1123,7 @@ export default function Index({
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-xs">
-                                                {p.booking?.room?.hotel?.name}
+                                                {p.booking?.room?.room_type?.name ?? '—'}
                                             </TableCell>
                                             <TableCell className="text-sm font-bold text-emerald-600">
                                                 ${p.amount}

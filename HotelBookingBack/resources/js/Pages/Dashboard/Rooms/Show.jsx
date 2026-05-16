@@ -88,7 +88,7 @@ export default function Show({ room }) {
                                                     )}
                                                     className="hover:underline"
                                                 >
-                                                    {room.hotel.name}
+                                                    {room.room_type?.name ?? '—'}
                                                 </Link>
                                             </p>
                                         ) : (

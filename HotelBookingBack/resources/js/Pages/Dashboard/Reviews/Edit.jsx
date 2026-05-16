@@ -54,7 +54,7 @@ export default function Edit({ review, users, hotels }) {
                             <CardDescription>
                                 Update the review by{" "}
                                 <strong>{review.user?.name}</strong> for{" "}
-                                <strong>{review.hotel?.name}</strong>.
+                                <strong>{review.booking?.room?.room_type?.name ?? '—'}</strong>.
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -69,7 +69,7 @@ export default function Edit({ review, users, hotels }) {
                                 <div className="space-y-2">
                                     <Label>Hotel</Label>
                                     <p className="text-sm text-muted-foreground pt-2">
-                                        {review.hotel?.name}
+                                        {review.booking?.room?.room_type?.name ?? '—'}
                                     </p>
                                 </div>
                             </div>

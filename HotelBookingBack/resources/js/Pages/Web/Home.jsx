@@ -215,7 +215,7 @@ export default function Home({
                                                 {review.user?.name}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
-                                                {review.hotel?.name}
+                                                {review.booking?.room?.room_type?.name ?? '—'}
                                             </p>
                                         </div>
                                     </CardContent>

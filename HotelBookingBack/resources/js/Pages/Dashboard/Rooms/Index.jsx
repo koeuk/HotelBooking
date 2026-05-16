@@ -157,7 +157,7 @@ export default function Index({ rooms, hotels = [], filters = {}, counts = {} })
                                                 #{room.room_number}
                                             </span>
                                         </TableCell>
-                                        <TableCell className="font-medium">{room.hotel.name}</TableCell>
+                                        <TableCell className="font-medium">{room.room_type?.name ?? '—'}</TableCell>
                                         <TableCell className="text-muted-foreground">{room.room_type.name}</TableCell>
                                         <TableCell>
                                             <span className="text-muted-foreground">Floor {room.floor || "-"}</span>
@@ -252,7 +252,7 @@ export default function Index({ rooms, hotels = [], filters = {}, counts = {} })
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-muted-foreground">Hotel</span>
-                                <span className="font-medium">{roomToDelete.hotel.name}</span>
+                                <span className="font-medium">{roomToDelete.room_type?.name ?? '—'}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-muted-foreground">Type</span>

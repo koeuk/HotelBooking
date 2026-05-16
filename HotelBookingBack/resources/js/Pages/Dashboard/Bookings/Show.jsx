@@ -147,7 +147,7 @@ export default function Show({ booking }) {
                                             Hotel
                                         </Label>
                                         <p className="font-semibold text-lg">
-                                            {booking.room.hotel.name}
+                                            {booking.room.room_type?.name ?? '—'}
                                         </p>
                                         <p className="text-sm text-muted-foreground">
                                             {booking.room.hotel.city},{" "}
@@ -225,7 +225,7 @@ export default function Show({ booking }) {
                                             longitude={
                                                 booking.room.hotel.longitude
                                             }
-                                            name={booking.room.hotel.name}
+                                            name={booking.room.room_type?.name ?? '—'}
                                             className="h-[200px] w-full"
                                         />
                                     </CardContent>

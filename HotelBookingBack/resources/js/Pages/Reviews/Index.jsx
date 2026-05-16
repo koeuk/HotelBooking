@@ -70,7 +70,7 @@ export default function Index({ reviews }) {
                                             <div className="flex items-center gap-3">
                                                 <Hotel className="h-5 w-5 text-muted-foreground" />
                                                 <h3 className="font-semibold text-lg">
-                                                    {review.hotel?.name}
+                                                    {review.booking?.room?.room_type?.name ?? '—'}
                                                 </h3>
                                             </div>
                                             <StarRating

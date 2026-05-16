@@ -112,7 +112,7 @@ export default function Edit({ booking, users, rooms }) {
                                             key={room.id}
                                             value={String(room.id)}
                                         >
-                                            {room.hotel.name} -{" "}
+                                            {room.room_type?.name ?? '—'} -{" "}
                                             {room.room_type.name} (#
                                             {room.room_number}) - $
                                             {room.room_type.price_per_night}

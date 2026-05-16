@@ -23,7 +23,7 @@ class PaymentController extends Controller
     public function create()
     {
         return Inertia::render('Dashboard/Payments/Create', [
-            'bookings' => Booking::with(['user', 'room.hotel'])
+            'bookings' => Booking::with(['user'])
                 ->whereDoesntHave('payment')
                 ->where('status', '!=', 'cancelled')
                 ->get()
@@ -39,7 +39,7 @@ class PaymentController extends Controller
             'status' => 'required|in:pending,paid,failed,refunded',
         ]);
 
-        $booking = Booking::with(['user', 'room.hotel', 'room.roomType'])->findOrFail($validated['booking_id']);
+        $booking = Booking::with(['user', 'room.roomType'])->findOrFail($validated['booking_id']);
 
         if ($booking->payment) {
             return redirect()->back()->with('error', 'Payment already exists for this booking.');
@@ -58,7 +58,7 @@ class PaymentController extends Controller
             $booking->update(['status' => 'confirmed']);
 
             try {
-                $booking->user->notify(new PaymentReceivedNotification($booking->fresh(['user', 'room.hotel', 'room.roomType', 'payment'])));
+                $booking->user->notify(new PaymentReceivedNotification($booking->fresh(['user', 'room.roomType', 'payment'])));
             } catch (\Exception $e) {
                 // Don't break flow
             }
@@ -69,7 +69,7 @@ class PaymentController extends Controller
 
     public function show(Payment $payment)
     {
-        $payment->load(['booking.user', 'booking.room.hotel', 'booking.room.roomType']);
+        $payment->load(['booking.user', 'booking.room.roomType']);
         return Inertia::render('Dashboard/Payments/Show', [
             'payment' => $payment
         ]);
@@ -77,7 +77,7 @@ class PaymentController extends Controller
 
     public function edit(Payment $payment)
     {
-        $payment->load(['booking.user', 'booking.room.hotel']);
+        $payment->load(['booking.user']);
         return Inertia::render('Dashboard/Payments/Edit', [
             'payment' => $payment
         ]);
@@ -97,7 +97,7 @@ class PaymentController extends Controller
             $payment->update(['paid_at' => now()]);
 
             try {
-                $payment->booking->user->notify(new PaymentReceivedNotification($payment->booking->load(['user', 'room.hotel', 'room.roomType', 'payment'])));
+                $payment->booking->user->notify(new PaymentReceivedNotification($payment->booking->load(['user', 'room.roomType', 'payment'])));
             } catch (\Exception $e) {
                 // Don't break flow
             }

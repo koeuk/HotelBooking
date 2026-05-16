@@ -21,7 +21,7 @@ class BookingNotification extends Notification implements ShouldQueue
      */
     public function __construct(Booking $booking, string $type = 'created')
     {
-        $this->booking = $booking->load(['user', 'room.hotel', 'room.roomType']);
+        $this->booking = $booking->load(['user', 'room.roomType']);
         $this->type = $type;
     }
 
@@ -46,7 +46,7 @@ class BookingNotification extends Notification implements ShouldQueue
             ->line($this->getIntroLine());
 
         if ($this->type === 'created' || $this->type === 'updated') {
-            $message->line('Hotel: ' . $this->booking->room->hotel->name)
+            $message->line('Hotel: ' . $this->booking->room->roomType->name)
                 ->line('Room: ' . $this->booking->room->roomType->name . ' (#' . $this->booking->room->room_number . ')')
                 ->line('Check-in: ' . $this->booking->check_in_date->format('M d, Y'))
                 ->line('Check-out: ' . $this->booking->check_out_date->format('M d, Y'))
@@ -69,7 +69,7 @@ class BookingNotification extends Notification implements ShouldQueue
             'type' => $this->type,
             'status' => $this->booking->status,
             'message' => $this->getIntroLine(),
-            'hotel_name' => $this->booking->room->hotel->name,
+            'hotel_name' => $this->booking->room->roomType->name,
         ];
     }
 
@@ -84,7 +84,7 @@ class BookingNotification extends Notification implements ShouldQueue
             ->to(env('TELEGRAM_ADMIN_CHAT_ID'))
             ->content("*{$this->getSubject()}*\n\n" . $this->getIntroLine() . "\n" .
                 "user: {$this->booking->user->name}\n" .
-                "Hotel: {$this->booking->room->hotel->name}\n" .
+                "Hotel: {$this->booking->room->roomType->name}\n" .
                 "Dates: {$this->booking->check_in_date->format('M d')} - {$this->booking->check_out_date->format('M d')}\n" .
                 "Total: \${$this->booking->total_price}")
             ->button('View Booking', $url);

@@ -102,7 +102,7 @@ export default function Create({ users, rooms }) {
                                     <option value="">Select a room</option>
                                     {rooms.map((room) => (
                                         <option key={room.id} value={room.id}>
-                                            {room.hotel.name} -{" "}
+                                            {room.room_type?.name ?? '—'} -{" "}
                                             {room.room_type.name} (#
                                             {room.room_number}) - $
                                             {room.room_type.price_per_night}

@@ -52,11 +52,11 @@ class ReportController extends Controller
                 ->orderByDesc('reviews_avg_rating')
                 ->take(10)
                 ->get(),
-            'recent_bookings' => Booking::with(['user', 'room.hotel', 'room.roomType', 'payment'])
+            'recent_bookings' => Booking::with(['user', 'room.roomType', 'payment'])
                 ->latest()->take(10)->get(),
             'recent_users' => User::withCount('bookings')->latest()->take(10)->get(),
             'recent_reviews' => Review::with(['user', 'hotel'])->latest()->take(10)->get(),
-            'top_payments' => Payment::with(['booking.user', 'booking.room.hotel'])
+            'top_payments' => Payment::with(['booking.user'])
                 ->where('status', 'paid')
                 ->orderByDesc('amount')
                 ->take(10)

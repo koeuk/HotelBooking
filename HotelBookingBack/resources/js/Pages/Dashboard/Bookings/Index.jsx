@@ -111,7 +111,7 @@ export default function Index({ bookings }) {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <div>{booking.room.hotel.name}</div>
+                                        <div>{booking.room.room_type?.name ?? '—'}</div>
                                         <div className="text-xs text-muted-foreground">
                                             {booking.room.room_type.name} (Room{" "}
                                             {booking.room.room_number})
@@ -287,7 +287,7 @@ export default function Index({ bookings }) {
                                     Hotel
                                 </span>
                                 <span className="font-medium">
-                                    {bookingToDelete.room.hotel.name}
+                                    {bookingToDelete.room.room_type?.name ?? '—'}
                                 </span>
                             </div>
                             <div className="flex justify-between">

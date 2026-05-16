@@ -10,7 +10,7 @@ class WebBookingController extends Controller
     public function index(Request $request)
     {
         $bookings = $request->user()->bookings()
-            ->with(['room.hotel', 'room.roomType', 'payment'])
+            ->with(['room.roomType', 'payment'])
             ->latest()
             ->paginate(10);
 
@@ -92,7 +92,7 @@ class WebBookingController extends Controller
         if ($booking->user_id !== $request->user()->id) {
             abort(403);
         }
-        $booking->load(['room.hotel', 'room.roomType', 'payment', 'review']);
+        $booking->load(['room.roomType', 'payment', 'review']);
 
         $canReview = !$booking->review
             && in_array($booking->status, ['confirmed', 'completed'])
@@ -126,7 +126,7 @@ class WebBookingController extends Controller
 
         \App\Models\Review::create([
             'user_id' => $request->user()->id,
-            'hotel_id' => $booking->room->hotel_id,
+
             'booking_id' => $booking->id,
             'rating' => $validated['rating'],
             'comment' => $validated['comment'] ?? null,
@@ -182,7 +182,7 @@ class WebBookingController extends Controller
 
         try {
             $request->user()->notify(new \App\Notifications\PaymentReceivedNotification(
-                $booking->fresh(['user', 'room.hotel', 'room.roomType', 'payment'])
+                $booking->fresh(['user', 'room.roomType', 'payment'])
             ));
         } catch (\Exception $e) {}
 

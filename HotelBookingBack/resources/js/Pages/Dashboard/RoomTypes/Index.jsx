@@ -62,8 +62,8 @@ export default function Index({ roomTypes }) {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Name</TableHead>
-                                <TableHead>Hotel</TableHead>
-                                <TableHead>Max users</TableHead>
+                                <TableHead>Bed Type</TableHead>
+                                <TableHead>Max Guests</TableHead>
                                 <TableHead>Price</TableHead>
                                 <TableHead className="text-right">
                                     Actions
@@ -76,8 +76,8 @@ export default function Index({ roomTypes }) {
                                     <TableCell className="font-medium">
                                         {type.name}
                                     </TableCell>
-                                    <TableCell>{type.hotel.name}</TableCell>
-                                    <TableCell>{type.max_users}</TableCell>
+                                    <TableCell>{type.bed_type ?? '—'}</TableCell>
+                                    <TableCell>{type.max_guests ?? '—'}</TableCell>
                                     <TableCell className="font-semibold text-green-800">
                                         ${type.price_per_night}
                                     </TableCell>
@@ -207,7 +207,7 @@ export default function Index({ roomTypes }) {
                                     Hotel
                                 </span>
                                 <span className="font-medium">
-                                    {roomTypeToDelete.hotel.name}
+                                    {roomTypeToDelete.name}
                                 </span>
                             </div>
                             <div className="flex justify-between">

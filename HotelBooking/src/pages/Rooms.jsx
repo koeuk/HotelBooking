@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
-import { BedDouble, Users, Maximize2, Layers, ChevronRight, Hash } from 'lucide-react';
+import { BedDouble, Users, Maximize2, Layers, ChevronRight, Hash, ChevronDown, Check } from 'lucide-react';
 
 const STATUS_STYLES = {
     available:   'bg-green-50 text-green-700 border-green-200',
@@ -10,7 +10,73 @@ const STATUS_STYLES = {
     cleaning:    'bg-blue-50 text-blue-600 border-blue-200',
 };
 
+const STATUS_OPTIONS = [
+    { value: 'all',         label: 'All Statuses',  dot: 'bg-border' },
+    { value: 'available',   label: 'Available',     dot: 'bg-green-500' },
+    { value: 'booked',      label: 'Booked',        dot: 'bg-amber-500' },
+    { value: 'maintenance', label: 'Maintenance',   dot: 'bg-red-500' },
+    { value: 'cleaning',    label: 'Cleaning',      dot: 'bg-blue-500' },
+];
+
 const ROOM_TYPES = ['All', 'Standard Room', 'Deluxe Room', 'Suite'];
+
+function StatusDropdown({ value, onChange }) {
+    const [open, setOpen] = useState(false);
+    const ref = useRef(null);
+    const selected = STATUS_OPTIONS.find(o => o.value === value) || STATUS_OPTIONS[0];
+
+    useEffect(() => {
+        const handle = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+        document.addEventListener('mousedown', handle);
+        return () => document.removeEventListener('mousedown', handle);
+    }, []);
+
+    return (
+        <div ref={ref} className="relative">
+            <button
+                onClick={() => setOpen(v => !v)}
+                className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-muted transition-colors cursor-pointer group"
+            >
+                <div className="text-left">
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Status</p>
+                    <p className="flex items-center gap-1.5 text-sm font-semibold text-foreground mt-0.5">
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${selected.dot}`} />
+                        {selected.label}
+                    </p>
+                </div>
+                <ChevronDown
+                    size={14}
+                    className={`text-muted-foreground transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+                />
+            </button>
+
+            {open && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border rounded-2xl shadow-warm-lg z-50 overflow-hidden py-1.5">
+                    {STATUS_OPTIONS.map(option => {
+                        const isActive = value === option.value;
+                        return (
+                            <button
+                                key={option.value}
+                                onClick={() => { onChange(option.value); setOpen(false); }}
+                                className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-left transition-colors cursor-pointer ${
+                                    isActive ? 'bg-muted' : 'hover:bg-muted/60'
+                                }`}
+                            >
+                                <span className={`w-2 h-2 rounded-full shrink-0 ${option.dot}`} />
+                                <span className={isActive ? 'font-semibold text-foreground' : 'text-muted-foreground'}>
+                                    {option.label}
+                                </span>
+                                {isActive && (
+                                    <Check size={13} className="ml-auto shrink-0" style={{ color: 'var(--color-primary)' }} />
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
+        </div>
+    );
+}
 
 export default function Rooms() {
     const navigate = useNavigate();
@@ -49,6 +115,7 @@ export default function Rooms() {
             {/* Filter Bar */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
                 <div className="bg-card border border-border rounded-2xl shadow-warm p-2 flex flex-wrap gap-2 items-center">
+                    {/* Room type pills */}
                     <div className="flex items-center gap-1 p-1 bg-muted rounded-xl flex-wrap">
                         {ROOM_TYPES.map(t => (
                             <button
@@ -68,20 +135,11 @@ export default function Rooms() {
 
                     <div className="w-px h-8 bg-border mx-1 hidden sm:block" />
 
-                    <div className="flex flex-col min-w-[130px]">
-                        <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider px-3 pt-1">Status</label>
-                        <select
-                            value={filters.status}
-                            onChange={e => setFilters(f => ({ ...f, status: e.target.value }))}
-                            className="px-3 pb-1.5 bg-transparent text-foreground text-sm font-semibold focus:outline-none cursor-pointer"
-                        >
-                            <option value="all">All</option>
-                            <option value="available">Available</option>
-                            <option value="booked">Booked</option>
-                            <option value="maintenance">Maintenance</option>
-                            <option value="cleaning">Cleaning</option>
-                        </select>
-                    </div>
+                    {/* Custom status dropdown */}
+                    <StatusDropdown
+                        value={filters.status}
+                        onChange={val => setFilters(f => ({ ...f, status: val }))}
+                    />
 
                     <div className="ml-auto mr-2 text-xs text-muted-foreground font-semibold whitespace-nowrap">
                         {filtered.length} room{filtered.length !== 1 ? 's' : ''}

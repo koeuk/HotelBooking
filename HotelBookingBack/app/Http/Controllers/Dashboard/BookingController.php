@@ -17,7 +17,7 @@ class BookingController extends Controller
     public function index()
     {
         return Inertia::render('Dashboard/Bookings/Index', [
-            'bookings' => Booking::with(['user', 'room.hotel', 'room.roomType', 'payment'])
+            'bookings' => Booking::with(['user', 'room.roomType', 'payment'])
                 ->latest()
                 ->paginate(10)
         ]);
@@ -27,7 +27,7 @@ class BookingController extends Controller
     {
         return Inertia::render('Dashboard/Bookings/Create', [
             'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
-            'rooms' => Room::with(['hotel', 'roomType'])
+            'rooms' => Room::with(['roomType'])
                 ->where('status', 'available')
                 ->get(),
         ]);
@@ -74,7 +74,7 @@ class BookingController extends Controller
 
     public function show(Booking $booking)
     {
-        $booking->load(['user', 'room.hotel', 'room.roomType', 'payment']);
+        $booking->load(['user', 'room.roomType', 'payment']);
         return Inertia::render('Dashboard/Bookings/Show', [
             'booking' => $booking
         ]);
@@ -82,11 +82,11 @@ class BookingController extends Controller
 
     public function edit(Booking $booking)
     {
-        $booking->load(['user', 'room.hotel', 'room.roomType']);
+        $booking->load(['user', 'room.roomType']);
         return Inertia::render('Dashboard/Bookings/Edit', [
             'booking' => $booking,
             'users' => User::where('role', 'user')->get(['id', 'name', 'email']),
-            'rooms' => Room::with(['hotel', 'roomType'])->get(),
+            'rooms' => Room::with(['roomType'])->get(),
         ]);
     }
 

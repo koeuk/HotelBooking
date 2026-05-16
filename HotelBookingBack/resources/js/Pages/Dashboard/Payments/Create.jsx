@@ -89,7 +89,7 @@ export default function Create({ bookings }) {
                                             key={booking.id}
                                             value={String(booking.id)}
                                         >
-                                            #{booking.id} - {booking.user.name} - {booking.room?.hotel?.name || "N/A"}
+                                            #{booking.id} - {booking.user.name} - {booking.room?.room_type?.name ?? '—' || "N/A"}
                                         </option>
                                     ))}
                                 </select>

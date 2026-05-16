@@ -17,7 +17,7 @@ class PaymentReceivedNotification extends Notification implements ShouldQueue
 
     public function __construct(Booking $booking)
     {
-        $this->booking = $booking->load(['user', 'room.hotel', 'room.roomType', 'payment']);
+        $this->booking = $booking->load(['user', 'room.roomType', 'payment']);
     }
 
     public function via(object $notifiable): array
@@ -37,7 +37,7 @@ class PaymentReceivedNotification extends Notification implements ShouldQueue
             ->subject('Payment Received for Booking #' . $this->booking->id)
             ->greeting('Hello ' . $notifiable->name . '!')
             ->line('We have successfully received your payment.')
-            ->line('**Hotel:** ' . $this->booking->room->hotel->name)
+            ->line('**Hotel:** ' . $this->booking->room->roomType->name)
             ->line('**Room:** ' . $this->booking->room->roomType->name . ' (#' . $this->booking->room->room_number . ')')
             ->line('**Check-in:** ' . $this->booking->check_in_date->format('M d, Y'))
             ->line('**Check-out:** ' . $this->booking->check_out_date->format('M d, Y'))
@@ -53,9 +53,9 @@ class PaymentReceivedNotification extends Notification implements ShouldQueue
         return [
             'type' => 'payment_received',
             'title' => 'Payment Received',
-            'message' => 'Payment of $' . $this->booking->total_price . ' received for booking at ' . $this->booking->room->hotel->name,
+            'message' => 'Payment of $' . $this->booking->total_price . ' received for booking at ' . $this->booking->room->roomType->name,
             'booking_id' => $this->booking->id,
-            'hotel_name' => $this->booking->room->hotel->name,
+            'hotel_name' => $this->booking->room->roomType->name,
         ];
     }
 
@@ -68,7 +68,7 @@ class PaymentReceivedNotification extends Notification implements ShouldQueue
             ->content(
                 "💳 *Payment Received - Booking #" . $this->booking->id . "*\n\n" .
                 "👤 user: {$this->booking->user->name}\n" .
-                "🏠 Hotel: {$this->booking->room->hotel->name}\n" .
+                "🏠 Hotel: {$this->booking->room->roomType->name}\n" .
                 "💰 Amount: \${$this->booking->total_price}\n" .
                 "💳 Method: " . strtoupper($this->booking->payment->method ?? 'N/A') . "\n" .
                 "🔖 Transaction: " . ($this->booking->payment->transaction_id ?? 'N/A')
