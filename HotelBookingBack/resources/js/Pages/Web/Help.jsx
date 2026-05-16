@@ -180,7 +180,7 @@ export default function Help() {
                                     <CardContent className="p-5">
                                         <div className="flex items-start gap-4">
                                             <div className="h-11 w-11 rounded-2xl bg-gradient-primary-soft flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 ease-out-expo">
-                                                <Icon className="h-5 w-5 text-primary" />
+                                                <Icon className="h-5 w-5 text-green-800" />
                                             </div>
                                             <div className="min-w-0">
                                                 <h3 className="font-semibold tracking-tight">
@@ -202,7 +202,7 @@ export default function Help() {
                 <section>
                     <div className="flex items-baseline justify-between mb-6">
                         <div>
-                            <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] font-semibold text-primary">
+                            <div className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] font-semibold text-green-800">
                                 <Sparkles className="h-3.5 w-3.5" />
                                 Frequently asked
                             </div>

@@ -24,11 +24,19 @@ export default function Index({ notifications }) {
     const unreadCount = notifications.data.filter((n) => !n.read_at).length;
 
     const markAsRead = (id) => {
-        router.patch(route("dashboard.notifications.read", id), {}, { preserveScroll: true });
+        router.patch(
+            route("dashboard.notifications.read", id),
+            {},
+            { preserveScroll: true },
+        );
     };
 
     const markAllAsRead = () => {
-        router.patch(route("dashboard.notifications.readAll"), {}, { preserveScroll: true });
+        router.patch(
+            route("dashboard.notifications.readAll"),
+            {},
+            { preserveScroll: true },
+        );
     };
 
     return (
@@ -38,7 +46,9 @@ export default function Index({ notifications }) {
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h2 className="text-3xl font-bold tracking-tight">Notifications</h2>
+                        <h2 className="text-3xl font-bold tracking-tight">
+                            Notifications
+                        </h2>
                         <p className="text-muted-foreground mt-1">
                             {unreadCount > 0
                                 ? `You have ${unreadCount} unread notification${unreadCount > 1 ? "s" : ""}`
@@ -46,7 +56,11 @@ export default function Index({ notifications }) {
                         </p>
                     </div>
                     {unreadCount > 0 && (
-                        <Button variant="outline" size="sm" onClick={markAllAsRead}>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={markAllAsRead}
+                        >
                             <CheckCheck className="mr-2 h-4 w-4" />
                             Mark all as read
                         </Button>
@@ -62,24 +76,33 @@ export default function Index({ notifications }) {
                                         key={notification.id}
                                         className={cn(
                                             "flex items-start gap-4 p-5 transition-colors",
-                                            !notification.read_at && "bg-primary/5"
+                                            !notification.read_at &&
+                                                "bg-primary/5",
                                         )}
                                     >
-                                        <div className={cn(
-                                            "flex items-center justify-center h-10 w-10 rounded-full shrink-0",
-                                            !notification.read_at
-                                                ? "bg-primary/10 text-primary"
-                                                : "bg-muted text-muted-foreground"
-                                        )}>
+                                        <div
+                                            className={cn(
+                                                "flex items-center justify-center h-10 w-10 rounded-full shrink-0",
+                                                !notification.read_at
+                                                    ? "bg-primary/10 text-green-800"
+                                                    : "bg-muted text-muted-foreground",
+                                            )}
+                                        >
                                             <Hotel className="h-5 w-5" />
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-2">
                                                 <p className="font-semibold text-sm">
-                                                    {notification.data?.title || notification.data?.hotel_name || "Notification"}
+                                                    {notification.data?.title ||
+                                                        notification.data
+                                                            ?.hotel_name ||
+                                                        "Notification"}
                                                 </p>
                                                 {!notification.read_at && (
-                                                    <Badge variant="default" className="text-[10px] px-1.5 py-0">
+                                                    <Badge
+                                                        variant="default"
+                                                        className="text-[10px] px-1.5 py-0"
+                                                    >
                                                         New
                                                     </Badge>
                                                 )}
@@ -89,7 +112,9 @@ export default function Index({ notifications }) {
                                             </p>
                                             <p className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
                                                 <Calendar className="h-3 w-3" />
-                                                {timeAgo(notification.created_at)}
+                                                {timeAgo(
+                                                    notification.created_at,
+                                                )}
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-2 shrink-0">
@@ -98,7 +123,16 @@ export default function Index({ notifications }) {
                                                     variant="outline"
                                                     size="sm"
                                                     className="text-xs"
-                                                    onClick={() => router.get(route("dashboard.bookings.show", notification.data.booking_id))}
+                                                    onClick={() =>
+                                                        router.get(
+                                                            route(
+                                                                "dashboard.bookings.show",
+                                                                notification
+                                                                    .data
+                                                                    .booking_id,
+                                                            ),
+                                                        )
+                                                    }
                                                 >
                                                     <Eye className="mr-1 h-3.5 w-3.5" />
                                                     View
@@ -109,7 +143,11 @@ export default function Index({ notifications }) {
                                                     variant="ghost"
                                                     size="sm"
                                                     className="shrink-0 text-xs"
-                                                    onClick={() => markAsRead(notification.id)}
+                                                    onClick={() =>
+                                                        markAsRead(
+                                                            notification.id,
+                                                        )
+                                                    }
                                                 >
                                                     <Check className="mr-1 h-3.5 w-3.5" />
                                                     Read
@@ -122,9 +160,12 @@ export default function Index({ notifications }) {
                         ) : (
                             <div className="flex flex-col items-center justify-center py-16 text-center">
                                 <Bell className="h-12 w-12 text-muted-foreground/30 mb-4" />
-                                <h3 className="text-lg font-semibold">No notifications</h3>
+                                <h3 className="text-lg font-semibold">
+                                    No notifications
+                                </h3>
                                 <p className="text-muted-foreground text-sm mt-1">
-                                    You'll be notified when there are new bookings or updates.
+                                    You'll be notified when there are new
+                                    bookings or updates.
                                 </p>
                             </div>
                         )}

@@ -4,14 +4,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Check } from "lucide-react";
 
-export default function UpdateProfileInformationForm({ mustVerifyEmail, status }) {
+export default function UpdateProfileInformationForm({
+    mustVerifyEmail,
+    status,
+}) {
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
-        email: user.email,
-        phone: user.phone || "",
-    });
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
+        useForm({
+            name: user.name,
+            email: user.email,
+            phone: user.phone || "",
+        });
 
     const submit = (e) => {
         e.preventDefault();
@@ -29,7 +33,9 @@ export default function UpdateProfileInformationForm({ mustVerifyEmail, status }
                     required
                     autoComplete="name"
                 />
-                {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                {errors.name && (
+                    <p className="text-sm text-destructive">{errors.name}</p>
+                )}
             </div>
 
             <div className="space-y-2">
@@ -42,7 +48,9 @@ export default function UpdateProfileInformationForm({ mustVerifyEmail, status }
                     required
                     autoComplete="username"
                 />
-                {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                {errors.email && (
+                    <p className="text-sm text-destructive">{errors.email}</p>
+                )}
             </div>
 
             <div className="space-y-2">
@@ -54,7 +62,9 @@ export default function UpdateProfileInformationForm({ mustVerifyEmail, status }
                     onChange={(e) => setData("phone", e.target.value)}
                     placeholder="e.g., +855 000 000 000"
                 />
-                {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+                {errors.phone && (
+                    <p className="text-sm text-destructive">{errors.phone}</p>
+                )}
             </div>
 
             {mustVerifyEmail && user.email_verified_at === null && (
@@ -65,14 +75,15 @@ export default function UpdateProfileInformationForm({ mustVerifyEmail, status }
                             href={route("verification.send")}
                             method="post"
                             as="button"
-                            className="text-primary underline hover:text-primary/80"
+                            className="text-green-800 underline hover:text-green-800/80"
                         >
                             Click here to re-send the verification email.
                         </Link>
                     </p>
                     {status === "verification-link-sent" && (
                         <p className="mt-2 text-sm font-medium text-green-600">
-                            A new verification link has been sent to your email address.
+                            A new verification link has been sent to your email
+                            address.
                         </p>
                     )}
                 </div>

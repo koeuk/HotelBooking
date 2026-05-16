@@ -78,15 +78,22 @@ export default function UserLayout({ children, title }) {
                                 <div className="flex flex-col items-center text-center">
                                     <Avatar className="h-16 w-16 border-2 border-primary/20 p-0.5">
                                         <AvatarImage src={user.avatar} />
-                                        <AvatarFallback className="bg-primary/10 text-primary text-xl font-bold font-serif">
+                                        <AvatarFallback className="bg-primary/10 text-green-800 text-xl font-bold font-serif">
                                             {user.name?.charAt(0)}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="mt-4">
-                                        <h2 className="font-bold text-lg text-foreground truncate max-w-[200px]">{user.name}</h2>
-                                        <p className="text-sm text-muted-foreground truncate max-w-[200px]">{user.email}</p>
+                                        <h2 className="font-bold text-lg text-foreground truncate max-w-[200px]">
+                                            {user.name}
+                                        </h2>
+                                        <p className="text-sm text-muted-foreground truncate max-w-[200px]">
+                                            {user.email}
+                                        </p>
                                     </div>
-                                    <Badge variant="secondary" className="mt-3 capitalize px-3 py-0.5">
+                                    <Badge
+                                        variant="secondary"
+                                        className="mt-3 capitalize px-3 py-0.5"
+                                    >
                                         {user.role} Member
                                     </Badge>
                                 </div>
@@ -95,7 +102,9 @@ export default function UserLayout({ children, title }) {
                             {/* Navigation */}
                             <nav className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm">
                                 <div className="p-3">
-                                    <p className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Dashboard Menu</p>
+                                    <p className="px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                                        Dashboard Menu
+                                    </p>
                                     <div className="space-y-1">
                                         {sidebarLinks.map((link) => (
                                             <Link
@@ -104,18 +113,26 @@ export default function UserLayout({ children, title }) {
                                                 className={cn(
                                                     "flex items-center justify-between group px-4 py-3 rounded-xl transition-all duration-200",
                                                     isActive(link.href)
-                                                        ? "bg-primary/10 text-primary shadow-sm"
-                                                        : "text-muted-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:text-foreground"
+                                                        ? "bg-primary/10 text-green-800 shadow-sm"
+                                                        : "text-muted-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900 hover:text-foreground",
                                                 )}
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <link.icon className={cn(
-                                                        "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
-                                                        isActive(link.href) ? "text-primary" : link.color
-                                                    )} />
-                                                    <span className="font-medium">{link.name}</span>
+                                                    <link.icon
+                                                        className={cn(
+                                                            "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
+                                                            isActive(link.href)
+                                                                ? "text-green-800"
+                                                                : link.color,
+                                                        )}
+                                                    />
+                                                    <span className="font-medium">
+                                                        {link.name}
+                                                    </span>
                                                 </div>
-                                                {isActive(link.href) && <ChevronRight className="h-4 w-4" />}
+                                                {isActive(link.href) && (
+                                                    <ChevronRight className="h-4 w-4" />
+                                                )}
                                             </Link>
                                         ))}
                                     </div>
@@ -125,11 +142,15 @@ export default function UserLayout({ children, title }) {
                                         href="/web/profile"
                                         className={cn(
                                             "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-muted-foreground hover:bg-white dark:hover:bg-zinc-800 hover:text-foreground",
-                                            url === "/profile" ? "text-primary bg-primary/10" : ""
+                                            url === "/profile"
+                                                ? "text-green-800 bg-primary/10"
+                                                : "",
                                         )}
                                     >
                                         <Settings className="h-5 w-5" />
-                                        <span className="font-medium">Profile Settings</span>
+                                        <span className="font-medium">
+                                            Profile Settings
+                                        </span>
                                     </Link>
                                 </div>
                             </nav>
@@ -143,23 +164,34 @@ export default function UserLayout({ children, title }) {
                             <div className="flex items-center gap-3">
                                 <Avatar className="h-10 w-10">
                                     <AvatarImage src={user.avatar} />
-                                    <AvatarFallback className="bg-primary/10 text-primary font-bold">
+                                    <AvatarFallback className="bg-primary/10 text-green-800 font-bold">
                                         {user.name?.charAt(0)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <h3 className="font-bold text-sm leading-none">{user.name}</h3>
-                                    <p className="text-xs text-muted-foreground mt-1 capitalize">{user.role} Account</p>
+                                    <h3 className="font-bold text-sm leading-none">
+                                        {user.name}
+                                    </h3>
+                                    <p className="text-xs text-muted-foreground mt-1 capitalize">
+                                        {user.role} Account
+                                    </p>
                                 </div>
                             </div>
-                            <Button 
-                                variant="outline" 
-                                size="sm" 
+                            <Button
+                                variant="outline"
+                                size="sm"
                                 className="rounded-lg h-9 gap-2"
-                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                onClick={() =>
+                                    setIsMobileMenuOpen(!isMobileMenuOpen)
+                                }
                             >
-                                {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-                                {sidebarLinks.find(l => isActive(l.href))?.name || "Menu"}
+                                {isMobileMenuOpen ? (
+                                    <X className="h-4 w-4" />
+                                ) : (
+                                    <Menu className="h-4 w-4" />
+                                )}
+                                {sidebarLinks.find((l) => isActive(l.href))
+                                    ?.name || "Menu"}
                             </Button>
                         </div>
 
@@ -171,22 +203,33 @@ export default function UserLayout({ children, title }) {
                                         <Link
                                             key={link.name}
                                             href={link.href}
-                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            onClick={() =>
+                                                setIsMobileMenuOpen(false)
+                                            }
                                             className={cn(
                                                 "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium",
                                                 isActive(link.href)
-                                                    ? "bg-primary/10 text-primary"
-                                                    : "text-muted-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                                                    ? "bg-primary/10 text-green-800"
+                                                    : "text-muted-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900",
                                             )}
                                         >
-                                            <link.icon className={cn("h-4 w-4", isActive(link.href) ? "text-primary" : link.color)} />
+                                            <link.icon
+                                                className={cn(
+                                                    "h-4 w-4",
+                                                    isActive(link.href)
+                                                        ? "text-green-800"
+                                                        : link.color,
+                                                )}
+                                            />
                                             {link.name}
                                         </Link>
                                     ))}
                                     <Separator className="my-1 mx-2" />
                                     <Link
                                         href="/web/profile"
-                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        onClick={() =>
+                                            setIsMobileMenuOpen(false)
+                                        }
                                         className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900"
                                     >
                                         <Settings className="h-4 w-4" />
@@ -209,7 +252,7 @@ export default function UserLayout({ children, title }) {
 // Internal Badge and Separator components if needed, or import from ui
 function Badge({ variant = "default", className, ...props }) {
     const variants = {
-        default: "bg-primary text-primary-foreground",
+        default: "bg-primary text-green-800-foreground",
         secondary: "bg-secondary text-secondary-foreground",
         outline: "border text-foreground",
     };
@@ -218,7 +261,7 @@ function Badge({ variant = "default", className, ...props }) {
             className={cn(
                 "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors",
                 variants[variant],
-                className
+                className,
             )}
             {...props}
         />
@@ -226,5 +269,7 @@ function Badge({ variant = "default", className, ...props }) {
 }
 
 function Separator({ className }) {
-    return <div className={cn("h-px bg-zinc-200 dark:bg-zinc-800", className)} />;
+    return (
+        <div className={cn("h-px bg-zinc-200 dark:bg-zinc-800", className)} />
+    );
 }

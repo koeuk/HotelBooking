@@ -1,11 +1,25 @@
 import AppLayout from "@/Layouts/AppLayout";
 import { Head, usePage, router } from "@inertiajs/react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { User, Shield, Mail, Phone, Calendar, Camera, Loader2 } from "lucide-react";
+import {
+    User,
+    Shield,
+    Mail,
+    Phone,
+    Calendar,
+    Camera,
+    Loader2,
+} from "lucide-react";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import DeleteUserForm from "./Partials/DeleteUserForm";
@@ -56,7 +70,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                         src={user.avatar}
                                         className="object-cover"
                                     />
-                                    <AvatarFallback className="text-3xl font-bold bg-gradient-primary text-primary-foreground">
+                                    <AvatarFallback className="text-3xl font-bold bg-gradient-primary text-green-800-foreground">
                                         {user.name?.charAt(0)}
                                     </AvatarFallback>
                                 </Avatar>
@@ -93,7 +107,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                                     {user.email}
                                 </p>
                                 <div className="flex items-center gap-2 mt-3 flex-wrap">
-                                    <Badge className="bg-gradient-primary text-primary-foreground">
+                                    <Badge className="bg-gradient-primary text-green-800-foreground">
                                         {user.role === "admin" ? (
                                             <>
                                                 <Shield className="h-3 w-3 mr-1" />{" "}
@@ -135,7 +149,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                     <Card variant="elevated" className="animate-fade-up">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                <User className="h-5 w-5 text-primary" />
+                                <User className="h-5 w-5 text-green-800" />
                                 Profile information
                             </CardTitle>
                             <CardDescription>
@@ -153,7 +167,7 @@ export default function Edit({ mustVerifyEmail, status }) {
                     <Card variant="elevated" className="animate-fade-up">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                <Shield className="h-5 w-5 text-primary" />
+                                <Shield className="h-5 w-5 text-green-800" />
                                 Update password
                             </CardTitle>
                             <CardDescription>

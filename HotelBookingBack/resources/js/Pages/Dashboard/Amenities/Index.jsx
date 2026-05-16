@@ -17,7 +17,22 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Plus, Eye, Pencil, Trash2, Wifi, Waves, Dumbbell, Sparkles, Utensils, Car, Snowflake, Wine, HelpCircle, AlertTriangle } from "lucide-react";
+import {
+    Plus,
+    Eye,
+    Pencil,
+    Trash2,
+    Wifi,
+    Waves,
+    Dumbbell,
+    Sparkles,
+    Utensils,
+    Car,
+    Snowflake,
+    Wine,
+    HelpCircle,
+    AlertTriangle,
+} from "lucide-react";
 import { useState } from "react";
 
 const iconMap = {
@@ -90,12 +105,17 @@ export default function Index({ amenities }) {
                                     <TableCell className="font-medium">
                                         <div className="flex items-center gap-3">
                                             <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                                                <AmenityIcon name={amenity.icon} className="h-5 w-5 text-primary" />
+                                                <AmenityIcon
+                                                    name={amenity.icon}
+                                                    className="h-5 w-5 text-green-800"
+                                                />
                                             </div>
                                             {amenity.name}
                                         </div>
                                     </TableCell>
-                                    <TableCell className="text-muted-foreground">{amenity.icon}</TableCell>
+                                    <TableCell className="text-muted-foreground">
+                                        {amenity.icon}
+                                    </TableCell>
                                     <TableCell>
                                         {amenity.hotels_count}
                                     </TableCell>
@@ -212,13 +232,22 @@ export default function Index({ amenities }) {
                     {amenityToDelete && (
                         <div className="rounded-lg border bg-muted/50 p-4 space-y-2 text-sm">
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Name</span>
-                                <span className="font-medium">{amenityToDelete.name}</span>
+                                <span className="text-muted-foreground">
+                                    Name
+                                </span>
+                                <span className="font-medium">
+                                    {amenityToDelete.name}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Icon</span>
+                                <span className="text-muted-foreground">
+                                    Icon
+                                </span>
                                 <span className="font-medium flex items-center gap-2">
-                                    <AmenityIcon name={amenityToDelete.icon} className="h-4 w-4" />
+                                    <AmenityIcon
+                                        name={amenityToDelete.icon}
+                                        className="h-4 w-4"
+                                    />
                                     {amenityToDelete.icon}
                                 </span>
                             </div>

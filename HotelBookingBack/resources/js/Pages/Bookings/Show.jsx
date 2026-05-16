@@ -14,15 +14,33 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import {
-    Dialog, DialogContent, DialogDescription, DialogFooter,
-    DialogHeader, DialogTitle, DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import {
-    ArrowLeft, Hotel, CalendarDays, CreditCard, Star, BedDouble,
-    DollarSign, MessageSquare, MapPin, XCircle, Loader2,
+    ArrowLeft,
+    Hotel,
+    CalendarDays,
+    CreditCard,
+    Star,
+    BedDouble,
+    DollarSign,
+    MessageSquare,
+    MapPin,
+    XCircle,
+    Loader2,
 } from "lucide-react";
 import HotelMap from "@/components/HotelMap";
 
@@ -48,16 +66,27 @@ export default function BookingShow({ booking, canReview }) {
 
     const handlePay = () => {
         setPayProcessing(true);
-        router.post(route("bookings.pay", booking.uuid), { method: payMethod }, {
-            onFinish: () => { setPayProcessing(false); setPayOpen(false); },
-        });
+        router.post(
+            route("bookings.pay", booking.uuid),
+            { method: payMethod },
+            {
+                onFinish: () => {
+                    setPayProcessing(false);
+                    setPayOpen(false);
+                },
+            },
+        );
     };
 
     const handleCancel = () => {
         setCancelProcessing(true);
-        router.post(route("bookings.cancel", booking.uuid), {}, {
-            onFinish: () => setCancelProcessing(false),
-        });
+        router.post(
+            route("bookings.cancel", booking.uuid),
+            {},
+            {
+                onFinish: () => setCancelProcessing(false),
+            },
+        );
     };
     const hotel = booking.room?.hotel;
     const roomType = booking.room?.room_type;
@@ -97,15 +126,19 @@ export default function BookingShow({ booking, canReview }) {
                         <Card className="border-none shadow-sm">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
-                                    <Hotel className="h-5 w-5 text-primary" />
+                                    <Hotel className="h-5 w-5 text-green-800" />
                                     Hotel & Room Details
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="p-4 rounded-xl bg-muted/50">
-                                        <p className="text-sm font-medium text-muted-foreground">Hotel</p>
-                                        <p className="font-semibold mt-1">{hotel?.name || "N/A"}</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            Hotel
+                                        </p>
+                                        <p className="font-semibold mt-1">
+                                            {hotel?.name || "N/A"}
+                                        </p>
                                         {hotel?.city && (
                                             <p className="text-sm text-muted-foreground">
                                                 {hotel.city}, {hotel.country}
@@ -113,7 +146,9 @@ export default function BookingShow({ booking, canReview }) {
                                         )}
                                     </div>
                                     <div className="p-4 rounded-xl bg-muted/50">
-                                        <p className="text-sm font-medium text-muted-foreground">Room</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            Room
+                                        </p>
                                         <p className="font-semibold mt-1 flex items-center gap-2">
                                             <BedDouble className="h-4 w-4" />
                                             {roomType?.name || "N/A"}
@@ -131,11 +166,12 @@ export default function BookingShow({ booking, canReview }) {
                             <Card className="border-none shadow-sm overflow-hidden">
                                 <CardHeader className="pb-3">
                                     <CardTitle className="flex items-center gap-2 text-lg">
-                                        <MapPin className="h-5 w-5 text-primary" />
+                                        <MapPin className="h-5 w-5 text-green-800" />
                                         Hotel Location
                                     </CardTitle>
                                     <CardDescription>
-                                        {hotel.address && `${hotel.address}, `}{hotel.city}, {hotel.country}
+                                        {hotel.address && `${hotel.address}, `}
+                                        {hotel.city}, {hotel.country}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="p-0">
@@ -153,16 +189,20 @@ export default function BookingShow({ booking, canReview }) {
                         <Card className="border-none shadow-sm">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
-                                    <CalendarDays className="h-5 w-5 text-primary" />
+                                    <CalendarDays className="h-5 w-5 text-green-800" />
                                     Stay Details
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <div className="p-4 rounded-xl bg-muted/50">
-                                        <p className="text-sm font-medium text-muted-foreground">Check-in</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            Check-in
+                                        </p>
                                         <p className="font-semibold mt-1">
-                                            {new Date(booking.check_in_date).toLocaleDateString("en-US", {
+                                            {new Date(
+                                                booking.check_in_date,
+                                            ).toLocaleDateString("en-US", {
                                                 weekday: "short",
                                                 month: "long",
                                                 day: "numeric",
@@ -171,9 +211,13 @@ export default function BookingShow({ booking, canReview }) {
                                         </p>
                                     </div>
                                     <div className="p-4 rounded-xl bg-muted/50">
-                                        <p className="text-sm font-medium text-muted-foreground">Check-out</p>
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            Check-out
+                                        </p>
                                         <p className="font-semibold mt-1">
-                                            {new Date(booking.check_out_date).toLocaleDateString("en-US", {
+                                            {new Date(
+                                                booking.check_out_date,
+                                            ).toLocaleDateString("en-US", {
                                                 weekday: "short",
                                                 month: "long",
                                                 day: "numeric",
@@ -182,8 +226,10 @@ export default function BookingShow({ booking, canReview }) {
                                         </p>
                                     </div>
                                     <div className="p-4 rounded-xl bg-primary/5">
-                                        <p className="text-sm font-medium text-muted-foreground">Total Price</p>
-                                        <p className="font-bold text-2xl mt-1 text-primary flex items-center gap-1">
+                                        <p className="text-sm font-medium text-muted-foreground">
+                                            Total Price
+                                        </p>
+                                        <p className="font-bold text-2xl mt-1 text-green-800 flex items-center gap-1">
                                             <DollarSign className="h-5 w-5" />
                                             {booking.total_price}
                                         </p>
@@ -196,7 +242,7 @@ export default function BookingShow({ booking, canReview }) {
                         <Card className="border-none shadow-sm">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
-                                    <MessageSquare className="h-5 w-5 text-primary" />
+                                    <MessageSquare className="h-5 w-5 text-green-800" />
                                     Review
                                 </CardTitle>
                             </CardHeader>
@@ -238,7 +284,7 @@ export default function BookingShow({ booking, canReview }) {
                         <Card className="border-none shadow-sm">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
-                                    <CreditCard className="h-5 w-5 text-primary" />
+                                    <CreditCard className="h-5 w-5 text-green-800" />
                                     Payment Info
                                 </CardTitle>
                             </CardHeader>
@@ -247,37 +293,60 @@ export default function BookingShow({ booking, canReview }) {
                                     <div className="space-y-4">
                                         <div className="p-4 rounded-xl bg-muted/50 space-y-3">
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Status</p>
+                                                <p className="text-sm font-medium text-muted-foreground">
+                                                    Status
+                                                </p>
                                                 <div className="mt-1">
                                                     <Badge
                                                         className={
-                                                            payment.status === "paid"
+                                                            payment.status ===
+                                                            "paid"
                                                                 ? "bg-green-100 text-green-800 border-green-200"
                                                                 : "bg-yellow-100 text-yellow-800 border-yellow-200"
                                                         }
                                                     >
-                                                        {payment.status?.charAt(0).toUpperCase() + payment.status?.slice(1)}
+                                                        {payment.status
+                                                            ?.charAt(0)
+                                                            .toUpperCase() +
+                                                            payment.status?.slice(
+                                                                1,
+                                                            )}
                                                     </Badge>
                                                 </div>
                                             </div>
                                             <Separator />
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Method</p>
-                                                <p className="font-semibold mt-1 capitalize">{payment.payment_method || "N/A"}</p>
+                                                <p className="text-sm font-medium text-muted-foreground">
+                                                    Method
+                                                </p>
+                                                <p className="font-semibold mt-1 capitalize">
+                                                    {payment.payment_method ||
+                                                        "N/A"}
+                                                </p>
                                             </div>
                                             {payment.transaction_id && (
                                                 <>
                                                     <Separator />
                                                     <div>
-                                                        <p className="text-sm font-medium text-muted-foreground">Transaction ID</p>
-                                                        <p className="font-mono text-sm mt-1 break-all">{payment.transaction_id}</p>
+                                                        <p className="text-sm font-medium text-muted-foreground">
+                                                            Transaction ID
+                                                        </p>
+                                                        <p className="font-mono text-sm mt-1 break-all">
+                                                            {
+                                                                payment.transaction_id
+                                                            }
+                                                        </p>
                                                     </div>
                                                 </>
                                             )}
                                             <Separator />
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Amount</p>
-                                                <p className="font-bold text-lg mt-1">${payment.amount}</p>
+                                                <p className="text-sm font-medium text-muted-foreground">
+                                                    Amount
+                                                </p>
+                                                <p className="font-bold text-lg mt-1">
+                                                    ${payment.amount}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -287,43 +356,101 @@ export default function BookingShow({ booking, canReview }) {
                                             <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-3">
                                                 <CreditCard className="h-6 w-6 text-muted-foreground" />
                                             </div>
-                                            <p className="text-muted-foreground font-medium">No payment yet</p>
+                                            <p className="text-muted-foreground font-medium">
+                                                No payment yet
+                                            </p>
                                         </div>
                                         {booking.status !== "cancelled" && (
-                                            <Dialog open={payOpen} onOpenChange={setPayOpen}>
+                                            <Dialog
+                                                open={payOpen}
+                                                onOpenChange={setPayOpen}
+                                            >
                                                 <DialogTrigger asChild>
                                                     <Button className="w-full h-12 rounded-xl text-base">
-                                                        <CreditCard className="mr-2 h-4 w-4" /> Pay Now — ${booking.total_price}
+                                                        <CreditCard className="mr-2 h-4 w-4" />{" "}
+                                                        Pay Now — $
+                                                        {booking.total_price}
                                                     </Button>
                                                 </DialogTrigger>
                                                 <DialogContent>
                                                     <DialogHeader>
-                                                        <DialogTitle>Complete Payment</DialogTitle>
+                                                        <DialogTitle>
+                                                            Complete Payment
+                                                        </DialogTitle>
                                                         <DialogDescription>
-                                                            Pay <strong>${booking.total_price}</strong> for your booking at {hotel?.name}.
+                                                            Pay{" "}
+                                                            <strong>
+                                                                $
+                                                                {
+                                                                    booking.total_price
+                                                                }
+                                                            </strong>{" "}
+                                                            for your booking at{" "}
+                                                            {hotel?.name}.
                                                         </DialogDescription>
                                                     </DialogHeader>
                                                     <div className="space-y-4 py-4">
                                                         <div className="space-y-2">
-                                                            <Label>Payment Method</Label>
-                                                            <Select value={payMethod} onValueChange={setPayMethod}>
-                                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                            <Label>
+                                                                Payment Method
+                                                            </Label>
+                                                            <Select
+                                                                value={
+                                                                    payMethod
+                                                                }
+                                                                onValueChange={
+                                                                    setPayMethod
+                                                                }
+                                                            >
+                                                                <SelectTrigger>
+                                                                    <SelectValue />
+                                                                </SelectTrigger>
                                                                 <SelectContent>
-                                                                    <SelectItem value="card">Credit Card</SelectItem>
-                                                                    <SelectItem value="cash">Cash</SelectItem>
-                                                                    <SelectItem value="paypal">PayPal</SelectItem>
+                                                                    <SelectItem value="card">
+                                                                        Credit
+                                                                        Card
+                                                                    </SelectItem>
+                                                                    <SelectItem value="cash">
+                                                                        Cash
+                                                                    </SelectItem>
+                                                                    <SelectItem value="paypal">
+                                                                        PayPal
+                                                                    </SelectItem>
                                                                 </SelectContent>
                                                             </Select>
                                                         </div>
                                                         <div className="p-3 bg-muted rounded-lg flex justify-between items-center">
-                                                            <span className="font-medium">Total</span>
-                                                            <span className="text-lg font-bold text-primary">${booking.total_price}</span>
+                                                            <span className="font-medium">
+                                                                Total
+                                                            </span>
+                                                            <span className="text-lg font-bold text-green-800">
+                                                                $
+                                                                {
+                                                                    booking.total_price
+                                                                }
+                                                            </span>
                                                         </div>
                                                     </div>
                                                     <DialogFooter>
-                                                        <Button variant="outline" onClick={() => setPayOpen(false)}>Cancel</Button>
-                                                        <Button onClick={handlePay} disabled={payProcessing}>
-                                                            {payProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                                        <Button
+                                                            variant="outline"
+                                                            onClick={() =>
+                                                                setPayOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                        <Button
+                                                            onClick={handlePay}
+                                                            disabled={
+                                                                payProcessing
+                                                            }
+                                                        >
+                                                            {payProcessing && (
+                                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                            )}
                                                             Confirm Payment
                                                         </Button>
                                                     </DialogFooter>
@@ -406,9 +533,7 @@ function ReviewForm({ bookingUuid }) {
                         </button>
                     ))}
                     <span className="ml-2 text-sm text-muted-foreground">
-                        {display > 0
-                            ? `${display}/5`
-                            : "Tap to rate"}
+                        {display > 0 ? `${display}/5` : "Tap to rate"}
                     </span>
                 </div>
                 {errors.rating && (
@@ -435,9 +560,7 @@ function ReviewForm({ bookingUuid }) {
                     maxLength={1000}
                 />
                 {errors.comment && (
-                    <p className="text-sm text-destructive">
-                        {errors.comment}
-                    </p>
+                    <p className="text-sm text-destructive">{errors.comment}</p>
                 )}
             </div>
 

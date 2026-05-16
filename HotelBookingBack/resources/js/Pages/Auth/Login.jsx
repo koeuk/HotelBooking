@@ -83,7 +83,7 @@ export default function Login({ status, canResetPassword }) {
                             {canResetPassword && (
                                 <Link
                                     href={route("password.request")}
-                                    className="text-sm text-primary hover:underline"
+                                    className="text-sm text-green-800 hover:underline"
                                 >
                                     Forgot password?
                                 </Link>
@@ -148,23 +148,13 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                    <Button
-                        variant="glass"
-                        shape="pill"
-                        size="lg"
-                        asChild
-                    >
+                    <Button variant="glass" shape="pill" size="lg" asChild>
                         <a href={route("auth.google")}>
                             <Chrome className="mr-2 h-4 w-4 text-rose-500" />
                             Google
                         </a>
                     </Button>
-                    <Button
-                        variant="glass"
-                        shape="pill"
-                        size="lg"
-                        asChild
-                    >
+                    <Button variant="glass" shape="pill" size="lg" asChild>
                         <a href={route("auth.facebook")}>
                             <Facebook className="mr-2 h-4 w-4 text-sky-500" />
                             Facebook
@@ -176,7 +166,7 @@ export default function Login({ status, canResetPassword }) {
                     Don't have an account?{" "}
                     <Link
                         href={route("register")}
-                        className="font-semibold text-primary hover:underline"
+                        className="font-semibold text-green-800 hover:underline"
                     >
                         Sign up
                     </Link>

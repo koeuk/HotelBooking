@@ -170,7 +170,7 @@ export default function Show({ booking }) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="flex items-center gap-3">
                                         <div className="bg-primary/10 p-2 rounded-md">
-                                            <Calendar className="h-5 w-5 text-primary" />
+                                            <Calendar className="h-5 w-5 text-green-800" />
                                         </div>
                                         <div>
                                             <Label className="text-muted-foreground text-xs uppercase tracking-wider">
@@ -188,7 +188,7 @@ export default function Show({ booking }) {
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="bg-primary/10 p-2 rounded-md">
-                                            <Calendar className="h-5 w-5 text-primary" />
+                                            <Calendar className="h-5 w-5 text-green-800" />
                                         </div>
                                         <div>
                                             <Label className="text-muted-foreground text-xs uppercase tracking-wider">
@@ -244,7 +244,7 @@ export default function Show({ booking }) {
                                     <span className="text-lg font-medium">
                                         Total Amount
                                     </span>
-                                    <span className="text-2xl font-bold text-primary">
+                                    <span className="text-2xl font-bold text-green-800">
                                         ${booking.total_price}
                                     </span>
                                 </div>
@@ -352,7 +352,7 @@ export default function Show({ booking }) {
                                                             <span className="font-medium">
                                                                 Amount
                                                             </span>
-                                                            <span className="text-lg font-bold text-primary">
+                                                            <span className="text-lg font-bold text-green-800">
                                                                 $
                                                                 {
                                                                     booking.total_price

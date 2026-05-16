@@ -70,7 +70,7 @@ export default function Show({ user }) {
                                     {user.name}
                                 </h3>
                                 {user.role === "admin" ? (
-                                    <Badge className="bg-primary/10 text-primary border-primary/20">
+                                    <Badge className="bg-primary/10 text-green-800 border-primary/20">
                                         <ShieldCheck className="w-3 h-3 mr-1" />{" "}
                                         Dashboard
                                     </Badge>

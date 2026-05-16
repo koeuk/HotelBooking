@@ -42,16 +42,16 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
                     "aria-selected:bg-transparent",
                 ),
                 selected:
-                    "[&>button]:bg-gradient-primary [&>button]:text-primary-foreground [&>button]:shadow-md [&>button]:hover:brightness-110",
+                    "[&>button]:bg-gradient-primary [&>button]:text-green-800-foreground [&>button]:shadow-md [&>button]:hover:brightness-110",
                 today: "[&>button]:ring-1 [&>button]:ring-primary/40 [&>button]:ring-offset-0 [&>button]:font-semibold",
                 outside:
                     "text-muted-foreground/40 [&>button]:text-muted-foreground/40",
                 disabled:
                     "text-muted-foreground/30 [&>button]:text-muted-foreground/30 [&>button]:pointer-events-none",
                 range_start:
-                    "range-start [&>button]:bg-gradient-primary [&>button]:text-primary-foreground [&>button]:shadow-md rounded-l-full",
+                    "range-start [&>button]:bg-gradient-primary [&>button]:text-green-800-foreground [&>button]:shadow-md rounded-l-full",
                 range_end:
-                    "range-end [&>button]:bg-gradient-primary [&>button]:text-primary-foreground [&>button]:shadow-md rounded-r-full",
+                    "range-end [&>button]:bg-gradient-primary [&>button]:text-green-800-foreground [&>button]:shadow-md rounded-r-full",
                 range_middle:
                     "bg-primary/10 [&>button]:bg-transparent [&>button]:text-foreground [&>button]:hover:bg-primary/20 rounded-none",
                 hidden: "invisible",

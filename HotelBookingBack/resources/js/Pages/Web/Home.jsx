@@ -151,7 +151,7 @@ export default function Home({
                                 <CardContent className="p-4">
                                     <div className="flex items-start justify-between gap-3">
                                         <div className="min-w-0">
-                                            <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
+                                            <h3 className="font-semibold truncate group-hover:text-green-800 transition-colors">
                                                 {hotel.name}
                                             </h3>
                                             <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1 truncate">
@@ -160,7 +160,7 @@ export default function Home({
                                             </p>
                                         </div>
                                         {hotel.reviews_avg_rating && (
-                                            <Badge className="bg-gradient-primary text-primary-foreground font-bold shrink-0">
+                                            <Badge className="bg-gradient-primary text-green-800-foreground font-bold shrink-0">
                                                 <Star className="h-3 w-3 fill-current" />
                                                 {Number(
                                                     hotel.reviews_avg_rating,
@@ -170,7 +170,9 @@ export default function Home({
                                     </div>
                                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60 text-xs text-muted-foreground">
                                         <span>{hotel.rooms_count} rooms</span>
-                                        <span>{hotel.reviews_count} reviews</span>
+                                        <span>
+                                            {hotel.reviews_count} reviews
+                                        </span>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -226,13 +228,13 @@ export default function Home({
 
             {/* CTA */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div className="relative overflow-hidden rounded-3xl bg-gradient-primary p-8 md:p-14 text-center text-primary-foreground">
+                <div className="relative overflow-hidden rounded-3xl bg-gradient-primary p-8 md:p-14 text-center text-green-800-foreground">
                     <div className="absolute inset-0 noise opacity-20" />
                     <div className="relative">
                         <h2 className="text-3xl md:text-4xl font-bold">
                             Ready to book your stay?
                         </h2>
-                        <p className="mt-3 text-primary-foreground/85 max-w-xl mx-auto">
+                        <p className="mt-3 text-green-800-foreground/85 max-w-xl mx-auto">
                             Join thousands of travelers who trust HotelBook for
                             their accommodation needs.
                         </p>
@@ -249,7 +251,7 @@ export default function Home({
                                 size="xl"
                                 shape="pill"
                                 variant="glass"
-                                className="text-primary-foreground border-white/20"
+                                className="text-green-800-foreground border-white/20"
                                 asChild
                             >
                                 <Link href={route("register")}>

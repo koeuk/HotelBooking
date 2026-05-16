@@ -1,12 +1,7 @@
 import { useState, useMemo } from "react";
 import WebLayout from "@/Layouts/WebLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -38,12 +33,15 @@ function Stepper({ step }) {
                 const active = step >= s.id;
                 const current = step === s.id;
                 return (
-                    <div key={s.id} className="flex items-center gap-2 sm:gap-3">
+                    <div
+                        key={s.id}
+                        className="flex items-center gap-2 sm:gap-3"
+                    >
                         <div
                             className={cn(
                                 "flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-all duration-300 ease-out-expo",
                                 active
-                                    ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                                    ? "bg-gradient-primary text-green-800-foreground shadow-glow"
                                     : "bg-muted text-muted-foreground",
                                 current && "scale-105",
                             )}
@@ -55,9 +53,7 @@ function Stepper({ step }) {
                             <div
                                 className={cn(
                                     "h-px w-6 sm:w-10 transition-colors duration-300",
-                                    step > s.id
-                                        ? "bg-primary/60"
-                                        : "bg-border",
+                                    step > s.id ? "bg-primary/60" : "bg-border",
                                 )}
                             />
                         )}
@@ -179,7 +175,7 @@ export default function Create({ hotel }) {
                             >
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2 text-base">
-                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-primary text-green-800-foreground text-xs font-bold">
                                             1
                                         </span>
                                         Select your dates
@@ -209,7 +205,7 @@ export default function Create({ hotel }) {
                                         </p>
                                     )}
                                     {datesValid && (
-                                        <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-medium animate-scale-in">
+                                        <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/10 text-green-800 px-3 py-1 text-xs font-medium animate-scale-in">
                                             <CheckCircle2 className="h-3.5 w-3.5" />
                                             {nights} night
                                             {nights !== 1 ? "s" : ""} selected
@@ -225,7 +221,7 @@ export default function Create({ hotel }) {
                             >
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2 text-base">
-                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground text-xs font-bold">
+                                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-primary text-green-800-foreground text-xs font-bold">
                                             2
                                         </span>
                                         Choose a room
@@ -310,7 +306,7 @@ export default function Create({ hotel }) {
                                                                         className={cn(
                                                                             "group relative p-3 rounded-xl border text-center text-sm transition-all duration-300 ease-out-expo overflow-hidden",
                                                                             selected
-                                                                                ? "border-primary bg-gradient-primary text-primary-foreground shadow-glow scale-[1.02]"
+                                                                                ? "border-primary bg-gradient-primary text-green-800-foreground shadow-glow scale-[1.02]"
                                                                                 : "border-border bg-background hover:border-primary/40 hover:-translate-y-0.5",
                                                                         )}
                                                                     >
@@ -318,7 +314,7 @@ export default function Create({ hotel }) {
                                                                             className={cn(
                                                                                 "font-semibold",
                                                                                 selected
-                                                                                    ? "text-primary-foreground"
+                                                                                    ? "text-green-800-foreground"
                                                                                     : "",
                                                                             )}
                                                                         >
@@ -332,7 +328,7 @@ export default function Create({ hotel }) {
                                                                                 className={cn(
                                                                                     "text-[10px] mt-0.5",
                                                                                     selected
-                                                                                        ? "text-primary-foreground/80"
+                                                                                        ? "text-green-800-foreground/80"
                                                                                         : "text-muted-foreground",
                                                                                 )}
                                                                             >
@@ -374,7 +370,7 @@ export default function Create({ hotel }) {
                                 >
                                     <CardHeader className="pb-3">
                                         <CardTitle className="flex items-center gap-2 text-base">
-                                            <MapPin className="h-4 w-4 text-primary" />
+                                            <MapPin className="h-4 w-4 text-green-800" />
                                             Location
                                         </CardTitle>
                                     </CardHeader>
@@ -462,7 +458,7 @@ function BookingSummary({
         <Card variant="glass" className="sticky top-24 animate-fade-up">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
-                    <CreditCard className="h-4 w-4 text-primary" />
+                    <CreditCard className="h-4 w-4 text-green-800" />
                     Booking summary
                 </CardTitle>
             </CardHeader>

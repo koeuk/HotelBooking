@@ -82,7 +82,7 @@ export default function Index({ hotels = [] }) {
                                     </div>
                                     <CardContent className="p-4">
                                         <div className="min-w-0">
-                                            <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
+                                            <h3 className="font-semibold truncate group-hover:text-green-800 transition-colors">
                                                 {hotel.name}
                                             </h3>
                                             <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1 truncate">
@@ -91,8 +91,12 @@ export default function Index({ hotels = [] }) {
                                             </p>
                                         </div>
                                         <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60 text-xs text-muted-foreground">
-                                            <span>{hotel.rooms_count} rooms</span>
-                                            <span>{hotel.reviews_count} reviews</span>
+                                            <span>
+                                                {hotel.rooms_count} rooms
+                                            </span>
+                                            <span>
+                                                {hotel.reviews_count} reviews
+                                            </span>
                                         </div>
                                     </CardContent>
                                 </Card>

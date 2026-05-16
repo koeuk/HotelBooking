@@ -708,7 +708,7 @@ export default function Index({
                                             <TableCell className="text-xs">
                                                 {b.room?.hotel?.name}
                                             </TableCell>
-                                            <TableCell className="text-sm font-bold text-primary">
+                                            <TableCell className="text-sm font-bold text-green-800">
                                                 ${b.total_price}
                                             </TableCell>
                                             <TableCell>

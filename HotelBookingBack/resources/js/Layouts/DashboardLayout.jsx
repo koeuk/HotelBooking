@@ -136,163 +136,199 @@ export default function DashboardLayout({ children }) {
             <div className="absolute inset-0 bg-slate-900 dark:bg-zinc-950" />
             <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
             <div className="relative flex flex-col h-full">
-            <div className="p-6 flex items-center justify-between">
-                <Link
-                    href={route("dashboard.index")}
-                    className="flex items-center gap-2 group"
-                >
-                    <div className="h-9 w-9 rounded-2xl bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold text-xl shadow-glow group-hover:scale-110 transition-transform">
-                        H
-                    </div>
-                    {!isCollapsed && (
-                        <span className="text-xl font-bold tracking-tight text-white animate-in fade-in slide-in-from-left-2 duration-300">
-                            Hotel
-                            <span className="text-gradient-primary">
-                                Dashboard
+                <div className="p-6 flex items-center justify-between">
+                    <Link
+                        href={route("dashboard.index")}
+                        className="flex items-center gap-2 group"
+                    >
+                        <div className="h-9 w-9 rounded-2xl bg-gradient-primary flex items-center justify-center text-green-800-foreground font-bold text-xl shadow-glow group-hover:scale-110 transition-transform">
+                            H
+                        </div>
+                        {!isCollapsed && (
+                            <span className="text-xl font-bold tracking-tight text-white animate-in fade-in slide-in-from-left-2 duration-300">
+                                Hotel
+                                <span className="text-gradient-primary">
+                                    Dashboard
+                                </span>
                             </span>
-                        </span>
-                    )}
-                </Link>
-            </div>
-
-            <ScrollArea className="flex-1 px-4">
-                <div className="space-y-1 py-4">
-                    {!isCollapsed && (
-                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-300">
-                            Main Menu
-                        </p>
-                    )}
-                    {navItems.map((item) => {
-                        const itemUrl = route(item.routeName);
-                        const itemPath = new URL(itemUrl).pathname;
-                        const isActive = url === itemPath || (itemPath !== '/dashboard' && url.startsWith(itemPath));
-                        return (
-                            <Link
-                                key={item.name}
-                                href={itemUrl}
-                                className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 ease-out-expo group relative",
-                                    isActive
-                                        ? "bg-gradient-primary text-primary-foreground shadow-glow"
-                                        : "hover:bg-white/5 hover:text-white",
-                                )}
-                            >
-                                <item.icon
-                                    className={cn(
-                                        "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
-                                        isActive
-                                            ? "text-primary-foreground"
-                                            : item.color,
-                                    )}
-                                />
-                                {!isCollapsed && (
-                                    <span className="animate-in fade-in slide-in-from-left-2 duration-300">
-                                        {item.name}
-                                    </span>
-                                )}
-                            </Link>
-                        );
-                    })}
+                        )}
+                    </Link>
                 </div>
 
-                <div className="mt-8 space-y-1 py-4 border-t border-slate-700/50">
-                    {!isCollapsed && (
-                        <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-300">
-                            Support
-                        </p>
-                    )}
-                    {(() => {
-                        const settingsPath = new URL(route("dashboard.settings.index")).pathname;
-                        const isSettingsActive = url.startsWith(settingsPath);
-                        return (
-                            <>
+                <ScrollArea className="flex-1 px-4">
+                    <div className="space-y-1 py-4">
+                        {!isCollapsed && (
+                            <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-300">
+                                Main Menu
+                            </p>
+                        )}
+                        {navItems.map((item) => {
+                            const itemUrl = route(item.routeName);
+                            const itemPath = new URL(itemUrl).pathname;
+                            const isActive =
+                                url === itemPath ||
+                                (itemPath !== "/dashboard" &&
+                                    url.startsWith(itemPath));
+                            return (
                                 <Link
-                                    href={route("dashboard.settings.index")}
+                                    key={item.name}
+                                    href={itemUrl}
                                     className={cn(
                                         "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 ease-out-expo group relative",
-                                        isSettingsActive
-                                            ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                                        isActive
+                                            ? "bg-gradient-primary text-green-800-foreground shadow-glow"
                                             : "hover:bg-white/5 hover:text-white",
                                     )}
                                 >
-                                    <Settings className={cn("h-5 w-5 transition-transform duration-200 group-hover:scale-110", isSettingsActive ? "text-primary-foreground" : "text-zinc-300")} />
+                                    <item.icon
+                                        className={cn(
+                                            "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
+                                            isActive
+                                                ? "text-green-800-foreground"
+                                                : item.color,
+                                        )}
+                                    />
                                     {!isCollapsed && (
-                                        <span className="animate-in fade-in slide-in-from-left-2 duration-300">Settings</span>
+                                        <span className="animate-in fade-in slide-in-from-left-2 duration-300">
+                                            {item.name}
+                                        </span>
                                     )}
                                 </Link>
-                                <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all hover:bg-white/5 hover:text-white group">
-                                    <HelpCircle className="h-5 w-5 text-zinc-300 group-hover:text-white" />
-                                    {!isCollapsed && <span>Internal Help</span>}
-                                </button>
-                            </>
-                        );
-                    })()}
-                </div>
-            </ScrollArea>
+                            );
+                        })}
+                    </div>
 
-            <div className="p-4 border-t border-white/5">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <button
-                            className={cn(
-                                "w-full glass rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-white/10 cursor-pointer",
-                                isCollapsed ? "justify-center px-2" : "",
-                            )}
-                        >
-                            <Avatar className="h-8 w-8 border border-slate-700/30">
-                                <AvatarImage src={auth.user.avatar} />
-                                <AvatarFallback>
-                                    {auth.user.name.charAt(0)}
-                                </AvatarFallback>
-                            </Avatar>
-                            {!isCollapsed && (
+                    <div className="mt-8 space-y-1 py-4 border-t border-slate-700/50">
+                        {!isCollapsed && (
+                            <p className="px-2 mb-2 text-[10px] font-bold uppercase tracking-widest text-zinc-300">
+                                Support
+                            </p>
+                        )}
+                        {(() => {
+                            const settingsPath = new URL(
+                                route("dashboard.settings.index"),
+                            ).pathname;
+                            const isSettingsActive =
+                                url.startsWith(settingsPath);
+                            return (
                                 <>
-                                    <div className="flex-1 overflow-hidden text-left">
-                                        <p className="text-xs font-bold text-white truncate">
-                                            {auth.user.name}
-                                        </p>
-                                        <p className="text-[10px] text-zinc-300 truncate">
-                                            {auth.user.email}
-                                        </p>
-                                    </div>
-                                    <ChevronLeft className="h-4 w-4 text-zinc-300 rotate-90" />
+                                    <Link
+                                        href={route("dashboard.settings.index")}
+                                        className={cn(
+                                            "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all duration-300 ease-out-expo group relative",
+                                            isSettingsActive
+                                                ? "bg-gradient-primary text-green-800-foreground shadow-glow"
+                                                : "hover:bg-white/5 hover:text-white",
+                                        )}
+                                    >
+                                        <Settings
+                                            className={cn(
+                                                "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
+                                                isSettingsActive
+                                                    ? "text-green-800-foreground"
+                                                    : "text-zinc-300",
+                                            )}
+                                        />
+                                        {!isCollapsed && (
+                                            <span className="animate-in fade-in slide-in-from-left-2 duration-300">
+                                                Settings
+                                            </span>
+                                        )}
+                                    </Link>
+                                    <button className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-2xl transition-all hover:bg-white/5 hover:text-white group">
+                                        <HelpCircle className="h-5 w-5 text-zinc-300 group-hover:text-white" />
+                                        {!isCollapsed && (
+                                            <span>Internal Help</span>
+                                        )}
+                                    </button>
                                 </>
-                            )}
-                        </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                        side="top"
-                        align="start"
-                        className="w-56 mb-2"
-                    >
-                        <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
-                            <div className="flex items-center gap-3">
-                                <Avatar className="h-9 w-9">
+                            );
+                        })()}
+                    </div>
+                </ScrollArea>
+
+                <div className="p-4 border-t border-white/5">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <button
+                                className={cn(
+                                    "w-full glass rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-white/10 cursor-pointer",
+                                    isCollapsed ? "justify-center px-2" : "",
+                                )}
+                            >
+                                <Avatar className="h-8 w-8 border border-slate-700/30">
                                     <AvatarImage src={auth.user.avatar} />
-                                    <AvatarFallback>{auth.user.name.charAt(0)}</AvatarFallback>
+                                    <AvatarFallback>
+                                        {auth.user.name.charAt(0)}
+                                    </AvatarFallback>
                                 </Avatar>
-                                <div className="flex-1 overflow-hidden">
-                                    <p className="text-sm font-bold truncate">{auth.user.name}</p>
-                                    <p className="text-xs text-muted-foreground truncate">{auth.user.email}</p>
-                                </div>
-                            </div>
-                        </DropdownMenuLabel></DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("dashboard.settings.index"))}>
-                            <Settings className="h-4 w-4" />
-                            Settings
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            className="cursor-pointer text-rose-500 focus:text-rose-500"
-                            onClick={() => router.post(route("dashboard.logout"))}
+                                {!isCollapsed && (
+                                    <>
+                                        <div className="flex-1 overflow-hidden text-left">
+                                            <p className="text-xs font-bold text-white truncate">
+                                                {auth.user.name}
+                                            </p>
+                                            <p className="text-[10px] text-zinc-300 truncate">
+                                                {auth.user.email}
+                                            </p>
+                                        </div>
+                                        <ChevronLeft className="h-4 w-4 text-zinc-300 rotate-90" />
+                                    </>
+                                )}
+                            </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                            side="top"
+                            align="start"
+                            className="w-56 mb-2"
                         >
-                            <LogOut className="h-4 w-4" />
-                            Log out
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+                            <DropdownMenuGroup>
+                                <DropdownMenuLabel className="font-normal">
+                                    <div className="flex items-center gap-3">
+                                        <Avatar className="h-9 w-9">
+                                            <AvatarImage
+                                                src={auth.user.avatar}
+                                            />
+                                            <AvatarFallback>
+                                                {auth.user.name.charAt(0)}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex-1 overflow-hidden">
+                                            <p className="text-sm font-bold truncate">
+                                                {auth.user.name}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground truncate">
+                                                {auth.user.email}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </DropdownMenuLabel>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                className="cursor-pointer"
+                                onClick={() =>
+                                    router.get(
+                                        route("dashboard.settings.index"),
+                                    )
+                                }
+                            >
+                                <Settings className="h-4 w-4" />
+                                Settings
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                className="cursor-pointer text-rose-500 focus:text-rose-500"
+                                onClick={() =>
+                                    router.post(route("dashboard.logout"))
+                                }
+                            >
+                                <LogOut className="h-4 w-4" />
+                                Log out
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             </div>
         </div>
     );
@@ -351,7 +387,7 @@ export default function DashboardLayout({ children }) {
                         </Sheet>
 
                         <div className="hidden sm:flex items-center relative group">
-                            <Search className="absolute left-4 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors z-10" />
+                            <Search className="absolute left-4 h-4 w-4 text-muted-foreground group-focus-within:text-green-800 transition-colors z-10" />
                             <Input
                                 variant="soft"
                                 placeholder="Search everything…"
@@ -391,7 +427,7 @@ export default function DashboardLayout({ children }) {
                                 >
                                     <Avatar className="h-full w-full">
                                         <AvatarImage src={auth.user.avatar} />
-                                        <AvatarFallback className="bg-primary/10 text-primary font-bold">
+                                        <AvatarFallback className="bg-primary/10 text-green-800 font-bold">
                                             {auth.user.name.charAt(0)}
                                         </AvatarFallback>
                                     </Avatar>
@@ -402,24 +438,35 @@ export default function DashboardLayout({ children }) {
                                 align="end"
                                 forceMount
                             >
-                                <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
-                                    <div className="flex flex-col space-y-1">
-                                        <p className="text-sm font-bold leading-none">
-                                            {auth.user.name}
-                                        </p>
-                                        <p className="text-xs leading-none text-zinc-300">
-                                            {auth.user.email}
-                                        </p>
-                                    </div>
-                                </DropdownMenuLabel></DropdownMenuGroup>
+                                <DropdownMenuGroup>
+                                    <DropdownMenuLabel className="font-normal">
+                                        <div className="flex flex-col space-y-1">
+                                            <p className="text-sm font-bold leading-none">
+                                                {auth.user.name}
+                                            </p>
+                                            <p className="text-xs leading-none text-zinc-300">
+                                                {auth.user.email}
+                                            </p>
+                                        </div>
+                                    </DropdownMenuLabel>
+                                </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("dashboard.settings.index"))}>
+                                <DropdownMenuItem
+                                    className="cursor-pointer"
+                                    onClick={() =>
+                                        router.get(
+                                            route("dashboard.settings.index"),
+                                        )
+                                    }
+                                >
                                     <UserCircle className="h-4 w-4" />
                                     Profile Settings
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                     className="text-rose-500 focus:text-rose-500 cursor-pointer"
-                                    onClick={() => router.post(route("dashboard.logout"))}
+                                    onClick={() =>
+                                        router.post(route("dashboard.logout"))
+                                    }
                                 >
                                     <LogOut className="h-4 w-4" />
                                     Sign Out
@@ -434,14 +481,12 @@ export default function DashboardLayout({ children }) {
                     ref={mainRef}
                     className="flex-1 overflow-y-auto overflow-x-hidden"
                 >
-                    <div className="p-6 md:p-10 min-h-full">
-                        {children}
-                    </div>
+                    <div className="p-6 md:p-10 min-h-full">{children}</div>
 
                     {/* Subtle Footer */}
                     <footer className="p-6 text-center text-[10px] text-zinc-400 border-t border-zinc-200 dark:border-slate-700/30">
                         &copy; 2026 Hotel Booking Pro. Managed by{" "}
-                        <span className="text-primary font-bold">koeuk</span>
+                        <span className="text-green-800 font-bold">koeuk</span>
                     </footer>
                 </main>
             </div>

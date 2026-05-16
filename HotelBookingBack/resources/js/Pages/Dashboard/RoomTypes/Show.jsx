@@ -42,7 +42,10 @@ export default function Show({ roomType }) {
 
                     <Button asChild>
                         <Link
-                            href={route("dashboard.room-types.edit", roomType.uuid)}
+                            href={route(
+                                "dashboard.room-types.edit",
+                                roomType.uuid,
+                            )}
                         >
                             <Pencil className="mr-2 h-4 w-4" />
                             Edit Room Type
@@ -110,7 +113,7 @@ export default function Show({ roomType }) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="flex items-center gap-3">
                                         <div className="bg-primary/10 p-2 rounded-md">
-                                            <Users className="h-5 w-5 text-primary" />
+                                            <Users className="h-5 w-5 text-green-800" />
                                         </div>
                                         <div>
                                             <Label className="text-muted-foreground text-xs uppercase tracking-wider">
@@ -123,7 +126,7 @@ export default function Show({ roomType }) {
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="bg-primary/10 p-2 rounded-md">
-                                            <DollarSign className="h-5 w-5 text-primary" />
+                                            <DollarSign className="h-5 w-5 text-green-800" />
                                         </div>
                                         <div>
                                             <Label className="text-muted-foreground text-xs uppercase tracking-wider">

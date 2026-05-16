@@ -75,7 +75,7 @@ export default function HotelShow({ hotel }) {
                                 </span>
                             </h1>
                             <div className="inline-flex items-center gap-2 glass rounded-full px-3 py-1.5 text-sm text-foreground w-fit">
-                                <MapPin className="h-4 w-4 text-primary shrink-0" />
+                                <MapPin className="h-4 w-4 text-green-800 shrink-0" />
                                 <span className="truncate max-w-[60ch]">
                                     {hotel.address && `${hotel.address}, `}
                                     {hotel.city}, {hotel.country}
@@ -100,10 +100,7 @@ export default function HotelShow({ hotel }) {
                                 asChild
                             >
                                 <Link
-                                    href={route(
-                                        "bookings.create",
-                                        hotel.uuid,
-                                    )}
+                                    href={route("bookings.create", hotel.uuid)}
                                 >
                                     Book now
                                 </Link>
@@ -119,7 +116,7 @@ export default function HotelShow({ hotel }) {
                     <Gallery images={images} name={hotel.name} />
                 ) : (
                     <div className="h-72 rounded-3xl bg-gradient-primary-soft flex items-center justify-center">
-                        <Hotel className="h-16 w-16 text-primary/60" />
+                        <Hotel className="h-16 w-16 text-green-800/60" />
                     </div>
                 )}
 
@@ -127,7 +124,10 @@ export default function HotelShow({ hotel }) {
                     {/* Main */}
                     <div className="lg:col-span-2 space-y-6">
                         {hotel.description && (
-                            <Card variant="elevated" className="animate-fade-up">
+                            <Card
+                                variant="elevated"
+                                className="animate-fade-up"
+                            >
                                 <CardHeader className="pb-3">
                                     <CardTitle className="text-lg">
                                         About this hotel
@@ -149,7 +149,7 @@ export default function HotelShow({ hotel }) {
                             >
                                 <CardHeader className="pb-3">
                                     <CardTitle className="flex items-center gap-2 text-lg">
-                                        <MapPin className="h-5 w-5 text-primary" />
+                                        <MapPin className="h-5 w-5 text-green-800" />
                                         Location
                                     </CardTitle>
                                 </CardHeader>
@@ -168,7 +168,7 @@ export default function HotelShow({ hotel }) {
                         <Card variant="elevated" className="animate-fade-up">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
-                                    <BedDouble className="h-5 w-5 text-primary" />
+                                    <BedDouble className="h-5 w-5 text-green-800" />
                                     Room types
                                 </CardTitle>
                                 <CardDescription>
@@ -249,7 +249,7 @@ export default function HotelShow({ hotel }) {
                         <Card variant="elevated" className="animate-fade-up">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
-                                    <MessageSquare className="h-5 w-5 text-primary" />
+                                    <MessageSquare className="h-5 w-5 text-green-800" />
                                     Guest reviews
                                 </CardTitle>
                                 <CardDescription>
@@ -269,7 +269,7 @@ export default function HotelShow({ hotel }) {
                                             >
                                                 <div className="flex items-center justify-between flex-wrap gap-2">
                                                     <div className="flex items-center gap-2">
-                                                        <div className="h-9 w-9 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground">
+                                                        <div className="h-9 w-9 rounded-full bg-gradient-primary flex items-center justify-center text-green-800-foreground">
                                                             <User className="h-4 w-4" />
                                                         </div>
                                                         <span className="font-medium text-sm">
@@ -305,7 +305,7 @@ export default function HotelShow({ hotel }) {
                                 ) : (
                                     <div className="text-center py-8">
                                         <div className="mx-auto h-12 w-12 rounded-full bg-gradient-primary-soft flex items-center justify-center mb-3">
-                                            <MessageSquare className="h-6 w-6 text-primary" />
+                                            <MessageSquare className="h-6 w-6 text-green-800" />
                                         </div>
                                         <p className="font-medium">
                                             No reviews yet
@@ -327,7 +327,7 @@ export default function HotelShow({ hotel }) {
                         >
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2 text-lg">
-                                    <CheckCircle2 className="h-5 w-5 text-primary" />
+                                    <CheckCircle2 className="h-5 w-5 text-green-800" />
                                     Amenities
                                 </CardTitle>
                             </CardHeader>
@@ -446,7 +446,7 @@ function GalleryImage({ src, alt, className = "" }) {
                 className="absolute inset-0 hidden items-center justify-center bg-gradient-primary-soft"
                 aria-hidden="true"
             >
-                <Hotel className="h-12 w-12 text-primary/60" />
+                <Hotel className="h-12 w-12 text-green-800/60" />
             </div>
         </div>
     );

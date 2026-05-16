@@ -158,23 +158,13 @@ export default function Register() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                    <Button
-                        variant="glass"
-                        shape="pill"
-                        size="lg"
-                        asChild
-                    >
+                    <Button variant="glass" shape="pill" size="lg" asChild>
                         <a href={route("auth.google")}>
                             <Chrome className="mr-2 h-4 w-4 text-rose-500" />
                             Google
                         </a>
                     </Button>
-                    <Button
-                        variant="glass"
-                        shape="pill"
-                        size="lg"
-                        asChild
-                    >
+                    <Button variant="glass" shape="pill" size="lg" asChild>
                         <a href={route("auth.facebook")}>
                             <Facebook className="mr-2 h-4 w-4 text-sky-500" />
                             Facebook
@@ -186,7 +176,7 @@ export default function Register() {
                     Already have an account?{" "}
                     <Link
                         href={route("login")}
-                        className="font-semibold text-primary hover:underline"
+                        className="font-semibold text-green-800 hover:underline"
                     >
                         Log in
                     </Link>

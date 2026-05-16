@@ -216,7 +216,7 @@ export default function Edit({ booking, users, rooms }) {
                                             }
                                         </p>
                                     </div>
-                                    <p className="text-2xl font-bold text-primary">
+                                    <p className="text-2xl font-bold text-green-800">
                                         ${totalPrice.toFixed(2)}
                                     </p>
                                 </div>
@@ -224,7 +224,9 @@ export default function Edit({ booking, users, rooms }) {
 
                             <div className="flex gap-3 justify-end">
                                 <Button variant="outline" type="button" asChild>
-                                    <Link href={route("dashboard.bookings.index")}>
+                                    <Link
+                                        href={route("dashboard.bookings.index")}
+                                    >
                                         Cancel
                                     </Link>
                                 </Button>

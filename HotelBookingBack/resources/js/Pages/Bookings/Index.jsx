@@ -18,16 +18,12 @@ const statusStyles = {
         "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
     cancelled:
         "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/20",
-    completed:
-        "bg-sky-500/10 text-sky-700 dark:text-sky-400 border-sky-500/20",
+    completed: "bg-sky-500/10 text-sky-700 dark:text-sky-400 border-sky-500/20",
 };
 
 function StatusBadge({ status }) {
     return (
-        <Badge
-            variant="outline"
-            className={statusStyles[status] || ""}
-        >
+        <Badge variant="outline" className={statusStyles[status] || ""}>
             {status?.charAt(0).toUpperCase() + status?.slice(1)}
         </Badge>
     );
@@ -36,10 +32,7 @@ function StatusBadge({ status }) {
 function PaymentBadge({ payment }) {
     if (!payment)
         return (
-            <Badge
-                variant="outline"
-                className="text-muted-foreground"
-            >
+            <Badge variant="outline" className="text-muted-foreground">
                 Unpaid
             </Badge>
         );
@@ -72,7 +65,7 @@ export default function BookingsIndex({ bookings }) {
                     <div className="absolute inset-0 bg-gradient-primary" />
                     <div className="absolute inset-0 bg-gradient-mesh opacity-30 mix-blend-overlay" />
                     <div className="absolute inset-0 noise opacity-30" />
-                    <div className="relative p-8 text-primary-foreground space-y-2">
+                    <div className="relative p-8 text-green-800-foreground space-y-2">
                         <Badge
                             variant="outline"
                             className="glass border-white/20 text-white w-fit"
@@ -86,7 +79,7 @@ export default function BookingsIndex({ bookings }) {
                         <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
                             My bookings
                         </h1>
-                        <p className="text-primary-foreground/85 max-w-lg">
+                        <p className="text-green-800-foreground/85 max-w-lg">
                             View and manage all your hotel reservations in one
                             place.
                         </p>
@@ -113,7 +106,7 @@ export default function BookingsIndex({ bookings }) {
                                     <CardContent className="p-5">
                                         <div className="flex items-center gap-4">
                                             <div className="hidden sm:flex h-14 w-14 rounded-2xl bg-gradient-primary-soft items-center justify-center shrink-0">
-                                                <Hotel className="h-6 w-6 text-primary" />
+                                                <Hotel className="h-6 w-6 text-green-800" />
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center gap-2 flex-wrap">
@@ -174,14 +167,14 @@ export default function BookingsIndex({ bookings }) {
                     <Card variant="soft" className="text-center py-16">
                         <CardContent>
                             <div className="mx-auto h-16 w-16 rounded-full bg-gradient-primary-soft flex items-center justify-center mb-4">
-                                <CalendarCheck className="h-8 w-8 text-primary" />
+                                <CalendarCheck className="h-8 w-8 text-green-800" />
                             </div>
                             <p className="font-semibold text-lg">
                                 No bookings yet
                             </p>
                             <p className="text-sm text-muted-foreground mt-1">
-                                Your reservations will appear here once you
-                                book a hotel.
+                                Your reservations will appear here once you book
+                                a hotel.
                             </p>
                             <Button
                                 variant="gradient"
@@ -208,7 +201,7 @@ export default function BookingsIndex({ bookings }) {
                                 href={link.url || "#"}
                                 className={`min-w-9 h-9 inline-flex items-center justify-center px-3 text-sm rounded-full transition-all ${
                                     link.active
-                                        ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                                        ? "bg-gradient-primary text-green-800-foreground shadow-glow"
                                         : link.url
                                           ? "hover:bg-muted"
                                           : "text-muted-foreground cursor-not-allowed"

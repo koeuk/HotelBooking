@@ -49,10 +49,11 @@ function ProfileSection({ mustVerifyEmail, status }) {
 
     const avatarInput = useRef();
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
-        email: user.email,
-    });
+    const { data, setData, patch, errors, processing, recentlySuccessful } =
+        useForm({
+            name: user.name,
+            email: user.email,
+        });
 
     const submit = (e) => {
         e.preventDefault();
@@ -62,7 +63,11 @@ function ProfileSection({ mustVerifyEmail, status }) {
     const handleAvatarChange = (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
-        router.post(route("profile.avatar"), { avatar: file }, { forceFormData: true });
+        router.post(
+            route("profile.avatar"),
+            { avatar: file },
+            { forceFormData: true },
+        );
     };
 
     return (
@@ -73,7 +78,7 @@ function ProfileSection({ mustVerifyEmail, status }) {
                         <div className="relative group">
                             <Avatar className="h-20 w-20 border-2 border-primary/20">
                                 <AvatarImage src={user.avatar} />
-                                <AvatarFallback className="text-2xl font-bold bg-primary/10 text-primary">
+                                <AvatarFallback className="text-2xl font-bold bg-primary/10 text-green-800">
                                     {user.name?.charAt(0)}
                                 </AvatarFallback>
                             </Avatar>
@@ -94,19 +99,28 @@ function ProfileSection({ mustVerifyEmail, status }) {
                         </div>
                         <div className="flex-1">
                             <h3 className="text-xl font-bold">{user.name}</h3>
-                            <p className="text-sm text-muted-foreground">{user.email}</p>
+                            <p className="text-sm text-muted-foreground">
+                                {user.email}
+                            </p>
                             <div className="flex items-center gap-2 mt-2 flex-wrap">
                                 <Badge variant="secondary" className="text-xs">
-                                    <Shield className="h-3 w-3 mr-1" /> {user.role}
+                                    <Shield className="h-3 w-3 mr-1" />{" "}
+                                    {user.role}
                                 </Badge>
                                 {user.phone && (
-                                    <Badge variant="outline" className="text-xs">
-                                        <Phone className="h-3 w-3 mr-1" /> {user.phone}
+                                    <Badge
+                                        variant="outline"
+                                        className="text-xs"
+                                    >
+                                        <Phone className="h-3 w-3 mr-1" />{" "}
+                                        {user.phone}
                                     </Badge>
                                 )}
                                 <Badge variant="outline" className="text-xs">
                                     <Calendar className="h-3 w-3 mr-1" /> Joined{" "}
-                                    {new Date(user.created_at).toLocaleDateString()}
+                                    {new Date(
+                                        user.created_at,
+                                    ).toLocaleDateString()}
                                 </Badge>
                             </div>
                         </div>
@@ -117,7 +131,9 @@ function ProfileSection({ mustVerifyEmail, status }) {
             <Card className="border-none shadow-sm">
                 <CardHeader>
                     <CardTitle>Profile Information</CardTitle>
-                    <CardDescription>Update your name and email address.</CardDescription>
+                    <CardDescription>
+                        Update your name and email address.
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={submit} className="space-y-4 max-w-lg">
@@ -126,10 +142,16 @@ function ProfileSection({ mustVerifyEmail, status }) {
                             <Input
                                 id="name"
                                 value={data.name}
-                                onChange={(e) => setData("name", e.target.value)}
+                                onChange={(e) =>
+                                    setData("name", e.target.value)
+                                }
                                 required
                             />
-                            {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                            {errors.name && (
+                                <p className="text-sm text-destructive">
+                                    {errors.name}
+                                </p>
+                            )}
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
@@ -137,10 +159,16 @@ function ProfileSection({ mustVerifyEmail, status }) {
                                 id="email"
                                 type="email"
                                 value={data.email}
-                                onChange={(e) => setData("email", e.target.value)}
+                                onChange={(e) =>
+                                    setData("email", e.target.value)
+                                }
                                 required
                             />
-                            {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                            {errors.email && (
+                                <p className="text-sm text-destructive">
+                                    {errors.email}
+                                </p>
+                            )}
                         </div>
                         <div className="flex items-center gap-3 pt-2">
                             <Button type="submit" disabled={processing}>
@@ -163,7 +191,15 @@ function SecuritySection() {
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
 
-    const { data, setData, errors, put, reset, processing, recentlySuccessful } = useForm({
+    const {
+        data,
+        setData,
+        errors,
+        put,
+        reset,
+        processing,
+        recentlySuccessful,
+    } = useForm({
         current_password: "",
         password: "",
         password_confirmation: "",
@@ -191,21 +227,29 @@ function SecuritySection() {
         <Card className="border-none shadow-sm">
             <CardHeader>
                 <CardTitle>Update Password</CardTitle>
-                <CardDescription>Use a strong password to keep your account secure.</CardDescription>
+                <CardDescription>
+                    Use a strong password to keep your account secure.
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={submit} className="space-y-4 max-w-lg">
                     <div className="space-y-2">
-                        <Label htmlFor="current_password">Current Password</Label>
+                        <Label htmlFor="current_password">
+                            Current Password
+                        </Label>
                         <Input
                             id="current_password"
                             ref={currentPasswordInput}
                             type="password"
                             value={data.current_password}
-                            onChange={(e) => setData("current_password", e.target.value)}
+                            onChange={(e) =>
+                                setData("current_password", e.target.value)
+                            }
                         />
                         {errors.current_password && (
-                            <p className="text-sm text-destructive">{errors.current_password}</p>
+                            <p className="text-sm text-destructive">
+                                {errors.current_password}
+                            </p>
                         )}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -216,19 +260,30 @@ function SecuritySection() {
                                 ref={passwordInput}
                                 type="password"
                                 value={data.password}
-                                onChange={(e) => setData("password", e.target.value)}
+                                onChange={(e) =>
+                                    setData("password", e.target.value)
+                                }
                             />
                             {errors.password && (
-                                <p className="text-sm text-destructive">{errors.password}</p>
+                                <p className="text-sm text-destructive">
+                                    {errors.password}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="password_confirmation">Confirm Password</Label>
+                            <Label htmlFor="password_confirmation">
+                                Confirm Password
+                            </Label>
                             <Input
                                 id="password_confirmation"
                                 type="password"
                                 value={data.password_confirmation}
-                                onChange={(e) => setData("password_confirmation", e.target.value)}
+                                onChange={(e) =>
+                                    setData(
+                                        "password_confirmation",
+                                        e.target.value,
+                                    )
+                                }
                             />
                         </div>
                     </div>
@@ -266,7 +321,9 @@ function IntegrationsSection({ settings }) {
                     <Send className="h-5 w-5 text-blue-500" />
                     Telegram Integration
                 </CardTitle>
-                <CardDescription>Configure Telegram bot to receive booking notifications.</CardDescription>
+                <CardDescription>
+                    Configure Telegram bot to receive booking notifications.
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={submit} className="space-y-4 max-w-lg">
@@ -275,26 +332,37 @@ function IntegrationsSection({ settings }) {
                         <Input
                             id="telegram_bot_token"
                             value={data.telegram_bot_token}
-                            onChange={(e) => setData("telegram_bot_token", e.target.value)}
+                            onChange={(e) =>
+                                setData("telegram_bot_token", e.target.value)
+                            }
                             placeholder="e.g. 123456789:AABBccDDeeFFggHH..."
                         />
-                        <p className="text-xs text-muted-foreground">Get this from @BotFather on Telegram.</p>
+                        <p className="text-xs text-muted-foreground">
+                            Get this from @BotFather on Telegram.
+                        </p>
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="telegram_chat_id">Chat / Group ID</Label>
+                        <Label htmlFor="telegram_chat_id">
+                            Chat / Group ID
+                        </Label>
                         <Input
                             id="telegram_chat_id"
                             value={data.telegram_chat_id}
-                            onChange={(e) => setData("telegram_chat_id", e.target.value)}
+                            onChange={(e) =>
+                                setData("telegram_chat_id", e.target.value)
+                            }
                             placeholder="e.g. -1001234567890"
                         />
                         <p className="text-xs text-muted-foreground">
-                            The Telegram chat or group ID where notifications will be sent.
+                            The Telegram chat or group ID where notifications
+                            will be sent.
                         </p>
                     </div>
                     <div className="pt-2">
                         <Button type="submit" disabled={processing}>
-                            {processing ? "Saving..." : "Save Telegram Settings"}
+                            {processing
+                                ? "Saving..."
+                                : "Save Telegram Settings"}
                         </Button>
                     </div>
                 </form>
@@ -306,7 +374,15 @@ function IntegrationsSection({ settings }) {
 function DangerSection() {
     const [open, setOpen] = useState(false);
     const passwordInput = useRef();
-    const { data, setData, delete: destroy, processing, reset, errors, clearErrors } = useForm({
+    const {
+        data,
+        setData,
+        delete: destroy,
+        processing,
+        reset,
+        errors,
+        clearErrors,
+    } = useForm({
         password: "",
     });
 
@@ -327,12 +403,15 @@ function DangerSection() {
                     <AlertTriangle className="h-5 w-5" />
                     Danger Zone
                 </CardTitle>
-                <CardDescription>Permanently delete your account and all associated data.</CardDescription>
+                <CardDescription>
+                    Permanently delete your account and all associated data.
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="flex items-center justify-between">
                     <p className="text-sm text-muted-foreground max-w-md">
-                        Once deleted, all data will be permanently removed. This cannot be undone.
+                        Once deleted, all data will be permanently removed. This
+                        cannot be undone.
                     </p>
                     <Dialog open={open} onOpenChange={setOpen}>
                         <DialogTrigger asChild>
@@ -343,25 +422,37 @@ function DangerSection() {
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                <DialogTitle>
+                                    Are you absolutely sure?
+                                </DialogTitle>
                                 <DialogDescription>
-                                    This will permanently delete your account. Enter your password to confirm.
+                                    This will permanently delete your account.
+                                    Enter your password to confirm.
                                 </DialogDescription>
                             </DialogHeader>
                             <form onSubmit={deleteUser}>
                                 <div className="space-y-4 py-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="delete-password">Password</Label>
+                                        <Label htmlFor="delete-password">
+                                            Password
+                                        </Label>
                                         <Input
                                             id="delete-password"
                                             type="password"
                                             ref={passwordInput}
                                             value={data.password}
-                                            onChange={(e) => setData("password", e.target.value)}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "password",
+                                                    e.target.value,
+                                                )
+                                            }
                                             placeholder="Enter your password"
                                         />
                                         {errors.password && (
-                                            <p className="text-sm text-destructive">{errors.password}</p>
+                                            <p className="text-sm text-destructive">
+                                                {errors.password}
+                                            </p>
                                         )}
                                     </div>
                                 </div>
@@ -369,12 +460,22 @@ function DangerSection() {
                                     <Button
                                         type="button"
                                         variant="outline"
-                                        onClick={() => { setOpen(false); clearErrors(); reset(); }}
+                                        onClick={() => {
+                                            setOpen(false);
+                                            clearErrors();
+                                            reset();
+                                        }}
                                     >
                                         Cancel
                                     </Button>
-                                    <Button type="submit" variant="destructive" disabled={processing}>
-                                        {processing ? "Deleting..." : "Delete Account"}
+                                    <Button
+                                        type="submit"
+                                        variant="destructive"
+                                        disabled={processing}
+                                    >
+                                        {processing
+                                            ? "Deleting..."
+                                            : "Delete Account"}
                                     </Button>
                                 </DialogFooter>
                             </form>
@@ -415,20 +516,22 @@ export default function Index({ settings, mustVerifyEmail, status }) {
                                     className={cn(
                                         "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-all text-left",
                                         activeSection === item.id
-                                            ? "bg-primary/10 text-primary"
+                                            ? "bg-primary/10 text-green-800"
                                             : item.danger
                                               ? "text-muted-foreground hover:text-destructive hover:bg-destructive/5"
                                               : "text-muted-foreground hover:text-foreground hover:bg-accent",
                                     )}
                                 >
-                                    <item.icon className={cn(
-                                        "h-4 w-4",
-                                        activeSection === item.id
-                                            ? "text-primary"
-                                            : item.danger
-                                              ? ""
-                                              : "",
-                                    )} />
+                                    <item.icon
+                                        className={cn(
+                                            "h-4 w-4",
+                                            activeSection === item.id
+                                                ? "text-green-800"
+                                                : item.danger
+                                                  ? ""
+                                                  : "",
+                                        )}
+                                    />
                                     {item.label}
                                 </button>
                             ))}
@@ -445,7 +548,7 @@ export default function Index({ settings, mustVerifyEmail, status }) {
                                     className={cn(
                                         "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap shrink-0 transition-all",
                                         activeSection === item.id
-                                            ? "bg-primary text-primary-foreground"
+                                            ? "bg-primary text-green-800-foreground"
                                             : "bg-muted text-muted-foreground hover:bg-accent",
                                     )}
                                 >
@@ -459,10 +562,15 @@ export default function Index({ settings, mustVerifyEmail, status }) {
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                         {activeSection === "profile" && (
-                            <ProfileSection mustVerifyEmail={mustVerifyEmail} status={status} />
+                            <ProfileSection
+                                mustVerifyEmail={mustVerifyEmail}
+                                status={status}
+                            />
                         )}
                         {activeSection === "security" && <SecuritySection />}
-                        {activeSection === "integrations" && <IntegrationsSection settings={settings} />}
+                        {activeSection === "integrations" && (
+                            <IntegrationsSection settings={settings} />
+                        )}
                         {activeSection === "danger" && <DangerSection />}
                     </div>
                 </div>

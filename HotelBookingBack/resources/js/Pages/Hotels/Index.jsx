@@ -177,7 +177,7 @@ export default function HotelsIndex({ hotels, cities, filters }) {
                                         )}
                                     </div>
                                     <CardContent className="p-5">
-                                        <h3 className="font-semibold text-lg group-hover:text-primary transition-colors truncate">
+                                        <h3 className="font-semibold text-lg group-hover:text-green-800 transition-colors truncate">
                                             {hotel.name}
                                         </h3>
                                         <p className="flex items-center gap-1 mt-1.5 text-sm text-muted-foreground truncate">
@@ -202,7 +202,7 @@ export default function HotelsIndex({ hotels, cities, filters }) {
                     <Card variant="soft" className="text-center py-16">
                         <CardContent>
                             <div className="mx-auto h-16 w-16 rounded-full bg-gradient-primary-soft flex items-center justify-center mb-4">
-                                <Hotel className="h-8 w-8 text-primary" />
+                                <Hotel className="h-8 w-8 text-green-800" />
                             </div>
                             <p className="font-semibold text-lg">
                                 No hotels found
@@ -233,7 +233,7 @@ export default function HotelsIndex({ hotels, cities, filters }) {
                                 href={link.url || "#"}
                                 className={`min-w-9 h-9 inline-flex items-center justify-center px-3 text-sm rounded-full transition-all ${
                                     link.active
-                                        ? "bg-gradient-primary text-primary-foreground shadow-glow"
+                                        ? "bg-gradient-primary text-green-800-foreground shadow-glow"
                                         : link.url
                                           ? "hover:bg-muted"
                                           : "text-muted-foreground cursor-not-allowed"

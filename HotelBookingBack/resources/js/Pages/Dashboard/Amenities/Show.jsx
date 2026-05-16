@@ -1,21 +1,10 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import {
-    ChevronLeft,
-    Edit,
-    Hotel,
-    MapPin,
-    Sparkles,
-} from "lucide-react";
+import { ChevronLeft, Edit, Hotel, MapPin, Sparkles } from "lucide-react";
 
 export default function Show({ amenity }) {
     return (
@@ -38,7 +27,7 @@ export default function Show({ amenity }) {
                         <Link
                             href={route(
                                 "dashboard.amenities.edit",
-                                amenity.uuid
+                                amenity.uuid,
                             )}
                         >
                             <Edit className="mr-2 h-4 w-4" /> Edit Amenity
@@ -52,7 +41,7 @@ export default function Show({ amenity }) {
                         <CardContent className="pt-6">
                             <div className="flex flex-col items-center gap-3">
                                 <div className="bg-primary/10 p-4 rounded-full">
-                                    <Sparkles className="h-8 w-8 text-primary" />
+                                    <Sparkles className="h-8 w-8 text-green-800" />
                                 </div>
                                 <h3 className="text-xl font-bold">
                                     {amenity.name}
@@ -79,8 +68,7 @@ export default function Show({ amenity }) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                {amenity.hotels &&
-                                amenity.hotels.length > 0 ? (
+                                {amenity.hotels && amenity.hotels.length > 0 ? (
                                     <div className="space-y-3">
                                         {amenity.hotels.map((hotel) => (
                                             <div
@@ -107,7 +95,7 @@ export default function Show({ amenity }) {
                                                     <Link
                                                         href={route(
                                                             "dashboard.hotels.show",
-                                                            hotel.uuid
+                                                            hotel.uuid,
                                                         )}
                                                     >
                                                         View

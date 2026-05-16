@@ -98,7 +98,7 @@ export default function HotelDetail({ hotel }) {
                                 </span>
                             </h1>
                             <div className="inline-flex items-center gap-2 glass rounded-full px-3 py-1.5 text-sm text-foreground w-fit">
-                                <MapPin className="h-4 w-4 text-primary shrink-0" />
+                                <MapPin className="h-4 w-4 text-green-800 shrink-0" />
                                 <span className="truncate max-w-[60ch]">
                                     {hotel.address && `${hotel.address}, `}
                                     {hotel.city}, {hotel.country}
@@ -155,7 +155,7 @@ export default function HotelDetail({ hotel }) {
                     <Gallery images={images} name={hotel.name} />
                 ) : (
                     <div className="h-72 rounded-3xl bg-gradient-primary-soft flex items-center justify-center">
-                        <BedDouble className="h-16 w-16 text-primary/60" />
+                        <BedDouble className="h-16 w-16 text-green-800/60" />
                     </div>
                 )}
 
@@ -163,7 +163,10 @@ export default function HotelDetail({ hotel }) {
                     {/* Main */}
                     <div className="lg:col-span-2 space-y-6">
                         {hotel.description && (
-                            <Card variant="elevated" className="animate-fade-up">
+                            <Card
+                                variant="elevated"
+                                className="animate-fade-up"
+                            >
                                 <CardHeader className="pb-3">
                                     <CardTitle>About this hotel</CardTitle>
                                 </CardHeader>
@@ -179,7 +182,7 @@ export default function HotelDetail({ hotel }) {
                         <Card variant="elevated" className="animate-fade-up">
                             <CardHeader className="pb-3">
                                 <CardTitle className="flex items-center gap-2">
-                                    <BedDouble className="h-5 w-5 text-primary" />
+                                    <BedDouble className="h-5 w-5 text-green-800" />
                                     Available rooms
                                 </CardTitle>
                                 <CardDescription>
@@ -193,8 +196,7 @@ export default function HotelDetail({ hotel }) {
                                             const available = (
                                                 type.rooms || []
                                             ).filter(
-                                                (r) =>
-                                                    r.status === "available",
+                                                (r) => r.status === "available",
                                             ).length;
                                             return (
                                                 <div
@@ -284,7 +286,7 @@ export default function HotelDetail({ hotel }) {
                             >
                                 <CardHeader className="pb-3">
                                     <CardTitle className="flex items-center gap-2">
-                                        <MapPin className="h-5 w-5 text-primary" />
+                                        <MapPin className="h-5 w-5 text-green-800" />
                                         Location
                                     </CardTitle>
                                 </CardHeader>
@@ -301,7 +303,10 @@ export default function HotelDetail({ hotel }) {
 
                         {/* Reviews */}
                         {reviews.length > 0 && (
-                            <Card variant="elevated" className="animate-fade-up">
+                            <Card
+                                variant="elevated"
+                                className="animate-fade-up"
+                            >
                                 <CardHeader className="pb-3">
                                     <CardTitle className="flex items-center gap-2">
                                         <Star className="h-5 w-5 text-amber-500" />
@@ -350,10 +355,7 @@ export default function HotelDetail({ hotel }) {
                     {/* Sidebar */}
                     <div className="space-y-6">
                         {amenities.length > 0 && (
-                            <Card
-                                variant="glass"
-                                className="animate-fade-up"
-                            >
+                            <Card variant="glass" className="animate-fade-up">
                                 <CardHeader className="pb-3">
                                     <CardTitle className="text-lg">
                                         Amenities
@@ -375,7 +377,7 @@ export default function HotelDetail({ hotel }) {
                                                     key={a.id}
                                                     className="flex items-center gap-2 p-2.5 rounded-xl bg-muted/30 transition-colors hover:bg-muted/50"
                                                 >
-                                                    <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-primary text-primary-foreground shrink-0">
+                                                    <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-gradient-primary text-green-800-foreground shrink-0">
                                                         <IconComponent className="h-4 w-4" />
                                                     </div>
                                                     <span className="text-sm font-medium truncate">
@@ -400,10 +402,7 @@ export default function HotelDetail({ hotel }) {
                                     label="Room types"
                                     value={roomTypes.length}
                                 />
-                                <Row
-                                    label="Reviews"
-                                    value={reviews.length}
-                                />
+                                <Row label="Reviews" value={reviews.length} />
                                 <Row
                                     label="Rating"
                                     value={
@@ -470,9 +469,7 @@ function Gallery({ images, name }) {
 
 function GalleryImage({ src, alt, className = "" }) {
     return (
-        <div
-            className={`group relative overflow-hidden bg-muted ${className}`}
-        >
+        <div className={`group relative overflow-hidden bg-muted ${className}`}>
             <img
                 src={src}
                 alt={alt}
@@ -505,7 +502,7 @@ function BedDoubleIcon() {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-primary/60"
+            className="text-green-800/60"
         >
             <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" />
             <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" />

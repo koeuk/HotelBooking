@@ -44,24 +44,65 @@ const navSections = [
     {
         label: "Navigation",
         items: [
-            { name: "Dashboard", routeName: "dashboard", icon: LayoutDashboard, color: "text-blue-500" },
-            { name: "My Bookings", routeName: "bookings.index", icon: CalendarCheck, color: "text-amber-500" },
-            { name: "Hotels", routeName: "hotels.index", icon: Hotel, color: "text-emerald-500" },
-            { name: "Favorites", routeName: "favorites.index", icon: Heart, color: "text-rose-500" },
+            {
+                name: "Dashboard",
+                routeName: "dashboard",
+                icon: LayoutDashboard,
+                color: "text-blue-500",
+            },
+            {
+                name: "My Bookings",
+                routeName: "bookings.index",
+                icon: CalendarCheck,
+                color: "text-amber-500",
+            },
+            {
+                name: "Hotels",
+                routeName: "hotels.index",
+                icon: Hotel,
+                color: "text-emerald-500",
+            },
+            {
+                name: "Favorites",
+                routeName: "favorites.index",
+                icon: Heart,
+                color: "text-rose-500",
+            },
         ],
     },
     {
         label: "Activity",
         items: [
-            { name: "My Reviews", routeName: "reviews.index", icon: Star, color: "text-yellow-500" },
-            { name: "Notifications", routeName: "notifications.index", icon: Bell, color: "text-violet-500" },
+            {
+                name: "My Reviews",
+                routeName: "reviews.index",
+                icon: Star,
+                color: "text-yellow-500",
+            },
+            {
+                name: "Notifications",
+                routeName: "notifications.index",
+                icon: Bell,
+                color: "text-violet-500",
+            },
         ],
     },
     {
         label: "Account",
         items: [
-            { name: "Profile", routeName: "profile.edit", icon: UserCircle, color: "text-zinc-400" },
-            { name: "Help & Support", routeName: "dashboard", icon: HelpCircle, color: "text-zinc-400", isStatic: true },
+            {
+                name: "Profile",
+                routeName: "profile.edit",
+                icon: UserCircle,
+                color: "text-zinc-400",
+            },
+            {
+                name: "Help & Support",
+                routeName: "dashboard",
+                icon: HelpCircle,
+                color: "text-zinc-400",
+                isStatic: true,
+            },
         ],
     },
 ];
@@ -86,12 +127,12 @@ export default function AuthenticatedLayout({ children }) {
                     href={route("dashboard.index")}
                     className="flex items-center gap-2 group"
                 >
-                    <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-bold text-xl group-hover:scale-110 transition-transform">
+                    <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-green-800-foreground font-bold text-xl group-hover:scale-110 transition-transform">
                         H
                     </div>
                     {!isCollapsed && (
                         <span className="text-xl font-bold tracking-tight text-white animate-in fade-in slide-in-from-left-2 duration-300">
-                            Hotel<span className="text-primary">Book</span>
+                            Hotel<span className="text-green-800">Book</span>
                         </span>
                     )}
                 </Link>
@@ -114,7 +155,10 @@ export default function AuthenticatedLayout({ children }) {
                         {section.items.map((item) => {
                             const itemUrl = route(item.routeName);
                             const itemPath = new URL(itemUrl).pathname;
-                            const isActive = url === itemPath || (itemPath !== '/dashboard' && url.startsWith(itemPath));
+                            const isActive =
+                                url === itemPath ||
+                                (itemPath !== "/dashboard" &&
+                                    url.startsWith(itemPath));
                             return (
                                 <Link
                                     key={item.name}
@@ -122,14 +166,16 @@ export default function AuthenticatedLayout({ children }) {
                                     className={cn(
                                         "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 group relative",
                                         isActive
-                                            ? "bg-primary/10 text-primary"
+                                            ? "bg-primary/10 text-green-800"
                                             : "hover:bg-slate-700/50 hover:text-white",
                                     )}
                                 >
                                     <item.icon
                                         className={cn(
                                             "h-5 w-5 transition-transform duration-200 group-hover:scale-110",
-                                            isActive ? "text-primary" : item.color,
+                                            isActive
+                                                ? "text-green-800"
+                                                : item.color,
                                         )}
                                     />
                                     {!isCollapsed && (
@@ -182,20 +228,31 @@ export default function AuthenticatedLayout({ children }) {
                         align="start"
                         className="w-56 mb-2"
                     >
-                        <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
-                            <div className="flex items-center gap-3">
-                                <Avatar className="h-9 w-9">
-                                    <AvatarImage src={user.avatar} />
-                                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1 overflow-hidden">
-                                    <p className="text-sm font-bold truncate">{user.name}</p>
-                                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        <DropdownMenuGroup>
+                            <DropdownMenuLabel className="font-normal">
+                                <div className="flex items-center gap-3">
+                                    <Avatar className="h-9 w-9">
+                                        <AvatarImage src={user.avatar} />
+                                        <AvatarFallback>
+                                            {user.name.charAt(0)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex-1 overflow-hidden">
+                                        <p className="text-sm font-bold truncate">
+                                            {user.name}
+                                        </p>
+                                        <p className="text-xs text-muted-foreground truncate">
+                                            {user.email}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </DropdownMenuLabel></DropdownMenuGroup>
+                            </DropdownMenuLabel>
+                        </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("profile.edit"))}>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => router.get(route("profile.edit"))}
+                        >
                             <UserCircle className="h-4 w-4" />
                             Profile Settings
                         </DropdownMenuItem>
@@ -261,7 +318,7 @@ export default function AuthenticatedLayout({ children }) {
                         </Sheet>
 
                         <div className="hidden sm:flex items-center relative group">
-                            <Search className="absolute left-3 h-4 w-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                            <Search className="absolute left-3 h-4 w-4 text-zinc-400 group-focus-within:text-green-800 transition-colors" />
                             <Input
                                 placeholder="Search hotels, bookings..."
                                 className="pl-10 w-64 bg-zinc-100 dark:bg-zinc-900 border-none rounded-full focus-visible:ring-2 focus-visible:ring-primary/20 transition-all"
@@ -300,7 +357,7 @@ export default function AuthenticatedLayout({ children }) {
                                 >
                                     <Avatar className="h-full w-full">
                                         <AvatarImage src={user.avatar} />
-                                        <AvatarFallback className="bg-primary/10 text-primary font-bold">
+                                        <AvatarFallback className="bg-primary/10 text-green-800 font-bold">
                                             {user.name.charAt(0)}
                                         </AvatarFallback>
                                     </Avatar>
@@ -311,18 +368,25 @@ export default function AuthenticatedLayout({ children }) {
                                 align="end"
                                 forceMount
                             >
-                                <DropdownMenuGroup><DropdownMenuLabel className="font-normal">
-                                    <div className="flex flex-col space-y-1">
-                                        <p className="text-sm font-bold leading-none">
-                                            {user.name}
-                                        </p>
-                                        <p className="text-xs leading-none text-zinc-300">
-                                            {user.email}
-                                        </p>
-                                    </div>
-                                </DropdownMenuLabel></DropdownMenuGroup>
+                                <DropdownMenuGroup>
+                                    <DropdownMenuLabel className="font-normal">
+                                        <div className="flex flex-col space-y-1">
+                                            <p className="text-sm font-bold leading-none">
+                                                {user.name}
+                                            </p>
+                                            <p className="text-xs leading-none text-zinc-300">
+                                                {user.email}
+                                            </p>
+                                        </div>
+                                    </DropdownMenuLabel>
+                                </DropdownMenuGroup>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="cursor-pointer" onClick={() => router.get(route("profile.edit"))}>
+                                <DropdownMenuItem
+                                    className="cursor-pointer"
+                                    onClick={() =>
+                                        router.get(route("profile.edit"))
+                                    }
+                                >
                                     <UserCircle className="h-4 w-4" />
                                     Profile Settings
                                 </DropdownMenuItem>
@@ -343,13 +407,11 @@ export default function AuthenticatedLayout({ children }) {
                     ref={mainRef}
                     className="flex-1 overflow-y-auto overflow-x-hidden"
                 >
-                    <div className="p-6 md:p-10 min-h-full">
-                        {children}
-                    </div>
+                    <div className="p-6 md:p-10 min-h-full">{children}</div>
 
                     <footer className="p-6 text-center text-[10px] text-zinc-400 border-t border-zinc-200 dark:border-slate-700/30">
                         &copy; 2026 Hotel Booking Pro. Managed by{" "}
-                        <span className="text-primary font-bold">koeuk</span>
+                        <span className="text-green-800 font-bold">koeuk</span>
                     </footer>
                 </main>
             </div>

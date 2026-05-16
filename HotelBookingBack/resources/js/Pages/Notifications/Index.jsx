@@ -4,7 +4,14 @@ import { Head } from "@inertiajs/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Bell, Check, CheckCheck, Calendar, CreditCard, Hotel } from "lucide-react";
+import {
+    Bell,
+    Check,
+    CheckCheck,
+    Calendar,
+    CreditCard,
+    Hotel,
+} from "lucide-react";
 import axios from "axios";
 
 const getIcon = (type) => {
@@ -44,7 +51,10 @@ export default function Index() {
     const markAllAsRead = async () => {
         await axios.patch("/api/v1/notifications/read-all");
         setNotifications((prev) =>
-            prev.map((n) => ({ ...n, read_at: n.read_at || new Date().toISOString() })),
+            prev.map((n) => ({
+                ...n,
+                read_at: n.read_at || new Date().toISOString(),
+            })),
         );
     };
 
@@ -99,7 +109,9 @@ export default function Index() {
                 ) : (
                     <div className="space-y-3">
                         {notifications.map((notification) => {
-                            const IconComponent = getIcon(notification.data?.type);
+                            const IconComponent = getIcon(
+                                notification.data?.type,
+                            );
                             const isUnread = !notification.read_at;
                             return (
                                 <Card
@@ -111,7 +123,7 @@ export default function Index() {
                                             className={`p-2 rounded-full shrink-0 ${isUnread ? "bg-primary/10" : "bg-zinc-100 dark:bg-zinc-800"}`}
                                         >
                                             <IconComponent
-                                                className={`h-5 w-5 ${isUnread ? "text-primary" : "text-zinc-400"}`}
+                                                className={`h-5 w-5 ${isUnread ? "text-green-800" : "text-zinc-400"}`}
                                             />
                                         </div>
                                         <div className="flex-1 min-w-0">
@@ -128,7 +140,7 @@ export default function Index() {
                                                     </p>
                                                 </div>
                                                 {isUnread && (
-                                                    <Badge className="bg-primary/10 text-primary border-primary/20 shrink-0 text-[10px]">
+                                                    <Badge className="bg-primary/10 text-green-800 border-primary/20 shrink-0 text-[10px]">
                                                         New
                                                     </Badge>
                                                 )}

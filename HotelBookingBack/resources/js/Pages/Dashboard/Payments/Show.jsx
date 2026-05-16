@@ -74,7 +74,12 @@ export default function Show({ payment }) {
                         </h2>
                     </div>
                     <Button asChild>
-                        <Link href={route("dashboard.payments.edit", payment.uuid)}>
+                        <Link
+                            href={route(
+                                "dashboard.payments.edit",
+                                payment.uuid,
+                            )}
+                        >
                             <Edit className="mr-2 h-4 w-4" /> Edit Payment
                         </Link>
                     </Button>
@@ -114,13 +119,13 @@ export default function Show({ payment }) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="flex items-center gap-3">
                                         <div className="bg-primary/10 p-2 rounded-md">
-                                            <DollarSign className="h-5 w-5 text-primary" />
+                                            <DollarSign className="h-5 w-5 text-green-800" />
                                         </div>
                                         <div>
                                             <Label className="text-muted-foreground text-xs uppercase tracking-wider">
                                                 Amount
                                             </Label>
-                                            <p className="text-xl font-bold text-primary">
+                                            <p className="text-xl font-bold text-green-800">
                                                 ${payment.amount}
                                             </p>
                                         </div>
@@ -189,7 +194,7 @@ export default function Show({ payment }) {
                                                     "dashboard.bookings.show",
                                                     booking.uuid,
                                                 )}
-                                                className="text-primary hover:underline font-semibold text-lg block"
+                                                className="text-green-800 hover:underline font-semibold text-lg block"
                                             >
                                                 #{booking.id}
                                             </Link>
@@ -226,7 +231,7 @@ export default function Show({ payment }) {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="flex items-center gap-3">
                                             <div className="bg-primary/10 p-2 rounded-md">
-                                                <Calendar className="h-5 w-5 text-primary" />
+                                                <Calendar className="h-5 w-5 text-green-800" />
                                             </div>
                                             <div>
                                                 <Label className="text-muted-foreground text-xs uppercase tracking-wider">
@@ -249,7 +254,7 @@ export default function Show({ payment }) {
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <div className="bg-primary/10 p-2 rounded-md">
-                                                <Calendar className="h-5 w-5 text-primary" />
+                                                <Calendar className="h-5 w-5 text-green-800" />
                                             </div>
                                             <div>
                                                 <Label className="text-muted-foreground text-xs uppercase tracking-wider">
@@ -275,7 +280,7 @@ export default function Show({ payment }) {
                                         <span className="text-lg font-medium">
                                             Booking Total
                                         </span>
-                                        <span className="text-2xl font-bold text-primary">
+                                        <span className="text-2xl font-bold text-green-800">
                                             ${booking.total_price}
                                         </span>
                                     </div>

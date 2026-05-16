@@ -1,11 +1,6 @@
 import WebLayout from "@/Layouts/WebLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,7 +77,7 @@ export default function Contact() {
                         ].map((item, i) => (
                             <Card key={i} variant="elevated">
                                 <CardContent className="p-4 flex items-center gap-4">
-                                    <div className="p-2.5 rounded-xl bg-gradient-primary text-primary-foreground shrink-0">
+                                    <div className="p-2.5 rounded-xl bg-gradient-primary text-green-800-foreground shrink-0">
                                         <item.icon className="h-5 w-5" />
                                     </div>
                                     <div className="min-w-0">

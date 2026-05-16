@@ -120,7 +120,7 @@ export default function NotificationBell() {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="h-auto p-0 text-xs text-primary"
+                            className="h-auto p-0 text-xs text-green-800"
                             onClick={markAllAsRead}
                         >
                             Mark all as read

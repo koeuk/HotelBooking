@@ -25,7 +25,15 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Eye, CreditCard, DollarSign, Plus, Edit, Trash2, AlertTriangle } from "lucide-react";
+import {
+    Eye,
+    CreditCard,
+    DollarSign,
+    Plus,
+    Edit,
+    Trash2,
+    AlertTriangle,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -67,9 +75,13 @@ export default function Index({ payments }) {
     const { delete: destroy, processing } = useForm();
 
     const updateStatus = (id, status) => {
-        router.patch(route("dashboard.payments.update", id), { status }, {
-            onSuccess: () => toast.success("Payment status updated"),
-        });
+        router.patch(
+            route("dashboard.payments.update", id),
+            { status },
+            {
+                onSuccess: () => toast.success("Payment status updated"),
+            },
+        );
     };
 
     const handleDelete = () => {
@@ -131,7 +143,7 @@ export default function Index({ payments }) {
                                                 "dashboard.bookings.show",
                                                 payment.booking.uuid,
                                             )}
-                                            className="text-primary hover:underline"
+                                            className="text-green-800 hover:underline"
                                         >
                                             #{payment.booking_id}
                                         </Link>
@@ -266,13 +278,18 @@ export default function Index({ payments }) {
                 )}
             </div>
 
-            <Dialog open={!!paymentToDelete} onOpenChange={(open) => !open && setPaymentToDelete(null)}>
+            <Dialog
+                open={!!paymentToDelete}
+                onOpenChange={(open) => !open && setPaymentToDelete(null)}
+            >
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader className="text-center sm:text-center">
                         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
                             <AlertTriangle className="h-7 w-7 text-destructive" />
                         </div>
-                        <DialogTitle className="text-xl">Delete Payment</DialogTitle>
+                        <DialogTitle className="text-xl">
+                            Delete Payment
+                        </DialogTitle>
                         <DialogDescription className="pt-2 text-center">
                             Are you sure? This action cannot be undone.
                         </DialogDescription>
@@ -280,30 +297,61 @@ export default function Index({ payments }) {
                     {paymentToDelete && (
                         <div className="rounded-xl bg-muted/50 p-4 space-y-2 text-sm">
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">User</span>
-                                <span className="font-medium">{paymentToDelete.booking.user.name}</span>
+                                <span className="text-muted-foreground">
+                                    User
+                                </span>
+                                <span className="font-medium">
+                                    {paymentToDelete.booking.user.name}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Booking</span>
-                                <span className="font-medium">#{paymentToDelete.booking_id}</span>
+                                <span className="text-muted-foreground">
+                                    Booking
+                                </span>
+                                <span className="font-medium">
+                                    #{paymentToDelete.booking_id}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Amount</span>
-                                <span className="font-medium">${paymentToDelete.amount}</span>
+                                <span className="text-muted-foreground">
+                                    Amount
+                                </span>
+                                <span className="font-medium">
+                                    ${paymentToDelete.amount}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Method</span>
-                                <span className="font-medium uppercase">{paymentToDelete.method}</span>
+                                <span className="text-muted-foreground">
+                                    Method
+                                </span>
+                                <span className="font-medium uppercase">
+                                    {paymentToDelete.method}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Status</span>
-                                <span className="font-medium capitalize">{paymentToDelete.status}</span>
+                                <span className="text-muted-foreground">
+                                    Status
+                                </span>
+                                <span className="font-medium capitalize">
+                                    {paymentToDelete.status}
+                                </span>
                             </div>
                         </div>
                     )}
                     <DialogFooter className="gap-2 sm:gap-0">
-                        <Button variant="outline" className="flex-1" onClick={() => setPaymentToDelete(null)}>Cancel</Button>
-                        <Button variant="destructive" className="flex-1" onClick={handleDelete} disabled={processing}>
+                        <Button
+                            variant="outline"
+                            className="flex-1"
+                            onClick={() => setPaymentToDelete(null)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            className="flex-1"
+                            onClick={handleDelete}
+                            disabled={processing}
+                        >
                             {processing ? "Deleting..." : "Delete"}
                         </Button>
                     </DialogFooter>

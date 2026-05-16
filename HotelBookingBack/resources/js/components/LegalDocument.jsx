@@ -135,7 +135,7 @@ export default function LegalDocument({
                         />
 
                         {/* Lede */}
-                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light first-letter:text-4xl first-letter:font-serif first-letter:font-semibold first-letter:text-primary first-letter:mr-1 first-letter:float-left first-letter:leading-[0.9] first-letter:mt-1">
+                        <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light first-letter:text-4xl first-letter:font-serif first-letter:font-semibold first-letter:text-green-800 first-letter:mr-1 first-letter:float-left first-letter:leading-[0.9] first-letter:mt-1">
                             {intro}
                         </p>
 
@@ -162,7 +162,7 @@ export default function LegalDocument({
                                             <div className="relative">
                                                 <div className="absolute inset-0 rounded-2xl bg-gradient-primary opacity-0 blur-md transition-opacity duration-500 group-hover/sec:opacity-30" />
                                                 <div className="relative h-10 w-10 rounded-2xl bg-gradient-primary-soft flex items-center justify-center">
-                                                    <Icon className="h-4.5 w-4.5 text-primary" />
+                                                    <Icon className="h-4.5 w-4.5 text-green-800" />
                                                 </div>
                                             </div>
                                             <div className="flex items-baseline gap-3">

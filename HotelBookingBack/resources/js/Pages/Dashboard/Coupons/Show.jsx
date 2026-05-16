@@ -1,12 +1,7 @@
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -88,8 +83,8 @@ export default function Show({ coupon }) {
                                     Discount
                                 </Label>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <Percent className="h-5 w-5 text-primary" />
-                                    <span className="text-2xl font-bold text-primary">
+                                    <Percent className="h-5 w-5 text-green-800" />
+                                    <span className="text-2xl font-bold text-green-800">
                                         {coupon.discount_percent}%
                                     </span>
                                 </div>
@@ -114,7 +109,7 @@ export default function Show({ coupon }) {
                                     <p className="font-medium mt-1">
                                         {validFrom.toLocaleDateString(
                                             undefined,
-                                            { dateStyle: "long" }
+                                            { dateStyle: "long" },
                                         )}
                                     </p>
                                 </div>
@@ -125,7 +120,7 @@ export default function Show({ coupon }) {
                                     <p className="font-medium mt-1">
                                         {validUntil.toLocaleDateString(
                                             undefined,
-                                            { dateStyle: "long" }
+                                            { dateStyle: "long" },
                                         )}
                                     </p>
                                 </div>
@@ -173,7 +168,7 @@ export default function Show({ coupon }) {
                                                             0) /
                                                             coupon.max_uses) *
                                                             100,
-                                                        100
+                                                        100,
                                                     )}%`,
                                                 }}
                                             />

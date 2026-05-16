@@ -78,7 +78,7 @@ export default function Index({ roomTypes }) {
                                     </TableCell>
                                     <TableCell>{type.hotel.name}</TableCell>
                                     <TableCell>{type.max_users}</TableCell>
-                                    <TableCell className="font-semibold text-primary">
+                                    <TableCell className="font-semibold text-green-800">
                                         ${type.price_per_night}
                                     </TableCell>
                                     <TableCell className="text-right space-x-2">
@@ -195,20 +195,36 @@ export default function Index({ roomTypes }) {
                     {roomTypeToDelete && (
                         <div className="rounded-lg border bg-muted/50 p-4 space-y-2 text-sm">
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Name</span>
-                                <span className="font-medium">{roomTypeToDelete.name}</span>
+                                <span className="text-muted-foreground">
+                                    Name
+                                </span>
+                                <span className="font-medium">
+                                    {roomTypeToDelete.name}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Hotel</span>
-                                <span className="font-medium">{roomTypeToDelete.hotel.name}</span>
+                                <span className="text-muted-foreground">
+                                    Hotel
+                                </span>
+                                <span className="font-medium">
+                                    {roomTypeToDelete.hotel.name}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Price per night</span>
-                                <span className="font-medium">${roomTypeToDelete.price_per_night}</span>
+                                <span className="text-muted-foreground">
+                                    Price per night
+                                </span>
+                                <span className="font-medium">
+                                    ${roomTypeToDelete.price_per_night}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Max users</span>
-                                <span className="font-medium">{roomTypeToDelete.max_users}</span>
+                                <span className="text-muted-foreground">
+                                    Max users
+                                </span>
+                                <span className="font-medium">
+                                    {roomTypeToDelete.max_users}
+                                </span>
                             </div>
                         </div>
                     )}

@@ -77,7 +77,7 @@ export default function GuestLayout({ children }) {
                 <div className="absolute top-6 left-6 lg:hidden z-10">
                     <Link href="/" className="flex items-center gap-2">
                         <div className="bg-gradient-primary p-2 rounded-xl">
-                            <Hotel className="w-5 h-5 text-primary-foreground" />
+                            <Hotel className="w-5 h-5 text-green-800-foreground" />
                         </div>
                         <span className="text-lg font-bold tracking-tight">
                             HotelBook
@@ -86,12 +86,7 @@ export default function GuestLayout({ children }) {
                 </div>
                 <div className="absolute top-6 right-6 flex items-center gap-2 z-10">
                     <ThemeToggle />
-                    <Button
-                        variant="ghost"
-                        shape="pill"
-                        size="sm"
-                        asChild
-                    >
+                    <Button variant="ghost" shape="pill" size="sm" asChild>
                         <Link href="/">
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Home

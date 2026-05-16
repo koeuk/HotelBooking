@@ -216,7 +216,7 @@ export default function Dashboard({
                     <div>
                         <h2 className="text-4xl font-extrabold tracking-tight text-foreground">
                             {greeting},{" "}
-                            <span className="text-primary">
+                            <span className="text-green-800">
                                 {auth.user.name}
                             </span>
                         </h2>
@@ -233,14 +233,24 @@ export default function Dashboard({
                             ].map((item) => (
                                 <Button
                                     key={item.value}
-                                    variant={period === item.value ? "default" : "ghost"}
+                                    variant={
+                                        period === item.value
+                                            ? "default"
+                                            : "ghost"
+                                    }
                                     size="sm"
                                     className={cn(
                                         "rounded-full px-5 text-xs font-semibold",
-                                        period === item.value ? "shadow-sm" : "hover:bg-transparent"
+                                        period === item.value
+                                            ? "shadow-sm"
+                                            : "hover:bg-transparent",
                                     )}
                                     onClick={() =>
-                                        router.get(route("dashboard.index"), { period: item.value }, { preserveState: true })
+                                        router.get(
+                                            route("dashboard.index"),
+                                            { period: item.value },
+                                            { preserveState: true },
+                                        )
                                     }
                                 >
                                     {item.label}
@@ -313,9 +323,12 @@ export default function Dashboard({
                                 Booking & Revenue Overview
                             </CardTitle>
                             <CardDescription>
-                                {period === "week" ? "Daily data for the last 7 days" :
-                                 period === "month" ? "Data for the last 30 days" :
-                                 "Monthly data for the last 12 months"}.
+                                {period === "week"
+                                    ? "Daily data for the last 7 days"
+                                    : period === "month"
+                                      ? "Data for the last 30 days"
+                                      : "Monthly data for the last 12 months"}
+                                .
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -754,7 +767,7 @@ export default function Dashboard({
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="text-primary font-semibold hover:bg-primary/5"
+                                    className="text-green-800 font-semibold hover:bg-primary/5"
                                 >
                                     View all{" "}
                                     <ChevronRight className="ml-1 h-4 w-4" />
@@ -794,7 +807,7 @@ export default function Dashboard({
                                             >
                                                 <TableCell className="py-4">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
+                                                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-green-800 text-xs font-bold">
                                                             {booking.user.name.charAt(
                                                                 0,
                                                             )}
@@ -841,7 +854,7 @@ export default function Dashboard({
                                                         },
                                                     )}
                                                 </TableCell>
-                                                <TableCell className="font-bold text-sm text-primary">
+                                                <TableCell className="font-bold text-sm text-green-800">
                                                     $
                                                     {Number(
                                                         booking.total_price,

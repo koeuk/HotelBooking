@@ -138,7 +138,7 @@ export default function About() {
                         travelers
                     </Badge>
                     <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-                        About <span className="text-primary">HotelBook</span>
+                        About <span className="text-green-800">HotelBook</span>
                     </h1>
                     <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
                         We're on a mission to make hotel booking simple,
@@ -157,7 +157,7 @@ export default function About() {
                             className="border-none shadow-sm text-center"
                         >
                             <CardContent className="pt-6 pb-4">
-                                <p className="text-3xl font-extrabold text-primary">
+                                <p className="text-3xl font-extrabold text-green-800">
                                     {stat.value}
                                 </p>
                                 <p className="text-sm text-muted-foreground mt-1">
@@ -188,7 +188,7 @@ export default function About() {
                         >
                             <CardContent className="pt-8 pb-6 text-center">
                                 <div className="inline-flex p-3 rounded-xl bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">
-                                    <item.icon className="h-6 w-6 text-primary" />
+                                    <item.icon className="h-6 w-6 text-green-800" />
                                 </div>
                                 <h3 className="font-semibold">{item.title}</h3>
                                 <p className="text-sm text-muted-foreground mt-2">
@@ -252,7 +252,7 @@ export default function About() {
                                 <div key={i} className="flex gap-4">
                                     <div className="flex flex-col items-center">
                                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                                            <span className="text-xs font-bold text-primary">
+                                            <span className="text-xs font-bold text-green-800">
                                                 {item.year}
                                             </span>
                                         </div>
@@ -293,7 +293,7 @@ export default function About() {
                         >
                             <CardContent className="pt-8 pb-6">
                                 <div className="h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mx-auto mb-4">
-                                    <span className="text-2xl font-bold text-primary">
+                                    <span className="text-2xl font-bold text-green-800">
                                         {person.name
                                             .split(" ")
                                             .map((n) => n[0])
@@ -301,7 +301,7 @@ export default function About() {
                                     </span>
                                 </div>
                                 <h3 className="font-semibold">{person.name}</h3>
-                                <p className="text-sm text-primary font-medium">
+                                <p className="text-sm text-green-800 font-medium">
                                     {person.role}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-2">
@@ -332,7 +332,7 @@ export default function About() {
                             >
                                 <CardContent className="py-6 text-center">
                                     <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-primary/20 transition-colors">
-                                        <Globe className="h-6 w-6 text-primary" />
+                                        <Globe className="h-6 w-6 text-green-800" />
                                     </div>
                                     <h4 className="font-semibold text-sm">
                                         {partner.name}
@@ -374,7 +374,7 @@ export default function About() {
                     ].map((value, i) => (
                         <div key={i} className="text-center">
                             <div className="inline-flex p-4 rounded-2xl bg-primary/10 mb-4">
-                                <value.icon className="h-8 w-8 text-primary" />
+                                <value.icon className="h-8 w-8 text-green-800" />
                             </div>
                             <h3 className="text-xl font-bold">{value.title}</h3>
                             <p className="text-muted-foreground mt-3 leading-relaxed">
@@ -387,35 +387,37 @@ export default function About() {
 
             {/* CTA */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-                <div className="relative overflow-hidden rounded-3xl bg-gradient-primary p-8 md:p-14 text-center text-primary-foreground">
+                <div className="relative overflow-hidden rounded-3xl bg-gradient-primary p-8 md:p-14 text-center text-green-800-foreground">
                     <div className="absolute inset-0 noise opacity-20" />
                     <div className="relative">
                         <h2 className="text-3xl md:text-4xl font-bold">
                             Ready to start your journey?
                         </h2>
-                        <p className="mt-3 text-primary-foreground/85 max-w-xl mx-auto">
+                        <p className="mt-3 text-green-800-foreground/85 max-w-xl mx-auto">
                             Join thousands of travelers who trust HotelBook for
                             unforgettable stays worldwide.
                         </p>
-                    <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                        <Button
-                            size="xl"
-                            shape="pill"
-                            variant="secondary"
-                            asChild
-                        >
-                            <Link href="/explore">Browse hotels</Link>
-                        </Button>
-                        <Button
-                            size="xl"
-                            shape="pill"
-                            variant="glass"
-                            className="text-primary-foreground border-white/20"
-                            asChild
-                        >
-                            <Link href={route("register")}>Create account</Link>
-                        </Button>
-                    </div>
+                        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                            <Button
+                                size="xl"
+                                shape="pill"
+                                variant="secondary"
+                                asChild
+                            >
+                                <Link href="/explore">Browse hotels</Link>
+                            </Button>
+                            <Button
+                                size="xl"
+                                shape="pill"
+                                variant="glass"
+                                className="text-green-800-foreground border-white/20"
+                                asChild
+                            >
+                                <Link href={route("register")}>
+                                    Create account
+                                </Link>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </section>

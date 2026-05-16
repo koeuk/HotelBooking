@@ -175,7 +175,7 @@ export default function Hotels({ hotels, cities, filters }) {
                     {cities?.length > 0 && (
                         <div className="mt-6 flex flex-wrap items-center justify-center gap-2 animate-fade-up [animation-delay:320ms]">
                             <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] font-semibold text-muted-foreground/90">
-                                <TrendingUp className="h-3.5 w-3.5 text-primary" />
+                                <TrendingUp className="h-3.5 w-3.5 text-green-800" />
                                 Trending
                             </span>
                             {cities.slice(0, 5).map((city) => {
@@ -281,7 +281,7 @@ export default function Hotels({ hotels, cities, filters }) {
                                     <CardContent className="p-4">
                                         <div className="flex items-start justify-between gap-3">
                                             <div className="min-w-0">
-                                                <h3 className="font-semibold truncate group-hover:text-primary transition-colors">
+                                                <h3 className="font-semibold truncate group-hover:text-green-800 transition-colors">
                                                     {hotel.name}
                                                 </h3>
                                                 <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1 truncate">
@@ -292,8 +292,12 @@ export default function Hotels({ hotels, cities, filters }) {
                                             </div>
                                         </div>
                                         <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/60 text-xs text-muted-foreground">
-                                            <span>{hotel.rooms_count} rooms</span>
-                                            <span>{hotel.reviews_count} reviews</span>
+                                            <span>
+                                                {hotel.rooms_count} rooms
+                                            </span>
+                                            <span>
+                                                {hotel.reviews_count} reviews
+                                            </span>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -304,7 +308,7 @@ export default function Hotels({ hotels, cities, filters }) {
                     <Card variant="soft" className="text-center py-16">
                         <CardContent>
                             <div className="mx-auto h-16 w-16 rounded-full bg-gradient-primary-soft flex items-center justify-center mb-4">
-                                <BedDouble className="h-8 w-8 text-primary" />
+                                <BedDouble className="h-8 w-8 text-green-800" />
                             </div>
                             <p className="font-semibold text-lg">
                                 No hotels found
@@ -331,8 +335,7 @@ export default function Hotels({ hotels, cities, filters }) {
                                     { ...filters, all: 1 },
                                     {
                                         preserveState: true,
-                                        onFinish: () =>
-                                            setLoadingMore(false),
+                                        onFinish: () => setLoadingMore(false),
                                     },
                                 );
                             }}
