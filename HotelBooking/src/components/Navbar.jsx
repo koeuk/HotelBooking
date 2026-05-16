@@ -1,49 +1,66 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Hotel, LogOut, ShoppingCart } from 'lucide-react';
+import { ShoppingCart, LogOut, Menu, X } from 'lucide-react';
 import api from '../lib/api';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [cartCount, setCartCount] = useState(0);
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 10);
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
     useEffect(() => {
         if (!user) { setCartCount(0); return; }
-        api.get('/wishlist')
-            .then(res => setCartCount(res.data.data?.length || 0))
-            .catch(() => {});
+        api.get('/wishlist').then(res => setCartCount(res.data.data?.length || 0)).catch(() => {});
     }, [user]);
 
-    const handleLogout = async () => {
-        await logout();
-        navigate('/login');
-    };
+    const handleLogout = async () => { await logout(); navigate('/login'); };
+
+    const navLinks = [
+        { to: '/',      label: 'Home',  end: true },
+        { to: '/rooms', label: 'Rooms', end: false },
+        { to: '/about', label: 'About', end: false },
+    ];
 
     return (
-        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-            <div className="container mx-auto px-4">
-                <div className="flex items-center justify-between h-20">
-                    <Link to="/" className="flex items-center gap-2 group">
-                        <div className="bg-primary text-white p-2 rounded-xl group-hover:scale-110 transition-transform">
-                            <Hotel size={24} />
+        <header className={`sticky top-0 z-50 transition-all duration-300 ${
+            scrolled
+                ? 'bg-white/95 backdrop-blur-md shadow-warm border-b border-border'
+                : 'bg-background border-b border-border'
+        }`}>
+            <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-18 py-4">
+
+                    {/* Logo */}
+                    <Link to="/" className="flex items-center gap-2.5 group">
+                        <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-warm-sm group-hover:scale-105 transition-transform">
+                            <span className="font-display text-white font-bold text-lg leading-none">H</span>
                         </div>
-                        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">
-                            HotelStay
+                        <span className="font-display text-foreground font-semibold text-xl tracking-tight">
+                            Hotel<span className="text-primary">Stay</span>
                         </span>
                     </Link>
 
-                    <div className="hidden md:flex items-center gap-8">
-                        {[{ to: "/", label: "Home" }, { to: "/rooms", label: "Rooms" }, { to: "/about", label: "About" }].map(({ to, label }) => (
+                    {/* Desktop Nav */}
+                    <div className="hidden md:flex items-center gap-1">
+                        {navLinks.map(({ to, label, end }) => (
                             <NavLink
                                 key={to}
                                 to={to}
-                                end
+                                end={end}
                                 className={({ isActive }) =>
-                                    `font-medium transition-colors relative pb-1 ${isActive
-                                        ? 'text-primary after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:rounded-full'
-                                        : 'text-slate-600 hover:text-primary'
+                                    `relative px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
+                                        isActive
+                                            ? 'text-primary bg-accent'
+                                            : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                                     }`
                                 }
                             >
@@ -52,46 +69,90 @@ export default function Navbar() {
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    {/* Right Actions */}
+                    <div className="flex items-center gap-2">
                         {user ? (
-                            <div className="flex items-center gap-3">
-                                {/* Cart icon with count */}
-                                <Link to="/dashboard" className="relative p-2 text-slate-500 hover:text-primary hover:bg-slate-100 rounded-xl transition-all">
-                                    <ShoppingCart size={22} />
+                            <>
+                                {/* Cart */}
+                                <Link
+                                    to="/dashboard"
+                                    className="relative p-2.5 rounded-xl text-muted-foreground hover:text-primary hover:bg-accent transition-all"
+                                >
+                                    <ShoppingCart size={20} />
                                     {cartCount > 0 && (
-                                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                                        <span className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 bg-primary text-white text-[9px] font-bold rounded-full flex items-center justify-center min-w-[18px] min-h-[18px]">
                                             {cartCount > 9 ? '9+' : cartCount}
                                         </span>
                                     )}
                                 </Link>
 
-                                <Link to="/dashboard" className="flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors text-slate-700">
-                                    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
-                                        {user.name[0]}
+                                {/* User avatar */}
+                                <Link
+                                    to="/dashboard"
+                                    className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-xl hover:bg-muted transition-all group"
+                                >
+                                    <div className="w-8 h-8 rounded-lg bg-primary/15 text-primary flex items-center justify-center font-display font-semibold text-sm">
+                                        {user.name?.[0]?.toUpperCase()}
                                     </div>
-                                    <span className="font-medium hidden sm:inline">{user.name}</span>
+                                    <span className="text-sm font-medium text-foreground hidden sm:inline">{user.name?.split(' ')[0]}</span>
                                 </Link>
+
                                 <button
                                     onClick={handleLogout}
-                                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer"
-                                    title="Logout"
+                                    className="p-2.5 rounded-xl text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-all cursor-pointer"
+                                    title="Sign out"
                                 >
-                                    <LogOut size={20} />
+                                    <LogOut size={18} />
                                 </button>
-                            </div>
+                            </>
                         ) : (
-                            <div className="flex items-center gap-2">
-                                <Link to="/login" className="px-6 py-2.5 text-slate-700 font-semibold hover:text-primary transition-colors">
+                            <>
+                                <Link
+                                    to="/login"
+                                    className="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-foreground hover:text-primary transition-colors"
+                                >
                                     Sign In
                                 </Link>
-                                <Link to="/register" className="px-6 py-2.5 bg-primary text-white rounded-xl font-bold hover:opacity-90 transition-all shadow-md shadow-primary/20">
+                                <Link
+                                    to="/register"
+                                    className="inline-flex items-center px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary-light transition-colors shadow-warm-sm"
+                                >
                                     Join Now
                                 </Link>
-                            </div>
+                            </>
                         )}
+
+                        {/* Mobile menu button */}
+                        <button
+                            onClick={() => setMobileOpen(v => !v)}
+                            className="md:hidden p-2 rounded-xl text-muted-foreground hover:bg-muted transition-colors"
+                        >
+                            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+                        </button>
                     </div>
                 </div>
-            </div>
-        </nav>
+
+                {/* Mobile menu */}
+                {mobileOpen && (
+                    <div className="md:hidden border-t border-border pb-4 pt-2 space-y-1">
+                        {navLinks.map(({ to, label, end }) => (
+                            <NavLink
+                                key={to}
+                                to={to}
+                                end={end}
+                                onClick={() => setMobileOpen(false)}
+                                className={({ isActive }) =>
+                                    `block px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                                        isActive ? 'text-primary bg-accent' : 'text-foreground hover:bg-muted'
+                                    }`
+                                }
+                            >
+                                {label}
+                            </NavLink>
+                        ))}
+                    </div>
+                )}
+            </nav>
+        </header>
     );
 }

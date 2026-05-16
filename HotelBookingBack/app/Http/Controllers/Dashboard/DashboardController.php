@@ -116,7 +116,7 @@ class DashboardController extends Controller
                 'total_users'      => $periodUsers,
                 'total_reviews'    => $periodReviews,
             ],
-            'recent_bookings' => Booking::with('user', 'room.hotel', 'room.roomType')->latest()->take(5)->get(),
+            'recent_bookings' => Booking::with('user', 'room.roomType')->latest()->take(5)->get(),
             'monthly_data' => $monthlyData,
             'status_breakdown' => $statusBreakdown,
             'user_roles' => $userRoles,
