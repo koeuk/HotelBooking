@@ -127,7 +127,7 @@ export default function HotelDetails() {
                                             </div>
                                             <button 
                                                 onClick={() => navigate(`/book/${room.uuid}`)}
-                                                className="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:opacity-90 transition-opacity flex items-center gap-2"
+                                                className="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:opacity-90 transition-opacity flex items-center gap-2 cursor-pointer"
                                             >
                                                 Select Room
                                                 <ChevronRight size={20} />

@@ -75,7 +75,7 @@ export default function BookRoom() {
             <div className="container mx-auto px-4 max-w-5xl">
                 <button 
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-8 font-medium transition-colors"
+                    className="flex items-center gap-2 text-slate-500 hover:text-slate-900 mb-8 font-medium transition-colors cursor-pointer"
                 >
                     <ChevronLeft size={20} />
                     Back to Hotel
@@ -141,7 +141,7 @@ export default function BookRoom() {
                                 <button 
                                     type="submit"
                                     disabled={submitting || nights === 0}
-                                    className="w-full bg-primary text-white py-4 rounded-2xl font-bold text-lg hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-primary/25"
+                                    className="w-full bg-primary text-white py-4 rounded-2xl font-bold text-lg hover:opacity-90 disabled:opacity-50 transition-all shadow-lg shadow-primary/25 cursor-pointer"
                                 >
                                     {submitting ? 'Confirming...' : `Confirm Booking for $${totalPrice || 0}`}
                                 </button>

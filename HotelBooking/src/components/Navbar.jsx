@@ -42,7 +42,7 @@ export default function Navbar() {
                                 </Link>
                                 <button 
                                     onClick={handleLogout}
-                                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer"
                                     title="Logout"
                                 >
                                     <LogOut size={20} />

@@ -160,7 +160,7 @@ export default function Home() {
                                         />
                                         <button
                                             onClick={(e) => toggleFavorite(e, hotel.id)}
-                                            className="absolute top-4 left-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md shadow-md hover:scale-110 transition-transform"
+                                            className="absolute top-4 left-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md shadow-md hover:scale-110 transition-transform cursor-pointer"
                                         >
                                             <Heart
                                                 size={17}
@@ -190,7 +190,7 @@ export default function Home() {
                                             </div>
                                             <button
                                                 onClick={(e) => toggleCart(e, hotel.id)}
-                                                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl transition-all ${
+                                                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
                                                     cart[hotel.id]
                                                         ? 'bg-primary text-white'
                                                         : 'bg-slate-100 text-slate-600 hover:bg-primary/10 hover:text-primary'
