@@ -14,12 +14,28 @@ import {
     Shield,
     Clock,
     Sparkles,
+    Heart,
+    ShoppingCart,
 } from "lucide-react";
 
 export default function Home() {
     const [hotels, setHotels] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
+    const [favorites, setFavorites] = useState({});
+    const [cart, setCart] = useState({});
+
+    const toggleFavorite = (e, id) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setFavorites(prev => ({ ...prev, [id]: !prev[id] }));
+    };
+
+    const toggleCart = (e, id) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCart(prev => ({ ...prev, [id]: !prev[id] }));
+    };
 
     useEffect(() => {
         api.get('/hotels')
@@ -117,11 +133,20 @@ export default function Home() {
                             <Link key={hotel.id} to={`/hotels/${hotel.uuid}`}>
                                 <Card variant="elevated" interactive className="h-full border-none shadow-soft">
                                     <div className="aspect-[4/3] overflow-hidden relative">
-                                        <img 
-                                            src={hotel.images?.[0] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945'} 
+                                        <img
+                                            src={hotel.images?.[0] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945'}
                                             alt={hotel.name}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         />
+                                        <button
+                                            onClick={(e) => toggleFavorite(e, hotel.id)}
+                                            className="absolute top-4 left-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md shadow-md hover:scale-110 transition-transform"
+                                        >
+                                            <Heart
+                                                size={17}
+                                                className={favorites[hotel.id] ? 'fill-rose-500 text-rose-500' : 'text-slate-400'}
+                                            />
+                                        </button>
                                         {hotel.reviews_avg_rating && (
                                             <Badge variant="glass" className="absolute top-4 right-4 bg-white/90 backdrop-blur-md">
                                                 <Star size={14} className="fill-amber-400 text-amber-400" />
@@ -140,10 +165,20 @@ export default function Home() {
                                         <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                                             <div className="text-slate-400 text-xs font-medium">
                                                 {hotel.rooms_count || 0} rooms available
-                                            </div>
-                                            <div className="text-slate-400 text-xs font-medium">
+                                                <span className="mx-2">·</span>
                                                 {hotel.reviews_count || 0} reviews
                                             </div>
+                                            <button
+                                                onClick={(e) => toggleCart(e, hotel.id)}
+                                                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl transition-all ${
+                                                    cart[hotel.id]
+                                                        ? 'bg-primary text-white'
+                                                        : 'bg-slate-100 text-slate-600 hover:bg-primary/10 hover:text-primary'
+                                                }`}
+                                            >
+                                                <ShoppingCart size={13} />
+                                                {cart[hotel.id] ? 'Added' : 'Add'}
+                                            </button>
                                         </div>
                                     </CardContent>
                                 </Card>

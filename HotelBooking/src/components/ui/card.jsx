@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const cardVariants = cva(
-  "group/card flex flex-col gap-4 overflow-hidden py-4 text-sm has-[>img:first-child]:pt-0",
+  "group/card flex flex-col gap-4 overflow-hidden py-4 text-sm has-[>img:first-child]:pt-0 has-[>div:first-child]:pt-0",
   {
     variants: {
       variant: {

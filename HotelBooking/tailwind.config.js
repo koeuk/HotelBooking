@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "oklch(0.6 0.18 260)",
+        primary: "#4C565A",
+        secondary: "#929598",
       }
     },
   },
