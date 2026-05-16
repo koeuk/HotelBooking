@@ -57,7 +57,7 @@ export default function Navbar() {
               </span>
             </div>
             <span className="font-display text-foreground font-semibold text-xl tracking-tight">
-              Hotel<span className="text-green-800">Stay</span>
+              Hotel<span className="text-primary">Stay</span>
             </span>
           </Link>
 
@@ -71,7 +71,7 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `relative px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
                     isActive
-                      ? "text-green-800 bg-accent"
+                      ? "text-primary bg-accent"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`
                 }
@@ -88,7 +88,7 @@ export default function Navbar() {
                 {/* Cart */}
                 <Link
                   to="/dashboard"
-                  className="relative p-2.5 rounded-xl text-muted-foreground hover:text-green-800 hover:bg-accent transition-all"
+                  className="relative p-2.5 rounded-xl text-muted-foreground hover:text-primary hover:bg-accent transition-all"
                 >
                   <ShoppingCart size={20} />
                   {cartCount > 0 && (
@@ -103,7 +103,7 @@ export default function Navbar() {
                   to="/dashboard"
                   className="flex items-center gap-2.5 pl-1 pr-3 py-1 rounded-xl hover:bg-muted transition-all group"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-primary/15 text-green-800 flex items-center justify-center font-display font-semibold text-sm">
+                  <div className="w-8 h-8 rounded-lg bg-primary/15 text-primary flex items-center justify-center font-display font-semibold text-sm">
                     {user.name?.[0]?.toUpperCase()}
                   </div>
                   <span className="text-sm font-medium text-foreground hidden sm:inline">
@@ -123,7 +123,7 @@ export default function Navbar() {
               <>
                 <Link
                   to="/login"
-                  className="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-foreground hover:text-green-800 transition-colors"
+                  className="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-foreground hover:text-primary transition-colors"
                 >
                   Sign In
                 </Link>
@@ -158,7 +158,7 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `block px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                     isActive
-                      ? "text-green-800 bg-accent"
+                      ? "text-primary bg-accent"
                       : "text-foreground hover:bg-muted"
                   }`
                 }

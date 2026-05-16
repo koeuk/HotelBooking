@@ -24,7 +24,7 @@ import { useMemo } from "react";
 
 export default function Create({ hotels, roomTypes }) {
     const { data, setData, post, processing, errors } = useForm({
-        hotel_id: "",
+        
         room_type_id: "",
         room_number: "",
         floor: "",
@@ -89,7 +89,7 @@ export default function Create({ hotels, roomTypes }) {
                                                 key={hotel.id}
                                                 value={hotel.id.toString()}
                                             >
-                                                {hotel.name}
+                                                {room_type?.name ?? '—'}
                                             </option>
                                         ))}
                                     </select>

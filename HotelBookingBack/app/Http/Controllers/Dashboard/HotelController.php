@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Hotel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 
@@ -51,6 +52,8 @@ class HotelController extends Controller
         $validated['images'] = array_values(array_filter($images));
         unset($validated['existing_images'], $validated['new_images']);
 
+        $validated['slug'] = Str::slug($validated['name']);
+
         Hotel::create($validated);
 
         return redirect()->route('dashboard.hotels.index')->with('success', 'Hotel created successfully.');
@@ -58,7 +61,7 @@ class HotelController extends Controller
 
     public function show(Hotel $hotel)
     {
-        $hotel->load(['roomTypes', 'rooms', 'amenities', 'reviews.user']);
+        $hotel->load(['roomTypes', 'amenities', 'reviews.user']);
         return Inertia::render('Dashboard/Hotels/Show', [
             'hotel' => $hotel
         ]);
@@ -98,6 +101,8 @@ class HotelController extends Controller
 
         $validated['images'] = array_values(array_filter($images));
         unset($validated['existing_images'], $validated['new_images']);
+
+        $validated['slug'] = Str::slug($validated['name']);
 
         $hotel->update($validated);
 

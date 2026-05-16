@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 const STATUS_COLORS = {
-  confirmed: "bg-green-50 text-green-800",
+  confirmed:   "bg-green-50 text-green-700",
   pending: "bg-amber-100 text-amber-700",
   cancelled: "bg-red-100 text-red-700",
   checked_in: "bg-blue-100 text-blue-700",
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
           <h2 className="text-lg font-bold text-slate-900">Recent Bookings</h2>
           <button
             onClick={() => navigate("/admin/bookings")}
-            className="text-sm text-green-800 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-sm text-primary font-semibold hover:underline flex items-center gap-1 cursor-pointer"
           >
             View all <ArrowRight size={14} />
           </button>

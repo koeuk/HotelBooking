@@ -23,7 +23,7 @@ import { ChevronLeft } from "lucide-react";
 export default function Create({ users, hotels, bookings }) {
     const { data, setData, post, processing, errors } = useForm({
         user_id: "",
-        hotel_id: "",
+        
         booking_id: "",
         rating: "",
         comment: "",
@@ -103,7 +103,7 @@ export default function Create({ users, hotels, bookings }) {
                                                 key={hotel.id}
                                                 value={String(hotel.id)}
                                             >
-                                                {hotel.name}
+                                                {room_type?.name ?? '—'}
                                             </option>
                                         ))}
                                     </select>

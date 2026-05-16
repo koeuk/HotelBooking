@@ -24,7 +24,7 @@ import { useMemo } from "react";
 
 export default function Edit({ room, hotels, roomTypes }) {
     const { data, setData, patch, processing, errors } = useForm({
-        hotel_id: room.hotel_id.toString(),
+        
         room_type_id: room.room_type_id.toString(),
         room_number: room.room_number || "",
         floor: room.floor || "",
@@ -90,7 +90,7 @@ export default function Edit({ room, hotels, roomTypes }) {
                                                 key={hotel.id}
                                                 value={hotel.id.toString()}
                                             >
-                                                {hotel.name}
+                                                {room_type?.name ?? '—'}
                                             </option>
                                         ))}
                                     </select>

@@ -73,7 +73,7 @@ export default function Index({ hotels }) {
                             {hotels.data.map((hotel) => (
                                 <TableRow key={hotel.id}>
                                     <TableCell className="font-medium">
-                                        {hotel.name}
+                                        {room_type?.name ?? '—'}
                                     </TableCell>
                                     <TableCell>
                                         {hotel.city}, {hotel.country}

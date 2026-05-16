@@ -18,7 +18,7 @@ import ImageUploader from "@/components/ImageUploader";
 export default function Edit({ roomType, hotels }) {
     const { data, setData, post, processing, errors } = useForm({
         _method: "PUT",
-        hotel_id: roomType.hotel_id.toString(),
+        
         name: roomType.name || "",
         description: roomType.description || "",
         max_users: roomType.max_users || 1,
@@ -76,7 +76,7 @@ export default function Edit({ roomType, hotels }) {
                                             key={hotel.id}
                                             value={hotel.id.toString()}
                                         >
-                                            {hotel.name}
+                                            {room_type?.name ?? '—'}
                                         </option>
                                     ))}
                                 </select>

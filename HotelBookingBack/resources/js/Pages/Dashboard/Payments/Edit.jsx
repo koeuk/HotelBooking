@@ -24,7 +24,7 @@ import { ChevronLeft } from "lucide-react";
 export default function Edit({ payment }) {
     const booking = payment.booking;
     const user = booking?.user;
-    const hotel = booking?.room?.hotel;
+    
 
     const { data, setData, patch, processing, errors } = useForm({
         amount: payment.amount || "",

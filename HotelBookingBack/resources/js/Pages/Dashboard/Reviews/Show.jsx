@@ -148,30 +148,14 @@ export default function Show({ review }) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
-                                {review.hotel ? (
+                                {review.booking?.room ? (
                                     <div className="space-y-2">
                                         <p className="font-semibold">
-                                            {review.hotel.name}
+                                            {review.booking?.room?.room_type?.name ?? '—'}
                                         </p>
                                         <p className="text-sm text-muted-foreground">
-                                            {review.hotel.city},{" "}
-                                            {review.hotel.country}
+                                            Room #{review.booking?.room?.room_number}
                                         </p>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            className="w-full mt-2"
-                                            asChild
-                                        >
-                                            <Link
-                                                href={route(
-                                                    "dashboard.hotels.show",
-                                                    review.hotel.uuid,
-                                                )}
-                                            >
-                                                View Hotel
-                                            </Link>
-                                        </Button>
                                     </div>
                                 ) : (
                                     <p className="text-muted-foreground text-sm">

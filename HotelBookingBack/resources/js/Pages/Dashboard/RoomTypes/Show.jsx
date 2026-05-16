@@ -69,23 +69,7 @@ export default function Show({ roomType }) {
                                         <Label className="text-muted-foreground">
                                             Hotel
                                         </Label>
-                                        {roomType.hotel ? (
-                                            <p className="font-semibold text-lg">
-                                                <Link
-                                                    href={route(
-                                                        "dashboard.hotels.show",
-                                                        roomType.hotel.uuid,
-                                                    )}
-                                                    className="hover:underline"
-                                                >
-                                                    {roomType.hotel.name}
-                                                </Link>
-                                            </p>
-                                        ) : (
-                                            <p className="text-muted-foreground">
-                                                N/A
-                                            </p>
-                                        )}
+                                        <p className="font-semibold text-lg">{roomType.name}</p>
                                     </div>
                                     <div>
                                         <Label className="text-muted-foreground">

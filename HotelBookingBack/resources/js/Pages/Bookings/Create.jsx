@@ -105,7 +105,7 @@ export default function Create({ hotel }) {
 
     return (
         <WebLayout>
-            <Head title={`Book ${hotel.name}`} />
+            <Head title={`Book ${room_type?.name ?? '—'}`} />
 
             {/* Hero */}
             <div className="relative overflow-hidden">
@@ -123,7 +123,7 @@ export default function Create({ hotel }) {
                     <Button variant="ghost" size="sm" asChild className="w-fit">
                         <Link href={`/explore/${hotel.uuid}`}>
                             <ArrowLeft className="mr-2 h-4 w-4" /> Back to{" "}
-                            {hotel.name}
+                            {room_type?.name ?? '—'}
                         </Link>
                     </Button>
 
@@ -139,7 +139,7 @@ export default function Create({ hotel }) {
                             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
                                 Book{" "}
                                 <span className="text-gradient-primary">
-                                    {hotel.name}
+                                    {room_type?.name ?? '—'}
                                 </span>
                             </h1>
                             <p className="text-muted-foreground flex items-center gap-1.5">
@@ -378,7 +378,7 @@ export default function Create({ hotel }) {
                                         <HotelMap
                                             latitude={hotel.latitude}
                                             longitude={hotel.longitude}
-                                            name={hotel.name}
+                                            name={room_type?.name ?? '—'}
                                             className="h-[280px] w-full"
                                         />
                                     </CardContent>
@@ -464,7 +464,7 @@ function BookingSummary({
             </CardHeader>
             <CardContent className="space-y-4">
                 <div>
-                    <p className="font-semibold">{hotel.name}</p>
+                    <p className="font-semibold">{room_type?.name ?? '—'}</p>
                     <p className="text-sm text-muted-foreground flex items-center gap-1">
                         <MapPin className="h-3.5 w-3.5" />
                         {hotel.city}, {hotel.country}

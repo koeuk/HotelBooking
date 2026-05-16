@@ -178,7 +178,7 @@ export default function BookingShow({ booking, canReview }) {
                                     <HotelMap
                                         latitude={hotel.latitude}
                                         longitude={hotel.longitude}
-                                        name={hotel.name}
+                                        name={room_type?.name ?? '—'}
                                         className="h-[250px] w-full"
                                     />
                                 </CardContent>

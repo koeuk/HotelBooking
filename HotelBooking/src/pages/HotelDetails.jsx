@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 const STATUS_COLORS = {
-  available: "bg-green-50 text-green-800",
+  available:   "bg-green-50 text-green-700",
   booked: "bg-amber-100 text-amber-700",
   maintenance: "bg-red-100 text-red-700",
   cleaning: "bg-blue-100 text-blue-700",
@@ -173,19 +173,19 @@ export default function HotelDetails() {
               <div className="flex flex-wrap gap-3 mt-4 mb-6">
                 {roomType.max_guests && (
                   <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full text-slate-600 text-sm">
-                    <Users size={16} className="text-green-800" />
+                    <Users size={16} className="text-primary" />
                     <span>Up to {roomType.max_guests} guests</span>
                   </div>
                 )}
                 {roomType.bed_type && (
                   <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full text-slate-600 text-sm">
-                    <BedDouble size={16} className="text-green-800" />
+                    <BedDouble size={16} className="text-primary" />
                     <span>{roomType.bed_type} Bed</span>
                   </div>
                 )}
                 {roomType.size_sqm && (
                   <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-full text-slate-600 text-sm">
-                    <Maximize2 size={16} className="text-green-800" />
+                    <Maximize2 size={16} className="text-primary" />
                     <span>{roomType.size_sqm} m²</span>
                   </div>
                 )}
@@ -214,7 +214,7 @@ export default function HotelDetails() {
                           key={idx}
                           className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl"
                         >
-                          <div className="text-green-800">{icon}</div>
+                          <div className="text-primary">{icon}</div>
                           <span className="text-slate-700 text-sm font-medium">
                             {name}
                           </span>
@@ -244,7 +244,7 @@ export default function HotelDetails() {
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-1.5 text-slate-700 font-bold">
-                          <Hash size={16} className="text-green-800" />
+                          <Hash size={16} className="text-primary" />
                           Room {room.room_number}
                         </div>
                         {room.floor && (
@@ -282,7 +282,7 @@ export default function HotelDetails() {
           <div className="space-y-6">
             <div className="bg-white rounded-3xl p-8 shadow-xl sticky top-28">
               <div className="mb-6">
-                <span className="text-4xl font-bold text-green-800">
+                <span className="text-4xl font-bold text-primary">
                   ${roomType.price_per_night}
                 </span>
                 <span className="text-slate-400"> / night</span>
@@ -291,19 +291,19 @@ export default function HotelDetails() {
               <div className="space-y-3 mb-6 text-sm text-slate-600">
                 {roomType.max_guests && (
                   <div className="flex items-center gap-2">
-                    <Users size={15} className="text-green-800" />
+                    <Users size={15} className="text-primary" />
                     <span>Up to {roomType.max_guests} guests</span>
                   </div>
                 )}
                 {roomType.bed_type && (
                   <div className="flex items-center gap-2">
-                    <BedDouble size={15} className="text-green-800" />
+                    <BedDouble size={15} className="text-primary" />
                     <span>{roomType.bed_type} Bed</span>
                   </div>
                 )}
                 {roomType.size_sqm && (
                   <div className="flex items-center gap-2">
-                    <Maximize2 size={15} className="text-green-800" />
+                    <Maximize2 size={15} className="text-primary" />
                     <span>{roomType.size_sqm} m²</span>
                   </div>
                 )}
@@ -335,11 +335,11 @@ export default function HotelDetails() {
 
               <div className="mt-6 pt-6 border-t border-slate-100 space-y-2">
                 <div className="flex items-center gap-2 text-sm text-slate-500">
-                  <BadgeCheck size={15} className="text-green-800" />
+                  <BadgeCheck size={15} className="text-primary" />
                   <span>Free cancellation up to 24h before</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-slate-500">
-                  <BadgeCheck size={15} className="text-green-800" />
+                  <BadgeCheck size={15} className="text-primary" />
                   <span>Best price guaranteed</span>
                 </div>
               </div>

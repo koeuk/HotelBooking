@@ -55,7 +55,7 @@ class ReportController extends Controller
             'recent_bookings' => Booking::with(['user', 'room.roomType', 'payment'])
                 ->latest()->take(10)->get(),
             'recent_users' => User::withCount('bookings')->latest()->take(10)->get(),
-            'recent_reviews' => Review::with(['user', 'hotel'])->latest()->take(10)->get(),
+            'recent_reviews' => Review::with(['user'])->latest()->take(10)->get(),
             'top_payments' => Payment::with(['booking.user'])
                 ->where('status', 'paid')
                 ->orderByDesc('amount')

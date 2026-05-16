@@ -17,7 +17,7 @@ import ImageUploader from "@/components/ImageUploader";
 
 export default function Create({ hotels }) {
     const { data, setData, post, processing, errors } = useForm({
-        hotel_id: "",
+        
         name: "",
         description: "",
         max_users: 1,
@@ -72,7 +72,7 @@ export default function Create({ hotels }) {
                                             key={hotel.id}
                                             value={hotel.id.toString()}
                                         >
-                                            {hotel.name}
+                                            {room_type?.name ?? '—'}
                                         </option>
                                     ))}
                                 </select>

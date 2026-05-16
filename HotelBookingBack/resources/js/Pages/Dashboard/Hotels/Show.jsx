@@ -38,7 +38,7 @@ export default function Show({ hotel }) {
 
     return (
         <DashboardLayout>
-            <Head title={`Hotel - ${hotel.name}`} />
+            <Head title={`Hotel - ${room_type?.name ?? '—'}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center justify-between flex-wrap gap-4">
@@ -49,7 +49,7 @@ export default function Show({ hotel }) {
                             </Link>
                         </Button>
                         <h2 className="text-3xl font-bold tracking-tight">
-                            {hotel.name}
+                            {room_type?.name ?? '—'}
                         </h2>
                     </div>
 
@@ -78,7 +78,7 @@ export default function Show({ hotel }) {
                                             Name
                                         </Label>
                                         <p className="font-semibold text-lg">
-                                            {hotel.name}
+                                            {room_type?.name ?? '—'}
                                         </p>
                                     </div>
                                     <div>
@@ -149,7 +149,7 @@ export default function Show({ hotel }) {
                                             <img
                                                 key={index}
                                                 src={image}
-                                                alt={`${hotel.name} - ${index + 1}`}
+                                                alt={`${room_type?.name ?? '—'} - ${index + 1}`}
                                                 className="rounded-lg object-cover w-full h-48"
                                             />
                                         ))}
@@ -170,7 +170,7 @@ export default function Show({ hotel }) {
                                     <HotelMap
                                         latitude={hotel.latitude}
                                         longitude={hotel.longitude}
-                                        name={hotel.name}
+                                        name={room_type?.name ?? '—'}
                                         className="h-[250px] w-full rounded-b-lg"
                                     />
                                 </CardContent>

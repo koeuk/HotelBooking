@@ -11,13 +11,13 @@ class AmenityApiController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Amenity::withCount('hotels')->get()
+            'data' => Amenity::latest()->get()
         ]);
     }
 
     public function show($id)
     {
-        $amenity = Amenity::withCount('hotels')->with('hotels:id,name')->findOrFail($id);
+        $amenity = Amenity::latest()->findOrFail($id);
         return response()->json(['data' => $amenity]);
     }
 

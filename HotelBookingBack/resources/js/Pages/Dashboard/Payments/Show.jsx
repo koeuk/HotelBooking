@@ -52,7 +52,7 @@ export default function Show({ payment }) {
     const booking = payment.booking;
     const user = booking?.user;
     const room = booking?.room;
-    const hotel = room?.hotel;
+    
     const roomType = room?.room_type;
 
     return (

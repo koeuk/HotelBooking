@@ -13,7 +13,7 @@ class AmenityController extends Controller
     public function index()
     {
         return Inertia::render('Dashboard/Amenities/Index', [
-            'amenities' => Amenity::withCount('hotels')->latest()->paginate(10)
+            'amenities' => Amenity::latest()->paginate(10)
         ]);
     }
 
@@ -36,7 +36,7 @@ class AmenityController extends Controller
 
     public function show(Amenity $amenity)
     {
-        $amenity->load('hotels');
+        
         return Inertia::render('Dashboard/Amenities/Show', [
             'amenity' => $amenity
         ]);

@@ -77,7 +77,7 @@ export default function Show({ amenity }) {
                                             >
                                                 <div className="space-y-1">
                                                     <p className="font-semibold">
-                                                        {hotel.name}
+                                                        {room_type?.name ?? '—'}
                                                     </p>
                                                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                                         <MapPin className="h-3 w-3" />

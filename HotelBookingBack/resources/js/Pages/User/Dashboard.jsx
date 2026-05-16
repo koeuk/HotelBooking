@@ -220,7 +220,7 @@ export default function Dashboard({
                                                         <p className="font-semibold truncate">
                                                             {
                                                                 booking.room
-                                                                    .hotel.name
+                                                                    .room_type?.name ?? '—'
                                                             }
                                                         </p>
                                                         {getStatusBadge(
@@ -440,7 +440,7 @@ export default function Dashboard({
                                             <div className="flex items-start justify-between">
                                                 <div className="min-w-0 flex-1">
                                                     <h4 className="font-semibold truncate group-hover:text-green-800 transition-colors">
-                                                        {hotel.name}
+                                                        {room_type?.name ?? '—'}
                                                     </h4>
                                                     <div className="flex items-center gap-1 mt-1 text-sm text-muted-foreground">
                                                         <MapPin className="h-3.5 w-3.5" />

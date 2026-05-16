@@ -3,7 +3,7 @@ import api from "../../lib/api";
 import { BedDouble, SlidersHorizontal } from "lucide-react";
 
 const STATUS_COLORS = {
-  available: "bg-green-50 text-green-800",
+  available:   "bg-green-50 text-green-700",
   booked: "bg-amber-100 text-amber-700",
   maintenance: "bg-red-100 text-red-700",
   cleaning: "bg-blue-100 text-blue-700",
@@ -68,7 +68,7 @@ export default function AdminRooms() {
       {/* Filters */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-wrap gap-4 items-end">
         <div className="flex items-center gap-2 text-slate-700 font-semibold">
-          <SlidersHorizontal size={16} className="text-green-800" />
+          <SlidersHorizontal size={16} className="text-primary" />
           Filter
         </div>
 
