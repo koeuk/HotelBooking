@@ -46,7 +46,7 @@ class HotelApiController extends Controller
 
     public function show($id)
     {
-        $hotel = Hotel::with('roomTypes')->findOrFail($id);
+        $hotel = Hotel::with('roomTypes')->where('uuid', $id)->firstOrFail();
 
         return response()->json([
             'success' => true,

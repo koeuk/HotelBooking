@@ -43,7 +43,7 @@ export default function Home() {
         }).catch(() => {});
         api.get('/wishlist').then(res => {
             const map = {};
-            res.data.data.forEach(id => { map[id] = true; });
+            res.data.data.forEach(hotel => { map[hotel.id] = true; });
             setCart(map);
         }).catch(() => {});
     }, [user]);

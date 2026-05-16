@@ -11,8 +11,10 @@ class RoomTypeApiController extends Controller
 {
     public function index(Request $request, $hotelId)
     {
+        $hotel = \App\Models\Hotel::where('uuid', $hotelId)->firstOrFail();
+
         $roomTypes = RoomType::with('hotel')
-            ->where('hotel_id', $hotelId)
+            ->where('hotel_id', $hotel->id)
             ->paginate($request->get('per_page', 15));
 
         return response()->json([

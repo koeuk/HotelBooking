@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,9 @@ class WishlistController extends Controller
 {
     public function index(Request $request)
     {
-        $ids = $request->user()->wishlist()->pluck('hotels.id');
+        $hotels = $request->user()->wishlist()->get();
 
-        return response()->json(['success' => true, 'data' => $ids]);
+        return response()->json(['success' => true, 'data' => HotelResource::collection($hotels)]);
     }
 
     public function store(Request $request, $hotelId)
