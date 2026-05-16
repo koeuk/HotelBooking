@@ -18,10 +18,12 @@ import AdminHotelSettings from './pages/Admin/HotelSettings';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 
 function App() {
   return (
     <AuthProvider>
+      <CartProvider>
       <Router>
         <div className="h-screen flex flex-col overflow-hidden text-foreground">
           <Navbar />
@@ -65,6 +67,7 @@ function App() {
           </main>
         </div>
       </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }

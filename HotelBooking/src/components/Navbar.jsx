@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 import { ShoppingCart, LogOut, Menu, X } from "lucide-react";
-import api from "../lib/api";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { count: cartCount } = useCart();
   const navigate = useNavigate();
-  const [cartCount, setCartCount] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -16,17 +16,6 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    if (!user) {
-      setCartCount(0);
-      return;
-    }
-    api
-      .get("/wishlist")
-      .then((res) => setCartCount(res.data.data?.length || 0))
-      .catch(() => {});
-  }, [user]);
 
   const handleLogout = async () => {
     await logout();
