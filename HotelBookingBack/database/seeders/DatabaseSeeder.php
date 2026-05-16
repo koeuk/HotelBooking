@@ -146,33 +146,33 @@ class DatabaseSeeder extends Seeder
 
         [$standard, $deluxe, $suite] = $createdTypes;
 
-        // 5. Rooms — 25 total
-        // Standard: 10 rooms, floors 1–2, numbers 101–110
-        // Deluxe:   10 rooms, floors 3–4, numbers 301–310
-        // Suite:     5 rooms, floor 5,    numbers 501–505
+        // 5. Rooms — 20 total
+        // Standard: 8 rooms, floors 1–2, numbers 101–108
+        // Deluxe:   8 rooms, floors 3–4, numbers 301–308
+        // Suite:    4 rooms, floor 5,    numbers 501–504
         $rooms = collect();
 
-        foreach (range(1, 10) as $i) {
+        foreach (range(1, 8) as $i) {
             $rooms->push(Room::create([
                 'uuid'         => Str::uuid(),
                 'room_type_id' => $standard->id,
                 'room_number'  => (string)(100 + $i),
-                'floor'        => $i <= 5 ? 1 : 2,
+                'floor'        => $i <= 4 ? 1 : 2,
                 'status'       => 'available',
             ]));
         }
 
-        foreach (range(1, 10) as $i) {
+        foreach (range(1, 8) as $i) {
             $rooms->push(Room::create([
                 'uuid'         => Str::uuid(),
                 'room_type_id' => $deluxe->id,
                 'room_number'  => (string)(300 + $i),
-                'floor'        => $i <= 5 ? 3 : 4,
+                'floor'        => $i <= 4 ? 3 : 4,
                 'status'       => 'available',
             ]));
         }
 
-        foreach (range(1, 5) as $i) {
+        foreach (range(1, 4) as $i) {
             $rooms->push(Room::create([
                 'uuid'         => Str::uuid(),
                 'room_type_id' => $suite->id,
