@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { CalendarDays, BedDouble, CreditCard, Clock, CheckCircle, XCircle, Bookmark, Trash2, Layers } from 'lucide-react';
 
 const STATUS_STYLES = {
-    confirmed:   'bg-green-100 text-green-700',
+    confirmed:   'bg-green-50 text-green-800',
     pending:     'bg-amber-100 text-amber-700',
     cancelled:   'bg-red-100 text-red-700',
     completed:   'bg-slate-100 text-slate-600',

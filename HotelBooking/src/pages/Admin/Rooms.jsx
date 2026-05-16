@@ -3,7 +3,7 @@ import api from '../../lib/api';
 import { BedDouble, SlidersHorizontal } from 'lucide-react';
 
 const STATUS_COLORS = {
-    available:   'bg-green-100 text-green-700',
+    available:   'bg-green-50 text-green-800',
     booked:      'bg-amber-100 text-amber-700',
     maintenance: 'bg-red-100 text-red-700',
     cleaning:    'bg-blue-100 text-blue-700',

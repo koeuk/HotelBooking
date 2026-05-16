@@ -4,7 +4,7 @@ import api from '../lib/api';
 import { BedDouble, Users, Maximize2, Layers, ChevronRight, Hash } from 'lucide-react';
 
 const STATUS_STYLES = {
-    available:   'bg-green-100 text-green-700',
+    available:   'bg-green-50 text-green-800',
     booked:      'bg-amber-100 text-amber-700',
     maintenance: 'bg-red-100 text-red-700',
     cleaning:    'bg-blue-100 text-blue-700',
@@ -39,9 +39,9 @@ export default function Rooms() {
         <div className="min-h-screen">
             {/* Header */}
             <div className="py-16 px-4 text-center">
-                <p className="text-white/50 text-xs font-bold uppercase tracking-[0.2em] mb-3">Accommodations</p>
-                <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight">Our Rooms</h1>
-                <p className="text-white/60 text-lg max-w-lg mx-auto">
+                <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-3">Accommodations</p>
+                <h1 className="font-display text-5xl md:text-6xl font-bold text-foreground mb-4 leading-tight">Our Rooms</h1>
+                <p className="text-muted-foreground text-lg max-w-lg mx-auto">
                     {rooms.length} rooms across {ROOM_TYPES.length - 1} categories
                 </p>
             </div>
@@ -100,12 +100,12 @@ export default function Rooms() {
                         ))}
                     </div>
                 ) : filtered.length === 0 ? (
-                    <div className="text-center py-24 bg-white/10 rounded-3xl">
-                        <BedDouble size={48} className="mx-auto text-white/30 mb-4" />
-                        <p className="text-white/60 text-xl font-semibold">No rooms match your filters.</p>
+                    <div className="text-center py-24 bg-muted rounded-3xl border border-border">
+                        <BedDouble size={48} className="mx-auto text-muted-foreground mb-4" />
+                        <p className="text-muted-foreground text-xl font-semibold">No rooms match your filters.</p>
                         <button
                             onClick={() => setFilters({ type: 'All', status: 'all' })}
-                            className="mt-4 text-white/50 underline text-sm cursor-pointer"
+                            className="mt-4 text-primary underline text-sm cursor-pointer"
                         >
                             Clear filters
                         </button>
