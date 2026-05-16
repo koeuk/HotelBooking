@@ -23,7 +23,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="h-screen flex flex-col overflow-hidden text-slate-900">
+        <div className="h-screen flex flex-col overflow-hidden text-foreground">
           <Navbar />
           <main className="flex-1 overflow-y-auto">
             <Routes>

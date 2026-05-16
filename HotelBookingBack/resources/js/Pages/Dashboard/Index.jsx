@@ -831,8 +831,7 @@ export default function Dashboard({
                                                 <TableCell>
                                                     <div className="text-sm font-semibold">
                                                         {
-                                                            booking.room.hotel
-                                                                .name
+                                                            booking.room.room_type?.name ?? '—'
                                                         }
                                                     </div>
                                                     <div className="text-[10px] text-muted-foreground">

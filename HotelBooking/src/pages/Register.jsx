@@ -247,7 +247,7 @@ export default function Register() {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-green-800 font-semibold hover:underline"
+              style={{ color: 'var(--color-primary)' }} className="font-semibold hover:underline"
             >
               Sign in
             </Link>

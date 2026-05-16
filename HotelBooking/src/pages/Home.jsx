@@ -73,7 +73,7 @@ export default function Home() {
           <div className="max-w-2xl">
             <div className="flex items-center gap-2.5 mb-5">
               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <span className="text-green-800 font-semibold text-xs tracking-[0.2em] uppercase">
+              <span style={{ color: 'var(--color-primary)' }} className="font-semibold text-xs tracking-[0.2em] uppercase">
                 {loading
                   ? "·"
                   : hotel?.stars
@@ -110,11 +110,11 @@ export default function Home() {
 
             <div className="flex flex-wrap gap-6 mt-12 text-white/55 text-sm">
               <span className="flex items-center gap-2">
-                <CheckCircle size={14} className="text-green-800" /> Free
+                <CheckCircle size={14} style={{ color: 'var(--color-primary)' }} /> Free
                 Cancellation
               </span>
               <span className="flex items-center gap-2">
-                <Clock size={14} className="text-green-800" /> 24/7 Concierge
+                <Clock size={14} style={{ color: 'var(--color-primary)' }} /> 24/7 Concierge
               </span>
               <span className="flex items-center gap-2">
                 <Star size={14} className="fill-gold text-gold" /> Best Price
@@ -129,7 +129,7 @@ export default function Home() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <p className="text-green-800 text-xs font-bold uppercase tracking-[0.2em] mb-2">
+            <p style={{ color: 'var(--color-primary)' }} className="text-xs font-bold uppercase tracking-[0.2em] mb-2">
               Accommodations
             </p>
             <h2 className="font-display text-4xl font-bold text-foreground">
@@ -141,7 +141,7 @@ export default function Home() {
           </div>
           <Link
             to="/rooms"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-green-800 transition-colors text-sm font-semibold group"
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors text-sm font-semibold group"
           >
             View all rooms{" "}
             <ArrowRight
@@ -184,26 +184,26 @@ export default function Home() {
                   />
                 </div>
                 <div className="p-6">
-                  <p className="text-green-800 text-xs font-bold uppercase tracking-wider mb-0.5">
+                  <p style={{ color: 'var(--color-primary)' }} className="text-xs font-bold uppercase tracking-wider mb-0.5">
                     {roomType.name}
                   </p>
                   <div className="flex flex-wrap gap-3 mt-2 mb-4 text-sm text-muted-foreground">
                     {roomType.max_guests && (
                       <span className="flex items-center gap-1.5">
-                        <Users size={13} className="text-green-800" /> Up to{" "}
+                        <Users size={13} style={{ color: 'var(--color-primary)' }} /> Up to{" "}
                         {roomType.max_guests} guests
                       </span>
                     )}
                     {roomType.bed_type && (
                       <span className="flex items-center gap-1.5">
-                        <BedDouble size={13} className="text-green-800" />{" "}
+                        <BedDouble size={13} style={{ color: 'var(--color-primary)' }} />{" "}
                         {roomType.bed_type}
                       </span>
                     )}
                   </div>
                   <div className="flex items-center justify-between pt-4 border-t border-border">
                     <div>
-                      <span className="font-display text-2xl font-bold text-green-800">
+                      <span className="font-display text-2xl font-bold text-primary">
                         ${roomType.price_per_night}
                       </span>
                       <span className="text-muted-foreground text-sm">
@@ -230,7 +230,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="bg-card rounded-3xl p-10 md:p-16 shadow-warm border border-border">
             <div className="text-center mb-12">
-              <p className="text-green-800 text-xs font-bold uppercase tracking-[0.2em] mb-3">
+              <p style={{ color: 'var(--color-primary)' }} className="text-xs font-bold uppercase tracking-[0.2em] mb-3">
                 What We Offer
               </p>
               <h2 className="font-display text-4xl font-bold text-foreground">
@@ -246,7 +246,7 @@ export default function Home() {
                   key={index}
                   className="flex flex-col items-center gap-3 p-5 bg-muted rounded-2xl hover:bg-accent transition-colors group cursor-default"
                 >
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-green-800 group-hover:bg-primary group-hover:text-white transition-all">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all" style={{ color: 'var(--color-primary)' }}>
                     {amenity.icon}
                   </div>
                   <span className="font-semibold text-secondary text-sm text-center">
@@ -263,7 +263,7 @@ export default function Home() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-green-800 text-xs font-bold uppercase tracking-[0.2em] mb-3">
+            <p style={{ color: 'var(--color-primary)' }} className="text-xs font-bold uppercase tracking-[0.2em] mb-3">
               Our Story
             </p>
             <h2 className="font-display text-4xl font-bold text-foreground mb-6">

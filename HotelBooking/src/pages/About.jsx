@@ -47,7 +47,7 @@ export default function About() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 to-foreground/90" />
         <div className="relative z-10 max-w-3xl mx-auto text-center">
-          <p className="text-green-800 text-xs font-bold uppercase tracking-[0.25em] mb-4">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] mb-4" style={{ color: 'var(--color-primary)' }}>
             Our Story
           </p>
           <h1 className="font-display text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
@@ -68,7 +68,7 @@ export default function About() {
               key={i}
               className="bg-card rounded-2xl border border-border shadow-warm-sm p-6 text-center"
             >
-              <div className="inline-flex items-center justify-center w-11 h-11 bg-primary/10 text-green-800 rounded-xl mb-3">
+              <div className="inline-flex items-center justify-center w-11 h-11 bg-primary/10 rounded-xl mb-3" style={{ color: 'var(--color-primary)' }}>
                 {s.icon}
               </div>
               <div className="font-display text-2xl font-bold text-foreground">
@@ -85,7 +85,7 @@ export default function About() {
       {/* Mission */}
       <section className="max-w-4xl mx-auto px-4 pb-16">
         <div className="bg-card rounded-3xl border border-border shadow-warm p-10 mb-8">
-          <p className="text-green-800 text-xs font-bold uppercase tracking-[0.2em] mb-4">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] mb-4" style={{ color: 'var(--color-primary)' }}>
             Mission
           </p>
           <h2 className="font-display text-3xl font-bold text-foreground mb-4">
@@ -107,7 +107,7 @@ export default function About() {
               key={i}
               className="bg-card rounded-2xl border border-border shadow-warm-sm p-6"
             >
-              <div className="inline-flex items-center justify-center w-11 h-11 bg-primary/10 text-green-800 rounded-xl mb-4">
+              <div className="inline-flex items-center justify-center w-11 h-11 bg-primary/10 rounded-xl mb-4" style={{ color: 'var(--color-primary)' }}>
                 {v.icon}
               </div>
               <h3 className="font-display text-lg font-bold text-foreground mb-2">
@@ -138,7 +138,7 @@ export default function About() {
           </p>
           <Link
             to="/rooms"
-            className="inline-flex items-center gap-2 bg-white text-green-800 font-bold px-10 py-4 rounded-2xl hover:bg-primary-foreground transition-colors shadow-warm"
+            className="inline-flex items-center gap-2 bg-white font-bold px-10 py-4 rounded-2xl transition-colors shadow-warm" style={{ color: 'var(--color-primary)' }}
           >
             Browse Rooms <ArrowRight size={18} />
           </Link>
