@@ -6,30 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('hotels', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->string('city');
             $table->string('country');
+            $table->string('zip_code')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
-            $table->decimal('rating', 2, 1)->default(0);
+            $table->unsignedTinyInteger('star_rating')->default(3);
+            $table->time('check_in_time')->default('14:00:00');
+            $table->time('check_out_time')->default('12:00:00');
+            $table->string('logo')->nullable();
             $table->json('images')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('hotels');

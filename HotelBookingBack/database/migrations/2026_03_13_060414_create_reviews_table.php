@@ -12,10 +12,10 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('hotel_id')->constrained()->cascadeOnDelete();
             $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('rating');
             $table->text('comment')->nullable();
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
 
             $table->unique(['user_id', 'booking_id']);

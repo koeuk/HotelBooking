@@ -13,6 +13,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('icon')->nullable();
+            $table->string('category')->nullable();
             $table->timestamps();
         });
     }

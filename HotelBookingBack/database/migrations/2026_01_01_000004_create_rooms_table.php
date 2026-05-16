@@ -6,26 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->foreignId('hotel_id')->constrained()->cascadeOnDelete();
             $table->foreignId('room_type_id')->constrained()->cascadeOnDelete();
-            $table->string('room_number');
-            $table->integer('floor')->nullable();
-            $table->enum('status', ['available', 'booked', 'maintenance'])->default('available');
+            $table->string('room_number')->unique();
+            $table->unsignedSmallInteger('floor')->nullable();
+            $table->enum('status', ['available', 'booked', 'maintenance', 'cleaning'])->default('available');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('rooms');
