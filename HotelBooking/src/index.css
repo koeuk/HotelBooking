@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-    --color-primary: oklch(0.55 0.18 265);
+    --color-primary: #4C565A;
     --color-primary-foreground: oklch(0.98 0 0);
+    --color-secondary: #929598;
+    --color-secondary-foreground: oklch(0.98 0 0);
     --color-background: oklch(1 0 0);
     --color-foreground: oklch(0.145 0 0);
     --color-card: oklch(1 0 0);
@@ -10,7 +12,7 @@
     --color-muted: oklch(0.97 0 0);
     --color-muted-foreground: oklch(0.556 0 0);
     --color-border: oklch(0.922 0 0);
-    --color-ring: oklch(0.6 0.18 260);
+    --color-ring: #4C565A;
     --color-destructive: oklch(0.577 0.245 27.325);
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -23,9 +25,9 @@
         --card-foreground: oklch(0.145 0 0);
         --popover: oklch(1 0 0);
         --popover-foreground: oklch(0.145 0 0);
-        --primary: oklch(0.55 0.18 265);
+        --primary: #4C565A;
         --primary-foreground: oklch(0.98 0 0);
-        --secondary: oklch(0.25 0.06 265);
+        --secondary: #929598;
         --secondary-foreground: oklch(0.98 0 0);
         --muted: oklch(0.97 0 0);
         --muted-foreground: oklch(0.556 0 0);
@@ -34,15 +36,15 @@
         --destructive: oklch(0.577 0.245 27.325);
         --border: oklch(0.922 0 0);
         --input: oklch(0.922 0 0);
-        --ring: oklch(0.6 0.18 260);
+        --ring: #4C565A;
         --radius: 0.75rem;
 
         /* Brand gradients */
-        --gradient-primary: linear-gradient(135deg, oklch(0.62 0.2 265) 0%, oklch(0.55 0.22 290) 100%);
-        --gradient-primary-soft: linear-gradient(135deg, oklch(0.95 0.04 265) 0%, oklch(0.93 0.05 290) 100%);
-        --gradient-mesh: radial-gradient(at 20% 20%, oklch(0.85 0.15 265 / 0.35) 0px, transparent 50%),
-            radial-gradient(at 80% 0%, oklch(0.85 0.15 320 / 0.25) 0px, transparent 50%),
-            radial-gradient(at 0% 80%, oklch(0.85 0.15 200 / 0.25) 0px, transparent 50%);
+        --gradient-primary: linear-gradient(135deg, #4C565A 0%, #929598 100%);
+        --gradient-primary-soft: linear-gradient(135deg, #e8eaeb 0%, #f0f1f1 100%);
+        --gradient-mesh: radial-gradient(at 20% 20%, #4C565A33 0px, transparent 50%),
+            radial-gradient(at 80% 0%, #92959833 0px, transparent 50%),
+            radial-gradient(at 0% 80%, #4C565A22 0px, transparent 50%);
 
         /* Glass surfaces */
         --glass-bg: oklch(1 0 0 / 0.6);
@@ -58,7 +60,7 @@
         --foreground: oklch(0.985 0 0);
         --card: oklch(0.205 0 0);
         --card-foreground: oklch(0.985 0 0);
-        --primary: oklch(0.65 0.18 265);
+        --primary: #929598;
         --border: oklch(1 0 0 / 10%);
         --input: oklch(1 0 0 / 15%);
     }
@@ -69,7 +71,8 @@
         border-color: var(--border);
     }
     body {
-        background-color: var(--color-background);
+        background-image: var(--gradient-primary);
+        background-attachment: fixed;
         color: var(--color-foreground);
         font-feature-settings: "rlig" 1, "calt" 1;
     }

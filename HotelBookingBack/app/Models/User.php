@@ -68,6 +68,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Hotel::class, 'favorites')->withTimestamps();
     }
 
+    public function wishlist()
+    {
+        return $this->belongsToMany(Hotel::class, 'wishlists')->withTimestamps();
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);

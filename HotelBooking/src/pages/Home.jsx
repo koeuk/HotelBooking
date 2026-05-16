@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../lib/api';
+import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -19,35 +20,51 @@ import {
 } from "lucide-react";
 
 export default function Home() {
+    const { user } = useAuth();
     const [hotels, setHotels] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [favorites, setFavorites] = useState({});
     const [cart, setCart] = useState({});
 
+    useEffect(() => {
+        api.get('/hotels')
+            .then(res => setHotels(res.data.data || []))
+            .catch(console.error)
+            .finally(() => setLoading(false));
+    }, []);
+
+    useEffect(() => {
+        if (!user) return;
+        api.get('/favorites').then(res => {
+            const map = {};
+            res.data.data.forEach(id => { map[id] = true; });
+            setFavorites(map);
+        }).catch(() => {});
+        api.get('/wishlist').then(res => {
+            const map = {};
+            res.data.data.forEach(id => { map[id] = true; });
+            setCart(map);
+        }).catch(() => {});
+    }, [user]);
+
     const toggleFavorite = (e, id) => {
         e.preventDefault();
         e.stopPropagation();
-        setFavorites(prev => ({ ...prev, [id]: !prev[id] }));
+        if (!user) return;
+        const next = !favorites[id];
+        setFavorites(prev => ({ ...prev, [id]: next }));
+        next ? api.post(`/favorites/${id}`) : api.delete(`/favorites/${id}`);
     };
 
     const toggleCart = (e, id) => {
         e.preventDefault();
         e.stopPropagation();
-        setCart(prev => ({ ...prev, [id]: !prev[id] }));
+        if (!user) return;
+        const next = !cart[id];
+        setCart(prev => ({ ...prev, [id]: next }));
+        next ? api.post(`/wishlist/${id}`) : api.delete(`/wishlist/${id}`);
     };
-
-    useEffect(() => {
-        api.get('/hotels')
-            .then(res => {
-                setHotels(res.data.data || []);
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error(err);
-                setLoading(false);
-            });
-    }, []);
 
     const goSearch = () => {
         // Implementation for search redirect
@@ -108,6 +125,9 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            {/* Section Divider */}
+            <hr className="border-none h-px bg-white/20 mx-8" />
 
             {/* Top Rated Stays */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">

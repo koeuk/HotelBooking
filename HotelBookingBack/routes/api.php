@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AmenityApiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingApiController;
 use App\Http\Controllers\Api\CouponApiController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\HotelApiController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PaymentApiController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Api\ReviewApiController;
 use App\Http\Controllers\Api\RoomApiController;
 use App\Http\Controllers\Api\RoomTypeApiController;
 use App\Http\Controllers\Api\SocialAuthApiController;
+use App\Http\Controllers\Api\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -63,5 +65,15 @@ Route::prefix('v1')->group(function () {
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
         Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+
+        // Favorites
+        Route::get('/favorites', [FavoriteController::class, 'index']);
+        Route::post('/favorites/{hotelId}', [FavoriteController::class, 'store']);
+        Route::delete('/favorites/{hotelId}', [FavoriteController::class, 'destroy']);
+
+        // Wishlist (cart)
+        Route::get('/wishlist', [WishlistController::class, 'index']);
+        Route::post('/wishlist/{hotelId}', [WishlistController::class, 'store']);
+        Route::delete('/wishlist/{hotelId}', [WishlistController::class, 'destroy']);
     });
 });
