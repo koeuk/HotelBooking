@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Hotel;
 use App\Models\Room;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
@@ -14,26 +12,22 @@ class RoomController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Room::with(['hotel', 'roomType']);
+        $query = Room::with(['roomType']);
 
         if ($status = $request->input('status')) {
             $query->where('status', $status);
-        }
-        if ($hotel = $request->input('hotel')) {
-            $query->where('hotel_id', $hotel);
         }
         if ($search = $request->input('search')) {
             $query->where('room_number', 'like', "%{$search}%");
         }
 
         return Inertia::render('Dashboard/Rooms/Index', [
-            'rooms' => $query->latest()->paginate(10)->withQueryString(),
-            'hotels' => Hotel::all(['id', 'name']),
-            'filters' => $request->only(['status', 'hotel', 'search']),
-            'counts' => [
-                'all' => Room::count(),
-                'available' => Room::where('status', 'available')->count(),
-                'booked' => Room::where('status', 'booked')->count(),
+            'rooms'   => $query->latest()->paginate(10)->withQueryString(),
+            'filters' => $request->only(['status', 'search']),
+            'counts'  => [
+                'all'         => Room::count(),
+                'available'   => Room::where('status', 'available')->count(),
+                'booked'      => Room::where('status', 'booked')->count(),
                 'maintenance' => Room::where('status', 'maintenance')->count(),
             ],
         ]);
@@ -42,19 +36,17 @@ class RoomController extends Controller
     public function create()
     {
         return Inertia::render('Dashboard/Rooms/Create', [
-            'hotels' => Hotel::all(['id', 'name']),
-            'roomTypes' => RoomType::all(['id', 'name', 'hotel_id'])
+            'roomTypes' => RoomType::all(['id', 'name'])
         ]);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'hotel_id' => 'required|exists:hotels,id',
             'room_type_id' => 'required|exists:room_types,id',
-            'room_number' => 'required|string|max:255',
-            'floor' => 'nullable|integer',
-            'status' => 'required|in:available,booked,maintenance',
+            'room_number'  => 'required|string|max:255',
+            'floor'        => 'nullable|integer',
+            'status'       => 'required|in:available,booked,maintenance,cleaning',
         ]);
 
         Room::create($validated);
@@ -64,7 +56,7 @@ class RoomController extends Controller
 
     public function show(Room $room)
     {
-        $room->load(['hotel', 'roomType', 'bookings.user']);
+        $room->load(['roomType', 'bookings.user']);
         return Inertia::render('Dashboard/Rooms/Show', [
             'room' => $room
         ]);
@@ -73,20 +65,18 @@ class RoomController extends Controller
     public function edit(Room $room)
     {
         return Inertia::render('Dashboard/Rooms/Edit', [
-            'room' => $room,
-            'hotels' => Hotel::all(['id', 'name']),
-            'roomTypes' => RoomType::all(['id', 'name', 'hotel_id'])
+            'room'      => $room,
+            'roomTypes' => RoomType::all(['id', 'name'])
         ]);
     }
 
     public function update(Request $request, Room $room)
     {
         $validated = $request->validate([
-            'hotel_id' => 'required|exists:hotels,id',
             'room_type_id' => 'required|exists:room_types,id',
-            'room_number' => 'required|string|max:255',
-            'floor' => 'nullable|integer',
-            'status' => 'required|in:available,booked,maintenance',
+            'room_number'  => 'required|string|max:255',
+            'floor'        => 'nullable|integer',
+            'status'       => 'required|in:available,booked,maintenance,cleaning',
         ]);
 
         $room->update($validated);

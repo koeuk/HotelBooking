@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Hotel;
 use App\Models\RoomType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,29 +12,28 @@ class RoomTypeController extends Controller
     public function index()
     {
         return Inertia::render('Dashboard/RoomTypes/Index', [
-            'roomTypes' => RoomType::with('hotel')->latest()->paginate(10)
+            'roomTypes' => RoomType::with('amenities')->latest()->paginate(10)
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Dashboard/RoomTypes/Create', [
-            'hotels' => Hotel::all(['id', 'name'])
-        ]);
+        return Inertia::render('Dashboard/RoomTypes/Create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'hotel_id' => 'required|exists:hotels,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'max_users' => 'required|integer|min:1',
-            'price_per_night' => 'required|numeric|min:0',
-            'existing_images' => 'nullable|array',
-            'existing_images.*' => 'nullable|string',
-            'new_images' => 'nullable|array',
-            'new_images.*' => 'nullable|image|max:2048',
+            'name'             => 'required|string|max:255',
+            'description'      => 'nullable|string',
+            'max_guests'       => 'required|integer|min:1',
+            'price_per_night'  => 'required|numeric|min:0',
+            'bed_type'         => 'nullable|string|max:100',
+            'size_sqm'         => 'nullable|numeric|min:0',
+            'existing_images'  => 'nullable|array',
+            'existing_images.*'=> 'nullable|string',
+            'new_images'       => 'nullable|array',
+            'new_images.*'     => 'nullable|image|max:2048',
         ]);
 
         $images = $validated['existing_images'] ?? [];
@@ -57,7 +54,7 @@ class RoomTypeController extends Controller
 
     public function show(RoomType $roomType)
     {
-        $roomType->load(['hotel', 'rooms']);
+        $roomType->load(['amenities', 'rooms']);
         return Inertia::render('Dashboard/RoomTypes/Show', [
             'roomType' => $roomType
         ]);
@@ -67,22 +64,22 @@ class RoomTypeController extends Controller
     {
         return Inertia::render('Dashboard/RoomTypes/Edit', [
             'roomType' => $roomType,
-            'hotels' => Hotel::all(['id', 'name'])
         ]);
     }
 
     public function update(Request $request, RoomType $roomType)
     {
         $validated = $request->validate([
-            'hotel_id' => 'required|exists:hotels,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'max_users' => 'required|integer|min:1',
-            'price_per_night' => 'required|numeric|min:0',
-            'existing_images' => 'nullable|array',
-            'existing_images.*' => 'nullable|string',
-            'new_images' => 'nullable|array',
-            'new_images.*' => 'nullable|image|max:2048',
+            'name'             => 'required|string|max:255',
+            'description'      => 'nullable|string',
+            'max_guests'       => 'required|integer|min:1',
+            'price_per_night'  => 'required|numeric|min:0',
+            'bed_type'         => 'nullable|string|max:100',
+            'size_sqm'         => 'nullable|numeric|min:0',
+            'existing_images'  => 'nullable|array',
+            'existing_images.*'=> 'nullable|string',
+            'new_images'       => 'nullable|array',
+            'new_images.*'     => 'nullable|image|max:2048',
         ]);
 
         $images = $validated['existing_images'] ?? [];

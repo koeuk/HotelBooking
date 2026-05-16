@@ -250,7 +250,7 @@ export default function DashboardLayout({ children }) {
                 <div className="p-4 border-t border-white/5">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <button
+                            <div
                                 className={cn(
                                     "w-full glass rounded-2xl p-3 flex items-center gap-3 transition-all hover:bg-white/10 cursor-pointer",
                                     isCollapsed ? "justify-center px-2" : "",
@@ -275,7 +275,7 @@ export default function DashboardLayout({ children }) {
                                         <ChevronLeft className="h-4 w-4 text-zinc-300 rotate-90" />
                                     </>
                                 )}
-                            </button>
+                            </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                             side="top"
