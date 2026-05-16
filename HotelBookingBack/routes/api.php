@@ -25,12 +25,11 @@ Route::prefix('v1')->group(function () {
     Route::post('/auth/facebook', [SocialAuthApiController::class, 'loginWithFacebook']);
 
     // Public
-    Route::get('/hotels', [HotelApiController::class, 'index']);
-    Route::get('/hotels/{id}', [HotelApiController::class, 'show']);
-    Route::get('/hotels/{id}/room-types', [RoomTypeApiController::class, 'index']);
-    Route::get('/room-types/{id}', [RoomTypeApiController::class, 'show']);
-    Route::get('/hotels/{id}/rooms', [RoomApiController::class, 'index']);
-    Route::get('/rooms/{id}', [RoomApiController::class, 'show']);
+    Route::get('/hotel', [HotelApiController::class, 'show']);
+    Route::get('/room-types', [RoomTypeApiController::class, 'index']);
+    Route::get('/room-types/{uuid}', [RoomTypeApiController::class, 'show']);
+    Route::get('/rooms', [RoomApiController::class, 'index']);
+    Route::get('/rooms/{uuid}', [RoomApiController::class, 'show']);
 
     // Public Amenities
     Route::get('/amenities', [AmenityApiController::class, 'index']);
@@ -68,12 +67,12 @@ Route::prefix('v1')->group(function () {
 
         // Favorites
         Route::get('/favorites', [FavoriteController::class, 'index']);
-        Route::post('/favorites/{hotelId}', [FavoriteController::class, 'store']);
-        Route::delete('/favorites/{hotelId}', [FavoriteController::class, 'destroy']);
+        Route::post('/favorites/{roomTypeId}', [FavoriteController::class, 'store']);
+        Route::delete('/favorites/{roomTypeId}', [FavoriteController::class, 'destroy']);
 
         // Wishlist (cart)
         Route::get('/wishlist', [WishlistController::class, 'index']);
-        Route::post('/wishlist/{hotelId}', [WishlistController::class, 'store']);
-        Route::delete('/wishlist/{hotelId}', [WishlistController::class, 'destroy']);
+        Route::post('/wishlist/{roomTypeId}', [WishlistController::class, 'store']);
+        Route::delete('/wishlist/{roomTypeId}', [WishlistController::class, 'destroy']);
     });
 });

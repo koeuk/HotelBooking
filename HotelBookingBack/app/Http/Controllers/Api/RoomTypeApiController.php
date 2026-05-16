@@ -9,29 +9,35 @@ use Illuminate\Http\Request;
 
 class RoomTypeApiController extends Controller
 {
-    public function index(Request $request, $hotelId)
+    public function index(Request $request)
     {
-        $hotel = \App\Models\Hotel::where('uuid', $hotelId)->firstOrFail();
+        $query = RoomType::with('amenities')->where('is_active', true);
 
-        $roomTypes = RoomType::with('hotel')
-            ->where('hotel_id', $hotel->id)
-            ->paginate($request->get('per_page', 15));
+        if ($request->has('min_guests')) {
+            $query->where('max_guests', '>=', (int) $request->min_guests);
+        }
+
+        if ($request->has('max_price')) {
+            $query->where('price_per_night', '<=', (float) $request->max_price);
+        }
+
+        $roomTypes = $query->paginate($request->get('per_page', 15));
 
         return response()->json([
             'success' => true,
             'data' => RoomTypeResource::collection($roomTypes),
             'meta' => [
                 'current_page' => $roomTypes->currentPage(),
-                'last_page' => $roomTypes->lastPage(),
-                'per_page' => $roomTypes->perPage(),
-                'total' => $roomTypes->total(),
+                'last_page'    => $roomTypes->lastPage(),
+                'per_page'     => $roomTypes->perPage(),
+                'total'        => $roomTypes->total(),
             ],
         ]);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $roomType = RoomType::with('hotel')->findOrFail($id);
+        $roomType = RoomType::with('amenities')->where('uuid', $uuid)->firstOrFail();
 
         return response()->json([
             'success' => true,
