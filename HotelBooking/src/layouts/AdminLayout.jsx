@@ -29,12 +29,13 @@ export default function AdminLayout() {
     }
 
     const navItems = [
-        { icon: <LayoutDashboard size={20} />, label: 'Overview', path: '/admin/dashboard' },
-        { icon: <Hotel size={20} />, label: 'Hotels', path: '/admin/hotels' },
-        { icon: <BedDouble size={20} />, label: 'Rooms', path: '/admin/rooms' },
-        { icon: <CalendarCheck size={20} />, label: 'Bookings', path: '/admin/bookings' },
-        { icon: <CreditCard size={20} />, label: 'Payments', path: '/admin/payments' },
-        { icon: <Users size={20} />, label: 'Users', path: '/admin/users' },
+        { icon: <LayoutDashboard size={20} />, label: 'Overview',      path: '/admin/dashboard' },
+        { icon: <BedDouble size={20} />,       label: 'Rooms',         path: '/admin/rooms' },
+        { icon: <Hotel size={20} />,           label: 'Room Types',    path: '/admin/room-types' },
+        { icon: <CalendarCheck size={20} />,   label: 'Bookings',      path: '/admin/bookings' },
+        { icon: <CreditCard size={20} />,      label: 'Payments',      path: '/admin/payments' },
+        { icon: <Users size={20} />,           label: 'Users',         path: '/admin/users' },
+        { icon: <Settings size={20} />,        label: 'Hotel Settings',path: '/admin/hotel-settings' },
     ];
 
     return (
