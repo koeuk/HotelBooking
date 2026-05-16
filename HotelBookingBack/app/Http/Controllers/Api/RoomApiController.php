@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 class RoomApiController extends Controller
 {
-    public function index(Request $request, $hotelId)
+    public function index(Request $request)
     {
-        $query = Room::with(['hotel', 'roomType'])
-            ->where('hotel_id', $hotelId);
+        $query = Room::with('roomType');
 
         if ($request->has('status')) {
             $query->where('status', $request->status);
@@ -29,16 +28,16 @@ class RoomApiController extends Controller
             'data' => RoomResource::collection($rooms),
             'meta' => [
                 'current_page' => $rooms->currentPage(),
-                'last_page' => $rooms->lastPage(),
-                'per_page' => $rooms->perPage(),
-                'total' => $rooms->total(),
+                'last_page'    => $rooms->lastPage(),
+                'per_page'     => $rooms->perPage(),
+                'total'        => $rooms->total(),
             ],
         ]);
     }
 
-    public function show($id)
+    public function show($uuid)
     {
-        $room = Room::with(['hotel', 'roomType'])->findOrFail($id);
+        $room = Room::with(['roomType', 'roomType.amenities'])->where('uuid', $uuid)->firstOrFail();
 
         return response()->json([
             'success' => true,

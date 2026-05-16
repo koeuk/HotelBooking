@@ -3,30 +3,30 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Hotel;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
     public function index(Request $request)
     {
-        $ids = $request->user()->favorites()->pluck('hotels.id');
+        $ids = $request->user()->favorites()->pluck('room_types.id');
 
         return response()->json(['success' => true, 'data' => $ids]);
     }
 
-    public function store(Request $request, $hotelId)
+    public function store(Request $request, $roomTypeId)
     {
-        $hotel = Hotel::findOrFail($hotelId);
-        $request->user()->favorites()->syncWithoutDetaching([$hotel->id]);
+        $roomType = RoomType::findOrFail($roomTypeId);
+        $request->user()->favorites()->syncWithoutDetaching([$roomType->id]);
 
         return response()->json(['success' => true, 'message' => 'Added to favorites.']);
     }
 
-    public function destroy(Request $request, $hotelId)
+    public function destroy(Request $request, $roomTypeId)
     {
-        $hotel = Hotel::findOrFail($hotelId);
-        $request->user()->favorites()->detach($hotel->id);
+        $roomType = RoomType::findOrFail($roomTypeId);
+        $request->user()->favorites()->detach($roomType->id);
 
         return response()->json(['success' => true, 'message' => 'Removed from favorites.']);
     }

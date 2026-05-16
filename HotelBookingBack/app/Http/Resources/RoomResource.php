@@ -10,12 +10,13 @@ class RoomResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'hotel' => $this->whenLoaded('hotel', fn () => $this->hotel->name),
-            'room_type' => new RoomTypeResource($this->whenLoaded('roomType')),
+            'id'          => $this->id,
+            'uuid'        => $this->uuid,
             'room_number' => $this->room_number,
-            'floor' => $this->floor,
-            'status' => $this->status,
+            'floor'       => $this->floor,
+            'status'      => $this->status,
+            'notes'       => $this->notes,
+            'room_type'   => new RoomTypeResource($this->whenLoaded('roomType')),
         ];
     }
 }

@@ -34,7 +34,7 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4 py-12">
+        <div className="h-[calc(100vh-80px)] flex items-center justify-center p-4 overflow-hidden">
             <div className="max-w-xl w-full bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 text-primary rounded-2xl mb-4">

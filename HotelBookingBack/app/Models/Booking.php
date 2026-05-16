@@ -9,12 +9,32 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     use HasFactory, HasUuid;
-    protected $fillable = ['user_id', 'room_id', 'check_in_date', 'check_out_date', 'total_price', 'status'];
+
+    protected $fillable = [
+        'uuid',
+        'user_id',
+        'room_id',
+        'coupon_id',
+        'check_in_date',
+        'check_out_date',
+        'guests',
+        'price_per_night',
+        'total_price',
+        'discount_amount',
+        'special_requests',
+        'status',
+        'cancelled_at',
+        'cancellation_reason',
+    ];
 
     protected $casts = [
-        'check_in_date' => 'date',
-        'check_out_date' => 'date',
-        'total_price' => 'decimal:2',
+        'check_in_date'   => 'date',
+        'check_out_date'  => 'date',
+        'cancelled_at'    => 'datetime',
+        'guests'          => 'integer',
+        'price_per_night' => 'decimal:2',
+        'total_price'     => 'decimal:2',
+        'discount_amount' => 'decimal:2',
     ];
 
     public function user()
@@ -35,5 +55,10 @@ class Booking extends Model
     public function review()
     {
         return $this->hasOne(Review::class);
+    }
+
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
     }
 }

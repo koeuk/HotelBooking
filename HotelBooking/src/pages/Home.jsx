@@ -1,211 +1,263 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
-import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
-import { Card, CardContent } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
-import { Input } from '../components/ui/input';
 import {
     Star,
-    MapPin,
     BedDouble,
+    Users,
     ArrowRight,
-    Search,
-    Shield,
-    Clock,
+    Wifi,
+    Wind,
+    Coffee,
+    Monitor,
+    Car,
+    Dumbbell,
+    Waves,
+    UtensilsCrossed,
     Sparkles,
-    Heart,
-    ShoppingCart,
+    CheckCircle,
+    Clock,
 } from "lucide-react";
 
+const AMENITIES = [
+    { icon: <Wifi size={24} />, label: 'Free WiFi' },
+    { icon: <Wind size={24} />, label: 'Air Conditioning' },
+    { icon: <Coffee size={24} />, label: 'Breakfast Included' },
+    { icon: <Monitor size={24} />, label: 'Smart TV' },
+    { icon: <Car size={24} />, label: 'Free Parking' },
+    { icon: <Dumbbell size={24} />, label: 'Fitness Center' },
+    { icon: <Waves size={24} />, label: 'Swimming Pool' },
+    { icon: <UtensilsCrossed size={24} />, label: 'Restaurant' },
+];
+
 export default function Home() {
-    const { user } = useAuth();
-    const [hotels, setHotels] = useState([]);
+    const navigate = useNavigate();
+    const [hotel, setHotel] = useState(null);
+    const [roomTypes, setRoomTypes] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState("");
-    const [favorites, setFavorites] = useState({});
-    const [cart, setCart] = useState({});
 
     useEffect(() => {
-        api.get('/hotels')
-            .then(res => setHotels(res.data.data || []))
-            .catch(console.error)
-            .finally(() => setLoading(false));
+        Promise.all([
+            api.get('/hotel').catch(() => ({ data: { data: null } })),
+            api.get('/room-types').catch(() => ({ data: { data: [] } })),
+        ]).then(([hotelRes, roomTypesRes]) => {
+            setHotel(hotelRes.data.data || hotelRes.data);
+            const types = roomTypesRes.data.data || roomTypesRes.data || [];
+            setRoomTypes(Array.isArray(types) ? types.slice(0, 3) : []);
+        }).finally(() => setLoading(false));
     }, []);
 
-    useEffect(() => {
-        if (!user) return;
-        api.get('/favorites').then(res => {
-            const map = {};
-            res.data.data.forEach(id => { map[id] = true; });
-            setFavorites(map);
-        }).catch(() => {});
-        api.get('/wishlist').then(res => {
-            const map = {};
-            res.data.data.forEach(hotel => { map[hotel.id] = true; });
-            setCart(map);
-        }).catch(() => {});
-    }, [user]);
-
-    const toggleFavorite = (e, id) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!user) return;
-        const next = !favorites[id];
-        setFavorites(prev => ({ ...prev, [id]: next }));
-        next ? api.post(`/favorites/${id}`) : api.delete(`/favorites/${id}`);
-    };
-
-    const toggleCart = (e, id) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!user) return;
-        const next = !cart[id];
-        setCart(prev => ({ ...prev, [id]: next }));
-        next ? api.post(`/wishlist/${id}`) : api.delete(`/wishlist/${id}`);
-    };
-
-    const goSearch = () => {
-        // Implementation for search redirect
-    };
+    const renderStars = (count = 5) => (
+        <div className="flex gap-1">
+            {Array.from({ length: count }).map((_, i) => (
+                <Star key={i} size={18} className="fill-amber-400 text-amber-400" />
+            ))}
+        </div>
+    );
 
     return (
-        <div className="bg-background">
+        <div>
             {/* Hero Section */}
-            <section className="relative overflow-hidden pt-20 pb-32">
-                <div className="absolute inset-0 bg-gradient-mesh opacity-60" />
-                <div className="absolute inset-0 noise opacity-[0.03]" />
-                
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
-                    <Badge variant="glass" className="mx-auto px-4 py-1.5 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                        <Sparkles className="h-3.5 w-3.5 text-primary" />
-                        <span className="ml-2">Hand-picked stays for 2026</span>
-                    </Badge>
+            <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+                <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600')" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/40" />
 
-                    <h1 className="text-6xl md:text-8xl font-extrabold tracking-tight text-slate-900 leading-[1.1] animate-in fade-in slide-in-from-bottom-6 duration-1000">
-                        Find your <span className="text-gradient-primary">perfect stay</span>
-                    </h1>
-
-                    <p className="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                        Discover boutique hotels, beachside resorts, and urban escapes — booked in seconds.
-                    </p>
-
-                    {/* Search Bar */}
-                    <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 p-2 bg-white rounded-[2rem] shadow-2xl shadow-primary/10 border border-slate-100 animate-in fade-in slide-in-from-bottom-10 duration-1000">
-                        <div className="flex-1 relative">
-                            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                            <Input 
-                                variant="soft" 
-                                placeholder="Search hotels, cities, countries..." 
-                                className="pl-14 border-none bg-transparent h-14 text-lg"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                    <div className="max-w-2xl">
+                        <div className="flex items-center gap-2 mb-6">
+                            <Sparkles size={18} className="text-amber-400" />
+                            <span className="text-white/80 font-medium text-sm tracking-wide uppercase">
+                                {loading ? 'Welcome' : (hotel?.stars ? `${hotel.stars}-Star Hotel` : 'Luxury Hotel')}
+                            </span>
                         </div>
-                        <Button variant="gradient" size="xl" shape="pill" className="px-10 text-lg font-bold">
-                            Search
-                        </Button>
-                    </div>
 
-                    {/* Trust Indicators */}
-                    <div className="flex flex-wrap items-center justify-center gap-8 pt-8 text-slate-400 font-medium">
-                        <div className="flex items-center gap-2">
-                            <Shield className="text-emerald-500" size={20} />
-                            <span>Best Price Guarantee</span>
+                        <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4">
+                            {loading ? 'Loading...' : (hotel?.name || 'Grand Luxe Hotel')}
+                        </h1>
+
+                        {!loading && renderStars(hotel?.stars || 5)}
+
+                        <p className="text-white/80 text-xl mt-6 mb-10 leading-relaxed max-w-xl">
+                            {hotel?.tagline || hotel?.description?.slice(0, 120) || 'Experience unparalleled luxury and comfort in the heart of the city. Your perfect stay awaits.'}
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Button
+                                onClick={() => navigate('/rooms')}
+                                className="px-10 py-4 bg-white text-primary font-bold text-lg rounded-2xl hover:bg-white/90 transition-all shadow-lg cursor-pointer"
+                            >
+                                Book Now
+                                <ArrowRight size={20} className="ml-2" />
+                            </Button>
+                            <Button
+                                onClick={() => navigate('/about')}
+                                className="px-10 py-4 bg-white/10 text-white font-bold text-lg rounded-2xl border border-white/30 hover:bg-white/20 transition-all cursor-pointer"
+                            >
+                                Learn More
+                            </Button>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <Clock className="text-sky-500" size={20} />
-                            <span>Free Cancellation</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Star className="text-amber-500" size={20} />
-                            <span>5+ Reviews</span>
+
+                        <div className="flex flex-wrap gap-6 mt-12 text-white/70 text-sm font-medium">
+                            <div className="flex items-center gap-2">
+                                <CheckCircle size={16} className="text-green-400" />
+                                <span>Free Cancellation</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Clock size={16} className="text-sky-400" />
+                                <span>24/7 Concierge</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Star size={16} className="text-amber-400 fill-amber-400" />
+                                <span>Best Price Guarantee</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Section Divider */}
-            <hr className="border-none h-px bg-white/20 mx-8" />
-
-            {/* Top Rated Stays */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            {/* Room Types Section */}
+            <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="flex items-end justify-between mb-12">
                     <div>
-                        <h2 className="text-4xl font-bold text-slate-900">Top rated stays</h2>
-                        <p className="text-slate-500 mt-2 text-lg">Discover our highest-rated properties</p>
+                        <p className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-2">Accommodations</p>
+                        <h2 className="text-4xl font-bold text-white">Our Room Types</h2>
+                        <p className="text-white/60 mt-2 text-lg">Carefully designed spaces for your comfort</p>
                     </div>
-                    <Link to="/hotels" className="group flex items-center gap-2 text-primary font-bold text-lg hover:gap-3 transition-all">
-                        View all <ArrowRight size={20} />
+                    <Link to="/rooms" className="group flex items-center gap-2 text-white/80 font-bold text-lg hover:text-white hover:gap-3 transition-all">
+                        View all rooms <ArrowRight size={20} />
                     </Link>
                 </div>
 
                 {loading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="h-[400px] bg-slate-100 rounded-3xl animate-pulse" />
+                            <div key={i} className="h-[420px] bg-white/10 rounded-3xl animate-pulse" />
                         ))}
+                    </div>
+                ) : roomTypes.length === 0 ? (
+                    <div className="text-center py-20 bg-white/10 rounded-3xl">
+                        <p className="text-white/60 font-medium">No room types available yet.</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {hotels.map(hotel => (
-                            <Link key={hotel.id} to={`/hotels/${hotel.uuid}`}>
-                                <Card variant="elevated" interactive className="h-full border-none shadow-soft">
-                                    <div className="aspect-[4/3] overflow-hidden relative">
-                                        <img
-                                            src={hotel.images?.[0] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945'}
-                                            alt={hotel.name}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        />
-                                        <button
-                                            onClick={(e) => toggleFavorite(e, hotel.id)}
-                                            className="absolute top-4 left-4 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 backdrop-blur-md shadow-md hover:scale-110 transition-transform cursor-pointer"
-                                        >
-                                            <Heart
-                                                size={17}
-                                                className={favorites[hotel.id] ? 'fill-rose-500 text-rose-500' : 'text-slate-400'}
-                                            />
-                                        </button>
-                                        {hotel.reviews_avg_rating && (
-                                            <Badge variant="glass" className="absolute top-4 right-4 bg-white/90 backdrop-blur-md">
-                                                <Star size={14} className="fill-amber-400 text-amber-400" />
-                                                <span className="ml-1 font-bold">{Number(hotel.reviews_avg_rating).toFixed(1)}</span>
-                                            </Badge>
+                        {roomTypes.map(roomType => (
+                            <div key={roomType.uuid || roomType.id} className="bg-white rounded-3xl overflow-hidden shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                                <div className="aspect-[4/3] overflow-hidden">
+                                    <img
+                                        src={roomType.images?.[0] || 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800'}
+                                        alt={roomType.name}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                </div>
+                                <div className="p-6">
+                                    <h3 className="text-xl font-bold text-slate-900 mb-1">{roomType.name}</h3>
+                                    <div className="flex flex-wrap gap-3 mt-3 mb-4 text-sm text-slate-500">
+                                        {roomType.max_guests && (
+                                            <div className="flex items-center gap-1.5">
+                                                <Users size={15} className="text-primary" />
+                                                <span>Up to {roomType.max_guests} guests</span>
+                                            </div>
+                                        )}
+                                        {roomType.bed_type && (
+                                            <div className="flex items-center gap-1.5">
+                                                <BedDouble size={15} className="text-primary" />
+                                                <span>{roomType.bed_type}</span>
+                                            </div>
                                         )}
                                     </div>
-                                    <CardContent className="p-6">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <h3 className="text-xl font-bold text-slate-900 truncate">{hotel.name}</h3>
+                                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                                        <div>
+                                            <span className="text-2xl font-bold text-primary">${roomType.price_per_night}</span>
+                                            <span className="text-slate-400 text-sm"> / night</span>
                                         </div>
-                                        <div className="flex items-center text-slate-500 mb-4">
-                                            <MapPin size={16} className="mr-1" />
-                                            <span className="text-sm">{hotel.city}, {hotel.country}</span>
-                                        </div>
-                                        <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                                            <div className="text-slate-400 text-xs font-medium">
-                                                {hotel.rooms_count || 0} rooms available
-                                                <span className="mx-2">·</span>
-                                                {hotel.reviews_count || 0} reviews
-                                            </div>
-                                            <button
-                                                onClick={(e) => toggleCart(e, hotel.id)}
-                                                className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
-                                                    cart[hotel.id]
-                                                        ? 'bg-primary text-white'
-                                                        : 'bg-slate-100 text-slate-600 hover:bg-primary/10 hover:text-primary'
-                                                }`}
-                                            >
-                                                <ShoppingCart size={13} />
-                                                {cart[hotel.id] ? 'Added' : 'Add'}
-                                            </button>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </Link>
+                                        <Link
+                                            to={`/rooms/${roomType.uuid || roomType.id}`}
+                                            className="px-5 py-2.5 bg-primary text-white font-bold rounded-xl hover:opacity-90 transition-opacity text-sm cursor-pointer"
+                                        >
+                                            View Rooms
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 )}
+            </section>
+
+            {/* Amenities Section */}
+            <section className="py-20 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto">
+                    <div className="bg-white/95 rounded-3xl p-10 md:p-16 shadow-xl">
+                        <div className="text-center mb-12">
+                            <p className="text-primary text-sm font-semibold uppercase tracking-widest mb-2">What We Offer</p>
+                            <h2 className="text-4xl font-bold text-slate-900">Hotel Amenities</h2>
+                            <p className="text-slate-500 mt-3 text-lg max-w-xl mx-auto">
+                                Every detail considered to make your stay exceptional
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                            {AMENITIES.map((amenity, index) => (
+                                <div key={index} className="flex flex-col items-center gap-3 p-5 bg-slate-50 rounded-2xl hover:bg-primary/5 transition-colors group">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                                        {amenity.icon}
+                                    </div>
+                                    <span className="font-semibold text-slate-700 text-sm text-center">{amenity.label}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* About / CTA Section */}
+            <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <p className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-3">About Us</p>
+                        <h2 className="text-4xl font-bold text-white mb-6">
+                            {hotel?.name || 'A Place Like No Other'}
+                        </h2>
+                        <p className="text-white/70 text-lg leading-relaxed mb-8">
+                            {hotel?.description || 'Nestled in a prime location, our hotel combines timeless elegance with modern comforts. Whether you\'re here for business or leisure, we offer tailored experiences, world-class dining, and spaces designed to make every moment memorable.'}
+                        </p>
+                        <div className="flex flex-wrap gap-4">
+                            <Button
+                                onClick={() => navigate('/rooms')}
+                                className="px-8 py-3.5 bg-white text-primary font-bold rounded-2xl hover:bg-white/90 transition-all shadow-lg cursor-pointer"
+                            >
+                                Book Your Stay
+                            </Button>
+                            <Button
+                                onClick={() => navigate('/about')}
+                                className="px-8 py-3.5 bg-transparent text-white font-bold rounded-2xl border border-white/30 hover:bg-white/10 transition-all cursor-pointer"
+                            >
+                                Our Story
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="relative">
+                        <img
+                            src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800"
+                            alt="Hotel interior"
+                            className="w-full h-80 lg:h-[420px] object-cover rounded-3xl shadow-2xl"
+                        />
+                        <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-5 shadow-xl">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                    <Star size={20} className="fill-amber-400 text-amber-400" />
+                                </div>
+                                <div>
+                                    <p className="font-bold text-slate-900 text-sm">Outstanding</p>
+                                    <p className="text-slate-400 text-xs">5-star rated experience</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     );

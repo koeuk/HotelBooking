@@ -10,10 +10,10 @@ class Amenity extends Model
 {
     use HasFactory, HasUuid;
 
-    protected $fillable = ['name', 'icon'];
+    protected $fillable = ['uuid', 'name', 'icon', 'category'];
 
-    public function hotels()
+    public function roomTypes()
     {
-        return $this->belongsToMany(Hotel::class, 'hotel_amenities');
+        return $this->belongsToMany(RoomType::class, 'room_type_amenities');
     }
 }

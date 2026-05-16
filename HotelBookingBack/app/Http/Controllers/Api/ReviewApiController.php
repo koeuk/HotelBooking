@@ -10,36 +10,35 @@ class ReviewApiController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Review::with(['user:id,name', 'hotel:id,name', 'booking:id']);
-
-        if ($request->has('hotel_id')) {
-            $query->where('hotel_id', $request->hotel_id);
-        }
+        $query = Review::with(['user:id,name', 'booking:id']);
 
         return response()->json([
-            'data' => $query->latest()->paginate(15)
+            'data' => $query->latest()->paginate(15),
         ]);
     }
 
     public function show($id)
     {
-        $review = Review::with(['user:id,name', 'hotel:id,name', 'booking:id'])->findOrFail($id);
+        $review = Review::with(['user:id,name', 'booking:id'])->findOrFail($id);
+
         return response()->json(['data' => $review]);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'hotel_id' => 'required|exists:hotels,id',
             'booking_id' => 'required|exists:bookings,id|unique:reviews,booking_id',
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string|max:1000',
+            'rating'     => 'required|integer|min:1|max:5',
+            'comment'    => 'nullable|string|max:1000',
         ]);
 
         $validated['user_id'] = $request->user()->id;
 
         $review = Review::create($validated);
-        return response()->json(['data' => $review->load(['user:id,name', 'hotel:id,name'])], 201);
+
+        return response()->json([
+            'data' => $review->load(['user:id,name', 'booking:id']),
+        ], 201);
     }
 
     public function update(Request $request, $id)
@@ -47,11 +46,12 @@ class ReviewApiController extends Controller
         $review = Review::where('user_id', $request->user()->id)->findOrFail($id);
 
         $validated = $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
+            'rating'  => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
         ]);
 
         $review->update($validated);
+
         return response()->json(['data' => $review]);
     }
 
@@ -59,6 +59,7 @@ class ReviewApiController extends Controller
     {
         $review = Review::where('user_id', $request->user()->id)->findOrFail($id);
         $review->delete();
+
         return response()->json(['message' => 'Review deleted successfully.']);
     }
 }

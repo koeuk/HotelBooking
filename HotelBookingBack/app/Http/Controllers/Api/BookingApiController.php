@@ -17,7 +17,7 @@ class BookingApiController extends Controller
     {
         $bookings = $request->user()
             ->bookings()
-            ->with(['room.hotel', 'room.roomType', 'payment'])
+            ->with(['room.roomType.amenities', 'payment'])
             ->latest()
             ->paginate($request->get('per_page', 15));
 
@@ -26,9 +26,9 @@ class BookingApiController extends Controller
             'data' => BookingResource::collection($bookings),
             'meta' => [
                 'current_page' => $bookings->currentPage(),
-                'last_page' => $bookings->lastPage(),
-                'per_page' => $bookings->perPage(),
-                'total' => $bookings->total(),
+                'last_page'    => $bookings->lastPage(),
+                'per_page'     => $bookings->perPage(),
+                'total'        => $bookings->total(),
             ],
         ]);
     }
@@ -36,12 +36,14 @@ class BookingApiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'room_id' => 'required|exists:rooms,id',
-            'check_in_date' => 'required|date|after_or_equal:today',
-            'check_out_date' => 'required|date|after:check_in_date',
+            'room_uuid'        => 'required|exists:rooms,uuid',
+            'check_in_date'    => 'required|date|after_or_equal:today',
+            'check_out_date'   => 'required|date|after:check_in_date',
+            'guests'           => 'nullable|integer|min:1',
+            'special_requests' => 'nullable|string|max:1000',
         ]);
 
-        $room = Room::with('roomType')->findOrFail($validated['room_id']);
+        $room = Room::with('roomType')->where('uuid', $validated['room_uuid'])->firstOrFail();
 
         if ($room->status !== 'available') {
             return response()->json([
@@ -71,23 +73,29 @@ class BookingApiController extends Controller
         }
 
         // Calculate total price
-        $checkIn = new \DateTime($validated['check_in_date']);
+        $checkIn  = new \DateTime($validated['check_in_date']);
         $checkOut = new \DateTime($validated['check_out_date']);
-        $nights = $checkIn->diff($checkOut)->days;
-        $totalPrice = $nights * $room->roomType->price_per_night;
+        $nights   = $checkIn->diff($checkOut)->days;
+        $pricePerNight = $room->roomType->price_per_night;
+        $totalPrice    = $nights * $pricePerNight;
 
         $booking = Booking::create([
-            'user_id' => $request->user()->id,
-            'room_id' => $room->id,
-            'check_in_date' => $validated['check_in_date'],
-            'check_out_date' => $validated['check_out_date'],
-            'total_price' => $totalPrice,
-            'status' => 'pending',
+            'uuid'             => \Illuminate\Support\Str::uuid(),
+            'user_id'          => $request->user()->id,
+            'room_id'          => $room->id,
+            'check_in_date'    => $validated['check_in_date'],
+            'check_out_date'   => $validated['check_out_date'],
+            'guests'           => $validated['guests'] ?? 1,
+            'price_per_night'  => $pricePerNight,
+            'total_price'      => $totalPrice,
+            'discount_amount'  => 0,
+            'special_requests' => $validated['special_requests'] ?? null,
+            'status'           => 'pending',
         ]);
 
-        $booking->load(['user', 'room.hotel', 'room.roomType', 'payment']);
+        $booking->load(['user', 'room.roomType.amenities', 'payment']);
 
-        // Notify admin (email + database + telegram)
+        // Notify admin
         try {
             $admin = User::where('role', 'admin')->first();
             if ($admin) {
@@ -100,7 +108,7 @@ class BookingApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Booking created successfully.',
-            'data' => new BookingResource($booking),
+            'data'    => new BookingResource($booking),
         ], 201);
     }
 
@@ -108,32 +116,41 @@ class BookingApiController extends Controller
     {
         $booking = $request->user()
             ->bookings()
-            ->with(['room.hotel', 'room.roomType', 'payment'])
+            ->with(['room.roomType.amenities', 'payment'])
             ->findOrFail($id);
 
         return response()->json([
             'success' => true,
-            'data' => new BookingResource($booking),
+            'data'    => new BookingResource($booking),
         ]);
     }
 
     public function cancel(Request $request, $id)
     {
+        $validated = $request->validate([
+            'cancellation_reason' => 'nullable|string|max:1000',
+        ]);
+
         $booking = $request->user()
             ->bookings()
             ->findOrFail($id);
 
-        if ($booking->status !== 'pending') {
+        if (!in_array($booking->status, ['pending', 'confirmed'])) {
             return response()->json([
                 'success' => false,
-                'message' => 'Only pending bookings can be cancelled.',
+                'message' => 'Only pending or confirmed bookings can be cancelled.',
             ], 422);
         }
 
-        $booking->update(['status' => 'cancelled']);
-        $booking->load(['user', 'room.hotel', 'room.roomType']);
+        $booking->update([
+            'status'              => 'cancelled',
+            'cancelled_at'        => now(),
+            'cancellation_reason' => $validated['cancellation_reason'] ?? null,
+        ]);
 
-        // Notify user (email + database)
+        $booking->load(['user', 'room.roomType.amenities']);
+
+        // Notify user
         try {
             $booking->user->notify(new BookingStatusUpdatedUserNotification($booking, 'cancelled'));
         } catch (\Exception $e) {
@@ -143,7 +160,7 @@ class BookingApiController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Booking cancelled successfully.',
-            'data' => new BookingResource($booking),
+            'data'    => new BookingResource($booking),
         ]);
     }
 }

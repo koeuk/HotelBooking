@@ -35,7 +35,7 @@ export default function Navbar() {
                     </Link>
 
                     <div className="hidden md:flex items-center gap-8">
-                        {[{ to: "/", label: "Home" }, { to: "/hotels", label: "Hotels" }, { to: "/about", label: "About" }].map(({ to, label }) => (
+                        {[{ to: "/", label: "Home" }, { to: "/rooms", label: "Rooms" }, { to: "/about", label: "About" }].map(({ to, label }) => (
                             <NavLink
                                 key={to}
                                 to={to}

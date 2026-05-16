@@ -65,12 +65,12 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        return $this->belongsToMany(Hotel::class, 'favorites')->withTimestamps();
+        return $this->belongsToMany(RoomType::class, 'favorites', 'user_id', 'room_type_id')->withTimestamps();
     }
 
     public function wishlist()
     {
-        return $this->belongsToMany(Hotel::class, 'wishlists')->withTimestamps();
+        return $this->belongsToMany(RoomType::class, 'wishlists', 'user_id', 'room_type_id')->withTimestamps();
     }
 
     public function reviews()

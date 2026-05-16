@@ -3,32 +3,35 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\HotelResource;
-use App\Models\Hotel;
+use App\Http\Resources\RoomTypeResource;
+use App\Models\RoomType;
 use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
     public function index(Request $request)
     {
-        $hotels = $request->user()->wishlist()->get();
+        $roomTypes = $request->user()->wishlist()->with('amenities')->get();
 
-        return response()->json(['success' => true, 'data' => HotelResource::collection($hotels)]);
+        return response()->json([
+            'success' => true,
+            'data'    => RoomTypeResource::collection($roomTypes),
+        ]);
     }
 
-    public function store(Request $request, $hotelId)
+    public function store(Request $request, $roomTypeId)
     {
-        $hotel = Hotel::findOrFail($hotelId);
-        $request->user()->wishlist()->syncWithoutDetaching([$hotel->id]);
+        $roomType = RoomType::findOrFail($roomTypeId);
+        $request->user()->wishlist()->syncWithoutDetaching([$roomType->id]);
 
-        return response()->json(['success' => true, 'message' => 'Added to cart.']);
+        return response()->json(['success' => true, 'message' => 'Added to wishlist.']);
     }
 
-    public function destroy(Request $request, $hotelId)
+    public function destroy(Request $request, $roomTypeId)
     {
-        $hotel = Hotel::findOrFail($hotelId);
-        $request->user()->wishlist()->detach($hotel->id);
+        $roomType = RoomType::findOrFail($roomTypeId);
+        $request->user()->wishlist()->detach($roomType->id);
 
-        return response()->json(['success' => true, 'message' => 'Removed from cart.']);
+        return response()->json(['success' => true, 'message' => 'Removed from wishlist.']);
     }
 }
