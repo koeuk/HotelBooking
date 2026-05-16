@@ -80,19 +80,19 @@ export default function AdminRoomTypes() {
                   <div className="flex flex-wrap gap-3 text-xs text-slate-500 mb-4">
                     {rt.max_guests && (
                       <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full">
-                        <Users size={12} className="text-primary" />
+                        <Users size={12} className="text-green-800" />
                         Up to {rt.max_guests} guests
                       </div>
                     )}
                     {rt.bed_type && (
                       <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full">
-                        <BedDouble size={12} className="text-primary" />
+                        <BedDouble size={12} className="text-green-800" />
                         {rt.bed_type}
                       </div>
                     )}
                     {rt.size_sqm && (
                       <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-full">
-                        <Maximize2 size={12} className="text-primary" />
+                        <Maximize2 size={12} className="text-green-800" />
                         {rt.size_sqm} m²
                       </div>
                     )}
@@ -100,13 +100,13 @@ export default function AdminRoomTypes() {
 
                   <div className="flex items-center justify-between pt-3 border-t border-slate-100">
                     <div>
-                      <span className="text-xl font-bold text-primary">
+                      <span className="text-xl font-bold text-green-800">
                         ${rt.price_per_night}
                       </span>
                       <span className="text-slate-400 text-xs"> / night</span>
                     </div>
                     <button
-                      className="text-xs font-semibold text-primary hover:underline cursor-pointer"
+                      className="text-xs font-semibold text-green-800 hover:underline cursor-pointer"
                       onClick={() => alert(`Edit "${rt.name}" — coming soon`)}
                     >
                       Edit

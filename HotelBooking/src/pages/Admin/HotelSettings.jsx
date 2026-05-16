@@ -90,7 +90,7 @@ export default function AdminHotelSettings() {
           {/* Hotel identity header */}
           <div className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-100">
             <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
-              <Hotel size={28} className="text-primary" />
+              <Hotel size={28} className="text-green-800" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-slate-900">

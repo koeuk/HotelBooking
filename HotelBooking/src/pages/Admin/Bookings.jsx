@@ -71,7 +71,7 @@ export default function AdminBookings() {
       {/* Filter */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-wrap gap-4 items-end">
         <div className="flex items-center gap-2 text-slate-700 font-semibold">
-          <SlidersHorizontal size={16} className="text-primary" />
+          <SlidersHorizontal size={16} className="text-green-800" />
           Filter
         </div>
         <div className="flex flex-col gap-1 min-w-[170px]">

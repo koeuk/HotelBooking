@@ -131,7 +131,7 @@ export default function BookRoom() {
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-3xl p-8 shadow-xl">
               <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-                <Calendar className="text-primary" />
+                <Calendar className="text-green-800" />
                 Complete Your Booking
               </h2>
 
@@ -189,7 +189,7 @@ export default function BookRoom() {
                 {/* Guests */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                    <Users size={16} className="text-primary" />
+                    <Users size={16} className="text-green-800" />
                     Number of Guests
                   </label>
                   <input
@@ -214,7 +214,7 @@ export default function BookRoom() {
                 {/* Special Requests */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                    <MessageSquare size={16} className="text-primary" />
+                    <MessageSquare size={16} className="text-green-800" />
                     Special Requests{" "}
                     <span className="text-slate-400 font-normal">
                       (optional)
@@ -237,7 +237,7 @@ export default function BookRoom() {
                 {/* Payment Method */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-                    <CreditCard size={16} className="text-primary" />
+                    <CreditCard size={16} className="text-green-800" />
                     Payment Method
                   </label>
                   <div className="grid grid-cols-3 gap-3">
@@ -248,11 +248,11 @@ export default function BookRoom() {
                         onClick={() => setBookingData(d => ({ ...d, payment_method: value }))}
                         className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all cursor-pointer text-sm font-semibold ${
                           bookingData.payment_method === value
-                            ? 'border-primary/40 bg-primary/5 text-primary'
+                            ? 'border-primary/40 bg-primary/5 text-green-800'
                             : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300'
                         }`}
                       >
-                        <span className={bookingData.payment_method === value ? 'text-primary' : 'text-slate-400'}>
+                        <span className={bookingData.payment_method === value ? 'text-green-800' : 'text-slate-400'}>
                           {icon}
                         </span>
                         {label}
@@ -264,16 +264,16 @@ export default function BookRoom() {
                 {/* Info box */}
                 <div className="p-5 bg-primary/5 rounded-2xl border border-primary/10">
                   <h3 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <Info size={16} className="text-primary" />
+                    <Info size={16} className="text-green-800" />
                     Important Information
                   </h3>
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2 text-sm text-slate-600">
-                      <CheckCircle size={15} className="text-primary" />
+                      <CheckCircle size={15} className="text-green-800" />
                       Free cancellation until 24h before check-in
                     </li>
                     <li className="flex items-center gap-2 text-sm text-slate-600">
-                      <CheckCircle size={15} className="text-primary" />
+                      <CheckCircle size={15} className="text-green-800" />
                       Check-in: 2:00 PM · Check-out: 12:00 PM
                     </li>
                   </ul>
@@ -315,7 +315,7 @@ export default function BookRoom() {
                     {roomType.name || "Room"}
                   </p>
                   <div className="flex items-center gap-1.5 text-slate-500 text-sm mt-1">
-                    <BedDouble size={14} className="text-primary" />
+                    <BedDouble size={14} className="text-green-800" />
                     <span>Room {room.room_number}</span>
                   </div>
                   {room.floor && (
@@ -340,7 +340,7 @@ export default function BookRoom() {
                 </div>
                 <div className="flex justify-between pt-4 border-t border-slate-100 text-lg font-bold text-slate-900">
                   <span>Total</span>
-                  <span className="text-primary">${totalPrice}</span>
+                  <span className="text-green-800">${totalPrice}</span>
                 </div>
               </div>
             </div>

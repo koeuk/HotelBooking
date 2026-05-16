@@ -162,7 +162,7 @@ export default function AdminDashboard() {
           <h2 className="text-lg font-bold text-slate-900">Recent Bookings</h2>
           <button
             onClick={() => navigate("/admin/bookings")}
-            className="text-sm text-primary font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+            className="text-sm text-green-800 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
           >
             View all <ArrowRight size={14} />
           </button>

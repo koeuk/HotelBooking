@@ -141,7 +141,7 @@ export default function Home() {
           </div>
           <Link
             to="/rooms"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors text-sm font-semibold group"
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-green-800 transition-colors text-sm font-semibold group"
           >
             View all rooms{" "}
             <ArrowRight
@@ -203,7 +203,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center justify-between pt-4 border-t border-border">
                     <div>
-                      <span className="font-display text-2xl font-bold text-primary">
+                      <span className="font-display text-2xl font-bold text-green-800">
                         ${roomType.price_per_night}
                       </span>
                       <span className="text-muted-foreground text-sm">
