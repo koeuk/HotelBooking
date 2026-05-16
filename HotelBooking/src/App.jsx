@@ -6,6 +6,7 @@ import Hotels from './pages/Hotels';
 import HotelDetails from './pages/HotelDetails';
 import UserDashboard from './pages/UserDashboard';
 import BookRoom from './pages/BookRoom';
+import About from './pages/About';
 import Navbar from './components/Navbar';
 
 import AdminLayout from './layouts/AdminLayout';
@@ -26,6 +27,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/hotels" element={<Hotels />} />
+            <Route path="/about" element={<About />} />
             <Route path="/hotels/:id" element={<HotelDetails />} />
             <Route path="/book/:roomUuid" element={<BookRoom />} />
             <Route 
