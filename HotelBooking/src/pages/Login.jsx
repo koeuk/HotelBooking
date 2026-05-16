@@ -26,7 +26,7 @@ export default function Login() {
     };
 
     return (
-        <div className="h-[calc(100vh-80px)] flex items-center justify-center p-4 overflow-hidden">
+        <div className="h-full flex items-center justify-center p-4">
             <div className="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 border border-slate-100">
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 text-primary rounded-2xl mb-4">

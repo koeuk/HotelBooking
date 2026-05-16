@@ -23,9 +23,9 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen text-slate-900">
+        <div className="h-screen flex flex-col overflow-hidden text-slate-900">
           <Navbar />
-          <main>
+          <main className="flex-1 overflow-y-auto">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
