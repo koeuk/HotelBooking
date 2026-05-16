@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: oklch(0.55 0.18 265);
+    --color-primary-foreground: oklch(0.98 0 0);
+    --color-background: oklch(1 0 0);
+    --color-foreground: oklch(0.145 0 0);
+    --color-card: oklch(1 0 0);
+    --color-card-foreground: oklch(0.145 0 0);
+    --color-muted: oklch(0.97 0 0);
+    --color-muted-foreground: oklch(0.556 0 0);
+    --color-border: oklch(0.922 0 0);
+    --color-ring: oklch(0.6 0.18 260);
+    --color-destructive: oklch(0.577 0.245 27.325);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+    :root {
+        --background: oklch(1 0 0);
+        --foreground: oklch(0.145 0 0);
+        --card: oklch(1 0 0);
+        --card-foreground: oklch(0.145 0 0);
+        --popover: oklch(1 0 0);
+        --popover-foreground: oklch(0.145 0 0);
+        --primary: oklch(0.55 0.18 265);
+        --primary-foreground: oklch(0.98 0 0);
+        --secondary: oklch(0.25 0.06 265);
+        --secondary-foreground: oklch(0.98 0 0);
+        --muted: oklch(0.97 0 0);
+        --muted-foreground: oklch(0.556 0 0);
+        --accent: oklch(0.97 0 0);
+        --accent-foreground: oklch(0.205 0 0);
+        --destructive: oklch(0.577 0.245 27.325);
+        --border: oklch(0.922 0 0);
+        --input: oklch(0.922 0 0);
+        --ring: oklch(0.6 0.18 260);
+        --radius: 0.75rem;
+
+        /* Brand gradients */
+        --gradient-primary: linear-gradient(135deg, oklch(0.62 0.2 265) 0%, oklch(0.55 0.22 290) 100%);
+        --gradient-primary-soft: linear-gradient(135deg, oklch(0.95 0.04 265) 0%, oklch(0.93 0.05 290) 100%);
+        --gradient-mesh: radial-gradient(at 20% 20%, oklch(0.85 0.15 265 / 0.35) 0px, transparent 50%),
+            radial-gradient(at 80% 0%, oklch(0.85 0.15 320 / 0.25) 0px, transparent 50%),
+            radial-gradient(at 0% 80%, oklch(0.85 0.15 200 / 0.25) 0px, transparent 50%);
+
+        /* Glass surfaces */
+        --glass-bg: oklch(1 0 0 / 0.6);
+        --glass-border: oklch(1 0 0 / 0.18);
+
+        /* Motion */
+        --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+        --duration-base: 250ms;
+    }
+
+    .dark {
+        --background: oklch(0.145 0 0);
+        --foreground: oklch(0.985 0 0);
+        --card: oklch(0.205 0 0);
+        --card-foreground: oklch(0.985 0 0);
+        --primary: oklch(0.65 0.18 265);
+        --border: oklch(1 0 0 / 10%);
+        --input: oklch(1 0 0 / 15%);
+    }
+}
+
+@layer base {
+    * {
+        border-color: var(--border);
+    }
+    body {
+        background-color: var(--color-background);
+        color: var(--color-foreground);
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+@layer utilities {
+    .bg-gradient-primary { background-image: var(--gradient-primary); }
+    .bg-gradient-mesh { background-image: var(--gradient-mesh); }
+    .text-gradient-primary {
+        background-image: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .glass {
+        background-color: var(--glass-bg);
+        backdrop-filter: blur(16px) saturate(140%);
+        border: 1px solid var(--glass-border);
+    }
+    .noise::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.04;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+}
