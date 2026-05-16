@@ -11,7 +11,16 @@ import {
   Users,
   BedDouble,
   MessageSquare,
+  CreditCard,
+  Banknote,
+  QrCode,
 } from "lucide-react";
+
+const PAYMENT_METHODS = [
+  { value: 'card',    label: 'Credit / Debit Card', icon: <CreditCard size={20} /> },
+  { value: 'cash',    label: 'Cash at Check-in',    icon: <Banknote size={20} /> },
+  { value: 'qr_code', label: 'QR Code',             icon: <QrCode size={20} /> },
+];
 
 export default function BookRoom() {
   const { roomUuid } = useParams();
@@ -25,6 +34,7 @@ export default function BookRoom() {
     check_out_date: "",
     guests: 1,
     special_requests: "",
+    payment_method: "card",
   });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -71,6 +81,7 @@ export default function BookRoom() {
         check_out_date: bookingData.check_out_date,
         guests: bookingData.guests,
         special_requests: bookingData.special_requests || undefined,
+        payment_method: bookingData.payment_method,
       });
       navigate("/dashboard", {
         state: { message: "Booking created successfully!" },
@@ -221,6 +232,33 @@ export default function BookRoom() {
                     }
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
                   />
+                </div>
+
+                {/* Payment Method */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                    <CreditCard size={16} className="text-green-800" />
+                    Payment Method
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {PAYMENT_METHODS.map(({ value, label, icon }) => (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => setBookingData(d => ({ ...d, payment_method: value }))}
+                        className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all cursor-pointer text-sm font-semibold ${
+                          bookingData.payment_method === value
+                            ? 'border-green-700 bg-green-50 text-green-800'
+                            : 'border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300'
+                        }`}
+                      >
+                        <span className={bookingData.payment_method === value ? 'text-green-800' : 'text-slate-400'}>
+                          {icon}
+                        </span>
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Info box */}

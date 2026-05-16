@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Mail, Lock, AlertCircle, Star, CheckCircle } from "lucide-react";
@@ -44,7 +44,7 @@ export default function Login() {
               </span>
             </div>
             <span className="font-display text-white font-semibold text-xl tracking-tight">
-              Hotel<span className="text-green-800-light">Stay</span>
+              Hotel<span style={{ color: 'var(--color-primary-light)' }}>Stay</span>
             </span>
           </Link>
 
@@ -72,7 +72,7 @@ export default function Login() {
                 key={f}
                 className="flex items-center gap-3 text-white/70 text-sm"
               >
-                <CheckCircle size={14} className="text-green-800 shrink-0" />
+                <CheckCircle size={14} style={{ color: 'var(--color-primary)' }} className="shrink-0" />
                 {f}
               </div>
             ))}
@@ -165,7 +165,7 @@ export default function Login() {
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="text-green-800 font-semibold hover:underline"
+              style={{ color: 'var(--color-primary)' }} className="font-semibold hover:underline"
             >
               Create one
             </Link>

@@ -61,7 +61,7 @@ export default function Register() {
               </span>
             </div>
             <span className="font-display text-white font-semibold text-xl tracking-tight">
-              Hotel<span className="text-green-800-light">Stay</span>
+              Hotel<span style={{ color: 'var(--color-primary-light)' }}>Stay</span>
             </span>
           </Link>
 
