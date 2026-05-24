@@ -18,7 +18,7 @@ import ImageUploader from "@/components/ImageUploader";
 export default function Edit({ hotel }) {
     const { data, setData, post, processing, errors } = useForm({
         _method: "PUT",
-        name: room_type?.name ?? '—' || "",
+        name: hotel.name || "",
         description: hotel.description || "",
         address: hotel.address || "",
         city: hotel.city || "",
@@ -37,7 +37,7 @@ export default function Edit({ hotel }) {
 
     return (
         <DashboardLayout>
-            <Head title={`Edit Hotel - ${room_type?.name ?? '—'}`} />
+            <Head title={`Edit Hotel - ${hotel.name ?? '—'}`} />
 
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
