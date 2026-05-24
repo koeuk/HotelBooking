@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.sw?
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Node / Vite (orphan leftovers at repo root)
+/node_modules/
+/.vite/
+
+# Laravel artifacts (orphan leftovers at repo root; real ones live in HotelBookingBack/)
+/vendor/
+/bootstrap/
+/storage/
+/public/
+/database/
