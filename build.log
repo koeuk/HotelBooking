@@ -1,0 +1,144 @@
+
+> build
+> vite build && vite build --ssr
+
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 3069 modules transformed.
+rendering chunks...
+computing gzip size...
+public/build/assets/geist-cyrillic-wght-normal-CHSlOQsW.woff2    14.69 kB
+public/build/assets/geist-latin-ext-wght-normal-DMtmJ5ZE.woff2   15.31 kB
+public/build/assets/geist-latin-wght-normal-Dm3htQBi.woff2       28.40 kB
+public/build/manifest.json                                       28.72 kB │ gzip:   2.48 kB
+public/build/assets/app-MexohjVz.css                             92.62 kB │ gzip:  15.71 kB
+public/build/assets/check-DDLoOnvo.js                             0.12 kB │ gzip:   0.14 kB
+public/build/assets/chevron-left-DyhC81re.js                      0.13 kB │ gzip:   0.14 kB
+public/build/assets/plus-DUUC-A-2.js                              0.15 kB │ gzip:   0.15 kB
+public/build/assets/InputLabel-BpPe0Y0w.js                        0.21 kB │ gzip:   0.18 kB
+public/build/assets/dollar-sign-DDxDGn_n.js                       0.22 kB │ gzip:   0.19 kB
+public/build/assets/eye-DHC0qNTD.js                               0.25 kB │ gzip:   0.20 kB
+public/build/assets/pencil-CIPEvWLj.js                            0.28 kB │ gzip:   0.22 kB
+public/build/assets/clock-yLn85P8N.js                             0.28 kB │ gzip:   0.22 kB
+public/build/assets/square-pen-BInuyuu4.js                        0.32 kB │ gzip:   0.24 kB
+public/build/assets/trash-2-DBGm3KR_.js                           0.33 kB │ gzip:   0.22 kB
+public/build/assets/label-BxfIBsWf.js                             0.40 kB │ gzip:   0.27 kB
+public/build/assets/PrimaryButton-CcvMEMBM.js                     0.50 kB │ gzip:   0.34 kB
+public/build/assets/TextInput-DiB6cYaE.js                         0.54 kB │ gzip:   0.36 kB
+public/build/assets/separator-BexUUmbC.js                         0.56 kB │ gzip:   0.33 kB
+public/build/assets/textarea-DAinc6n6.js                          0.73 kB │ gzip:   0.40 kB
+public/build/assets/star-M9XyXxcZ.js                              0.88 kB │ gzip:   0.48 kB
+public/build/assets/GuestLayout-DbVE_rVX.js                       0.94 kB │ gzip:   0.54 kB
+public/build/assets/ForgotPassword-DLNi-Ion.js                    1.13 kB │ gzip:   0.64 kB
+public/build/assets/table-D01gzR6V.js                             1.15 kB │ gzip:   0.47 kB
+public/build/assets/ConfirmPassword-CbqlC-n4.js                   1.15 kB │ gzip:   0.63 kB
+public/build/assets/Edit-DjXRxsot.js                              1.20 kB │ gzip:   0.56 kB
+public/build/assets/VerifyEmail-B4Kc1KfR.js                       1.25 kB │ gzip:   0.70 kB
+public/build/assets/card-DyD204-l.js                              1.62 kB │ gzip:   0.59 kB
+public/build/assets/hotel-2D-L96Ck.js                             1.66 kB │ gzip:   0.89 kB
+public/build/assets/ResetPassword-Bx7tdF2S.js                     1.77 kB │ gzip:   0.69 kB
+public/build/assets/Create-CcH3IiHh.js                            2.15 kB │ gzip:   0.94 kB
+public/build/assets/Edit-By0iN3uX.js                              2.23 kB │ gzip:   0.98 kB
+public/build/assets/UpdateProfileInformationForm-CTkAa8FE.js      2.29 kB │ gzip:   0.99 kB
+public/build/assets/UpdatePasswordForm-DEIFoX2i.js                2.34 kB │ gzip:   0.86 kB
+public/build/assets/Index-CxN3_I3y.js                             2.57 kB │ gzip:   1.14 kB
+public/build/assets/dialog-BA0rstbG.js                            2.62 kB │ gzip:   1.04 kB
+public/build/assets/Index-B049_JOh.js                             3.01 kB │ gzip:   1.20 kB
+public/build/assets/Index-DrzBbcSu.js                             3.25 kB │ gzip:   1.35 kB
+public/build/assets/Create-GA1jXsBY.js                            3.26 kB │ gzip:   1.12 kB
+public/build/assets/Edit-Bk-2p1eh.js                              3.29 kB │ gzip:   1.23 kB
+public/build/assets/Index-BXAb33q9.js                             3.32 kB │ gzip:   1.36 kB
+public/build/assets/Edit-DnXabxNo.js                              3.45 kB │ gzip:   1.19 kB
+public/build/assets/Index-BioVH7v1.js                             3.45 kB │ gzip:   1.37 kB
+public/build/assets/Register-D6KIaL4c.js                          3.54 kB │ gzip:   1.31 kB
+public/build/assets/Create-BprqAD0O.js                            3.68 kB │ gzip:   1.25 kB
+public/build/assets/Index-C7QrjYlk.js                             3.70 kB │ gzip:   1.46 kB
+public/build/assets/Index-BmoIw9Uf.js                             3.73 kB │ gzip:   1.49 kB
+public/build/assets/Index-CyvOx34Z.js                             3.74 kB │ gzip:   1.44 kB
+public/build/assets/Create-Dxj1uq8U.js                            3.76 kB │ gzip:   1.33 kB
+public/build/assets/Index-vqQgwKNI.js                             3.94 kB │ gzip:   1.67 kB
+public/build/assets/Create-DuntMxoN.js                            3.94 kB │ gzip:   1.30 kB
+public/build/assets/Edit-z4rfAXEG.js                              3.96 kB │ gzip:   1.37 kB
+public/build/assets/Create-BfWEFcgY.js                            3.96 kB │ gzip:   1.35 kB
+public/build/assets/Edit-luo2n2kj.js                              4.13 kB │ gzip:   1.40 kB
+public/build/assets/Create-BB_ZviaX.js                            4.60 kB │ gzip:   1.66 kB
+public/build/assets/Create-CtUOB7y2.js                            4.68 kB │ gzip:   1.61 kB
+public/build/assets/Edit-BZp8b5xt.js                              4.76 kB │ gzip:   1.63 kB
+public/build/assets/Edit-Dozznupw.js                              4.78 kB │ gzip:   1.73 kB
+public/build/assets/Index-Cm4Iw0K5.js                             6.10 kB │ gzip:   2.44 kB
+public/build/assets/AuthenticatedLayout-Y6EEJNOc.js               7.35 kB │ gzip:   2.34 kB
+public/build/assets/Show-CTHBrJZa.js                              8.55 kB │ gzip:   2.50 kB
+public/build/assets/Dashboard-BR7sp43h.js                         9.44 kB │ gzip:   2.93 kB
+public/build/assets/AdminLayout-DNnjp0PP.js                       9.75 kB │ gzip:   3.10 kB
+public/build/assets/Dashboard-BOFoy0x6.js                        11.42 kB │ gzip:   2.99 kB
+public/build/assets/Login-BnoQGp2J.js                            12.47 kB │ gzip:   4.79 kB
+public/build/assets/transition-DloEoIFf.js                       14.62 kB │ gzip:   5.83 kB
+public/build/assets/Welcome-DZ73C5GD.js                          19.23 kB │ gzip:   5.82 kB
+public/build/assets/select-D4A7EBT1.js                           30.64 kB │ gzip:  10.99 kB
+public/build/assets/DeleteUserForm-DygT5FaN.js                   33.55 kB │ gzip:  12.12 kB
+public/build/assets/input-CRk1RkkG.js                            49.78 kB │ gzip:  17.17 kB
+public/build/assets/sonner-DjqDMK0v.js                          201.33 kB │ gzip:  66.05 kB
+public/build/assets/app-DgFVVp5f.js                             342.26 kB │ gzip: 114.11 kB
+✓ built in 6.33s
+vite v7.3.1 building ssr environment for production...
+transforming...
+"default" is imported from external module "react" but never used in "resources/js/components/NotificationBell.jsx".
+✓ 70 modules transformed.
+rendering chunks...
+bootstrap/ssr/ssr-manifest.json                                 6.44 kB
+bootstrap/ssr/assets/InputLabel-CE_n4Upz.js                     0.34 kB
+bootstrap/ssr/assets/label-C_PdEqZZ.js                          0.55 kB
+bootstrap/ssr/assets/separator-D4It_oos.js                      0.57 kB
+bootstrap/ssr/assets/PrimaryButton-DgVfVBwo.js                  0.64 kB
+bootstrap/ssr/assets/textarea-CKeoxefE.js                       0.89 kB
+bootstrap/ssr/assets/TextInput-BP-vnUns.js                      0.96 kB
+bootstrap/ssr/assets/GuestLayout-HRL0f-6x.js                    1.31 kB
+bootstrap/ssr/assets/VerifyEmail-D9ilpEpC.js                    1.74 kB
+bootstrap/ssr/assets/ForgotPassword-_LVQxINt.js                 1.76 kB
+bootstrap/ssr/assets/ConfirmPassword-CtIZqkDx.js                1.88 kB
+bootstrap/ssr/assets/table-BY5LPvO9.js                          1.89 kB
+bootstrap/ssr/assets/Edit-Dzt2jS3k.js                           2.28 kB
+bootstrap/ssr/assets/card-BnDNuJSI.js                           2.39 kB
+bootstrap/ssr/assets/ResetPassword-CUeLqPpy.js                  3.23 kB
+bootstrap/ssr/assets/dialog-DQogtn6T.js                         3.81 kB
+bootstrap/ssr/assets/UpdateProfileInformationForm-DmOzctMU.js   3.88 kB
+bootstrap/ssr/assets/Create-U_ZRKETT.js                         4.07 kB
+bootstrap/ssr/assets/input-Nvqfyf0i.js                          4.25 kB
+bootstrap/ssr/assets/Edit-B22YBvbS.js                           4.26 kB
+bootstrap/ssr/assets/Index-CXfXowXd.js                          4.28 kB
+bootstrap/ssr/assets/UpdatePasswordForm-zvD8TgBd.js             4.45 kB
+bootstrap/ssr/assets/Login-BLVYArWa.js                          5.24 kB
+bootstrap/ssr/assets/select-6fplSJp3.js                         5.70 kB
+bootstrap/ssr/assets/Register-DwBaT-3m.js                       5.75 kB
+bootstrap/ssr/assets/DeleteUserForm-Hy-SY24R.js                 6.49 kB
+bootstrap/ssr/assets/Create-BF30HRhU.js                         6.51 kB
+bootstrap/ssr/assets/Edit-Ci6vKxIk.js                           6.54 kB
+bootstrap/ssr/assets/Index-CDG74PpS.js                          6.70 kB
+bootstrap/ssr/assets/Edit-DhAy9-IB.js                           6.84 kB
+bootstrap/ssr/assets/Create-Cn0g0u2T.js                         7.36 kB
+bootstrap/ssr/assets/Index-C3PRX6fv.js                          7.62 kB
+bootstrap/ssr/assets/Index-DgwCsie9.js                          7.62 kB
+bootstrap/ssr/assets/Index-BJQkvHpX.js                          7.78 kB
+bootstrap/ssr/assets/Edit-CO8GUtXa.js                           7.80 kB
+bootstrap/ssr/assets/Index-CXQUQcfL.js                          7.96 kB
+bootstrap/ssr/assets/Index-B2SX16kQ.js                          7.98 kB
+bootstrap/ssr/assets/Index-Bp31lhR8.js                          8.13 kB
+bootstrap/ssr/assets/Create-CU3USxGZ.js                         8.18 kB
+bootstrap/ssr/assets/Index-N5qvXNib.js                          8.35 kB
+bootstrap/ssr/assets/Index-C0yL7xNZ.js                          8.35 kB
+bootstrap/ssr/assets/Create-CgRgw9G_.js                         8.49 kB
+bootstrap/ssr/assets/Edit-CJcXRq9O.js                           8.79 kB
+bootstrap/ssr/assets/Create-DlDFNrWs.js                         8.80 kB
+bootstrap/ssr/assets/Create-rQFbi6YQ.js                         9.32 kB
+bootstrap/ssr/assets/Create-BsZHpGQB.js                         9.36 kB
+bootstrap/ssr/assets/Edit-XyzhGqA4.js                           9.52 kB
+bootstrap/ssr/assets/Edit-BjRIDhzL.js                           9.66 kB
+bootstrap/ssr/assets/AuthenticatedLayout-CbpzUAD2.js           12.98 kB
+bootstrap/ssr/assets/AdminLayout-CZ3UWpfM.js                   14.18 kB
+bootstrap/ssr/assets/sonner-BQjanBsy.js                        17.06 kB
+bootstrap/ssr/assets/Dashboard-BQjS_vP1.js                     17.07 kB
+bootstrap/ssr/assets/Show-CSIz6L74.js                          17.37 kB
+bootstrap/ssr/assets/Dashboard-BCoS_P8n.js                     18.02 kB
+bootstrap/ssr/ssr.js                                           26.48 kB
+bootstrap/ssr/assets/Welcome-SEhQsnTJ.js                       27.87 kB
+✓ built in 735ms
