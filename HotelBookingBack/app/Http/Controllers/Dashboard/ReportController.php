@@ -46,12 +46,7 @@ class ReportController extends Controller
                     ? round(Booking::where('status', 'cancelled')->count() / Booking::count() * 100, 1)
                     : 0,
             ],
-            'top_hotels' => Hotel::withCount('rooms')
-                ->withCount('reviews')
-                ->withAvg('reviews', 'rating')
-                ->orderByDesc('reviews_avg_rating')
-                ->take(10)
-                ->get(),
+            'top_hotels' => Hotel::latest()->take(10)->get(),
             'recent_bookings' => Booking::with(['user', 'room.roomType', 'payment'])
                 ->latest()->take(10)->get(),
             'recent_users' => User::withCount('bookings')->latest()->take(10)->get(),
